@@ -1,0 +1,236 @@
+
+body {
+  /* Margin bottom by footer height */
+  
+  color : black;
+  background-color: #DCDCDC;
+}
+.navbar-custom {
+    background-color:#DCDCDC;
+
+}
+
+/* tweet, comm, message */
+/* image */
+
+/* mise en forme tweet */
+.tweet
+{
+  background-color: white;
+  padding : 6px ;
+  color : black;
+margin-bottom: 12px;
+
+}
+
+.vcenter_left {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right : 10px;
+    float: left;
+    height : 48px;
+  width : 48px;
+}
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right : 4px;
+}
+.vcenter_right {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right : 10px;
+    float: right;
+    height : 48px;
+  width : 48px;
+}
+.textarea_message
+{
+  width : 100%;
+}
+.tweet a /* enlève le soulignement des liens */
+{
+text-decoration: none;
+}
+.commshare /* barre de nombre de comm et like sur les tweet*/
+{
+
+display: inline-block;
+float: left;
+
+}
+.tweet img
+{
+/* max-width: 100%;
+  height: auto;*/
+  height : 48px;
+  width : 48px;
+}
+.date_tweet
+{
+
+  float: right;
+
+}
+.deletetweet
+{
+  display: none;
+}
+.tweet:hover .deletetweet
+{
+  display: inline;
+  float: right;
+
+}
+.btn_abo
+{
+line-height: 5px;
+}
+textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
+{
+  resize : none;
+}
+.surbrillance
+{
+	color : red;
+	font-weight: bold;
+}
+/* bouton conversation */
+.left
+{
+float: left;
+}
+.right
+{
+float: right;
+}
+/* messagerie bulle */
+.bubble{
+
+    background-color: #F2F2F2;
+    border-radius: 5px;
+    box-shadow: 0 0 6px #B2B2B2;
+    display: inline-block;
+    padding: 10px 18px;
+    position: relative;
+    vertical-align: top;
+
+}
+.bubble img
+{
+    height : 48px;
+  width : 48px;
+}
+.bubble::before {
+    background-color: #F2F2F2;
+    content: "\00a0";
+    display: block;
+    height: 16px;
+    position: absolute;
+    top: 11px;
+    transform:             rotate( 29deg ) skew( -35deg );
+        -moz-transform:    rotate( 29deg ) skew( -35deg );
+        -ms-transform:     rotate( 29deg ) skew( -35deg );
+        -o-transform:      rotate( 29deg ) skew( -35deg );
+        -webkit-transform: rotate( 29deg ) skew( -35deg );
+    width:  20px;
+
+}
+
+.me {
+    float: left;   
+    margin: 5px 45px 5px 20px;
+
+}
+
+.me::before {
+    box-shadow: -2px 2px 2px 0 rgba( 178, 178, 178, .4 );
+    left: -9px;           
+}
+
+.other {
+    float: right;    
+    margin: 5px 20px 5px 45px;         
+}
+
+.other::before {
+    box-shadow: 2px -2px 2px 0 rgba( 178, 178, 178, .4 );
+    right: -9px;    
+}
+.date_message
+{
+  color : grey;
+  font-size: 11px;
+}
+
+/* notification */
+  .badge_notif{
+   background:#046380;
+  }
+
+/* div notif non lu */
+
+.notif_non_lu
+{
+  background-color: #EFECCA;
+  padding : 6px ;
+  color : black;
+margin-bottom: 12px;
+}
+
+.notif_non_lu a /* enlève le soulignement des liens */
+{
+text-decoration: none;
+}
+
+.notif_non_lu img
+{
+/* max-width: 100%;
+  height: auto;*/
+  height : 48px;
+  width : 48px;
+}
+
+.notif_non_lu:hover .deletetweet
+{
+  display: inline;
+  float: right;
+}
+
+  /* fin notification
+
+/* lien cell abonnement */
+.message_profil
+{
+  text-decoration: none;
+color : green;
+}
+.message_delete_abo
+{
+    text-decoration: none;
+color : red;
+}
+
+/* couleur abonnes, page abonnement*/
+
+.abonnes
+{
+  font-size: small;
+  color : #90949c;
+}
+
+/* fin couleur abonnes, page abonnement*/
+
+/* tableau abonnés */
+.col-xs-3 img
+{
+  margin-top: 13px;
+  height : 78px;
+  width : 78px;
+}
+/* fin tableau abonnés */
+
+.container
+{
+  padding: 0px;
+}
