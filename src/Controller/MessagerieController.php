@@ -198,7 +198,7 @@ $checkconv = $this->Conversation
             }
             else
             {
-                foreach ($checkconv as $row) //osef
+                foreach ($checkconv as $row)
                 {
                 $conversation = $row['conv'];
                 }
