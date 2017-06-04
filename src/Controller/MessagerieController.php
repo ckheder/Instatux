@@ -114,6 +114,9 @@ class MessagerieController extends AppController
 
 
         ->contain(['Users']);
+        $nb_msg = $message->count(); // calcul du nombre de conversations actives
+
+        $this->set('nb_msg',$nb_msg);
 $this->set('verif_user',1);
  $this->set(compact('message'));
 }
@@ -134,7 +137,6 @@ $message = $this->Messagerie->newEntity();
             'destinataire' => $this->request->data['user_id'],
             'message' =>  $this->request->data['message'], // message
             'conv' => $this->request->data['conversation'],
-            'statut' => 1,
             //evenement abonnement
             'nom_session' => $this->Auth->user('username'),//nom de session
             'avatar_session' => $this->Auth->user('avatarprofil')
@@ -213,7 +215,6 @@ $checkconv = $this->Conversation
             'destinataire' => $this->request->data['destinataire'],
             'message' =>  $this->request->data['message'], // message
             'conv' => $conversation,
-            'statut' => 1,
             //evenement abonnement
             'nom_session' => $this->Auth->user('username'),//nom de session
             'avatar_session' => $this->Auth->user('avatarprofil')

@@ -14,14 +14,14 @@ use Cake\Routing\Router;
                   echo $this->html->link('Supprimer cette conversation', [
                  'controller' => 'Conversation',
                   'action' => 'edit',
-                  $this->request->query('id')],[
+                  $this->request->getParam('id')],[
                   'class' => 'btn btn-danger pull-right',
                   'confirm' => ('Are you sure you want to delete ?')]) ;
 ?>
 
 <br />
 <br />
-Nombre de message : <?= $this->cell('Nbmessage', ['conv' => $this->request->getParam('id')]);?>
+Nombre de message : <?= $nb_msg;?>
 <br />
 
 

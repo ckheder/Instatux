@@ -71,10 +71,6 @@ class MessagerieTable extends Table
             ->requirePresence('conv', 'create')
             ->notEmpty('conv');
 
-        $validator
-            ->integer('statut')
-            ->requirePresence('statut', 'create')
-            ->notEmpty('statut');
 
         return $validator;
     }

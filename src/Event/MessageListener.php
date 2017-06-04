@@ -17,7 +17,7 @@ class MessageListener implements EventListenerInterface {
     public function addnotifmsg($event, $message) {
 
         
-    
+    // création d'une notification de nouveau message
  
     $notif = '<img src="/instatux/img/'.$message->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$message->nom_session.'">'.$message->nom_session.'</a> vous à envoyé un <a href="/instatux/conversation-'.$message->conv.'">message</a> !';
    
@@ -33,7 +33,20 @@ class MessageListener implements EventListenerInterface {
 
     $notif_msg->statut = 0;
 
-    $entity->save($notif_msg);   
+    $entity->save($notif_msg);
+
+    // mise à jour si conv masqué
+
+    $table_conv = TableRegistry::get('Conversation');
+
+       $query = $table_conv->query()
+                            ->update()
+                            ->set(['statut' => 1])
+                            ->where(['participant1' => $message->user_id, 'participant2' => $message->destinataire ])
+                            ->orWhere(['participant2' => $message->user_id, 'participant1' => $message->destinataire])
+                            ->execute();
+    
+
 
  
 }

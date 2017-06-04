@@ -71,11 +71,11 @@ class ConversationController extends AppController
      * @return \Cake\Network\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null) // $id -> id de la conversation
+    public function edit($id = null) // $id -> id de la conversation / 0-> conversation masqué
     {
 
         $query = $this->Conversation->query();
-$query->update()
+        $query->update()
     ->set(['statut' => 0])
     ->where(['participant1' => $this->Auth->user('id')])
     ->where(['conv' => $id ])
@@ -83,6 +83,7 @@ $query->update()
  
             if ($query) 
             {
+                
                 $this->Flash->success(__('Conversation supprimée.'));
 
                 return $this->redirect(['controller' => 'Messagerie', 'action' => 'index']);
