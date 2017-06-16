@@ -52,6 +52,8 @@ class UsersTable extends Table
 
          $this->hasMany('Messagerie');
 
+         $this->hasMany('Partage');
+
     }
 
     /**

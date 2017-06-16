@@ -50,9 +50,12 @@ class TweetTable extends Table
              
         ]);
 
-        $this->hasMany('Commentaires');
-            
-        
+          $this->hasOne('Partage', [
+            'foreignKey' => 'tweet_partage',
+             
+        ]);
+
+          $this->hasMany('Commentaires');
     }
 
     /**
@@ -72,6 +75,9 @@ class TweetTable extends Table
             ->requirePresence('contenu_tweet');
         $validator
             ->allowEmpty('nb_commentaire');
+
+        $validator
+            ->allowEmpty('nb_partage');
             
  
         return $validator;

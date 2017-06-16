@@ -21,15 +21,25 @@ class TweetController extends AppController
     {
         $this->viewBuilder()->layout('tweet');
         $this->set('title', ''.$this->request->getParam('username').' | Instatux'); // titre de la page
-        $tweet = $this->Tweet->find();
+        $tweet = $this->Tweet->find()->select([
+            'Users.id',
+            'Users.username',
+            'Users.avatarprofil',
+            'Tweet.id',
+            'Tweet.user_id',
+            'Tweet.contenu_tweet',
+            'Tweet.created',
+            'Tweet.nb_commentaire',
+            'Tweet.nb_partage',
+            'Partage.id_partage'
+            ])
          // titre de la page
-        $tweet->where(['Users.username' => $this->request->getParam('username')]);
-        $tweet->order(['Tweet.created'=> 'DESC']);
-         $tweet->contain(['Users']);
-        $this->set(compact('tweet'));
-        //$this->set('_serialize', ['tweet']);
-
-       
+        ->where(['Users.username' => $this->request->getParam('username')])
+        ->orwhere(['Partage.user_id'=> 17])
+        ->order(['Tweet.created'=> 'DESC'])
+        ->contain(['Users'])
+        ->contain(['Partage']);
+        $this->set(compact('tweet'));    
     }
 
     /**
@@ -125,8 +135,6 @@ class TweetController extends AppController
             ])
         ->where(['id' => $this->request->getParam('id')]);
        
-        //$tweet = $this->Tweet->get($id);
-        //if ($this->Tweet->delete($tweet)) {
         if(!$tweet_verif->isEmpty())
         {
             $id_tweet = $this->request->getParam('id');

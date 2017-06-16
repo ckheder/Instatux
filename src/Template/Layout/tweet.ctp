@@ -35,12 +35,14 @@ use Cake\Routing\Router;
     <?= $this->Html->script('fix.js') ?>
     <?= $this->fetch('meta') ?>
  <script type="text/javascript">
+
+
     var auto_refresh = setInterval(
   function ()
   {
     $('#count_nb_notif').load('<?php echo Router::url(array("controller" => "Notifications", "action" => "nbNotif")); ?>').fadeIn("slow");
-  }, 10000); // rafraichis toutes les 10000 millisecondes
- 
+  }, 1000); // rafraichis toutes les 10000 millisecondes
+
 </script>
 </head>
 <body>

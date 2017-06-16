@@ -125,6 +125,13 @@ Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => '
 Router::connect('instatux/tweet/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);
     // fin route accueil
 
+    // route partage add
+Router::connect('/partage/add/:id/:id_auteur',['controller' => 'Partage', 'action' => 'add'],['id' => '\d+', 'pass' =>['id']]);
+    // fin route partage/add
+
+    // route partage delete
+Router::connect('/partage/delete/:id',['controller' => 'Partage', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+    // fin route partage delete
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */

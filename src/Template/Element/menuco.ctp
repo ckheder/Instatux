@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="/instatux/tweet/accueuil"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Accueil</a></li>
-        <li><a href="/instatux/notifications"><span class="glyphicon glyphicon-bell"></span>&nbsp;&nbsp;Notifications&nbsp;<span class="badge badge_notif"><span id="count_nb_notif"></span></span></a></li>
+        <li><a href="/instatux/notifications"><span class="glyphicon glyphicon-bell"></span>&nbsp;&nbsp;Notifications&nbsp;<span class="badge badge_notif"><span id="count_nb_notif">0</span></span></a></li>
         <li><a href="/instatux/abonnement"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Abonnement</a></li>
           <li><a href="/instatux/<?= $authName ;?>"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Moi</a></li>
       </ul>

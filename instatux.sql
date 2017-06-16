@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 10 Mai 2017 à 21:21
+-- Généré le :  Jeu 08 Juin 2017 à 18:27
 -- Version du serveur :  10.0.29-MariaDB-0ubuntu0.16.04.1
--- Version de PHP :  7.0.15-0ubuntu0.16.04.4
+-- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -37,8 +37,13 @@ CREATE TABLE `abonnement` (
 --
 
 INSERT INTO `abonnement` (`id`, `user_id`, `suivi`) VALUES
+(29, 17, 18),
+(28, 17, 18),
 (10, 19, 17),
-(27, 17, 18);
+(27, 17, 18),
+(30, 17, 19),
+(31, 17, 18),
+(32, 18, 17);
 
 -- --------------------------------------------------------
 
@@ -110,7 +115,7 @@ CREATE TABLE `conversation` (
 INSERT INTO `conversation` (`id`, `conv`, `participant1`, `participant2`, `statut`) VALUES
 (1, 1, 18, 17, 1),
 (3, 2, 17, 19, 1),
-(5, 1, 17, 18, 0),
+(5, 1, 17, 18, 1),
 (6, 2, 19, 17, 1),
 (7, 3, 18, 19, 1),
 (8, 3, 19, 18, 1);
@@ -163,7 +168,32 @@ INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`,
 (53, 17, 19, 'yay', '2017-03-10 09:56:35', 2),
 (54, 17, 18, 'qsd', '2017-05-05 19:12:59', 1),
 (55, 17, 18, 'test', '2017-05-07 08:46:56', 1),
-(56, 17, 19, 'test', '2017-05-09 19:06:40', 2);
+(56, 17, 19, 'test', '2017-05-09 19:06:40', 2),
+(57, 17, 18, 'test', '2017-05-11 15:14:22', 1),
+(58, 17, 18, 'test', '2017-05-11 15:15:42', 1),
+(59, 17, 18, 'test', '2017-05-11 19:03:37', 1),
+(60, 17, 18, 'sdf', '2017-05-11 19:04:24', 1),
+(61, 17, 18, 'sd', '2017-05-11 19:05:07', 1),
+(62, 17, 19, 'test', '2017-05-20 09:09:28', 2),
+(63, 17, 19, 'essair', '2017-05-20 09:10:58', 2),
+(64, 17, 19, 'test', '2017-05-20 09:11:50', 2),
+(65, 17, 19, 'test', '2017-05-20 09:12:26', 2),
+(66, 17, 18, 'test', '2017-05-22 09:03:14', 1),
+(67, 18, 17, 'notif', '2017-05-22 09:04:14', 1),
+(68, 18, 17, 'notif', '2017-05-22 09:04:43', 1),
+(69, 17, 18, 'notif 2', '2017-05-22 09:06:55', 1),
+(70, 17, 18, 'notif 3', '2017-05-22 09:07:37', 1),
+(71, 18, 17, 'ahah nice', '2017-05-22 09:08:05', 1),
+(72, 17, 18, 'essai', '2017-05-22 09:11:07', 1),
+(73, 18, 17, 'test jqeury', '2017-05-28 19:10:47', 1),
+(74, 18, 17, 're test jquery', '2017-05-28 19:27:48', 1),
+(75, 18, 17, 'osef gg', '2017-05-29 18:52:33', 1),
+(76, 17, 18, 'ajax de merde', '2017-05-29 19:01:44', 1),
+(79, 18, 17, 'test update', '2017-06-04 08:47:50', 1),
+(81, 18, 17, 're test', '2017-06-04 19:13:22', 1),
+(77, 17, 18, 'test', '2017-06-04 08:23:11', 1),
+(78, 17, 18, 'beuhihan', '2017-06-04 08:26:19', 1),
+(80, 18, 17, 'tes conv masqué', '2017-06-04 08:49:29', 1);
 
 -- --------------------------------------------------------
 
@@ -185,15 +215,38 @@ CREATE TABLE `notifications` (
 
 INSERT INTO `notifications` (`id_notif`, `user_id`, `notification`, `created`, `statut`) VALUES
 (1, 17, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> s\'est abonné                        \r\n           ', '2017-04-15 07:00:00', 1),
-(13, 17, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/view/?id=46">publication</a><br /><br />Le livre de cuisi...', '2017-04-24 16:50:58', 0),
-(14, 17, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/view/?id=46">publication</a><br /><br />Le livre de cuisine CakePHP...', '2017-04-24 16:51:22', 0),
-(17, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> s\'est abonné', '2017-04-26 09:37:59', 0),
-(18, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test notif', '2017-04-27 19:02:48', 0),
-(19, 17, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/46">publication</a><br /><br />test', '2017-05-03 09:35:18', 0),
-(20, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> s\'est abonné', '2017-05-04 15:53:22', 0),
-(21, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />gg', '2017-05-04 15:55:57', 0),
-(22, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test', '2017-05-04 15:57:46', 0),
-(23, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test', '2017-05-04 15:58:52', 0);
+(13, 17, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/view/?id=46">publication</a><br /><br />Le livre de cuisi...', '2017-04-24 16:50:58', 1),
+(14, 17, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/view/?id=46">publication</a><br /><br />Le livre de cuisine CakePHP...', '2017-04-24 16:51:22', 1),
+(17, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> s\'est abonné', '2017-04-26 09:37:59', 1),
+(18, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test notif', '2017-04-27 19:02:48', 1),
+(20, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> s\'est abonné', '2017-05-04 15:53:22', 1),
+(21, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />gg', '2017-05-04 15:55:57', 1),
+(22, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test', '2017-05-04 15:57:46', 1),
+(23, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test', '2017-05-04 15:58:52', 1),
+(26, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !;', '2017-05-22 09:07:37', 1),
+(39, 17, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !', '2017-06-04 08:47:50', 1),
+(40, 17, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> s\'est abonné', '2017-06-04 08:49:19', 1),
+(41, 17, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !', '2017-06-04 08:49:29', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `partage`
+--
+
+CREATE TABLE `partage` (
+  `id_partage` int(11) NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `tweet_partage` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `partage`
+--
+
+INSERT INTO `partage` (`id_partage`, `user_id`, `tweet_partage`) VALUES
+(1, 17, 15),
+(2, 17, 8);
 
 -- --------------------------------------------------------
 
@@ -308,6 +361,14 @@ ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id_notif`);
 
 --
+-- Index pour la table `partage`
+--
+ALTER TABLE `partage`
+  ADD PRIMARY KEY (`id_partage`),
+  ADD KEY `partageur` (`user_id`),
+  ADD KEY `tweet_partage` (`tweet_partage`);
+
+--
 -- Index pour la table `phinxlog`
 --
 ALTER TABLE `phinxlog`
@@ -337,7 +398,7 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT pour la table `commentaires`
 --
@@ -352,12 +413,17 @@ ALTER TABLE `conversation`
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 --
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+--
+-- AUTO_INCREMENT pour la table `partage`
+--
+ALTER TABLE `partage`
+  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `tweet`
 --
@@ -368,6 +434,17 @@ ALTER TABLE `tweet`
 --
 ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `partage`
+--
+ALTER TABLE `partage`
+  ADD CONSTRAINT `partage_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `partage_ibfk_2` FOREIGN KEY (`tweet_partage`) REFERENCES `tweet` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
