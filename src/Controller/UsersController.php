@@ -87,9 +87,11 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {
-                $this->Flash->success(__('Inscription réussie, bienvenue sur Instatux.'));
-
-                //return $this->redirect(['action' => 'index']);
+                 $user = $this->Auth->identify();
+                 $this->Auth->setUser($user);
+                $this->Flash->success(__('Inscription réussie, bienvenue '.h($this->request->data('username')).' sur Instatux.'));
+                return $this->redirect('/'.$this->Auth->user('username').'');
+                
             } else {
               
                 //$this->Flash->error(__('The user could not be saved. Please, try again.', $errors));
