@@ -11,6 +11,7 @@ echo $this->Modal->create(['id' => 'ModalTweet']) ;
             </script>
                 <?php
                 echo $this->Form->hidden('user_id', array('value'=>$authUser));
+                echo $this->Form->hidden('user_timeline', array('value'=>$authName));
                 ?>
                 <br />
 <div class="text-center">

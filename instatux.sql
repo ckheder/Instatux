@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Jeu 08 Juin 2017 à 18:27
--- Version du serveur :  10.0.29-MariaDB-0ubuntu0.16.04.1
+-- Généré le :  Sam 17 Juin 2017 à 17:40
+-- Version du serveur :  10.2.6-MariaDB-10.2.6+maria~xenial
 -- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -78,8 +78,6 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 (32, 'test', '43', '17', '2017-02-17 14:56:12'),
 (33, 'commentaire', '15', '17', '2017-02-25 16:08:32'),
 (129, 'Le livre de cuisine CakePHP est un projet libre et communautaire d’édition de la documentation. Remarquez le bouton icone en forme de crayon fixé dans le coin en haut à droite; il vous redirigera vers l’éditeur en ligne de GitHub pour la page active, vous permettant de contribuer, d’ajouter, de supprimer ou corriger la documentation.', '46', '17', '2017-04-24 16:36:26'),
-(126, 'sdf', '46', '17', '2017-04-24 09:24:20'),
-(127, 'cvb', '46', '17', '2017-04-24 16:26:54'),
 (128, 'Le livre de cuisine CakePHP est un projet libre et communautaire d’édition de la documentation. Remarquez le bouton icone en forme de crayon fixé dans le coin en haut à droite; il vous redirigera vers l’éditeur en ligne de GitHub pour la page active, vous permettant de contribuer, d’ajouter, de supprimer ou corriger la documentation.', '46', '17', '2017-04-24 16:35:40'),
 (124, '', NULL, NULL, '2017-04-24 09:19:03'),
 (130, 'Le livre de cuisine CakePHP est un projet libre et communautaire d’édition de la documentation. Remarquez le bouton icone en forme de crayon fixé dans le coin en haut à droite; il vous redirigera vers l’éditeur en ligne de GitHub pour la page active, vous permettant de contribuer, d’ajouter, de supprimer ou corriger la documentation.', '46', '17', '2017-04-24 16:42:07'),
@@ -87,7 +85,6 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 (132, 'Le livre de cuisine CakePHP est un projet libre et communautaire d’édition de la documentation. Remarquez le bouton icone en forme de crayon fixé dans le coin en haut à droite; il vous redirigera vers l’éditeur en ligne de GitHub pour la page active, vous permettant de contribuer, d’ajouter, de supprimer ou corriger la documentation.', '46', '17', '2017-04-24 16:44:14'),
 (133, 'Le livre de cuisine CakePHP est un projet libre et communautaire d’édition de la documentation. Remarquez le bouton icone en forme de crayon fixé dans le coin en haut à droite; il vous redirigera vers l’éditeur en ligne de GitHub pour la page active, vous permettant de contribuer, d’ajouter, de supprimer ou corriger la documentation.', '46', '17', '2017-04-24 16:44:30'),
 (134, 'Le livre de cuisine CakePHP est un projet libre et communautaire d’édition de la documentation. Remarquez le bouton icone en forme de crayon fixé dans le coin en haut à droite; il vous redirigera vers l’éditeur en ligne de GitHub pour la page active, vous permettant de contribuer, d’ajouter, de supprimer ou corriger la documentation.', '46', '17', '2017-04-24 16:44:43'),
-(135, 'Le livre de cuisine CakePHP est un projet libre et communautaire d’édition de la documentation. Remarquez le bouton icone en forme de crayon fixé dans le coin en haut à droite; il vous redirigera vers l’éditeur en ligne de GitHub pour la page active, vous permettant de contribuer, d’ajouter, de supprimer ou corriger la documentation.', '46', '17', '2017-04-24 16:50:22'),
 (136, 'Le livre de cuisine CakePHP est un projet libre et communautaire d’édition de la documentation. Remarquez le bouton icone en forme de crayon fixé dans le coin en haut à droite; il vous redirigera vers l’éditeur en ligne de GitHub pour la page active, vous permettant de contribuer, d’ajouter, de supprimer ou corriger la documentation.', '46', '17', '2017-04-24 16:50:58'),
 (145, 'gg', '8', '17', '2017-05-04 15:55:57'),
 (146, 'test', '8', '17', '2017-05-04 15:57:46'),
@@ -214,9 +211,6 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id_notif`, `user_id`, `notification`, `created`, `statut`) VALUES
-(1, 17, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> s\'est abonné                        \r\n           ', '2017-04-15 07:00:00', 1),
-(13, 17, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/view/?id=46">publication</a><br /><br />Le livre de cuisi...', '2017-04-24 16:50:58', 1),
-(14, 17, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/view/?id=46">publication</a><br /><br />Le livre de cuisine CakePHP...', '2017-04-24 16:51:22', 1),
 (17, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> s\'est abonné', '2017-04-26 09:37:59', 1),
 (18, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test notif', '2017-04-27 19:02:48', 1),
 (20, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> s\'est abonné', '2017-05-04 15:53:22', 1),
@@ -224,9 +218,11 @@ INSERT INTO `notifications` (`id_notif`, `user_id`, `notification`, `created`, `
 (22, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test', '2017-05-04 15:57:46', 1),
 (23, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test', '2017-05-04 15:58:52', 1),
 (26, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !;', '2017-05-22 09:07:37', 1),
-(39, 17, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !', '2017-06-04 08:47:50', 1),
-(40, 17, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> s\'est abonné', '2017-06-04 08:49:19', 1),
-(41, 17, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !', '2017-06-04 08:49:29', 1);
+(30, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-15 16:14:50', 0),
+(31, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-16 15:24:50', 0),
+(32, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-16 15:25:27', 0),
+(33, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-16 16:00:53', 0),
+(34, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-16 16:02:50', 0);
 
 -- --------------------------------------------------------
 
@@ -237,16 +233,18 @@ INSERT INTO `notifications` (`id_notif`, `user_id`, `notification`, `created`, `
 CREATE TABLE `partage` (
   `id_partage` int(11) NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
-  `tweet_partage` int(11) NOT NULL
+  `tweet_partage` int(11) NOT NULL,
+  `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `partage`
 --
 
-INSERT INTO `partage` (`id_partage`, `user_id`, `tweet_partage`) VALUES
-(1, 17, 15),
-(2, 17, 8);
+INSERT INTO `partage` (`id_partage`, `user_id`, `tweet_partage`, `created`) VALUES
+(22, 17, 8, '2017-06-16 15:25:27'),
+(23, 17, 8, '2017-06-16 16:00:53'),
+(24, 17, 8, '2017-06-16 16:02:50');
 
 -- --------------------------------------------------------
 
@@ -257,9 +255,8 @@ INSERT INTO `partage` (`id_partage`, `user_id`, `tweet_partage`) VALUES
 CREATE TABLE `phinxlog` (
   `version` bigint(20) NOT NULL,
   `migration_name` varchar(100) DEFAULT NULL,
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `end_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `start_time` timestamp NOT NULL DEFAULT current_timestamp
+) ;
 
 --
 -- Contenu de la table `phinxlog`
@@ -282,20 +279,19 @@ CREATE TABLE `tweet` (
   `contenu_tweet` text NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `nb_commentaire` int(111) DEFAULT '0'
+  `nb_commentaire` int(111) DEFAULT 0,
+  `nb_partage` int(111) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `tweet`
 --
 
-INSERT INTO `tweet` (`id`, `user_id`, `contenu_tweet`, `created`, `modified`, `nb_commentaire`) VALUES
-(8, 18, 'accueuil moi', '2016-09-06 19:35:36', '2016-09-06 19:35:36', 6),
-(15, 19, 'accueuil test 2 essai', '2016-10-07 08:50:07', '2016-10-07 08:50:07', 1),
-(35, 17, '<div data-oembed-url="https://www.youtube.com/watch?v=QD3YpzrYyq4"><div><div style="left: 0px; width: 100%; height: 0px; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/QD3YpzrYyq4?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1" allowfullscreen="" style="top: 25px; left: 0px; width: 100%; height: 100%; position: absolute;" frameborder="0"></iframe></div></div></div><p>&nbsp;</p>', '2017-02-13 16:52:03', '2017-02-13 16:52:03', NULL),
-(43, 17, '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', '2017-02-15 16:03:22', 1),
-(44, 17, '<p>FRAMEWORK php</p><div data-oembed-url="https://symfony.com/"><a href="https://symfony.com/" data-iframely-url="//cdn.iframe.ly/jZAEJs">Symfony, High Performance PHP Framework for Web Development</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:04:53', '2017-02-15 16:04:53', 1),
-(46, 17, '<p>test</p>', '2017-04-21 09:02:20', '2017-04-21 09:02:20', 11);
+INSERT INTO `tweet` (`id`, `user_id`, `contenu_tweet`, `created`, `modified`, `nb_commentaire`, `nb_partage`) VALUES
+(8, 18, 'accueuil moi', '2016-09-06 19:35:36', '2016-09-06 19:35:36', 6, 3),
+(15, 19, 'accueuil test 2 essai', '2016-10-07 08:50:07', '2016-10-07 08:50:07', 1, 0),
+(43, 17, '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', '2017-02-15 16:03:22', 1, 1),
+(46, 17, '<p>test</p>', '2017-04-21 09:02:20', '2017-04-21 09:02:20', 8, 4);
 
 -- --------------------------------------------------------
 
@@ -310,7 +306,7 @@ CREATE TABLE `users` (
   `email` varchar(255) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `avatarprofil` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -369,12 +365,6 @@ ALTER TABLE `partage`
   ADD KEY `tweet_partage` (`tweet_partage`);
 
 --
--- Index pour la table `phinxlog`
---
-ALTER TABLE `phinxlog`
-  ADD PRIMARY KEY (`version`);
-
---
 -- Index pour la table `tweet`
 --
 ALTER TABLE `tweet`
@@ -403,7 +393,7 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 --
 -- AUTO_INCREMENT pour la table `conversation`
 --
@@ -418,12 +408,12 @@ ALTER TABLE `messagerie`
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
 ALTER TABLE `partage`
-  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT pour la table `tweet`
 --

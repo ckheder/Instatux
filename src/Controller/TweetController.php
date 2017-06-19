@@ -21,6 +21,9 @@ class TweetController extends AppController
     {
         $this->viewBuilder()->layout('tweet');
         $this->set('title', ''.$this->request->getParam('username').' | Instatux'); // titre de la page
+
+        $username = $this->request->getParam('username');
+
         $tweet = $this->Tweet->find()->select([
             'Users.id',
             'Users.username',
@@ -31,15 +34,28 @@ class TweetController extends AppController
             'Tweet.created',
             'Tweet.nb_commentaire',
             'Tweet.nb_partage',
-            'Partage.id_partage'
             ])
          // titre de la page
-        ->where(['Users.username' => $this->request->getParam('username')])
-        ->orwhere(['Partage.user_id'=> 17])
-        ->order(['Tweet.created'=> 'DESC'])
-        ->contain(['Users'])
-        ->contain(['Partage']);
-        $this->set(compact('tweet'));    
+        ->where(['Tweet.user_timeline' => $username])
+        ->order(['Tweet.created' => 'DESC'])
+        ->contain(['Users']);
+
+         $nb_tweet =  $tweet->count(); // calcul du nombre de conversations actives
+
+         if($nb_tweet == 0)
+         {
+             $this->set('nb_tweet', $nb_tweet);
+         }
+         else
+         {
+            $this->set(compact('tweet'));
+         }
+
+          
+
+        
+
+       
     }
 
     /**
@@ -86,35 +102,7 @@ class TweetController extends AppController
                 $this->Flash->error(__('The tweet could not be saved. Please, try again.'));
             }
         }
-        $users = $this->Tweet->Users->find('list');
-        $this->set(compact('tweet', 'users'));
-    }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Tweet id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $tweet = $this->Tweet->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $tweet = $this->Tweet->patchEntity($tweet, $this->request->data);
-            if ($this->Tweet->save($tweet)) {
-                $this->Flash->success(__('The tweet has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The tweet could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Tweet->Users->find('list', ['limit' => 200]);
-        $this->set(compact('tweet', 'users'));
-        $this->set('_serialize', ['tweet']);
     }
 
     /**
@@ -174,5 +162,13 @@ class TweetController extends AppController
 
     }
 
+        private function getid($username) // id de l'utilisateur
+    {
+        $this->loadModel('Users');
+        $id = $this->Users->find();
+        $id->select(['id'])
+        ->where(['username' => $username ]);
+        return $id;
+    }
 
 }

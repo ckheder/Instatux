@@ -30,6 +30,8 @@ class PartageTable extends Table
     {
         parent::initialize($config);
 
+        $this->addBehavior('Timestamp');
+
         $this->table('partage');
         $this->displayField('id_partage');
         $this->primaryKey('id_partage');

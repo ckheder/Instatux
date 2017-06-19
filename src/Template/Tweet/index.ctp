@@ -5,14 +5,23 @@ use Cake\I18n\Time;
 
 <div class="col-sm-6">
 
+            <?php
 
-
+            if(isset($nb_tweet))
+            {
+                echo '<div class="alert alert-info">
+                                Aucun tweet à afficher
+                        </div>';
+            }
+            else
+            {
+?>
             <?php foreach ($tweet as $tweet): ?>
             <div class="tweet">
             <?php
             if($tweet->user->username != $this->request->getParam('username'))
             {
-                echo '<span class="glyphicon glyphicon-share-alt"></span>&nbsp; Partagé par '.$this->request->getParam('username').'<br /><br />';
+                echo '<span class="glyphicon glyphicon-share-alt"></span>&nbsp; Partagé par '.$this->request->getParam('username').'<br />';
             }
             ?>
             <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
@@ -44,19 +53,19 @@ use Cake\I18n\Time;
 
                <span class="glyphicon glyphicon-share-alt"></span>&nbsp;<?= 'Partager '.$tweet->nb_partage.' fois' ?>
                <?php
-            if($tweet->user_id != $authUser)
+            if($tweet->user_id != $authUser OR $tweet->user_timeline != $this->request->getParam('username'))
             {
             ?>
 
             <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.'') ?>
 
-            <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link('Supprimer ce partage', array('controller' => 'partage', 'action' => 'delete', $tweet->partage->id_partage)) ;
+            <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link('Supprimer ce partage', array('controller' => 'partage', 'action' => 'delete', $tweet->id)) ;
 
             }
             ?>
 
     </div>
-        <?php endforeach; ?>
+        <?php endforeach; }?>
 
 </div>
 
