@@ -36,11 +36,6 @@ class PartageTable extends Table
         $this->displayField('id_partage');
         $this->primaryKey('id_partage');
 
-        $this->belongsTo('Abonnement', [
-            'foreignKey' => 'user_id',
-            'bindingKey' => 'suivi'
-        ]);
-
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
              
