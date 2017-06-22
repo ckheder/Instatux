@@ -36,6 +36,14 @@ class PartageTable extends Table
         $this->displayField('id_partage');
         $this->primaryKey('id_partage');
 
+<<<<<<< HEAD
+=======
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+             
+        ]);
+
+>>>>>>> 7993b67ed8635195938a8b3756a6f28f26e2add2
         $this->belongsTo('Tweet', [
             'foreignKey' => 'tweet_partage',
              
