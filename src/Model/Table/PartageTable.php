@@ -36,25 +36,16 @@ class PartageTable extends Table
         $this->displayField('id_partage');
         $this->primaryKey('id_partage');
 
-        $this->belongsTo('Abonnement', [
-            'foreignKey' => 'user_id',
-            'bindingKey' => 'suivi'
-        ]);
-
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-             
-        ]);
-
         $this->belongsTo('Tweet', [
             'foreignKey' => 'tweet_partage',
              
         ]);
 
+
         $this->addBehavior('CounterCache', [
             'Tweet' => ['nb_partage']
         ]);
-       
+
     }
 
     /**
@@ -68,11 +59,6 @@ class PartageTable extends Table
         $validator
             ->integer('id_partage')
             ->allowEmpty('id_partage', 'create');
-
-        $validator
-            ->integer('user_id')
-            ->requirePresence('user_id', 'create')
-            ->notEmpty('user_id');
 
         $validator
             ->integer('tweet_partage')

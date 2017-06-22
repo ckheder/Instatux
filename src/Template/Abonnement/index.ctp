@@ -22,7 +22,7 @@
                 <br />
             <?= $this->cell('Abonnement::nbabonnes', ['id' => $abonnement->user_id])  ?>
             <br />
-                            <?php if($abonnement->user_id == $authUser)
+                            <?php if($abonnement->user_id == $authName)
                 {
                 ?>
                 <?=  $this->Html->link(

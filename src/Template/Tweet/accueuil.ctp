@@ -23,10 +23,11 @@ use Cake\I18n\Time;
 ]);
             ?>
                 <span class="date_tweet">Posté <?= __(h($date_tweet)) ?></span>
-                <?= $this->Text->autoParagraph(h($abonnement->contenu_tweet)) ?>
+                <?= $this->Text->autoParagraph($abonnement->contenu_tweet) ?>
 
                     <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link(''.$abonnement->nb_commentaire.' commentaires', ['action' => 'view',  $abonnement->id]) ?>
-              
+               <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$abonnement->id.'/'.$abonnement->user_id.'');
+               ?>
             </div>
             <?php endforeach; ?>
 

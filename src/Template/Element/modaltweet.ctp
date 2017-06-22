@@ -9,10 +9,6 @@ echo $this->Modal->create(['id' => 'ModalTweet']) ;
                 // instance, using default configuration.
                 CKEDITOR.replace( 'editor1' );
             </script>
-                <?php
-                echo $this->Form->hidden('user_id', array('value'=>$authUser));
-                echo $this->Form->hidden('user_timeline', array('value'=>$authName));
-                ?>
                 <br />
 <div class="text-center">
                 <?= $this->Form->button('Tweeter', array('class'=>'btn btn-success')) ?>

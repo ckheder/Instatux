@@ -102,11 +102,11 @@ Router::connect('/abonnement',['controller' => 'Abonnement', 'action' => 'index'
     // fin route abonnement/index
 
     // route abonnement add
-Router::connect('/abonnement/add/:id',['controller' => 'Abonnement', 'action' => 'add'],['id' => '\d+', 'pass' =>['id']]);
+Router::connect('/abonnement/add/:username',['controller' => 'Abonnement', 'action' => 'add']);
     // fin route abonnement/add
 
     // route abonnement delete
-Router::connect('/abonnement/delete/:id',['controller' => 'Abonnement', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+Router::connect('/abonnement/delete/:username',['controller' => 'Abonnement', 'action' => 'delete']);
     // fin route abonnement/delete
 
     // route settings
@@ -126,7 +126,7 @@ Router::connect('instatux/tweet/accueuil',['controller' => 'Tweet', 'action' => 
     // fin route accueil
 
     // route partage add
-Router::connect('/partage/add/:id/:id_auteur',['controller' => 'Partage', 'action' => 'add'],['id' => '\d+', 'pass' =>['id']]);
+Router::connect('/partage/add/:id/:id_auteur',['controller' => 'Tweet', 'action' => 'share'],['id' => '\d+', 'pass' =>['id']]);
     // fin route partage/add
 
     // route partage delete

@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 //use App\Controller\Component\AuthComponent;
 
 /**
@@ -32,6 +33,7 @@ class TweetController extends AppController
             'Tweet.user_id',
             'Tweet.contenu_tweet',
             'Tweet.created',
+            'Tweet.partage',
             'Tweet.nb_commentaire',
             'Tweet.nb_partage',
             ])
@@ -49,13 +51,7 @@ class TweetController extends AppController
          else
          {
             $this->set(compact('tweet'));
-         }
-
-          
-
-        
-
-       
+         }      
     }
 
     /**
@@ -69,15 +65,16 @@ class TweetController extends AppController
     {
         $this->viewBuilder()->layout('profil');
         $this->set('title', 'Commentaires'); // titre de la page
-        $tweet = $this->Tweet->find('all');
-        $tweet->where(['Tweet.id' => $this->request->getParam('id')]);
+        $tweet = $this->Tweet->find()
+        
+        ->where(['Tweet.id' => $this->request->getParam('id')])
 
 
-        $tweet->contain(['Users']);
-        $tweet->contain(['Commentaires'=> function($q) { // appliquer un order by sur un contain
+        ->contain(['Users'])
+        ->contain(['Commentaires'=> function($q) { // appliquer un order by sur un contain
               return $q->order(['Commentaires.created' => 'DESC']);
-          }]);
-        $tweet->contain(['Commentaires.Users']);
+          }])
+        ->contain(['Commentaires.Users']);
 
         $this->set('tweet', $tweet);
         
@@ -93,7 +90,13 @@ class TweetController extends AppController
     {
         $tweet = $this->Tweet->newEntity();
         if ($this->request->is('post')) {
-            $tweet = $this->Tweet->patchEntity($tweet, $this->request->data);
+                   $data = array(
+            'tweet_id' => rand(5, 15),
+            'user_id' => $this->Auth->user('id'),
+            'user_timeline' => $this->Auth->user('username'),
+            'contenu_tweet' => $this->request->data('contenu_tweet')
+            );
+            $tweet = $this->Tweet->patchEntity($tweet, $data);
             if ($this->Tweet->save($tweet)) {
                 $this->Flash->success(__('The tweet has been saved.'));
 
@@ -118,7 +121,7 @@ class TweetController extends AppController
  $tweet_verif = $this->Tweet->find();
         $tweet_verif->where([
 
-'user_id' =>  $this->Auth->user('id') // id de la personne connecté
+'user_timeline' =>  $this->Auth->user('username') // id de la personne connecté
 
             ])
         ->where(['id' => $this->request->getParam('id')]);
@@ -140,6 +143,51 @@ class TweetController extends AppController
         return $this->redirect(['controller'=> 'tweet', 'action' => 'index', $this->Auth->user('username')]);
     }
 
+    // partage
+    public function share($id = null)
+    {
+        $tweet = $this->Tweet->newEntity();
+
+        $info_tweet = $this->Tweet->find()
+        ->select([
+         'user_id',
+         'contenu_tweet',     
+            ])
+        ->where(['Tweet.id' => $this->request->getParam('id')]);
+
+        foreach($info_tweet as $info_tweet)
+        {
+            $user_tweet = $info_tweet->user_id;
+            $contenu_tweet = $info_tweet->contenu_tweet;
+        }
+
+        $data = array(
+            'tweet_id' => $this->request->getParam('id'),
+            'user_id' => $user_tweet,
+            'user_timeline' => $this->Auth->user('username'),
+            'contenu_tweet' => $contenu_tweet,
+            'partage' => 1,
+            // évènement
+            'nom_session' => $this->Auth->user('username'),//nom de session
+            'avatar_session' => $this->Auth->user('avatarprofil'),
+            'id_tweet' => $this->request->getParam('id')
+            );
+            $tweet = $this->Tweet->patchEntity($tweet, $data);
+            if ($this->Tweet->save($tweet)) {
+
+                 $event = new Event('Model.Partage.afterAdd', $this, ['tweet' => $tweet]);
+                $this->eventManager()->dispatch($event);
+
+
+                $this->Flash->success(__('Tweet partagé'));
+
+                
+            } else {
+                $this->Flash->error(__('Impossible de partager ce tweet'));
+            }
+            return $this->redirect($this->referer());
+        
+    }
     // tweet sur l'accueuil
 
     public function accueuil($id = null)
@@ -150,7 +198,7 @@ class TweetController extends AppController
                 
         $abonnement->where([
 
-        'Abonnement.user_id' =>  $this->Auth->user('id')
+        'Abonnement.user_id' =>  $this->Auth->user('username')
 
             ]);
 
@@ -170,5 +218,6 @@ class TweetController extends AppController
         ->where(['username' => $username ]);
         return $id;
     }
+
 
 }

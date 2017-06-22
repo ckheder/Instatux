@@ -57,20 +57,20 @@ class CommentairesController extends AppController
         $commentaire = $this->Commentaires->newEntity();
         if ($this->request->is('post')) {
             $data = array(
-            'comm' =>  $this->request->data['comm'],
+            'comm' =>  $this->request->data('comm'),
+            'tweet_id' => $this->request->data('id'), // id du tweet
             'user_id' => $this->Auth->user('id'),
-            'tweet_id' => $this->request->data['id'], // id du tweet
+            
             // pour évènement
-            'userosef' => $this->request->data['userosef'], // auteur du tweet
+            'userosef' => $this->request->data('userosef'), // auteur du tweet
             'user_session' => $this->Auth->user('id'), // id de session
             'nom_session' => $this->Auth->user('username'),//nom de session
             'avatar_session' => $this->Auth->user('avatarprofil')
             );
             $commentaire = $this->Commentaires->patchEntity($commentaire, $data);
-            
-           //debug($commentaire);
-            //die();
-            
+
+        
+          
             if ($this->Commentaires->save($commentaire)) {
 
               if( $this->request->data['userosef'] != $this->Auth->user('id'))
@@ -84,21 +84,20 @@ class CommentairesController extends AppController
 
                 $this->Flash->success(__('The commentaire has been saved.'));
 
-                //return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The commentaire could not be saved. Please, try again.'));
 
-                return $this->redirect([
+            }
+        }
+
+                        return $this->redirect([
     'controller' => 'tweet',
     'action' => 'view',
 $this->request->data['id']
         
 ]);
-            } else {
-                $this->Flash->error(__('The commentaire could not be saved. Please, try again.'));
-            }
-        }
-        //$tweets = $this->Commentaires->Tweet->find('list', ['limit' => 200]);
-        //$this->set(compact('commentaire', 'tweet'));
-        //$this->set('_serialize', ['commentaire']);
+
+
     }
 
     /**

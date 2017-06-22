@@ -42,15 +42,16 @@ class CommentairesTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Tweet', [
-            'foreignKey' => 'tweet_id'
+            'foreigKey' => 'tweet_id',
+
+        ]);
+
+               $this->addBehavior('CounterCache', [
+            'Tweet' => ['nb_commentaire']
         ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id'
-        ]);
-
-        $this->addBehavior('CounterCache', [
-            'Tweet' => ['nb_commentaire']
         ]);
     }
 

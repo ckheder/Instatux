@@ -11,7 +11,7 @@
                 
                 'controller'=>'abonnement',
                 'action'=>'add',
-                $id_membre
+                $this->request->getParam('username')
                 
 
 
@@ -55,7 +55,7 @@
                     <br />
           <br />
           <span class="glyphicon glyphicon-remove"></span>&nbsp;
-          <?= $this->Html->link('Se désabonner', '/abonnement/delete/'.$id_membre.'',['class' => 'message_delete_abo']) ; ?>
+          <?= $this->Html->link('Se désabonner', '/abonnement/delete/'.$this->request->getParam('username').'',['class' => 'message_delete_abo']) ; ?>
           <br />
           
           <?php

@@ -41,6 +41,7 @@ class AbonnementTable extends Table
 
        $this->belongsTo('Users', [
             'foreignKey' => 'suivi',
+            'bindingKey' => 'username'
             
         ]);
     }
@@ -58,12 +59,10 @@ class AbonnementTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('user_id')
             ->requirePresence('user_id', 'create')
             ->notEmpty('user_id');
 
         $validator
-            ->integer('suivi')
             ->requirePresence('suivi', 'create')
             ->notEmpty('suivi');
 

@@ -49,15 +49,15 @@ use Cake\Routing\Router;
     
 
    
-   <div class="container" style="border:1px solid ;">
+   <div class="container" style="border:1px solid #cecece;">
 <?= $this->element('menuco') ?>
 <?= $this->Flash->render() ?>
   <div class="row">
 <div class="col-sm-3">
    
 <!-- partie tweet, selin id url -->
-<?= $this->cell('Info::moi', ['authuser' => $authUser]);?>
-<?= $this->cell('Abonnement::moi', ['authuser' => $authUser]) ;  
+<?= $this->cell('Info::moi', ['authname' => $authUser]);?>
+<?= $this->cell('Abonnement::moi', ['authname' => $authName]) ;  
 
 ?>
 

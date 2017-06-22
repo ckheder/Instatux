@@ -58,7 +58,7 @@ use Cake\Routing\Router;
    
 <!-- partie tweet, selin id url -->
 <?= $this->cell('Info', ['authuser' => $authUser]);?>
-<?= $this->cell('Abonnement', ['authuser' => $authUser, 'authname' => $authName]) ;  
+<?= $this->cell('Abonnement', ['authname' => $authName]) ;  
 
 ?>
 

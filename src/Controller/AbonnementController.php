@@ -27,7 +27,7 @@ class AbonnementController extends AppController
                 
         ->where([
 
-'user_id' =>  $this->Auth->user('id')
+'user_id' =>  $this->Auth->user('username')
 
             ])
 
@@ -75,16 +75,16 @@ else
         $abonnement_verif = $this->Abonnement->find();
         $abonnement_verif->where([
 
-'user_id' =>  $this->Auth->user('id')
+'user_id' =>  $this->Auth->user('username')
 
             ])
-        ->where(['suivi'=>$this->request->getParam('id')]);
+        ->where(['suivi'=>$this->request->getParam('username')]);
         
         if ($abonnement_verif->isEmpty()) // si pas de résultat, on ajoute
         {
         $data = array(
-            'user_id' => $this->Auth->user('id'), // suiveur
-            'suivi' => $this->request->getParam('id'), // suivi
+            'user_id' => $this->Auth->user('username'), // suiveur
+            'suivi' => $this->request->getParam('username'), // suivi
             //evenement abonnement
              'user_session' => $this->Auth->user('id'), // id de session
             'nom_session' => $this->Auth->user('username'),//nom de session
@@ -101,24 +101,17 @@ else
                 //fin évènement
 
 
-                $this->Flash->success(__('The abonnement has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('The abonnement has been saved.'));              
             }
+}
              else 
             {
 
-                $this->Flash->error(__('insertion fail.'));
+                $this->Flash->error(__('Impossible de s\'abonner.'));
             }
-       // }
+  return $this->redirect($this->referer());
         $this->set(compact('abonnement'));
         $this->set('_serialize', ['abonnement']);
-}
-else
-{
-$this->Flash->error(__('verif fail.'));
-}
-
 // fin vérif
 
     }
@@ -136,10 +129,10 @@ $this->Flash->error(__('verif fail.'));
         $abonnement_verif = $this->Abonnement->find();
         $abonnement_verif->where([
 
-'user_id' =>  $this->Auth->user('id') // id de la personne connecté
+'user_id' =>  $this->Auth->user('username') // id de la personne connecté
 
             ])
-        ->where(['suivi'=>$this->request->getParam('id')]);
+        ->where(['id'=>$this->request->getParam('id')]);
 
 
         // fin vérif
@@ -154,21 +147,19 @@ $this->Flash->error(__('verif fail.'));
             {
                 $this->Flash->success(__('Abonnement supprimé.'));
 
-                return $this->redirect(['action' => 'index']);
+                
             }
-             else 
+
+}
+
+  else 
             {
 
                 $this->Flash->error(__('Impossible de supprimer cet abonnement.'));
             }
-       // }
         $this->set(compact('abonnement'));
         $this->set('_serialize', ['abonnement']);
-}
-else
-{
-$this->Flash->error(__('verif fail abo.'));
-}
+return $this->redirect(['action' => 'index']);
     }
 
     public function indexmessagerie() // liste de mes abonnements pour la messagerie

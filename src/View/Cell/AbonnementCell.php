@@ -23,8 +23,8 @@ class AbonnementCell extends Cell
      *
      * @return void
      */
-
-    private function getid($username) // id de l'utilisateur
+ 
+     private function getid($username) // id de l'utilisateur
     {
         $this->loadModel('Users');
         $id = $this->Users->find();
@@ -33,11 +33,7 @@ class AbonnementCell extends Cell
         return $id;
     }
 
-
-
-    // 
-
-    public function display($authuser, $authname)
+    public function display($authname)
     {
 
 //test de l'abonnement
@@ -46,10 +42,10 @@ class AbonnementCell extends Cell
         $abonnement = $this->Abonnement->find();
         $abonnement->where([
 
-'user_id' =>  $authuser
+'user_id' =>  $authname
 
             ])
-        ->where(['suivi'=>$this->getid($this->request->getParam('username'))]);
+        ->where(['suivi'=> $this->request->getParam('username')]);
         
         if ($abonnement->isEmpty()) 
         {
@@ -61,51 +57,50 @@ else
 }
 
 $this->set('authname', $authname);
+
 // partie nombre d'abonnes
 
-   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $this->getid($this->request->getParam('username'))])->count();
+   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $this->request->getParam('username')])->count();
 
 $this->set('nb_abonnes',$nb_abonnes);
       
     // partie nombre d'abonnement  
 
-$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $this->getid($this->request->getParam('username'))])->count();
+$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $this->request->getParam('username')])->count();
 
 $this->set('nb_abonnement',$nb_abonnement);
 
-// récupération de l'id membre
 
 
 $id =  $this->getid($this->request->getParam('username'));
-
  foreach ($id as $id): 
-
 $this->set('id_membre', $id->id);
-
 endforeach;
-        
-    }
+}
 
-        public function moi($authuser)
+
+
+
+        public function moi($authname)
     {
 
         $this->loadModel('Abonnement');
         
-// partie nombre d'abonnes
+// partie nombre d'abonnes de moi
 
-   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $authuser])->count();
+   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $authname])->count();
 
 $this->set('nb_abonnes',$nb_abonnes);
       
-    // partie nombre d'abonnement  
+    // partie nombre d'abonnement  de moi
 
-$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $authuser])->count();
+$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $authname])->count();
 
 $this->set('nb_abonnement',$nb_abonnement);  
         
     }
 
-    public function nbabonnes($id)
+    public function nbabonnes($id) // pour la cell sur la page d'abonnement
     {
     $this->loadModel('Abonnement');
         

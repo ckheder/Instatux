@@ -14,18 +14,20 @@ class PartageListener implements EventListenerInterface {
         );
     }
 
-    public function addnotifpartage($event, $partage) {
+
+
+    public function addnotifpartage($event, $tweet) {
 
         
     // création d'une notification de nouveau message
  
-    $notif = '<img src="/instatux/img/'.$partage->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$partage->nom_session.'">'.$partage->nom_session.'</a> à partagé votre <a href="/instatux/post/'.$partage->tweet_partage.'">post</a> !';
+    $notif = '<img src="/instatux/img/'.$tweet->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$tweet->nom_session.'">'.$tweet->nom_session.'</a> à partagé votre <a href="/instatux/post/'.$tweet->id_tweet.'">post</a> !';
    
     $entity = TableRegistry::get('Notifications');
 
     $notif_partage = $entity->newEntity();
 
-    $notif_partage->user_id = $partage->auteur; // auteur du tweet
+    $notif_partage->user_id = $tweet->user_id; // auteur du tweet
 
     $notif_partage->notification = $notif;
 
@@ -34,6 +36,18 @@ class PartageListener implements EventListenerInterface {
     $notif_partage->statut = 0;
 
     $entity->save($notif_partage);
+
+    // mise à jour de la table partage
+
+    $entity_partage = TableRegistry::get('Partage');
+
+    $new_partage = $entity_partage->newEntity();
+
+    $new_partage->tweet_partage = $tweet->id_tweet;
+
+    $entity_partage->save($new_partage);
+
+
  
 }
 }

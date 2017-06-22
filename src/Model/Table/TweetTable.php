@@ -41,17 +41,12 @@ class TweetTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Abonnement', [
-            'foreignKey' => 'user_id',
+            'foreignKey' => 'user_timeline',
             'bindingKey' => 'suivi'
         ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
-             
-        ]);
-
-          $this->hasOne('Partage', [
-            'foreignKey' => 'tweet_partage',
              
         ]);
 
@@ -73,6 +68,10 @@ class TweetTable extends Table
          $validator
             ->notEmpty('contenu_tweet')
             ->requirePresence('contenu_tweet');
+
+        $validator
+            ->allowEmpty('partage');
+
         $validator
             ->allowEmpty('nb_commentaire');
 

@@ -48,7 +48,9 @@ class UsersTable extends Table
             'dependent' => true]);
 
          $this->hasMany('Abonnement', [
-            'dependent' => true]);
+            'dependent' => true
+
+            ]);
 
          $this->hasMany('Messagerie');
 
