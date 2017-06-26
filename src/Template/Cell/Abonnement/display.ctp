@@ -5,7 +5,10 @@
 {
             if($abonnement === 0)
              {
-                echo $this->Html->link(
+              ?>
+              <br />
+              <span class="glyphicon glyphicon-remove"></span>&nbsp;
+              <?= $this->Html->link(
                 's\'abonner',
                 array(
                 
@@ -17,12 +20,16 @@
 
                 )
                 ,
-                ["class" => "btn btn-success"]
+                ["class" => "message_add_abo"]
                 );
                 
 
                 
-            }
+            
+            ?>
+            <br />
+            <?php
+          }
             elseif($abonnement === 1)
             {
                 

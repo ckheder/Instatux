@@ -194,16 +194,16 @@ class TweetController extends AppController
     {
                 $this->viewBuilder()->layout('profil');
                 $this->set('title', 'Actualités'); // titre de la page
-                $abonnement = $this->Tweet->find('all');
+                $abonnement = $this->Tweet->find('all')
                 
-        $abonnement->where([
+       ->where([
 
         'Abonnement.user_id' =>  $this->Auth->user('username')
 
-            ]);
-
-        $abonnement->contain(['Users']);
-        $abonnement->contain(['Abonnement']);
+            ])
+        ->order(['Tweet.created' => 'DESC'])
+        ->contain(['Users'])
+        ->contain(['Abonnement']);
  
      
      $this->set(compact('abonnement'));

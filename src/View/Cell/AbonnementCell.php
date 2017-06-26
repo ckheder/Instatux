@@ -110,5 +110,17 @@ $this->set('nb_abonnes',$nb_abonnes);
 
     }
 
+         public function avatar_user($user, $abonnement) // avatar de l'utilisateur abonné sur l'accueuil
+    {
+        $this->loadModel('Users');
+        $avatar_user = $this->Users->find();
+        $avatar_user->select(['avatarprofil'])
+        ->where(['username' => $user ]);
+        
+        $this->set('avatar_user',$avatar_user);
+        $this->set('user', $user);
+        $this->set('abonnement', $abonnement);
+    }
+
 
 }

@@ -145,9 +145,7 @@ else
  
             if ($result) 
             {
-                $this->Flash->success(__('Abonnement supprimé.'));
-
-                
+                $this->Flash->success(__('Abonnement supprimé.')); 
             }
 
 }

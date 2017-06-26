@@ -11,7 +11,14 @@ use Cake\I18n\Time;
         ?>
             <?php foreach ($abonnement as $abonnement): ?>
             
-              <div class="tweet">  
+              <div class="tweet">
+              <?
+                          if($abonnement->partage == 1)
+            {
+                echo '<br />';
+                echo  $this->cell('Abonnement::avatar_user', ['user' => $abonnement->user_timeline, $abonnement]) ; 
+            } 
+            ?> 
             <?= $this->Html->image(''.$abonnement->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
             <?= $this->Html->link($abonnement->user->username,'/'.$abonnement->user->username.'')?>
                         <?php
@@ -26,8 +33,14 @@ use Cake\I18n\Time;
                 <?= $this->Text->autoParagraph($abonnement->contenu_tweet) ?>
 
                     <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link(''.$abonnement->nb_commentaire.' commentaires', ['action' => 'view',  $abonnement->id]) ?>
-               <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$abonnement->id.'/'.$abonnement->user_id.'');
+                    <?php if($abonnement->user_id != $authUser)
+                    {
+                        ?>
+               <span class="glyphicon glyphicon-share-alt"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$abonnement->id.'/'.$abonnement->user_id.'');
+           }
                ?>
+                <?= ' - Partager '.$abonnement->nb_partage.' fois' ?>
+                <?= $abonnement->user->user_id ;?>
             </div>
             <?php endforeach; ?>
 
