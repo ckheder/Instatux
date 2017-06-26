@@ -4,11 +4,6 @@ use Cake\I18n\Time;
 
 <div class="col-sm-6">
 
-        <?php
-
-
-
-        ?>
             <?php foreach ($abonnement as $abonnement): ?>
             
               <div class="tweet">

@@ -110,7 +110,7 @@ Router::connect('/abonnement/delete/:id',['controller' => 'Abonnement', 'action'
     // fin route abonnement/delete
 
     // route settings
-Router::connect('instatux/settings',['controller' => 'Settings', 'action' => 'settings']);
+Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
     // fin route settings
 
     // route messagerie
