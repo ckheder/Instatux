@@ -52,33 +52,24 @@
                     ]);
                 echo $this->Modal->end() ;
                 ?>
-                <br />
-                <span class="glyphicon glyphicon-envelope"></span>&nbsp;
+                
+                <li><span class="glyphicon glyphicon-envelope"></span>&nbsp;
                 <?php echo $this->Html->link('Envoyer un message','#', 
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#Modal',
                   'class' => 'message_profil']);
-                  ?>
-                    <br />
-          <br />
-          <span class="glyphicon glyphicon-remove"></span>&nbsp;
-          <?= $this->Html->link('Se désabonner', '/abonnement/delete/'.$this->request->getParam('username').'',['class' => 'message_delete_abo']) ; ?>
-          <br />
-          
-          <?php
+                  ?></li>
+          <li><span class="glyphicon glyphicon-remove"></span>&nbsp;
+          <?= $this->Html->link('Se désabonner', '/abonnement/delete/'.$this->request->getParam('username').'',['class' => 'message_delete_abo']) ; 
             }
           } 
-          ?>
-        
-          <br />
-          <?php
-           echo '<span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;Abonné '.$nb_abonnes;
-                ?>
-                <br />
-                <br />
+          echo '</li>';
+           echo '<li><span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;Abonné '.$nb_abonnes;
+                ?></li>
+
+                <li>
                 <?php
              echo '<span class="glyphicon glyphicon-hand-left"></span>&nbsp;&nbsp;Abonnement '.$nb_abonnement;
 ?>
-<br />
-<br />
-
+</li>
+</ul>

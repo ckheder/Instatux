@@ -70,6 +70,7 @@ float: left;
 {
 
   float: right;
+  color : #657786;
 
 }
 .deletetweet
@@ -239,3 +240,27 @@ color : green;
 {
   padding: 0px;
 }
+/* listes des infos sur l'utilisateur*/
+
+.item-user
+{
+
+  margin-left: 9px;
+  list-style-type: none;
+}
+.item-user li
+{
+  padding : 12px;
+  color : #657786;
+}
+
+.username
+{
+  font-weight: bold;
+  font-size : 25px;
+}
+.description
+{
+  font-style: italic;
+}
+
