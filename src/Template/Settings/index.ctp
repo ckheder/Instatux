@@ -2,7 +2,7 @@
 <div class="text-center">
 <h4>Changer ma description</h4>
 </div>
-<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'edit' )));?>
+<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editdescription' )));?>
 
 <?= $this->Form->Textarea('description', ['label'=>''],array('class'=>'form-controle')) ?>
 
@@ -10,6 +10,20 @@
 <br />
 <div class="text-center">
 <?= $this->Form->button('Mise à jour de ma description', array('class'=>'btn btn-info')) ?>
+</div>
+<?= $this->Form->end() ?>
+<hr>
+<div class="text-center">
+<h4>Changer mon lieu d'habitation</h4>
+</div>
+<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editlieu' )));?>
+
+<?= $this->Form->input('lieu', ['label'=>''],array('class'=>'form-controle')) ?>
+
+
+<br />
+<div class="text-center">
+<?= $this->Form->button('Mise à jour de mon lieu', array('class'=>'btn btn-info')) ?>
 </div>
 <?= $this->Form->end() ?>
 <hr>

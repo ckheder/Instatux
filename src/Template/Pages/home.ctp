@@ -88,9 +88,6 @@ use Cake\Network\Exception\NotFoundException;
             ?>
             </div>
             <br />
-            <?php
-            echo $this->Form->textarea('description', ['placeholder' => 'Parler de moi'], 'required');
-        ?>
         
     </fieldset>
     <br />

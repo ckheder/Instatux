@@ -89,14 +89,13 @@ $validator = new Validator();
             ->requirePresence('password')
 
         
-            ->notEmpty('description', "une description doit être renseigné")
-            ->requirePresence('description')
+            ->allowEmpty('description')
 
         
             ->allowEmpty('avatarprofil')
-            
 
-        
+            ->allowEmpty('lieu')
+            
             ->notEmpty('email', "une adresse mail doit être renseigné")
             ->requirePresence('email')
         ->add(

@@ -15,10 +15,15 @@ use Cake\I18n\Time;
 <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<?= h($user->username) ?>
 <br />
 <br />
+                <?php if(!empty($user->description))
+                {
+                    ?>
                 <span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;<?= h($user->description) ?>
+                                <br />
                 <br />
-                <br />
-                            <?php
+                <?php
+            }
+
             $time = new Time($user->created);
             $time->toUnixString();
             $date_insc = $time->timeAgoInWords([

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Jeu 22 Juin 2017 à 12:18
+-- Généré le :  Mar 27 Juin 2017 à 11:19
 -- Version du serveur :  10.2.6-MariaDB-10.2.6+maria~xenial
 -- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
@@ -37,7 +37,7 @@ CREATE TABLE `abonnement` (
 --
 
 INSERT INTO `abonnement` (`id`, `user_id`, `suivi`) VALUES
-(29, 'test', 'essai'),
+(34, 'test', 'essai'),
 (10, 'test2', 'test'),
 (33, 'test', 'test2'),
 (32, 'essai', 'test');
@@ -228,7 +228,13 @@ INSERT INTO `notifications` (`id_notif`, `user_id`, `notification`, `created`, `
 (46, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-21 12:22:47', 1),
 (47, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-21 12:23:49', 1),
 (48, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-21 12:25:58', 1),
-(49, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !', '2017-06-22 09:39:42', 0);
+(49, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !', '2017-06-22 09:39:42', 0),
+(50, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-22 12:03:54', 0),
+(51, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-22 12:04:30', 0),
+(52, 19, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/15">post</a> !', '2017-06-22 12:04:39', 0),
+(53, 19, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à partagé votre <a href="/instatux/post/87">post</a> !', '2017-06-23 12:56:27', 0),
+(54, 18, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à partagé votre <a href="/instatux/post/86">post</a> !', '2017-06-23 12:56:32', 0),
+(55, 19, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à partagé votre <a href="/instatux/post/87">post</a> !', '2017-06-26 08:53:33', 0);
 
 -- --------------------------------------------------------
 
@@ -254,7 +260,12 @@ INSERT INTO `partage` (`id_partage`, `tweet_partage`, `created`) VALUES
 (5, 8, '2017-06-21 09:18:33'),
 (6, 8, '2017-06-21 12:22:47'),
 (7, 8, '2017-06-21 12:23:49'),
-(8, 8, '2017-06-21 12:25:58');
+(8, 8, '2017-06-21 12:25:58'),
+(9, 8, '2017-06-22 12:04:30'),
+(10, 15, '2017-06-22 12:04:39'),
+(11, 87, '2017-06-23 12:56:27'),
+(12, 86, '2017-06-23 12:56:32'),
+(13, 87, '2017-06-26 08:53:33');
 
 -- --------------------------------------------------------
 
@@ -299,9 +310,13 @@ CREATE TABLE `tweet` (
 --
 
 INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created`, `partage`, `nb_commentaire`, `nb_partage`) VALUES
-(8, 18, 'essai', 'accueuil moi', '2016-09-06 19:35:36', 0, 4, 6),
-(15, 19, 'test2', 'accueuil test 2 essai', '2016-10-07 08:50:07', 0, 1, 0),
-(43, 17, 'test', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', 0, 11, 0);
+(8, 18, 'essai', 'accueuil moi', '2016-09-06 19:35:36', 0, 4, 7),
+(15, 19, 'test2', 'accueuil test 2 essai', '2016-10-07 08:50:07', 0, 1, 1),
+(43, 17, 'test', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', 0, 11, 0),
+(86, 18, 'test', 'accueuil moi', '2017-06-22 12:04:30', 1, 0, 1),
+(87, 19, 'test', 'accueuil test 2 essai', '2017-06-22 12:04:39', 1, 0, 2),
+(88, 19, 'essai', 'accueuil test 2 essai', '2017-06-23 12:56:27', 1, 0, 0),
+(89, 18, 'essai', 'accueuil moi', '2017-06-23 12:56:32', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -317,18 +332,21 @@ CREATE TABLE `users` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `avatarprofil` varchar(255) DEFAULT NULL
+  `avatarprofil` varchar(255) DEFAULT NULL,
+  `lieu` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`, `modified`, `description`, `avatarprofil`) VALUES
-(17, 'test', '$2y$10$UIQ9op5aAipqz8pDVruLU.pvOIj1kWtiYDxejEP9J40xE439wn1W6', 'alexa@gmail.com', '2016-09-02 12:08:17', '2016-11-06 20:04:04', 'ma description', 'avatars/1480966833_183.jpg'),
-(18, 'essai', '$2y$10$iXLVGo6eGEB2cTKBpg/nieN5xr/VfBLiKl9LFBcQ1nVAfW00I3JOG', 'osef@gmail.com', '2016-09-06 19:03:25', '2016-09-06 19:03:25', 'essai cakephp 3', 'avatars/warcraft.png'),
-(19, 'test2', '$2y$10$UDe2RZRiavxk55ebkfOlA.J4TS6HKOlB25.PXLCZl06MZlrhJ3JB6', 'test2@gmail.com', '2016-10-07 08:47:30', '2016-10-07 08:47:30', 'test cakephp 3', 'avatars/default.png'),
-(32, 'demo', '$2y$10$/lwPUiLboLplQQTwWhcbIegs5ejnZn.xWzziJbK5M8v6ErjfUB4GK', 'demo@gmail.com', '2017-06-19 08:28:59', '2017-06-19 08:28:59', 'demo', 'avatars/default.png');
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`, `modified`, `description`, `avatarprofil`, `lieu`) VALUES
+(17, 'test', '$2y$10$UIQ9op5aAipqz8pDVruLU.pvOIj1kWtiYDxejEP9J40xE439wn1W6', 'alexa@gmail.com', '2016-09-02 12:08:17', '2017-06-27 09:18:21', 'description', 'avatars/1480966833_183.jpg', 'New York'),
+(18, 'essai', '$2y$10$iXLVGo6eGEB2cTKBpg/nieN5xr/VfBLiKl9LFBcQ1nVAfW00I3JOG', 'osef@gmail.com', '2016-09-06 19:03:25', '2016-09-06 19:03:25', 'essai cakephp 3', 'avatars/warcraft.png', NULL),
+(19, 'test2', '$2y$10$UDe2RZRiavxk55ebkfOlA.J4TS6HKOlB25.PXLCZl06MZlrhJ3JB6', 'test2@gmail.com', '2016-10-07 08:47:30', '2016-10-07 08:47:30', 'test cakephp 3', 'avatars/default.png', NULL),
+(32, 'demo', '$2y$10$/lwPUiLboLplQQTwWhcbIegs5ejnZn.xWzziJbK5M8v6ErjfUB4GK', 'demo@gmail.com', '2017-06-19 08:28:59', '2017-06-19 08:28:59', 'demo', 'avatars/default.png', NULL),
+(33, 'ralph', '$2y$10$jq.sj5Lh9Rusqh3xJR19N.8xi5HH2v0T36COHH/NcML/Kjhhp47pm', 'ofre@gmail.com', '2017-06-27 08:58:39', '2017-06-27 08:58:39', NULL, 'avatars/default.png', NULL),
+(34, 'osefman156', '$2y$10$neOwTgwCHTfGBfAQCNlnueJF9zOxQ864q7HMZr6CyyMxVjzcPOgmq', 'mewa@gmail.com', '2017-06-27 08:59:54', '2017-06-27 09:03:01', 'osef', 'avatars/default.png', NULL);
 
 --
 -- Index pour les tables exportées
@@ -398,7 +416,7 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT pour la table `commentaires`
 --
@@ -418,22 +436,22 @@ ALTER TABLE `messagerie`
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
 ALTER TABLE `partage`
-  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- Contraintes pour les tables exportées
 --

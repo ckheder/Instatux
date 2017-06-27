@@ -90,7 +90,6 @@ class UsersController extends AppController
             'username' => $this->request->data['username'], 
             'password' => $this->request->data['password'],
             'email' =>  $this->request->data['email'],
-            'description' => $this->request->data['description'],
             'avatarprofil' =>  "avatars/default.png"
             );
 
@@ -132,13 +131,13 @@ class UsersController extends AppController
     }
 
     /**
-     * Edit method
+     * Edit methodfor description
      *
      * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit()
+    public function editdescription()
     {
 
 $usersTable = TableRegistry::get('Users');
@@ -155,7 +154,32 @@ $user->description = $this->request->data('description');
             }
         }
 
+        /**
+     * Edit method for location
+     *
+     * @param string|null $id User id.
+     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function editlieu()
+    {
+
+$usersTable = TableRegistry::get('Users');
+$user = $usersTable->get($this->Auth->user('id'));
+$user->lieu = $this->request->data('lieu');
+
+            if ($usersTable->save($user)) {
+                $this->Flash->success(__('Mise à jour du lieu effectué.'));
+
+           return $this->redirect('/settings');
+            } else {
+                $this->Flash->error(__('Modification non effectuée.'));
+                return $this->redirect('/settings');
+            }
+        }
+
     
+
 
     /**
      * Delete method
