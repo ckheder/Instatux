@@ -23,7 +23,14 @@ use Cake\I18n\Time;
                 <br />
                 <?php
             }
-
+ if(!empty($user->lieu))
+                {
+                    ?>
+                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;<?= h(ucfirst($user->lieu)) ?>
+                                <br />
+                <br />
+                <?php
+            }
             $time = new Time($user->created);
             $time->toUnixString();
             $date_insc = $time->timeAgoInWords([
