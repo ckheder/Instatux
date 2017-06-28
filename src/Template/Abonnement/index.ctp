@@ -20,7 +20,7 @@
             <br />
              <?= $abonnement->user->description ?>
                 <br />
-            <?= $this->cell('Abonnement::nbabonnes', ['id' => $abonnement->user_id])  ?>
+            <?= $this->cell('Abonnement::nbabonnes', ['id' => $abonnement->user->username])  ?>
             <br />
                             <?php if($abonnement->user_id == $authName)
                 {
