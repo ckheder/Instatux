@@ -26,7 +26,7 @@ use Cake\Network\Request;
 </div>
 <br />
  <?= $this->Form->create('Commentaires', array('class'=>'form-inline','url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
-<?= $this->Form->Textarea('comm', ['rows' => '2', 'cols' => '65', 'placeholder' => 'Commentaire...']) ?>
+<?= $this->Form->Textarea('comm', ['rows' => '2', 'cols' => '58', 'placeholder' => 'Commentaire...']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
 <?= $this->Form->hidden('userosef', ['value' => $tweet->user_id]) // auteur du tweet?>
 <br />
