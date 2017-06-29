@@ -6,8 +6,8 @@
             if($abonnement === 0)
              {
               ?>
-              <br />
-              <span class="glyphicon glyphicon-remove"></span>&nbsp;
+              
+              <li><span class="glyphicon glyphicon-remove"></span>&nbsp;
               <?= $this->Html->link(
                 's\'abonner',
                 array(
@@ -27,7 +27,8 @@
                 
             
             ?>
-            <br />
+            </li>
+            
             <?php
           }
             elseif($abonnement === 1)
