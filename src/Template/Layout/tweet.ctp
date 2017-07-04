@@ -32,6 +32,7 @@ use Cake\Routing\Router;
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('ckeditor/ckeditor.js') ?>
+    <?= $this->Html->script('textarea_limit.js') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('fix.js') ?>
     <?= $this->fetch('meta') ?>
@@ -66,7 +67,7 @@ use Cake\Routing\Router;
 </div>
         <?= $this->fetch('content') ?>
         <div class="col-sm-3">
-# et suggestion
+<?= $this->cell('Hashtag');?>
 </div>
 <?= $this->element('modaltweet') ?>
     <footer>

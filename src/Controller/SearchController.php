@@ -17,14 +17,18 @@ var $uses = array(); // se passer d'un modèle
     public function search($search = null)
     {
         $this->viewBuilder()->layout('profil');
+
         $this->set('title', 'Résultat de recherche'); // titre de la page
 
-        
-
+        if(!isset($this->request->data['search']))
+        {
+            $search = $this->request->GetParam('string');
+        }
+        else
+        {
+            $search = $this->request->data['search'];
+        }
 // recherche dans les tweets
-
-        $search = $this->request->data['search'];
-
  $this->loadModel('Tweet');
 
 
@@ -32,13 +36,14 @@ $query_tweet = $this->Tweet->find()
     ->where([
         "MATCH(Tweet.contenu_tweet) AGAINST(:search)" 
     ])
-    ->bind(':search', $search);
-    $query_tweet->contain(['Users']);
+    ->bind(':search', $search)
+    ->order(['Tweet.created' => 'DESC'])
+    ->contain(['Users']);
 
 
 
-            if ($query_tweet->isEmpty()) 
-        {
+    if ($query_tweet->isEmpty()) 
+{
    $this->set('resultat_tweet',0);
 }
 else
@@ -49,15 +54,14 @@ else
 
  // recherche dans les users
 
-  
-
- $this->loadModel('Users');
+   $this->loadModel('Users');
 
 $query_user = $this->Users->find()
-    ->where([
+
+                            ->where([
         "MATCH(Users.username) AGAINST(:search)" 
     ])
-    ->bind(':search', $search);
+                            ->bind(':search', $search);
 
 
 
@@ -72,6 +76,5 @@ else
 }  
 $this->set('search',$search); // on renvoi la requete   
     }
-
 
 }

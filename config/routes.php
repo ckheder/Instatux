@@ -91,6 +91,12 @@ Router::connect('/notifications/delete/:id',['controller' => 'Notifications', 'a
 
 //fin route delete notif
 
+// route hashtag
+
+Router::connect('/search-:string',['controller' => 'Search', 'action' => 'search']);
+
+//fin route hashtag
+
 // route  notif
 
 Router::connect('/notifications',['controller' => 'Notifications', 'action' => 'index']);

@@ -34,10 +34,14 @@ use Cake\I18n\Time;
     'end' => '1 year'
 ]);
             ?>
+
              <span class="date_tweet">Posté <?= $date_tweet ?></span>
             
-
-                <?= $this->Text->autoParagraph($tweet->contenu_tweet); ?>
+             <?php // parsage des #
+             $contenu = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $tweet->contenu_tweet); 
+             $contenu = str_replace('</p>', '', $contenu);
+             ?>
+                <?= $this->Text->autoParagraph($contenu); ?>
 
                 <?php if($tweet->user_id == $authUser)
                 {

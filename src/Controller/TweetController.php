@@ -98,6 +98,15 @@ class TweetController extends AppController
             );
             $tweet = $this->Tweet->patchEntity($tweet, $data);
             if ($this->Tweet->save($tweet)) {
+                // évènement hashtag
+
+                if(preg_match('/#([^\s]+)/', $this->request->data('contenu_tweet')))
+                {
+                 $event = new Event('Model.Tweet.afterAdd', $this, ['contenu_tweet' => $this->request->data('contenu_tweet')]);
+                
+                $this->eventManager()->dispatch($event);
+            }
+                //fin évènement hashtag
                 $this->Flash->success(__('The tweet has been saved.'));
 
                 return $this->redirect(['controller'=> 'tweet', 'action' => 'index', $this->Auth->user('username')]);

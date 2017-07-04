@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 27 Juin 2017 à 11:19
+-- Généré le :  Ven 30 Juin 2017 à 21:07
 -- Version du serveur :  10.2.6-MariaDB-10.2.6+maria~xenial
 -- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
@@ -116,6 +116,34 @@ INSERT INTO `conversation` (`id`, `conv`, `participant1`, `participant2`, `statu
 (6, 2, 19, 17, 1),
 (7, 3, 18, 19, 1),
 (8, 3, 19, 18, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `hashtag`
+--
+
+CREATE TABLE `hashtag` (
+  `id` int(111) NOT NULL,
+  `tag` varchar(255) NOT NULL,
+  `nb_tag` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `hashtag`
+--
+
+INSERT INTO `hashtag` (`id`, `tag`, `nb_tag`) VALUES
+(1, 'foot', 2),
+(2, 'catch', 6),
+(3, 'cakephp', 18),
+(4, 'laravel', 29),
+(5, 'nikkibella', 5),
+(6, 'jenniferlopez', 10),
+(7, 'moi', 150),
+(8, 'life', 120),
+(9, 'symfony', 14),
+(10, 'facebook', 32);
 
 -- --------------------------------------------------------
 
@@ -316,7 +344,8 @@ INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created
 (86, 18, 'test', 'accueuil moi', '2017-06-22 12:04:30', 1, 0, 1),
 (87, 19, 'test', 'accueuil test 2 essai', '2017-06-22 12:04:39', 1, 0, 2),
 (88, 19, 'essai', 'accueuil test 2 essai', '2017-06-23 12:56:27', 1, 0, 0),
-(89, 18, 'essai', 'accueuil moi', '2017-06-23 12:56:32', 1, 0, 0);
+(91, 17, 'test', '<p>#osef lol</p>', '2017-06-29 09:25:07', 0, 0, 0),
+(94, 17, 'test', '<p>#moi</p>', '2017-06-30 16:41:55', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -341,7 +370,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`, `modified`, `description`, `avatarprofil`, `lieu`) VALUES
-(17, 'test', '$2y$10$UIQ9op5aAipqz8pDVruLU.pvOIj1kWtiYDxejEP9J40xE439wn1W6', 'alexa@gmail.com', '2016-09-02 12:08:17', '2017-06-27 09:18:21', 'description', 'avatars/1480966833_183.jpg', 'New York'),
+(17, 'test', '$2y$10$UIQ9op5aAipqz8pDVruLU.pvOIj1kWtiYDxejEP9J40xE439wn1W6', 'alexa@gmail.com', '2016-09-02 12:08:17', '2017-06-27 16:00:00', 'Développeur WEB, créateur d\'Instatux', 'avatars/1480966833_183.jpg', 'New York'),
 (18, 'essai', '$2y$10$iXLVGo6eGEB2cTKBpg/nieN5xr/VfBLiKl9LFBcQ1nVAfW00I3JOG', 'osef@gmail.com', '2016-09-06 19:03:25', '2016-09-06 19:03:25', 'essai cakephp 3', 'avatars/warcraft.png', NULL),
 (19, 'test2', '$2y$10$UDe2RZRiavxk55ebkfOlA.J4TS6HKOlB25.PXLCZl06MZlrhJ3JB6', 'test2@gmail.com', '2016-10-07 08:47:30', '2016-10-07 08:47:30', 'test cakephp 3', 'avatars/default.png', NULL),
 (32, 'demo', '$2y$10$/lwPUiLboLplQQTwWhcbIegs5ejnZn.xWzziJbK5M8v6ErjfUB4GK', 'demo@gmail.com', '2017-06-19 08:28:59', '2017-06-19 08:28:59', 'demo', 'avatars/default.png', NULL),
@@ -371,6 +400,12 @@ ALTER TABLE `commentaires`
 -- Index pour la table `conversation`
 --
 ALTER TABLE `conversation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `hashtag`
+--
+ALTER TABLE `hashtag`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -416,7 +451,7 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT pour la table `commentaires`
 --
@@ -427,6 +462,11 @@ ALTER TABLE `commentaires`
 --
 ALTER TABLE `conversation`
   MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT pour la table `hashtag`
+--
+ALTER TABLE `hashtag`
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT pour la table `messagerie`
 --
@@ -446,7 +486,7 @@ ALTER TABLE `partage`
 -- AUTO_INCREMENT pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 --
 -- AUTO_INCREMENT pour la table `users`
 --

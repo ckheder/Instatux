@@ -25,8 +25,11 @@ use Cake\I18n\Time;
 ]);
             ?>
                 <span class="date_tweet">Posté <?= __(h($date_tweet)) ?></span>
-                <?= $this->Text->autoParagraph($abonnement->contenu_tweet) ?>
-
+                <?php
+            $contenu = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $abonnement->contenu_tweet); 
+             ?>
+                <?= $this->Text->autoParagraph($contenu); ?>
+    
                     <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link(''.$abonnement->nb_commentaire.' commentaires', ['action' => 'view',  $abonnement->id]) ?>
                     <?php if($abonnement->user_id != $authUser)
                     {

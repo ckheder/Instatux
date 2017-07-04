@@ -51,8 +51,11 @@ use Cake\Network\Request;
             ?>
 
  <span class="date_tweet">Commenté <?= $date_comm ?></span>
-
-<?= $this->Text->autoParagraph(($commentaires->comm)) ; ?>
+<?php //parsage comm hashtag
+  $comm = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $commentaires->comm); 
+             
+?>
+<?= $this->Text->autoParagraph(strip_tags($comm, '<a>')) ; ?>
 <span class="glyphicon glyphicon-comment"></span>&nbsp;
 <?php if($tweet->user_id == $authUser or $commentaires->auteur == $authUser)
 

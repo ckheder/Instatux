@@ -57,8 +57,11 @@ Nombre de message : <?= $nb_msg;?>
             $date_tweet = str_replace('il y a','', $date_tweet)
             ?>
              <span class="date_message"> <?=  h($date_tweet) ?></span>
+             <?php
+               $contenu_message = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $message->message); 
+             ?>
 
-                <?= $this->Text->autoParagraph(h($message->message))  ?>
+                <?= $this->Text->autoParagraph(strip_tags($contenu_message, '<a>'))  ?>
                 
             </div>
             

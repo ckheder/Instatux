@@ -264,3 +264,18 @@ color : green;
   font-style: italic;
 }
 
+/* fin listes des infos sur l'utilisateur*/
+/* listes hashtag*/
+.hashtag
+{
+    margin-left: 9px;
+  list-style-type: none;
+}
+
+.hashtag li
+{
+  padding : 9px;
+  color : #657786;
+  font-weight: bold;
+}
+/* fin listes hashtag*/
