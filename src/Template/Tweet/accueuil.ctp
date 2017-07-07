@@ -2,7 +2,7 @@
 use Cake\I18n\Time;
 ?>
 
-<div class="col-sm-6">
+
 
             <?php foreach ($abonnement as $abonnement): ?>
             
@@ -30,11 +30,11 @@ use Cake\I18n\Time;
              ?>
                 <?= $this->Text->autoParagraph($contenu); ?>
     
-                    <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link(''.$abonnement->nb_commentaire.' commentaires', ['action' => 'view',  $abonnement->id]) ?>
+                    <span class="glyphicon glyphicon-comment green"></span>&nbsp;<?= $this->Html->link(''.$abonnement->nb_commentaire.'', ['action' => 'view',  $abonnement->id]) ?>
                     <?php if($abonnement->user_id != $authUser)
                     {
                         ?>
-               <span class="glyphicon glyphicon-share-alt"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$abonnement->id.'/'.$abonnement->user_id.'');
+               <span class="glyphicon glyphicon-share-alt blue"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$abonnement->id.'/'.$abonnement->user_id.'');
            }
                ?>
                 <?= ' - Partager '.$abonnement->nb_partage.' fois' ?>
@@ -42,6 +42,6 @@ use Cake\I18n\Time;
             </div>
             <?php endforeach; ?>
 
-</div>
+
 
 

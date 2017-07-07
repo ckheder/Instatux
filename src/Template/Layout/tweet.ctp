@@ -65,8 +65,10 @@ use Cake\Routing\Router;
 ?>
 
 </div>
+<div class="col-sm-5">
         <?= $this->fetch('content') ?>
-        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-4">
 <?= $this->cell('Hashtag');?>
 </div>
 <?= $this->element('modaltweet') ?>

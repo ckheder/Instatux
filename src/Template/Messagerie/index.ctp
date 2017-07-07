@@ -2,7 +2,6 @@
 use Cake\I18n\Time;
 use Cake\Routing\Router;
 ?>
-<div class="col-sm-5">
 <div class="text-center">
 <?php
                 echo $this->Form->button('Nouveau message', 
@@ -28,7 +27,7 @@ Nombre de conversation : <?= $nb_conv ?>
 ]);
             ?>
                    <span class="date_tweet">Dernier message <?= $date_message ?></span>
-                <?= $this->Text->autoParagraph($this->Html->link($message->message,'/conversation-'.$message->conv.'')); ?>
+                <?= $this->Text->autoParagraph($this->Html->link(h($message->message),'/conversation-'.$message->conv.'')); ?>
 
                 <span class="glyphicon glyphicon-envelope"></span><?= $this->cell('Nbmessage', ['conv' => $message->conv]);?> message(s)
             
@@ -93,5 +92,5 @@ select: function( event, ui ) {
 
       
 </script>
-</div>
+
 

@@ -83,10 +83,28 @@ float: left;
   float: right;
 
 }
+/* abonnement */
+.liste_abo
+{
+  list-style-type: none;
+}
+.liste_abo li
+{
+  padding: 6px;
+  display: inline-block;
+  text-align: center;
+}
+.liste_abo img
+{
+    height : 78px;
+  width : 78px;
+
+}
 .btn_abo
 {
 line-height: 5px;
 }
+
 textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 {
   resize : none;
@@ -227,15 +245,6 @@ color : green;
 
 /* fin couleur abonnes, page abonnement*/
 
-/* tableau abonnés */
-.col-xs-3 img
-{
-  margin-top: 13px;
-  height : 78px;
-  width : 78px;
-}
-/* fin tableau abonnés */
-
 .container
 {
   padding: 0px;
@@ -268,7 +277,7 @@ color : green;
 /* listes hashtag*/
 .hashtag
 {
-    margin-left: 9px;
+    margin-left: 19px;
   list-style-type: none;
 }
 
@@ -279,3 +288,18 @@ color : green;
   font-weight: bold;
 }
 /* fin listes hashtag*/
+/*couleur glyphicon */
+.green
+{
+  color : green;
+}
+.blue
+{
+  color: #4BB5C1;
+  margin-left : 30px;
+}
+.blue_actu
+{
+    color: #4BB5C1;
+}
+/* fin couleur glyphicon */

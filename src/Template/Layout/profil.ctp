@@ -47,10 +47,7 @@ use Cake\Routing\Router;
 </script>
 </head>
 <body>
-
-    
-
-   
+ 
    <div class="container" style="border:1px solid #cecece;">
 <?= $this->element('menuco') ?>
 <?= $this->Flash->render() ?>
@@ -64,12 +61,14 @@ use Cake\Routing\Router;
 ?>
 
 </div>
+<div class="col-sm-5">
         <?= $this->fetch('content') ?>
-        <div class="col-sm-3">
-<?= $this->cell('Hashtag');?>
 </div>
-<?= $this->element('modaltweet') ?>
-    <footer>
+<div class="col-sm-4">
+        <?= $this->cell('Hashtag');?>
+</div>
+        <?= $this->element('modaltweet') ?>
+<footer>
     </footer>
 </body>
 </html>

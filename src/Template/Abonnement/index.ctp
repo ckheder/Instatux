@@ -1,5 +1,5 @@
 
-<div class="col-sm-6">
+
 
         <?php
 
@@ -10,15 +10,13 @@
         else
         {
         ?>
-
+        <ul class="liste_abo">
             <?php foreach ($abonnement as $abonnement): ?>
-            <div class="col-xs-3">
-            <div class="text-center">
-                               <?= $this->Html->image(''.$abonnement->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
+          <li>
+            
+                               <?= $this->Html->image(''.$abonnement->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>' vcenter')) ?>
                 <br />
-            <?= $this->Html->link($abonnement->user->username,'/'.$abonnement->user->username.'') ?>
-            <br />
-             <?= $abonnement->user->description ?>
+            <?= $this->Html->link(h($abonnement->user->username),'/'.h($abonnement->user->username).'') ?>
                 <br />
             <?= $this->cell('Abonnement::nbabonnes', ['id' => $abonnement->user->username])  ?>
             <br />
@@ -40,19 +38,17 @@
                 ),
                 ["class" => "btn btn-danger btn_abo"]
                 );
-                ?>
-                <?php
                 };
                 ?>
            
+ 
 
-        </div>  
- </div>
+ </li>
             <?php endforeach; ?>
 
-
+</ul>
     <?php
     }
     ?>
-</div>
+
 

@@ -1,11 +1,5 @@
 <?php
 use Cake\I18n\Time;
-?>
-
-
-<div class="col-sm-6">
-
-            <?php
 
             if(isset($nb_tweet))
             {
@@ -51,11 +45,11 @@ use Cake\I18n\Time;
                 <?php
                 };
                 ?>
-               <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link(''.$tweet->nb_commentaire.' commentaires', ['action' => 'view',  $tweet->id]) ?>
+               <span class="glyphicon glyphicon-comment green"></span>&nbsp;<?= $this->Html->link(''.$tweet->nb_commentaire.'', ['action' => 'view',  $tweet->id]) ?>
 
                 
 
-               <span class="glyphicon glyphicon-share-alt"></span>&nbsp;<?= 'Partager '.$tweet->nb_partage.' fois' ?>
+               <span class="glyphicon glyphicon-share-alt blue"></span>&nbsp;<?= $tweet->nb_partage ?>
                <?php
             if($tweet->partage != 1 AND $tweet->user_id != $authUser) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager
             {
@@ -80,8 +74,6 @@ use Cake\I18n\Time;
 
     </div>
         <?php endforeach; }?>
-
-</div>
 
 
 

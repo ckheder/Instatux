@@ -1,9 +1,9 @@
 <?php
 use Cake\I18n\Time;
 use Cake\Network\Request;
-?>
-<div class="col-sm-6">
-<?php foreach ($tweet as $tweet): ?>
+
+
+ foreach ($tweet as $tweet): ?>
 
 <div class="tweet">
             <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
@@ -70,4 +70,4 @@ use Cake\Network\Request;
 
 
 <?php endforeach; ?>
-</div>
+

@@ -1,10 +1,6 @@
 <?php
 use Cake\I18n\Time;
 use Cake\Routing\Router;
-?>
-<div class="col-sm-6">
-<?php
-
 
                 echo $this->Form->button('Répondre', 
                 [ 'data-toggle' => 'modal',
@@ -44,7 +40,7 @@ Nombre de message : <?= $nb_msg;?>
                 }
                 ?>
            
-            <?= $this->Html->link($message->user->username,'/'.$message->user->username.''); ?>
+            <?= $this->Html->link(h($message->user->username),'/'.h($message->user->username).''); ?>
 <br />
                                     <?php
             $time = new Time($message->created);
@@ -85,9 +81,6 @@ if($message->user_id == $authUser)
             <?php endforeach; ?>
             
 
-
-
-</div>
 <?php
 echo $this->Modal->create(['id' => 'ModalConv']) ;
                 echo $this->Modal->header('Répondre', ['close'=>false]) ;

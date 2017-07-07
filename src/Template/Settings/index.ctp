@@ -1,4 +1,4 @@
-<div class="col-sm-6">
+
 <div class="text-center">
 <h4> <span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;Changer ma description</h4>
 </div>
@@ -47,4 +47,4 @@
 <?= $this->Form->button(__('Supprimer mon compte'), ['controller'=>'users', 'action' => 'delete', 'class' => 'btn btn-danger', $authUser], ['confirm' => __('Are you sure you want to delete # {0}?', $authUser)]) ?>
 </div>
 <br />
-</div>
+

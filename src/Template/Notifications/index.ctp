@@ -1,11 +1,11 @@
 <?php
 use Cake\I18n\Time;
 use Cake\Event\Event;
-?>
-<div class="col-sm-5">
 
-<?php foreach ($notification as $notification): ?>
-<?php
+
+
+ foreach ($notification as $notification): 
+
 if($notification->statut == 0)
 {
     ?>
@@ -27,7 +27,9 @@ else
 ]);
             ?>
              <span class="date_tweet"><?= $date_notif ?></span>
-             <?= $this->Text->autoParagraph($notification->notification) ?>
+             <?php
+            $notification_user = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $notification->notification); ?>
+             <?= $this->Text->autoParagraph($notification_user) ?>
               
              <?php if($notification->user_id == $authUser)
                 {
@@ -38,10 +40,10 @@ else
                 ?>
 
 </div>
-<?php endforeach; ?>
-<?php
+<?php endforeach; 
+
 $event = new Event('View.afterRender.indexnotif', $this, ['authuser' => $authUser]);
                 $this->eventManager()->dispatch($event);
                 ?>
-</div>
+
 

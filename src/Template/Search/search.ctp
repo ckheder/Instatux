@@ -1,7 +1,7 @@
 <?php
 use Cake\I18n\Time;
 ?>
-<div class="col-sm-6">
+
  <h3>Résultat dans les membres pour "<?= h($search) ?>"</h3>
 
  <?php
@@ -52,5 +52,4 @@ use Cake\I18n\Time;
                 </div>
             <?php endforeach; ?>
 
-</div>
       
