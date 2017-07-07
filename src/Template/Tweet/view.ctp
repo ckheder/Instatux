@@ -19,18 +19,17 @@ use Cake\Network\Request;
             ?>
              <span class="date_tweet">Posté <?=  h($date_tweet) ?></span>
 
-
-       
-        <?= $this->Text->autoParagraph($tweet->contenu_tweet); ?>
+<?php
+       $contenu = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $tweet->contenu_tweet); 
+       $contenu = str_replace('</p>', '', $contenu);
+        echo $this->Text->autoParagraph($contenu); ?>
 
 </div>
-<br />
- <?= $this->Form->create('Commentaires', array('class'=>'form-inline','url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
-<?= $this->Form->Textarea('comm', ['rows' => '2', 'cols' => '58', 'placeholder' => 'Commentaire...']) ?>
+
+ <?= $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
+<?= $this->Form->input('comm', ['placeholder' => 'Commentaire...', 'label'=> '']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
 <?= $this->Form->hidden('userosef', ['value' => $tweet->user_id]) // auteur du tweet?>
-<br />
-<br />
 <div class="text-center">
 <?= $this->Form->button('Envoyer', array('class'=>'btn btn-success')) ?>
 </div>
