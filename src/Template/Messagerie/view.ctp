@@ -24,7 +24,7 @@ Nombre de message : <?= $nb_msg;?>
 
             <?php foreach ($message as $message): ?>
             
-            <?php if($message->user_id == $authUser) 
+            <?php if($message->user_id == $authName) 
             {
                
                echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter_left')); 

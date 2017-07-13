@@ -23,23 +23,23 @@ class AvatarmessageCell extends Cell
      *
      * @return void
      */
-    public function display($expediteur, $destinataire, $authuser)
+    public function display($expediteur, $destinataire, $authname)
     {
 
-        if($expediteur != $authuser)
+        if($expediteur != $authname)
         {
-            $id = $expediteur;
+            $name = $expediteur;
         }
         else
         {
-            $id = $destinataire;
+            $name = $destinataire;
         }
 
         $this->loadModel('Users');
         $info_message =  $this->Users->find()
 
         ->select(['avatarprofil', 'username', 'id'])
-        ->where(['id' => $id]);
+        ->where(['username' => $name]);
         $this->set('info_message',$info_message);
         
     }

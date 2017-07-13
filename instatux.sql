@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 30 Juin 2017 à 21:07
+-- Généré le :  Mar 11 Juillet 2017 à 17:53
 -- Version du serveur :  10.2.6-MariaDB-10.2.6+maria~xenial
 -- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
@@ -39,8 +39,8 @@ CREATE TABLE `abonnement` (
 INSERT INTO `abonnement` (`id`, `user_id`, `suivi`) VALUES
 (34, 'test', 'essai'),
 (10, 'test2', 'test'),
-(33, 'test', 'test2'),
-(32, 'essai', 'test');
+(32, 'essai', 'test'),
+(40, 'test', 'test2');
 
 -- --------------------------------------------------------
 
@@ -80,6 +80,7 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 (152, 'qfgq', '8', '17', '2017-06-20 12:57:44'),
 (153, 'w<vc', '8', '17', '2017-06-20 12:57:48'),
 (154, 'sr', '43', '17', '2017-06-20 13:00:21'),
+(170, '#facebook lol', '137', '17', '2017-07-04 09:04:53'),
 (156, 'test', '43', '17', '2017-06-20 13:57:59'),
 (157, 'test', '43', '17', '2017-06-20 14:00:12'),
 (158, 'test', '43', '17', '2017-06-20 14:16:40'),
@@ -89,7 +90,9 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 (162, 'test', '43', '17', '2017-06-20 14:26:58'),
 (163, 'test', '43', '17', '2017-06-20 16:41:27'),
 (164, 'test', '43', '17', '2017-06-20 16:43:44'),
-(166, 'test', '81', '17', '2017-06-21 09:18:41');
+(166, 'test', '81', '17', '2017-06-21 09:18:41'),
+(171, 'test', '138', '17', '2017-07-05 09:32:20'),
+(172, 'gg', '138', '17', '2017-07-07 13:28:36');
 
 -- --------------------------------------------------------
 
@@ -100,8 +103,8 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 CREATE TABLE `conversation` (
   `id` int(111) NOT NULL,
   `conv` int(111) NOT NULL,
-  `participant1` int(11) NOT NULL,
-  `participant2` int(11) NOT NULL,
+  `participant1` varchar(255) NOT NULL,
+  `participant2` varchar(255) NOT NULL,
   `statut` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -110,12 +113,8 @@ CREATE TABLE `conversation` (
 --
 
 INSERT INTO `conversation` (`id`, `conv`, `participant1`, `participant2`, `statut`) VALUES
-(1, 1, 18, 17, 1),
-(3, 2, 17, 19, 1),
-(5, 1, 17, 18, 1),
-(6, 2, 19, 17, 1),
-(7, 3, 18, 19, 1),
-(8, 3, 19, 18, 1);
+(17, 1656791438, 'test', 'test2', 1),
+(18, 1656791438, 'test2', 'test', 1);
 
 -- --------------------------------------------------------
 
@@ -140,10 +139,11 @@ INSERT INTO `hashtag` (`id`, `tag`, `nb_tag`) VALUES
 (4, 'laravel', 29),
 (5, 'nikkibella', 5),
 (6, 'jenniferlopez', 10),
-(7, 'moi', 150),
-(8, 'life', 120),
 (9, 'symfony', 14),
-(10, 'facebook', 32);
+(10, 'facebook', 35),
+(15, 'jloestmoche', 1),
+(16, 'venestbeau', 1),
+(18, 'osefman156', 1);
 
 -- --------------------------------------------------------
 
@@ -153,11 +153,11 @@ INSERT INTO `hashtag` (`id`, `tag`, `nb_tag`) VALUES
 
 CREATE TABLE `messagerie` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `destinataire` int(11) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `destinataire` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `created` datetime NOT NULL,
-  `conv` int(11) NOT NULL
+  `conv` int(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -165,61 +165,7 @@ CREATE TABLE `messagerie` (
 --
 
 INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`, `conv`) VALUES
-(16, 18, 17, 'premier message', '2016-12-09 00:00:00', 1),
-(18, 19, 17, 'first message', '2016-12-12 00:00:00', 2),
-(19, 17, 19, 'deuxième message', '2016-12-27 00:00:00', 2),
-(20, 19, 17, 'dernier message gg', '2016-12-13 00:00:00', 2),
-(34, 17, 18, 'sdf', '2017-01-20 09:36:11', 1),
-(33, 17, 18, 'osef', '2017-01-18 18:51:39', 1),
-(39, 18, 17, 'last dernier', '2017-02-02 12:00:00', 1),
-(25, 17, 18, 'essai réponse', '2017-01-02 00:00:00', 1),
-(26, 17, 18, 're éssai', '2017-01-02 00:00:00', 1),
-(27, 17, 18, 'essai', '2017-01-02 19:40:16', 1),
-(40, 17, 19, 'dernier agaga', '2017-02-07 00:00:00', 2),
-(29, 17, 18, 'test', '2017-01-15 19:43:35', 1),
-(30, 17, 18, 'osef', '2017-01-15 19:50:53', 1),
-(32, 17, 18, 'gvg', '2017-01-15 19:54:25', 1),
-(38, 17, 18, 'test conv', '2017-01-23 09:46:10', 1),
-(41, 17, 18, 'dfg', '2017-02-15 17:17:13', 1),
-(42, 17, 19, 'test', '2017-02-15 18:55:45', 2),
-(43, 17, 18, 'test modal', '2017-02-16 16:29:52', 1),
-(44, 17, 19, 'yeah', '2017-02-20 13:24:34', 2),
-(45, 17, 18, 'zfzf', '2017-02-24 09:40:34', 1),
-(46, 17, 18, 'efefe', '2017-02-24 10:14:45', 1),
-(47, 17, 18, 'osef', '2017-02-24 10:15:27', 1),
-(50, 17, 18, 'test bulle', '2017-03-07 18:54:09', 1),
-(51, 17, 18, 'très très long texte agahyfhb iazjeeeeeeadadazd', '2017-03-07 18:54:55', 1),
-(52, 17, 19, 'yeah', '2017-03-09 19:13:15', 2),
-(53, 17, 19, 'yay', '2017-03-10 09:56:35', 2),
-(54, 17, 18, 'qsd', '2017-05-05 19:12:59', 1),
-(55, 17, 18, 'test', '2017-05-07 08:46:56', 1),
-(56, 17, 19, 'test', '2017-05-09 19:06:40', 2),
-(57, 17, 18, 'test', '2017-05-11 15:14:22', 1),
-(58, 17, 18, 'test', '2017-05-11 15:15:42', 1),
-(59, 17, 18, 'test', '2017-05-11 19:03:37', 1),
-(60, 17, 18, 'sdf', '2017-05-11 19:04:24', 1),
-(61, 17, 18, 'sd', '2017-05-11 19:05:07', 1),
-(62, 17, 19, 'test', '2017-05-20 09:09:28', 2),
-(63, 17, 19, 'essair', '2017-05-20 09:10:58', 2),
-(64, 17, 19, 'test', '2017-05-20 09:11:50', 2),
-(65, 17, 19, 'test', '2017-05-20 09:12:26', 2),
-(66, 17, 18, 'test', '2017-05-22 09:03:14', 1),
-(67, 18, 17, 'notif', '2017-05-22 09:04:14', 1),
-(68, 18, 17, 'notif', '2017-05-22 09:04:43', 1),
-(69, 17, 18, 'notif 2', '2017-05-22 09:06:55', 1),
-(70, 17, 18, 'notif 3', '2017-05-22 09:07:37', 1),
-(71, 18, 17, 'ahah nice', '2017-05-22 09:08:05', 1),
-(72, 17, 18, 'essai', '2017-05-22 09:11:07', 1),
-(73, 18, 17, 'test jqeury', '2017-05-28 19:10:47', 1),
-(74, 18, 17, 're test jquery', '2017-05-28 19:27:48', 1),
-(75, 18, 17, 'osef gg', '2017-05-29 18:52:33', 1),
-(76, 17, 18, 'ajax de merde', '2017-05-29 19:01:44', 1),
-(79, 18, 17, 'test update', '2017-06-04 08:47:50', 1),
-(81, 18, 17, 're test', '2017-06-04 19:13:22', 1),
-(77, 17, 18, 'test', '2017-06-04 08:23:11', 1),
-(78, 17, 18, 'beuhihan', '2017-06-04 08:26:19', 1),
-(80, 18, 17, 'tes conv masqué', '2017-06-04 08:49:29', 1),
-(82, 17, 18, 'test', '2017-06-22 09:39:42', 1);
+(106, 'test', 'test2', 'redf', '2017-07-11 15:52:08', 1656791438);
 
 -- --------------------------------------------------------
 
@@ -240,29 +186,7 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id_notif`, `user_id`, `notification`, `created`, `statut`) VALUES
-(17, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> s\'est abonné', '2017-04-26 09:37:59', 1),
-(18, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/users/profil/17">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test notif', '2017-04-27 19:02:48', 1),
-(20, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> s\'est abonné', '2017-05-04 15:53:22', 1),
-(21, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />gg', '2017-05-04 15:55:57', 1),
-(22, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test', '2017-05-04 15:57:46', 1),
-(23, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />test', '2017-05-04 15:58:52', 1),
-(37, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-19 19:34:03', 1),
-(38, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/73">publication</a><br /><br />test', '2017-06-19 19:45:33', 1),
-(39, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />qfgq', '2017-06-20 12:57:44', 1),
-(40, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/8">publication</a><br /><br />w<vc', '2017-06-20 12:57:48', 1),
-(43, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-21 09:16:55', 1),
-(44, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-21 09:18:33', 1),
-(45, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/81">publication</a><br /><br />test', '2017-06-21 09:18:41', 1),
-(46, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-21 12:22:47', 1),
-(47, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-21 12:23:49', 1),
-(48, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-21 12:25:58', 1),
-(49, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1">message</a> !', '2017-06-22 09:39:42', 0),
-(50, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-22 12:03:54', 0),
-(51, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-06-22 12:04:30', 0),
-(52, 19, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/15">post</a> !', '2017-06-22 12:04:39', 0),
-(53, 19, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à partagé votre <a href="/instatux/post/87">post</a> !', '2017-06-23 12:56:27', 0),
-(54, 18, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à partagé votre <a href="/instatux/post/86">post</a> !', '2017-06-23 12:56:32', 0),
-(55, 19, '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à partagé votre <a href="/instatux/post/87">post</a> !', '2017-06-26 08:53:33', 0);
+(65, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-156862049">message</a> !', '2017-07-11 12:50:44', 0);
 
 -- --------------------------------------------------------
 
@@ -344,8 +268,14 @@ INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created
 (86, 18, 'test', 'accueuil moi', '2017-06-22 12:04:30', 1, 0, 1),
 (87, 19, 'test', 'accueuil test 2 essai', '2017-06-22 12:04:39', 1, 0, 2),
 (88, 19, 'essai', 'accueuil test 2 essai', '2017-06-23 12:56:27', 1, 0, 0),
-(91, 17, 'test', '<p>#osef lol</p>', '2017-06-29 09:25:07', 0, 0, 0),
-(94, 17, 'test', '<p>#moi</p>', '2017-06-30 16:41:55', 0, 0, 0);
+(94, 17, 'test', '<p>#moi</p>', '2017-06-30 16:41:55', 0, 0, 0),
+(95, 17, 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-07-01 16:37:56', 0, 0, 0),
+(98, 17, 'test', '<div data-oembed-url="http://img.voi.pmdstatic.net/fit/http.3A.2F.2Fwww.2Evoici.2Efr.2Fvar.2Fvoi.2Fstorage.2Fimages.2Fmedia.2Fmultiupload-du-04-octobre-2016.2F2_jennifer-lopez-sexy-selfie-seins.2F10071896-1-fre-FR.2F2_jennifer-lopez-sexy-selfie-seins.2Ejpg/1237x693/quality/80/2-jennifer-lopez-sexy-selfie-seins.jpg"><div style="max-width: 1484px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.0226%;"><iframe tabindex="-1" src="//cdn.iframe.ly/2pk7UlS" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-07-01 16:43:07', 0, 0, 0),
+(100, 17, 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=OjXfJ-eKcsw"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/OjXfJ-eKcsw?rel=0&amp;showinfo=0&amp;controls=1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>#lol</p>', '2017-07-01 18:48:50', 0, 0, 0),
+(101, 17, 'test', '<p>#osef</p>', '2017-07-01 18:50:05', 0, 0, 0),
+(104, 17, 'test', '<p>#lol osef</p>', '2017-07-02 15:05:23', 0, 0, 0),
+(106, 17, 'test', '<div data-oembed-url="https://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/pIf5aag">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-07-02 18:42:47', 0, 0, 0),
+(138, 17, 'test', '<p>#osefman156</p>', '2017-07-04 09:05:37', 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -451,32 +381,32 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT pour la table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 --
 -- AUTO_INCREMENT pour la table `conversation`
 --
 ALTER TABLE `conversation`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT pour la table `hashtag`
 --
 ALTER TABLE `hashtag`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 --
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
@@ -486,7 +416,7 @@ ALTER TABLE `partage`
 -- AUTO_INCREMENT pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 --
 -- AUTO_INCREMENT pour la table `users`
 --

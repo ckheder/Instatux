@@ -43,6 +43,7 @@ use Cake\I18n\Time;
     'end' => '1 year'
 ]);
             ?>
+
                <li><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Inscrit <?= h($date_insc) ?></li>
 
 

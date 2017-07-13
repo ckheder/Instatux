@@ -77,7 +77,7 @@ class ConversationController extends AppController
         $query = $this->Conversation->query();
         $query->update()
     ->set(['statut' => 0])
-    ->where(['participant1' => $this->Auth->user('id')])
+    ->where(['participant1' => $this->Auth->user('username')])
     ->where(['conv' => $id ])
     ->execute();
  
@@ -94,23 +94,5 @@ class ConversationController extends AppController
         $this->set('_serialize', ['conversation']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Conversation id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $conversation = $this->Conversation->get($id);
-        if ($this->Conversation->delete($conversation)) {
-            $this->Flash->success(__('The conversation has been deleted.'));
-        } else {
-            $this->Flash->error(__('The conversation could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
+   
 }

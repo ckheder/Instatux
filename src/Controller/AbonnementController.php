@@ -132,18 +132,20 @@ else
 'user_id' =>  $this->Auth->user('username') // id de la personne connecté
 
             ])
-        ->where(['id'=>$this->request->getParam('id')]);
+        ->where(['suivi'=>$this->request->getParam('username')]);
 
 
         // fin vérif
         if (!$abonnement_verif->isEmpty()) // si tout est bon
         {   
 
-            $id_abo = $this->request->getParam('id'); // id passé en URL
-            $entity = $this->Abonnement->get($id_abo); // création de l'entité abonnement
-            $result = $this->Abonnement->delete($entity); // suppression de l'entité
+            $query = $this->Abonnement->query();
+            $query->delete()
+    ->where(['user_id' => $this->Auth->user('username')])
+    ->where(['suivi' => $this->request->getParam('username')])
+    ->execute();
  
-            if ($result) 
+            if ($query) 
             {
                 $this->Flash->success(__('Abonnement supprimé.')); 
             }
@@ -172,7 +174,7 @@ return $this->redirect(['action' => 'index']);
                 
         $abonnement->where([
 
-'user_id' =>  $this->Auth->user('id')
+'user_id' =>  $this->Auth->user('username')
 
             ])
         ->where(['Users.username LIKE '  => '%'.$name.'%']);
@@ -189,7 +191,7 @@ $resultArr = [];
               //$resultArr[] =  $result->user->username;
 
 
-               $resultArr[] =  array('label' => $result->user->username, 'value' => $result->user->username , 'id' => $result->user->id);
+               $resultArr[] =  array('label' => $result->user->username, 'value' => $result->user->username , 'username' => $result->user->username);
                 
                
             }

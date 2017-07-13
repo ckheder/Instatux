@@ -35,7 +35,7 @@ class MessageListener implements EventListenerInterface {
 
     $entity->save($notif_msg);
 
-    // mise à jour si conv masqué
+    // mise à jour si conv masqué, réaffichage
 
     $table_conv = TableRegistry::get('Conversation');
 
@@ -47,8 +47,34 @@ class MessageListener implements EventListenerInterface {
                             ->execute();
     
 
+     // création d'une nouvelle entité conversation si besoin
 
- 
+    if($message->new_conv === 0)
+    {     
+     $new_conv = $table_conv->newEntity();
+
+     $new_conv->conv =  $message->conv;
+
+     $new_conv->participant1 = $message->user_id;
+
+     $new_conv->participant2 = $message->destinataire;
+
+     $new_conv->statut = 1;
+
+     $table_conv->save($new_conv);  
+
+        $new_conv = $table_conv->newEntity();
+
+     $new_conv->conv =  $message->conv;
+
+     $new_conv->participant1 = $message->destinataire;
+
+     $new_conv->participant2 = $message->user_id;
+
+     $new_conv->statut = 1;
+
+     $table_conv->save($new_conv);                    
+    }
 }
 }
 

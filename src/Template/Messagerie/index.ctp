@@ -17,7 +17,7 @@ Nombre de conversation : <?= $nb_conv ?>
 <br />
             <?php foreach ($message as $message): ?>
             <div class="tweet">
-                <?= $this->cell('Avatarmessage', ['user_id' => $message->user_id , 'destinataire' => $message->destinataire, 'authuser' => $authUser]) ;  ?>
+                <?= $this->cell('Avatarmessage', ['user_id' => $message->user_id , 'destinataire' => $message->destinataire, 'authname' => $authName]) ;  ?>
                             <?php
             $time = new Time($message->created);
             $time->toUnixString();
@@ -44,9 +44,9 @@ echo $this->Modal->create(['id' => 'ModalNewMessage']) ;
                 <?php
                 echo $this->Form->create('Messagerie', array('class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'addprofil')));
 
-                echo $this->Form->input('nom_destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire']) ;
+                echo $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire']) ;
 
-                echo $this->Form->hidden('destinataire', ['id' => 'idmembre', 'placeholder' => 'id']) ;
+                //echo $this->Form->hidden('destinataire', ['id' => 'idmembre', 'placeholder' => 'id']) ;
 
 
 
@@ -83,7 +83,7 @@ select: function( event, ui ) {
 
 
              
-            $("#idmembre").val(ui.item.id);
+            $("#destinataire").val(ui.item.username);
             
 
 

@@ -30,7 +30,7 @@ class MessagerieController extends AppController
 
         ->select(['conv'])
         //->select(['conv' => $conv->func()->count('conv')])
-        ->where(['participant1' => $this->Auth->user('id')])
+        ->where(['participant1' => $this->Auth->user('username')])
         ->where(['statut' => 1]);
 
         $nb_conv = $conv->count(); // calcul du nombre de conversations actives
@@ -42,8 +42,8 @@ class MessagerieController extends AppController
 
     $matchingComment = $this->Messagerie->find();
     $matchingComment->select(['Messagerie_id' => $matchingComment->func()->max('Messagerie.id')])
-    ->where(['destinataire' => $this->Auth->user('id')])
-    ->orwhere(['user_id'=>$this->Auth->user('id')])
+    ->where(['destinataire' => $this->Auth->user('username')])
+    ->orwhere(['user_id'=>$this->Auth->user('username')])
     ->where(['Messagerie.conv IN' => $conv])
     ->group('conv');
     
@@ -65,8 +65,8 @@ class MessagerieController extends AppController
         $this->loadModel('Conversation');
         $verif = $this->Conversation->find();
        
-        $verif->where(['participant1' => $this->Auth->user('id')])
-        ->orwhere(['participant2'=>$this->Auth->user('id')])
+        $verif->where(['participant1' => $this->Auth->user('username')])
+        ->orwhere(['participant2'=>$this->Auth->user('username')])
         ->where(['conv' => $this->request->getParam('id')]);
 
         if ($verif->isEmpty())
@@ -133,7 +133,7 @@ $this->set('verif_user',1);
 $message = $this->Messagerie->newEntity();
         if ($this->request->is('post')) {
             $data = array(
-            'user_id' => $this->Auth->user('id'), // expediteur
+            'user_id' => $this->Auth->user('username'), // expediteur
             'destinataire' => $this->request->data['user_id'],
             'message' =>  $this->request->data['message'], // message
             'conv' => $this->request->data['conversation'],
@@ -186,7 +186,7 @@ $checkconv = $this->Conversation
         ->select(['conv'])
         ->where([
 
-'participant1' =>  $this->Auth->user('id') // moi
+'participant1' =>  $this->Auth->user('username') // moi
 
             ])
         ->where(['participant2' => $this->request->data['destinataire']]);
@@ -196,6 +196,7 @@ $checkconv = $this->Conversation
         {
 
             $conversation = rand();
+            $new_conv = 0;
 
             }
             else
@@ -203,6 +204,7 @@ $checkconv = $this->Conversation
                 foreach ($checkconv as $row)
                 {
                 $conversation = $row['conv'];
+                $new_conv = 1;
                 }
 
             }
@@ -211,20 +213,21 @@ $checkconv = $this->Conversation
 
         
             $data = array(
-            'user_id' => $this->Auth->user('id'), // expediteur
+            'user_id' => $this->Auth->user('username'), // expediteur
             'destinataire' => $this->request->data['destinataire'],
             'message' =>  $this->request->data['message'], // message
             'conv' => $conversation,
             //evenement abonnement
             'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' => $this->Auth->user('avatarprofil')
+            'avatar_session' => $this->Auth->user('avatarprofil'),
+            'new_conv' => $new_conv // si il faut crée ou non une conversation
             );
 
-            $username = $this->request->data['user_message']; // nom du destinataire
+            $username = $this->request->data['destinataire']; // nom du destinataire
             $message = $this->Messagerie->newEntity();
             $message = $this->Messagerie->patchEntity($message, $data);
 
-           
+         //dd($data);
             
             if ($this->Messagerie->save($message)) {
                 $this->Flash->success(__('Message envoyé à '.$username.''));
@@ -252,50 +255,5 @@ $checkconv = $this->Conversation
         
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Messagerie id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $messagerie = $this->Messagerie->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $messagerie = $this->Messagerie->patchEntity($messagerie, $this->request->data);
-            if ($this->Messagerie->save($messagerie)) {
-                $this->Flash->success(__('The messagerie has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The messagerie could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Messagerie->Users->find('list', ['limit' => 200]);
-        $this->set(compact('messagerie', 'users'));
-        $this->set('_serialize', ['messagerie']);
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Messagerie id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $messagerie = $this->Messagerie->get($id);
-        if ($this->Messagerie->delete($messagerie)) {
-            $this->Flash->success(__('The messagerie has been deleted.'));
-        } else {
-            $this->Flash->error(__('The messagerie could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
 }

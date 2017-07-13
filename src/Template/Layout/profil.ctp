@@ -53,6 +53,7 @@ use Cake\Routing\Router;
 <?= $this->Flash->render() ?>
   <div class="row">
 <div class="col-sm-3">
+<br />
    
 <!-- partie tweet, selin id url -->
 <?= $this->cell('Info::moi', ['authname' => $authUser]);?>
@@ -62,9 +63,11 @@ use Cake\Routing\Router;
 
 </div>
 <div class="col-sm-5">
+<br />
         <?= $this->fetch('content') ?>
 </div>
 <div class="col-sm-4">
+<br />
         <?= $this->cell('Hashtag');?>
 </div>
         <?= $this->element('modaltweet') ?>

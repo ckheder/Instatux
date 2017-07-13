@@ -1,4 +1,4 @@
- <nav class="navbar navbar-inverse">
+ <nav class="navbar navbar-inverse navbar-fixed-top container">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -26,7 +26,7 @@
    </div>
 </form>
 
-<?= $this->Form->button('Tweeter', 
+<?= $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', 
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#ModalTweet',
                   'class' => 'btn btn-info navbar-btn',

@@ -4,11 +4,9 @@ body {
   font-family: 'Athiti', serif;
   color : black;
   background-color: #DCDCDC;
+  padding-top : 52px;
 }
-.navbar-custom {
-    background-color:#DCDCDC;
 
-}
 
 /* tweet, comm, message */
 /* image */
@@ -301,5 +299,9 @@ color : green;
 .blue_actu
 {
     color: #4BB5C1;
+}
+.red
+{
+  color: red;
 }
 /* fin couleur glyphicon */

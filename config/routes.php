@@ -112,7 +112,7 @@ Router::connect('/abonnement/add/:username',['controller' => 'Abonnement', 'acti
     // fin route abonnement/add
 
     // route abonnement delete
-Router::connect('/abonnement/delete/:id',['controller' => 'Abonnement', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+Router::connect('/abonnement/delete/:username',['controller' => 'Abonnement', 'action' => 'delete']);
     // fin route abonnement/delete
 
     // route settings

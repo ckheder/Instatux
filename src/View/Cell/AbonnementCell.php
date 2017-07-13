@@ -23,20 +23,12 @@ class AbonnementCell extends Cell
      *
      * @return void
      */
- 
-     private function getid($username) // id de l'utilisateur
-    {
-        $this->loadModel('Users');
-        $id = $this->Users->find();
-        $id->select(['id'])
-        ->where(['username' => $username ]);
-        return $id;
-    }
 
-    public function display($authname)
+
+    public function display($authname) // info sur l'uilisateur, pas moi
     {
 
-//test de l'abonnement
+//test de l'abonnement, si je le suis
 
         $this->loadModel('Abonnement');
         $abonnement = $this->Abonnement->find();
@@ -54,6 +46,7 @@ class AbonnementCell extends Cell
 else
 {
      $this->set('abonnement',1);
+
 }
 
 $this->set('authname', $authname);
@@ -70,12 +63,6 @@ $nb_abonnement = $this->Abonnement->find()->where(['user_id' => $this->request->
 
 $this->set('nb_abonnement',$nb_abonnement);
 
-
-
-$id =  $this->getid($this->request->getParam('username'));
- foreach ($id as $id): 
-$this->set('id_membre', $id->id);
-endforeach;
 }
 
 

@@ -40,7 +40,9 @@ class MessagerieTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Users');
+        $this->belongsTo('Users', [
+            'bindingKey' =>'username']);
+
         $this->belongsTo('Conversation', [
             'foreignKey' =>'conv']);
     }
@@ -58,7 +60,7 @@ class MessagerieTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('destinataire')
+            
             ->requirePresence('destinataire', 'create')
             ->notEmpty('destinataire');
 
