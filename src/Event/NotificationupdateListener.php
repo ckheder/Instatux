@@ -13,14 +13,14 @@ class NotificationupdateListener implements EventListenerInterface {
         );
     }
 
-    public function updatenotif($event, $authuser) {
+    public function updatenotif($event, $authname) {
 
    
     $entity = TableRegistry::get('Notifications');
 
     $query = $entity->updateAll(
         ['statut' => 1], // champs
-        ['statut' => 0, 'user_id' => $authuser ]); // conditions 
+        ['statut' => 0, 'user_name' => $authname ]); // conditions 
 
  
 }

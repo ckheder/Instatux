@@ -29,7 +29,7 @@ use Cake\Network\Request;
  <?= $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
 <?= $this->Form->input('comm', ['placeholder' => 'Commentaire...', 'label'=> '']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
-<?= $this->Form->hidden('userosef', ['value' => $tweet->user_id]) // auteur du tweet?>
+<?= $this->Form->hidden('userosef', ['value' => $tweet->user->username]) // auteur du tweet?>
 <div class="text-center">
 <?= $this->Form->button('Envoyer', array('class'=>'btn btn-success')) ?>
 </div>

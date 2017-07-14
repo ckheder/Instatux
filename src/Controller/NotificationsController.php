@@ -25,15 +25,22 @@ class NotificationsController extends AppController
                 
         $notification->where([
 
-'user_id' =>  $this->Auth->user('id')
+'user_name' =>  $this->Auth->user('username')
 
             ]);
         $notification->order(['created'=> 'DESC']);
-        $this->set('notification', $notification);
 
-        // essai event update notif
+        $nb_notif =  $notification->count(); // calcul du nombre de tweet
 
-     
+         if($nb_notif == 0)
+         {
+             $this->set('nb_notif', $nb_notif);
+         }
+         else
+         {
+            $this->set('notification', $notification);
+         }      
+             
     }
 
     /**
@@ -117,7 +124,7 @@ class NotificationsController extends AppController
         $notif_verif = $this->Notifications->find();
         $notif_verif->where([
 
-'user_id' =>  $this->Auth->user('id') // id de la personne connecté
+'user_name' =>  $this->Auth->user('username') // id de la personne connecté
 
             ])
         ->where(['id_notif' => $this->request->getParam('id')]);
@@ -152,7 +159,7 @@ class NotificationsController extends AppController
 public function nbnotif()
 {
         //$this->viewBuilder()->setLayout() = false;
-        $nb_notif = $this->Notifications->find()->where(['user_id' => $this->Auth->user('id')])->where(['statut' => 0])->count();
+        $nb_notif = $this->Notifications->find()->where(['user_name' => $this->Auth->user('username')])->where(['statut' => 0])->count();
         
 
         if($nb_notif == 0)

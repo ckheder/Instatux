@@ -25,7 +25,7 @@ class AbonnementListener implements EventListenerInterface {
 
     $notif_abo = $entity->newEntity();
 
-    $notif_abo->user_id = $abonnement->suivi; // auteur du tweet
+    $notif_abo->user_name = $abonnement->suivi; // auteur du tweet
 
     $notif_abo->notification = $notif;
 

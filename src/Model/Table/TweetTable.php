@@ -46,7 +46,7 @@ class TweetTable extends Table
         ]);
 
         $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
+            'bindingKey' => 'username',
              
         ]);
 

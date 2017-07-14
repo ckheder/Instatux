@@ -25,7 +25,7 @@ class MessageListener implements EventListenerInterface {
 
     $notif_msg = $entity->newEntity();
 
-    $notif_msg->user_id = $message->destinataire; // auteur du tweet
+    $notif_msg->user_name = $message->destinataire; // auteur du tweet
 
     $notif_msg->notification = $notif;
 

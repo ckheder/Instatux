@@ -37,7 +37,7 @@ use Cake\I18n\Time;
              ?>
                 <?= $this->Text->autoParagraph($contenu); ?>
 
-                <?php if($tweet->user_id == $authUser)
+                <?php if($tweet->user_id == $authName)
                 {
                 ?>
                 
@@ -51,7 +51,7 @@ use Cake\I18n\Time;
 
                <span class="glyphicon glyphicon-share-alt blue"></span>&nbsp;<?= $tweet->nb_partage ?>
                <?php
-            if($tweet->partage != 1 AND $tweet->user_id != $authUser) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager
+            if($tweet->partage != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager
             {
             ?>
 

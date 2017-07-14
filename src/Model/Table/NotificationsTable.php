@@ -36,10 +36,8 @@ class NotificationsTable extends Table
         $this->displayField('id_notif');
         $this->primaryKey('id_notif');
 
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
-        ]);
+   $this->belongsTo('Users', [
+            'bindingKey' =>'username']);
     }
 
     /**

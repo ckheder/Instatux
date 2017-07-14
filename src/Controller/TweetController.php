@@ -42,7 +42,7 @@ class TweetController extends AppController
         ->order(['Tweet.created' => 'DESC'])
         ->contain(['Users']);
 
-         $nb_tweet =  $tweet->count(); // calcul du nombre de conversations actives
+         $nb_tweet =  $tweet->count(); // calcul du nombre de tweet
 
          if($nb_tweet == 0)
          {
@@ -92,7 +92,7 @@ class TweetController extends AppController
         if ($this->request->is('post')) {
                    $data = array(
             'tweet_id' => rand(5, 15),
-            'user_id' => $this->Auth->user('id'),
+            'user_id' => $this->Auth->user('username'),
             'user_timeline' => $this->Auth->user('username'),
             'contenu_tweet' => $this->request->data('contenu_tweet')
             );

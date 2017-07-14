@@ -2,6 +2,14 @@
 use Cake\I18n\Time;
 use Cake\Event\Event;
 
+            if(isset($nb_notif))
+            {
+                echo '<div class="alert alert-info">
+                                Aucune notification à afficher
+                        </div>';
+            }
+            else
+            {
 
 
  foreach ($notification as $notification): 
@@ -31,7 +39,7 @@ else
             $notification_user = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $notification->notification); ?>
              <?= $this->Text->autoParagraph($notification_user) ?>
               
-             <?php if($notification->user_id == $authUser)
+             <?php if($notification->user_name == $authName)
                 {
                 ?>
                 
@@ -42,8 +50,8 @@ else
 </div>
 <?php endforeach; 
 
-$event = new Event('View.afterRender.indexnotif', $this, ['authuser' => $authUser]);
+$event = new Event('View.afterRender.indexnotif', $this, ['authname' => $authName]);
                 $this->eventManager()->dispatch($event);
-                ?>
-
-
+                
+}
+?>

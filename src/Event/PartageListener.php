@@ -27,7 +27,7 @@ class PartageListener implements EventListenerInterface {
 
     $notif_partage = $entity->newEntity();
 
-    $notif_partage->user_id = $tweet->user_id; // auteur du tweet
+    $notif_partage->user_name = $tweet->user_id; // auteur du tweet
 
     $notif_partage->notification = $notif;
 

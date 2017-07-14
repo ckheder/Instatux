@@ -44,8 +44,7 @@ class UsersTable extends Table
     
         ]);
 
-        $this->hasMany('Tweet', [
-            'dependent' => true]);
+        $this->hasMany('Tweet');
 
          $this->hasMany('Abonnement', [
             'dependent' => true
