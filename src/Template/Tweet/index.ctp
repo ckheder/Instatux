@@ -13,7 +13,7 @@ use Cake\I18n\Time;
             <?php foreach ($tweet as $tweet): ?>
             <div class="tweet">
             <?php
-            if($tweet->partage == 1)
+            if($tweet->share == 1)
             {
                 echo '<span class="glyphicon glyphicon-share-alt"></span>&nbsp; Partagé par '.$this->request->getParam('username').'<br />';
             }
@@ -37,11 +37,11 @@ use Cake\I18n\Time;
              ?>
                 <?= $this->Text->autoParagraph($contenu); ?>
 
-                <?php if($tweet->user_id == $authName)
+                <?php if($tweet->user_timeline == $authName)
                 {
                 ?>
                 
-                <?= $this->Html->Link("Delete", ['controller' => 'Tweet','action' => 'delete',$tweet->id ], ['title' =>'delete', 'class' =>'deletetweet' ]) ?>
+                <?= $this->Html->Link("Effacer ce tweet", ['controller' => 'Tweet','action' => 'delete',$tweet->id ], ['title' =>'delete', 'class' =>'deletetweet' ]) ?>
                 <?php
                 };
                 ?>
@@ -51,18 +51,18 @@ use Cake\I18n\Time;
 
                <span class="glyphicon glyphicon-share-alt blue"></span>&nbsp;<?= $tweet->nb_partage ?>
                <?php
-            if($tweet->partage != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager
+            if($tweet->share != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
             ?>
 
-            <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.'');
+            <span class="glyphicon glyphicon-share green_share"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.'');
         }
-        elseif($tweet->partage == 1)
+        if($tweet->share == 1 AND $tweet->user_timeline == $authName)
         {
 
             ?>
 
-             <span class="glyphicon glyphicon-comment"></span>&nbsp;<?= $this->Html->link('Supprimer ce partage', array('controller' => 'tweet', 'action' => 'delete', $tweet->id)) ;
+             <span class="glyphicon glyphicon-remove red"></span>&nbsp;<?= $this->Html->link('Supprimer ce partage', array('controller' => 'tweet', 'action' => 'delete', $tweet->id)) ;
 
             };
 

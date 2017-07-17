@@ -8,7 +8,7 @@ use Cake\I18n\Time;
             
               <div class="tweet">
               <?
-                          if($abonnement->partage == 1)
+                          if($abonnement->share == 1)
             {
                 echo '<br />';
                 echo  $this->cell('Abonnement::avatar_user', ['user' => $abonnement->user_timeline, $abonnement]) ; 
@@ -31,7 +31,7 @@ use Cake\I18n\Time;
                 <?= $this->Text->autoParagraph($contenu); ?>
     
                     <span class="glyphicon glyphicon-comment green"></span>&nbsp;<?= $this->Html->link(''.$abonnement->nb_commentaire.'', ['action' => 'view',  $abonnement->id]) ?>
-                    <?php if($abonnement->user_id != $authUser)
+                    <?php if($abonnement->user_id != $authName)
                     {
                         ?>
                <span class="glyphicon glyphicon-share-alt blue"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$abonnement->id.'/'.$abonnement->user_id.'');

@@ -32,8 +32,9 @@ class TweetController extends AppController
             'Tweet.id',
             'Tweet.user_id',
             'Tweet.contenu_tweet',
+            'Tweet.user_timeline',
             'Tweet.created',
-            'Tweet.partage',
+            'Tweet.share',
             'Tweet.nb_commentaire',
             'Tweet.nb_partage',
             ])
@@ -175,7 +176,7 @@ class TweetController extends AppController
             'user_id' => $user_tweet,
             'user_timeline' => $this->Auth->user('username'),
             'contenu_tweet' => $contenu_tweet,
-            'partage' => 1,
+            'share' => 1,
             // évènement
             'nom_session' => $this->Auth->user('username'),//nom de session
             'avatar_session' => $this->Auth->user('avatarprofil'),

@@ -73,7 +73,7 @@ class CommentairesController extends AppController
           
             if ($this->Commentaires->save($commentaire)) {
 
-              if( $this->request->data['userosef'] != $this->Auth->user('id'))
+              if( $this->request->data['userosef'] != $this->Auth->user('username'))
                   {
               // évènement
               $event = new Event('Model.Commentaires.afterAdd', $this, ['commentaire' => $commentaire]);

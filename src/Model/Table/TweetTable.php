@@ -51,6 +51,12 @@ class TweetTable extends Table
         ]);
 
           $this->hasMany('Commentaires');
+
+          $this->hasOne('Partage', [
+            'foreignKey' => 'tweet_partage',
+            'dependent' => true
+
+            ]);
     }
 
     /**
