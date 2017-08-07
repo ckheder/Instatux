@@ -44,6 +44,15 @@ class CommentairesController extends AppController
         $this->set('commentaire', $commentaire);
         $this->set('_serialize', ['commentaire']);
     }
+        // parsage des tweets
+    private function linkify_tweet($tweet) {
+    $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
+        '$1<a href="../$2">@$2</a>',
+        $tweet);
+    return preg_replace('/#([^\s]+)/',
+        '<a href="../search-%23$1">#$1</a>',
+        $tweet);
+}
 
     /**
      * Add method
@@ -57,7 +66,7 @@ class CommentairesController extends AppController
         $commentaire = $this->Commentaires->newEntity();
         if ($this->request->is('post')) {
             $data = array(
-            'comm' =>  $this->request->data('comm'),
+            'comm' =>  $this->linkify_tweet($this->request->data('comm')),
             'tweet_id' => $this->request->data('id'), // id du tweet
             'user_id' => $this->Auth->user('id'),
             

@@ -25,9 +25,11 @@ Nombre de conversation : <?= $nb_conv ?>
     'accuracy' => ['month' => 'month'],
     'end' => '1 year'
 ]);
+
+            $last_message = strip_tags($message->message,'<a>');
             ?>
                    <span class="date_tweet">Dernier message <?= $date_message ?></span>
-                <?= $this->Text->autoParagraph($this->Html->link(h($message->message),'/conversation-'.$message->conv.'')); ?>
+                <?= $this->Text->autoParagraph($this->Html->link($last_message,'/conversation-'.$message->conv.'')); ?>
 
                 <span class="glyphicon glyphicon-envelope"></span><?= $this->cell('Nbmessage', ['conv' => $message->conv]);?> message(s)
             

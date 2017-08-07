@@ -19,7 +19,7 @@ use Cake\Routing\Router;
 <br />
 Nombre de message : <?= $nb_msg;?>
 <br />
-
+<br />
 
 
             <?php foreach ($message as $message): ?>
@@ -40,7 +40,7 @@ Nombre de message : <?= $nb_msg;?>
                 }
                 ?>
            
-            <?= $this->Html->link(h($message->user->username),'/'.h($message->user->username).''); ?>
+            <?= $this->Html->link(h($message->user->username),'/'.h($message->user->username).'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$message->user->username ?></span>
 <br />
                                     <?php
             $time = new Time($message->created);
@@ -53,11 +53,8 @@ Nombre de message : <?= $nb_msg;?>
             $date_tweet = str_replace('il y a','', $date_tweet)
             ?>
              <span class="date_message"> <?=  h($date_tweet) ?></span>
-             <?php
-               $contenu_message = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $message->message); 
-             ?>
 
-                <?= $this->Text->autoParagraph(strip_tags($contenu_message, '<a>'))  ?>
+                <?= $this->Text->autoParagraph(strip_tags($message->message, '<a>'))  ?>
                 
             </div>
             

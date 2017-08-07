@@ -128,7 +128,7 @@ Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => '
     //fin route conversation
 
     // route accueil
-Router::connect('instatux/tweet/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);
+Router::connect('/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);
     // fin route accueil
 
     // route partage add

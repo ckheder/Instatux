@@ -48,7 +48,7 @@ use Cake\I18n\Time;
 ]);
             ?>
                 <span class="date_tweet">Posté <?= $date_tweet ?></span>
-                <?= $this->Text->highlight($this->Text->autoParagraph(h($resultat_tweet->contenu_tweet)), $search , ['format'=>'<span class="surbrillance">\1</span>']) ?>
+                <?= $this->Text->highlight($this->Text->autoParagraph($resultat_tweet->contenu_tweet), $search , ['format'=>'<span class="surbrillance">\1</span>']) ?>
                 </div>
             <?php endforeach; ?>
 

@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 11 Juillet 2017 à 17:53
--- Version du serveur :  10.2.6-MariaDB-10.2.6+maria~xenial
+-- Généré le :  Ven 21 Juillet 2017 à 11:06
+-- Version du serveur :  10.2.7-MariaDB-10.2.7+maria~xenial
 -- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -37,10 +37,10 @@ CREATE TABLE `abonnement` (
 --
 
 INSERT INTO `abonnement` (`id`, `user_id`, `suivi`) VALUES
-(34, 'test', 'essai'),
+(45, 'test', 'essai'),
 (10, 'test2', 'test'),
-(32, 'essai', 'test'),
-(40, 'test', 'test2');
+(44, 'essai', 'test'),
+(43, 'test', 'osefman156');
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,32 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 (164, 'test', '43', '17', '2017-06-20 16:43:44'),
 (166, 'test', '81', '17', '2017-06-21 09:18:41'),
 (171, 'test', '138', '17', '2017-07-05 09:32:20'),
-(172, 'gg', '138', '17', '2017-07-07 13:28:36');
+(172, 'gg', '138', '17', '2017-07-07 13:28:36'),
+(173, 'c\'est qui ?', '138', '18', '2017-07-14 08:23:15'),
+(174, 'wtf ?', '138', '18', '2017-07-14 08:23:51'),
+(175, 'hein ?', '88', '17', '2017-07-14 15:01:16'),
+(176, 'wut ?', '155', '18', '2017-07-14 15:06:58'),
+(177, 'pff', '155', '18', '2017-07-14 15:08:47'),
+(178, 're test', '155', '18', '2017-07-14 15:10:15'),
+(179, 're rere ', '155', '18', '2017-07-14 15:10:44'),
+(180, 'test', '138', '18', '2017-07-14 15:11:13'),
+(181, 'best framework eu', '156', '18', '2017-07-16 09:44:12'),
+(182, '#jenniferlopez <3', '178', '18', '2017-07-17 08:38:10'),
+(183, 'test', '8', '17', '2017-07-17 16:28:55'),
+(192, '<a href="../test">@test</a>', '194', '17', '2017-07-19 09:08:37'),
+(205, '<a href="../test">@test</a>', '196', '18', '2017-07-20 09:23:58'),
+(206, '<a href="../test">@test</a>', '196', '18', '2017-07-20 09:24:53'),
+(194, '<a href="../test">@test</a> <a href="../essai">@essai</a> <a href="../search-%23teamgius">#teamgius</a>', '98', '18', '2017-07-19 12:28:05'),
+(195, '<a href="../test">@test</a> <a href="../essai">@essai</a> <a href="../search-%23teamgius">#teamgius</a>', '196', '18', '2017-07-19 12:32:59'),
+(196, '<a href="../test">@test</a> <a href="../essai">@essai</a> <a href="../search-%23teamgius">#teamgius</a>', '196', '18', '2017-07-19 12:34:57'),
+(197, '<a href="../test">@test</a> <a href="../essai">@essai</a> <a href="../search-%23teamgius">#teamgius</a>', '196', '18', '2017-07-19 12:38:18'),
+(198, '<a href="../test">@test</a>', '196', '18', '2017-07-20 09:12:04'),
+(199, '<a href="../test">@test</a>', '196', '18', '2017-07-20 09:13:25'),
+(200, '<a href="../test">@test</a> <a href="../test2">@test2</a>', '196', '17', '2017-07-20 09:16:58'),
+(201, '<a href="../test">@test</a> <a href="../test2">@test2</a>', '196', '17', '2017-07-20 09:17:43'),
+(207, '<a href="../test">@test</a>', '196', '18', '2017-07-20 09:25:24'),
+(208, '<a href="../test">@test</a>', '196', '18', '2017-07-20 09:27:43'),
+(209, '<a href="../test">@test</a> <a href="../test2">@test2</a>', '196', '18', '2017-07-20 09:28:14');
 
 -- --------------------------------------------------------
 
@@ -114,7 +139,11 @@ CREATE TABLE `conversation` (
 
 INSERT INTO `conversation` (`id`, `conv`, `participant1`, `participant2`, `statut`) VALUES
 (17, 1656791438, 'test', 'test2', 1),
-(18, 1656791438, 'test2', 'test', 1);
+(18, 1656791438, 'test2', 'test', 1),
+(19, 1372035574, 'test', 'essai', 1),
+(20, 1372035574, 'essai', 'test', 1),
+(21, 975971343, 'test', 'osefman156', 1),
+(22, 975971343, 'osefman156', 'test', 1);
 
 -- --------------------------------------------------------
 
@@ -136,14 +165,20 @@ INSERT INTO `hashtag` (`id`, `tag`, `nb_tag`) VALUES
 (1, 'foot', 2),
 (2, 'catch', 6),
 (3, 'cakephp', 18),
-(4, 'laravel', 29),
+(4, 'laravel', 31),
 (5, 'nikkibella', 5),
 (6, 'jenniferlopez', 10),
 (9, 'symfony', 14),
-(10, 'facebook', 35),
+(10, 'facebook', 39),
 (15, 'jloestmoche', 1),
 (16, 'venestbeau', 1),
-(18, 'osefman156', 1);
+(18, 'osefman156', 1),
+(19, 'osef', 2),
+(20, 'test', 3),
+(21, 'teamgius', 1),
+(22, 'gg', 1),
+(23, 'lol', 1),
+(24, '39', 1);
 
 -- --------------------------------------------------------
 
@@ -165,7 +200,13 @@ CREATE TABLE `messagerie` (
 --
 
 INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`, `conv`) VALUES
-(106, 'test', 'test2', 'redf', '2017-07-11 15:52:08', 1656791438);
+(110, 'test', 'test', '<a href="test">@test</a> <a href="essai">@essai</a> <a href="search-%23teamgius">#teamgius</a>', '2017-07-18 16:21:38', 1372035574),
+(109, 'essai', 'test', 'pff site de merde', '2017-07-17 16:33:00', 1372035574),
+(108, 'test', 'osefman156', 'test notif', '2017-07-14 08:21:33', 975971343),
+(106, 'test', 'test2', 'redf', '2017-07-11 15:52:08', 1656791438),
+(107, 'test', 'essai', 'test', '2017-07-13 08:24:59', 1372035574),
+(111, 'test', 'test', '<a href="essai">@essai</a>@osef', '2017-07-18 16:21:56', 1372035574),
+(112, 'essai', 'test', '@essai #teamgius', '2017-07-19 12:28:23', 1372035574);
 
 -- --------------------------------------------------------
 
@@ -175,7 +216,7 @@ INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`,
 
 CREATE TABLE `notifications` (
   `id_notif` int(111) NOT NULL,
-  `user_id` int(111) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
   `notification` text NOT NULL,
   `created` datetime NOT NULL,
   `statut` tinyint(1) NOT NULL
@@ -185,8 +226,10 @@ CREATE TABLE `notifications` (
 -- Contenu de la table `notifications`
 --
 
-INSERT INTO `notifications` (`id_notif`, `user_id`, `notification`, `created`, `statut`) VALUES
-(65, 18, '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-156862049">message</a> !', '2017-07-11 12:50:44', 0);
+INSERT INTO `notifications` (`id_notif`, `user_name`, `notification`, `created`, `statut`) VALUES
+(117, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/196">publication</a><br /><br /><a href="../test"><a href="test">@test</a></a> <a href="../test2"><a href="test2">@test2</a></a>', '2017-07-20 09:28:14', 1),
+(119, 'test2', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à vous à cité dans un commentaire de cette <a href="/instatux/post/196">publication</a>', '2017-07-20 09:28:14', 0),
+(120, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2017-07-20 16:04:30', 0);
 
 -- --------------------------------------------------------
 
@@ -217,7 +260,14 @@ INSERT INTO `partage` (`id_partage`, `tweet_partage`, `created`) VALUES
 (10, 15, '2017-06-22 12:04:39'),
 (11, 87, '2017-06-23 12:56:27'),
 (12, 86, '2017-06-23 12:56:32'),
-(13, 87, '2017-06-26 08:53:33');
+(13, 87, '2017-06-26 08:53:33'),
+(14, 8, '2017-07-14 15:00:36'),
+(16, 8, '2017-07-17 08:05:48'),
+(17, 8, '2017-07-17 08:10:31'),
+(18, 8, '2017-07-17 08:10:52'),
+(19, 8, '2017-07-17 08:12:35'),
+(32, 98, '2017-07-17 08:37:54'),
+(33, 98, '2017-07-19 12:27:57');
 
 -- --------------------------------------------------------
 
@@ -248,11 +298,11 @@ INSERT INTO `phinxlog` (`version`, `migration_name`, `start_time`, `end_time`) V
 
 CREATE TABLE `tweet` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
   `user_timeline` varchar(50) NOT NULL,
   `contenu_tweet` text NOT NULL,
   `created` datetime DEFAULT NULL,
-  `partage` tinyint(1) NOT NULL DEFAULT 0,
+  `share` int(111) DEFAULT 0,
   `nb_commentaire` int(111) DEFAULT 0,
   `nb_partage` int(111) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -261,21 +311,18 @@ CREATE TABLE `tweet` (
 -- Contenu de la table `tweet`
 --
 
-INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created`, `partage`, `nb_commentaire`, `nb_partage`) VALUES
-(8, 18, 'essai', 'accueuil moi', '2016-09-06 19:35:36', 0, 4, 7),
-(15, 19, 'test2', 'accueuil test 2 essai', '2016-10-07 08:50:07', 0, 1, 1),
-(43, 17, 'test', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', 0, 11, 0),
-(86, 18, 'test', 'accueuil moi', '2017-06-22 12:04:30', 1, 0, 1),
-(87, 19, 'test', 'accueuil test 2 essai', '2017-06-22 12:04:39', 1, 0, 2),
-(88, 19, 'essai', 'accueuil test 2 essai', '2017-06-23 12:56:27', 1, 0, 0),
-(94, 17, 'test', '<p>#moi</p>', '2017-06-30 16:41:55', 0, 0, 0),
-(95, 17, 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-07-01 16:37:56', 0, 0, 0),
-(98, 17, 'test', '<div data-oembed-url="http://img.voi.pmdstatic.net/fit/http.3A.2F.2Fwww.2Evoici.2Efr.2Fvar.2Fvoi.2Fstorage.2Fimages.2Fmedia.2Fmultiupload-du-04-octobre-2016.2F2_jennifer-lopez-sexy-selfie-seins.2F10071896-1-fre-FR.2F2_jennifer-lopez-sexy-selfie-seins.2Ejpg/1237x693/quality/80/2-jennifer-lopez-sexy-selfie-seins.jpg"><div style="max-width: 1484px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.0226%;"><iframe tabindex="-1" src="//cdn.iframe.ly/2pk7UlS" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-07-01 16:43:07', 0, 0, 0),
-(100, 17, 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=OjXfJ-eKcsw"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/OjXfJ-eKcsw?rel=0&amp;showinfo=0&amp;controls=1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>#lol</p>', '2017-07-01 18:48:50', 0, 0, 0),
-(101, 17, 'test', '<p>#osef</p>', '2017-07-01 18:50:05', 0, 0, 0),
-(104, 17, 'test', '<p>#lol osef</p>', '2017-07-02 15:05:23', 0, 0, 0),
-(106, 17, 'test', '<div data-oembed-url="https://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/pIf5aag">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-07-02 18:42:47', 0, 0, 0),
-(138, 17, 'test', '<p>#osefman156</p>', '2017-07-04 09:05:37', 0, 2, 0);
+INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created`, `share`, `nb_commentaire`, `nb_partage`) VALUES
+(8, 'essai', 'essai', 'accueuil moi', '2016-09-06 19:35:36', 0, 5, 12),
+(15, 'test2', 'test2', 'accueuil test 2 essai', '2016-10-07 08:50:07', 0, 1, 1),
+(43, 'test', 'test', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', 0, 11, 0),
+(86, 'essai', 'test', 'accueuil moi', '2017-06-22 12:04:30', 1, 0, 1),
+(87, 'test2', 'test', 'accueuil test 2 essai', '2017-06-22 12:04:39', 1, 0, 2),
+(95, 'test', 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-07-01 16:37:56', 0, 0, 0),
+(98, 'test', 'test', '<div data-oembed-url="http://img.voi.pmdstatic.net/fit/http.3A.2F.2Fwww.2Evoici.2Efr.2Fvar.2Fvoi.2Fstorage.2Fimages.2Fmedia.2Fmultiupload-du-04-octobre-2016.2F2_jennifer-lopez-sexy-selfie-seins.2F10071896-1-fre-FR.2F2_jennifer-lopez-sexy-selfie-seins.2Ejpg/1237x693/quality/80/2-jennifer-lopez-sexy-selfie-seins.jpg"><div style="max-width: 1484px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.0226%;"><iframe tabindex="-1" src="//cdn.iframe.ly/2pk7UlS" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-07-01 16:43:07', 0, 1, 2),
+(178, 'test', 'essai', '<div data-oembed-url="http://img.voi.pmdstatic.net/fit/http.3A.2F.2Fwww.2Evoici.2Efr.2Fvar.2Fvoi.2Fstorage.2Fimages.2Fmedia.2Fmultiupload-du-04-octobre-2016.2F2_jennifer-lopez-sexy-selfie-seins.2F10071896-1-fre-FR.2F2_jennifer-lopez-sexy-selfie-seins.2Ejpg/1237x693/quality/80/2-jennifer-lopez-sexy-selfie-seins.jpg"><div style="max-width: 1484px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.0226%;"><iframe tabindex="-1" src="//cdn.iframe.ly/2pk7UlS" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-07-17 08:37:54', 1, 1, 0),
+(194, 'test', 'test', '<p><a href="test">@test</a> <a href="essai">@essai</a> <a href="search-%23teamgius</p>">#teamgius</p></a>', '2017-07-18 12:19:12', 0, 1, 0),
+(196, 'test', 'essai', '<div data-oembed-url="http://img.voi.pmdstatic.net/fit/http.3A.2F.2Fwww.2Evoici.2Efr.2Fvar.2Fvoi.2Fstorage.2Fimages.2Fmedia.2Fmultiupload-du-04-octobre-2016.2F2_jennifer-lopez-sexy-selfie-seins.2F10071896-1-fre-FR.2F2_jennifer-lopez-sexy-selfie-seins.2Ejpg/1237x693/quality/80/2-jennifer-lopez-sexy-selfie-seins.jpg"><div style="max-width: 1484px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.0226%;"><iframe tabindex="-1" src="//cdn.iframe.ly/2pk7UlS" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-07-19 12:27:57', 1, 12, 0),
+(202, 'test', 'essai', '<p>xvxcv</p>', '2017-07-21 08:58:25', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -381,42 +428,42 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT pour la table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
 --
 -- AUTO_INCREMENT pour la table `conversation`
 --
 ALTER TABLE `conversation`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT pour la table `hashtag`
 --
 ALTER TABLE `hashtag`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 --
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
 ALTER TABLE `partage`
-  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
 --
 -- AUTO_INCREMENT pour la table `users`
 --

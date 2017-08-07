@@ -11,13 +11,15 @@ class HashtagListener implements EventListenerInterface {
 
     public function implementedEvents() {
         return array(
-            'Model.Tweet.afterAdd' => 'hashtag',
+            'Model.Tweet.afterAdd' => 'hashtag_username',
         );
     }
 
+    // fonction qui va chercher les différends hashtag dans un post et remplir la base de données puis si on a tweeté sur un autre mur, envoyer une notification
 
+    public function hashtag_username($event, $tweet) {
 
-    public function hashtag($event, $contenu_tweet) {
+        $entity = TableRegistry::get('Notifications');
 
     // extraction des hashtag
 
@@ -31,9 +33,10 @@ class HashtagListener implements EventListenerInterface {
     return $hashtags;
 }
 
-$array_hash = getHashtags($contenu_tweet);
+$array_hash = getHashtags($tweet->contenu_tweet);
 
 $table_hashtag= TableRegistry::get('Hashtag');
+
     // vérification de l'existence de hashtag
 
     foreach ($array_hash as $hashtag):
@@ -64,5 +67,48 @@ $table_hashtag= TableRegistry::get('Hashtag');
     
 
  endforeach;
+   
+// envoi d'une notification a chaque personne cité dans un tweet
+
+    // extraction des username
+
+    function getUsernames($string) {  
+    $at_username = FALSE;  
+    preg_match_all("/(^|[^@\w])@(\w{1,15})\b/", $string, $matches);  
+    if ($matches) {
+        $atusernameArray = array_count_values($matches[0]);
+        $at_username = array_keys($atusernameArray);
+    }
+    return $at_username;
+}
+
+$array_username = getUsernames($tweet->contenu_tweet);
+
+    foreach ($array_username as $at_username):
+
+        $username = str_replace('>@', '', $at_username);
+
+        if($username != $tweet->auth_name)
+{
+    
+
+         $notif = '<img src="/instatux/img/'.$tweet->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$tweet->user_id.'">'.$tweet->user_id.'</a> à vous à cité dans un <a href="/instatux/post/'.$tweet->id.'">tweet</a>';
+   
+
+    $article = $entity->newEntity();
+
+    $article->user_name = $username; 
+
+    $article->notification = $notif;
+
+    $article->created =  Time::now();
+
+    $article->statut = 0;
+
+    $entity->save($article); 
+}
+ endforeach;
+
+
 }
 }

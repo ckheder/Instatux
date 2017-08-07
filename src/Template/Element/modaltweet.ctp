@@ -4,9 +4,9 @@ echo $this->Modal->create(['id' => 'ModalTweet']) ;
                 echo $this->Form->create('Tweet', array('class'=>'form-inline','url'=>array('controller'=>'Tweet', 'action'=>'add')));
 
                 ?>
-                <textarea id="editor1" name="contenu_tweet"></textarea>
+                <textarea id="editor2" name="contenu_tweet"></textarea>
                 <script>
-                CKEDITOR.replace( 'editor1' );
+                CKEDITOR.replace( 'editor2' );
             </script>
                 <br />
 <div class="text-center">
@@ -19,14 +19,7 @@ echo $this->Modal->create(['id' => 'ModalTweet']) ;
                 echo $this->Modal->footer([
                     $this->Form->button('Fermer', ['data-dismiss' => 'modal', 'class' =>'btn btn-danger'])
                     ]);
-                    ?>
-                        Il vous reste <span id="carac_reste_textarea_1"></span> caractères.
-    <script>
-        <!--
-            maxlength_textarea('editor1','carac_reste_textarea_1',150);
-        -->
-    </script>
-    <?php
+                    
                 echo $this->Modal->end() ;
 
 

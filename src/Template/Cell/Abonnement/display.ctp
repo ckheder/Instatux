@@ -55,7 +55,7 @@
                   ?> - 
                               <?= $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', // lien pour tweeter la personne
                 [ 'data-toggle' => 'modal',
-                  'data-target' => '#ModalTweet',
+                  'data-target' => '#ModalTweettoUser',
                   'class' => 'btn btn-success navbar-btn',
                   'title' => 'Tweeter '.$this->request->getParam('username').'',
                   'type' => 'button']);
@@ -70,4 +70,5 @@
 <?= $this->element('modalmessage') ?>
 <!-- fin modal envoi de message -->
 <!-- modal envoi de tweet -->
+<?= $this->element('modaltweettouser') ?>
 <!-- fin modal envoi de tweet -->

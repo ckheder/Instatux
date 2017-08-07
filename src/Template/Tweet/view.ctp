@@ -7,7 +7,7 @@ use Cake\Network\Request;
 
 <div class="tweet">
             <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
-            <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'') ?>
+            <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username ?></span>
             
                         <?php
             $time = new Time($tweet->created);
@@ -19,11 +19,9 @@ use Cake\Network\Request;
             ?>
              <span class="date_tweet">Posté <?=  h($date_tweet) ?></span>
 
-<?php
-       $contenu = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $tweet->contenu_tweet); 
-       $contenu = str_replace('</p>', '', $contenu);
-        echo $this->Text->autoParagraph($contenu); ?>
+<?= $this->Text->autoParagraph($tweet->contenu_tweet); ?>
 
+         
 </div>
 
  <?= $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
@@ -38,7 +36,7 @@ use Cake\Network\Request;
         <?php foreach ($tweet->commentaires as $commentaires): ?>
             <div class="tweet">
  <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
- <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'') ?>
+ <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span>
 
                          <?php
             $time = new Time($commentaires->created);
@@ -47,16 +45,14 @@ use Cake\Network\Request;
     'accuracy' => ['month' => 'month'],
     'end' => '1 year'
 ]);
-            ?>
+            
 
- <span class="date_tweet">Commenté <?= $date_comm ?></span>
-<?php //parsage comm hashtag
-  $comm = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $commentaires->comm); 
-             
 ?>
-<?= $this->Text->autoParagraph(strip_tags($comm, '<a>')) ; ?>
+ <span class="date_tweet">Commenté <?= $date_comm ?></span>
+
+<?= $this->Text->autoParagraph(strip_tags($commentaires->comm, '<a>')) ; ?>
 <span class="glyphicon glyphicon-comment"></span>&nbsp;
-<?php if($tweet->user_id == $authUser or $commentaires->auteur == $authUser)
+<?php if($tweet->user_id == $authName or $commentaires->auteur == $authUser)
 
     echo  $this->Html->link("Delete", ['controller' => 'Commentaires','action' => 'delete', $commentaires->id, $tweet->id],['title' =>'delete', 'class' =>'deletetweet' ]);
 

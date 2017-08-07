@@ -123,6 +123,17 @@ $this->set('verif_user',1);
   
     }
 
+        // parsage des tweets
+    private function linkify_tweet($tweet) {
+    $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
+        '$1<a href="$2">@$2</a>',
+        $tweet);
+    return preg_replace('/#([^\s]+)/',
+        '<a href="search-%23$1">#$1</a>',
+        $tweet);
+}
+
+
     /**
      * Add method
      *
@@ -135,7 +146,7 @@ $message = $this->Messagerie->newEntity();
             $data = array(
             'user_id' => $this->Auth->user('username'), // expediteur
             'destinataire' => $this->request->data['user_id'],
-            'message' =>  $this->request->data['message'], // message
+            'message' =>  $this->linkify_tweet($this->request->data['message']), // message
             'conv' => $this->request->data['conversation'],
             //evenement abonnement
             'nom_session' => $this->Auth->user('username'),//nom de session

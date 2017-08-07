@@ -79,6 +79,9 @@ class TweetTable extends Table
             ->allowEmpty('partage');
 
         $validator
+            ->allowEmpty('other_user');
+
+        $validator
             ->allowEmpty('nb_commentaire');
 
         $validator

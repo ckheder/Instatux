@@ -14,12 +14,22 @@ class CommentaireListener implements EventListenerInterface {
         );
     }
 
+            // parsage des tweets
+    private function linkify_tweet($tweet) {
+    $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
+        '$1<a href="$2">@$2</a>',
+        $tweet);
+    return preg_replace('/#([^\s]+)/',
+        '<a href="search-%23$1">#$1</a>',
+        $tweet);
+}
+
     public function addnotifcomm($event, $commentaire) {
 
-        
-        $comme = mb_strimwidth($commentaire->comm, 0, 30, "...");
+        $comm = $this->linkify_tweet($commentaire->comm);
+
  
-    $notif = '<img src="/instatux/img/'.$commentaire->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$commentaire->nom_session.'">'.$commentaire->nom_session.'</a> à commenté votre <a href="/instatux/post/'.$commentaire->tweet_id.'">publication</a><br /><br />'.$comme.'';
+    $notif = '<img src="/instatux/img/'.$commentaire->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$commentaire->nom_session.'">'.$commentaire->nom_session.'</a> à commenté votre <a href="/instatux/post/'.$commentaire->tweet_id.'">publication</a><br /><br />'.$comm.'';
    
     $entity = TableRegistry::get('Notifications');
 
@@ -34,6 +44,8 @@ class CommentaireListener implements EventListenerInterface {
     $article->statut = 0;
 
     $entity->save($article);   
+
+        
 
  
 }

@@ -35,9 +35,9 @@ else
 ]);
             ?>
              <span class="date_tweet"><?= $date_notif ?></span>
-             <?php
-            $notification_user = preg_replace( "/#([^\s]+)/",$this->Html->link('#$1','/search-%23$1'), $notification->notification); ?>
-             <?= $this->Text->autoParagraph($notification_user) ?>
+       
+
+             <?= $this->Text->autoParagraph($notification->notification) ?>
               
              <?php if($notification->user_name == $authName)
                 {

@@ -97,7 +97,7 @@ $this->set('nb_abonnes',$nb_abonnes);
 
     }
 
-         public function avatar_user($user, $abonnement) // avatar de l'utilisateur abonné sur l'accueuil
+         public function avatar_user($user, $share, $other, $abonnement) // avatar de l'utilisateur abonné sur l'accueuil
     {
         $this->loadModel('Users');
         $avatar_user = $this->Users->find();
@@ -107,6 +107,16 @@ $this->set('nb_abonnes',$nb_abonnes);
         $this->set('avatar_user',$avatar_user);
         $this->set('user', $user);
         $this->set('abonnement', $abonnement);
+
+        if($share == 1)
+        {
+            $this->set('share', $share);
+        }
+        elseif($other == 1)
+        {
+            $this->set('other', $other);
+        }
+        
     }
 
 

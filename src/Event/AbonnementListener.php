@@ -19,7 +19,7 @@ class AbonnementListener implements EventListenerInterface {
         
     
  
-    $notif = '<img src="/instatux/img/'.$abonnement->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$abonnement->nom_session.'">'.$abonnement->nom_session.'</a> s\'est abonné';
+    $notif = '<img src="/instatux/img/'.$abonnement->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$abonnement->nom_session.'">'.$abonnement->nom_session.'</a><span class="alias_tweet">@'.$abonnement->nom_session.'</span> s\'est abonné';
    
     $entity = TableRegistry::get('Notifications');
 

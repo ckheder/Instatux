@@ -11,16 +11,19 @@ use Cake\I18n\Time;
                 <br />
                 <br />
                 <span class="username"><?= h($user->username) ?></span>
+                <br />
+                <span class="alias">@ <?= h($user->username) ?></span>
+                <br />
                                 <?php if(!empty($user->description))
                 {
                     ?>
                 <br />
-                <span class="description">
+
                 <?php
                echo h($user->description);
             }
             ?>
-            </span>
+
             <br />
             <br />
                 </div>

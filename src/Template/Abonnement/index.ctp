@@ -16,7 +16,9 @@
             
                                <?= $this->Html->image(''.$abonnement->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>' vcenter')) ?>
                 <br />
-            <?= $this->Html->link(h($abonnement->user->username),'/'.h($abonnement->user->username).'') ?>
+            <?= $this->Html->link(h($abonnement->user->username),'/'.h($abonnement->user->username).'',['class' => 'link_username_tweet']) ?>
+            <br />
+            <span class="alias_abo">@<?=$abonnement->user->username ?></span> 
                 <br />
             <?= $this->cell('Abonnement::nbabonnes', ['id' => $abonnement->user->username])  ?>
             <br />

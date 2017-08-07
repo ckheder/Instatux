@@ -35,6 +35,7 @@ class TweetController extends AppController
             'Tweet.user_timeline',
             'Tweet.created',
             'Tweet.share',
+            'Tweet.other_user',
             'Tweet.nb_commentaire',
             'Tweet.nb_partage',
             ])
@@ -81,6 +82,15 @@ class TweetController extends AppController
         
       
     }
+    // parsage des tweets
+    private function linkify_tweet($tweet) {
+    $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
+        '$1<a href="$2">@$2</a>',
+        $tweet);
+    return preg_replace('/#([^\s]+)/',
+        '<a href="search-%23$1">#$1</a>',
+        $tweet);
+}
 
     /**
      * Add method
@@ -91,26 +101,51 @@ class TweetController extends AppController
     {
         $tweet = $this->Tweet->newEntity();
         if ($this->request->is('post')) {
+
+            // vérification du user_timeline si je tweet ou si je tweet qulqu'un d'autre
+            if(!empty($this->request->data('user_timeline')))
+            {
+                $user_timeline = $this->request->data('user_timeline');// l'autre
+                $other = 1;
+                if(!preg_match('/@'.$user_timeline.'/', $this->request->data('contenu_tweet')))
+                {
+                    $this->Flash->error(__('Le nom de la personne que vous tweetez doit figurer dans votre tweet.'));
+                    return $this->redirect($this->referer());
+                    die();
+                }
+            }
+            else
+            {
+                $user_timeline = $this->Auth->user('username'); // moi
+                $other = 0;
+            }
+            // fin vérification
                    $data = array(
-            'tweet_id' => rand(5, 15),
+            'id' => rand(5, 15),
             'user_id' => $this->Auth->user('username'),
-            'user_timeline' => $this->Auth->user('username'),
-            'contenu_tweet' => $this->request->data('contenu_tweet')
+            'user_timeline' => $user_timeline,
+            'contenu_tweet' => $this->linkify_tweet($this->request->data('contenu_tweet')),
+            'other_user' => $other,
+                        //evenement username
+            'avatar_session' => $this->Auth->user('avatarprofil'),
+            'auth_name' => $this->Auth->user('username')
             );
             $tweet = $this->Tweet->patchEntity($tweet, $data);
-            if ($this->Tweet->save($tweet)) {
-                // évènement hashtag
 
-                if(preg_match('/#([^\s]+)/', $this->request->data('contenu_tweet')))
-                {
-                 $event = new Event('Model.Tweet.afterAdd', $this, ['contenu_tweet' => $this->request->data('contenu_tweet')]);
+           
+
+            if ($this->Tweet->save($tweet)) {
+                // évènement hashtag/username
+
+
+                 $event = new Event('Model.Tweet.afterAdd', $this, ['tweet' => $tweet]);
                 
                 $this->eventManager()->dispatch($event);
-            }
+            
                 //fin évènement hashtag
                 $this->Flash->success(__('The tweet has been saved.'));
 
-                return $this->redirect(['controller'=> 'tweet', 'action' => 'index', $this->Auth->user('username')]);
+                return $this->redirect($this->referer());
             } else {
                 $this->Flash->error(__('The tweet could not be saved. Please, try again.'));
             }
@@ -153,7 +188,7 @@ class TweetController extends AppController
         return $this->redirect(['controller'=> 'tweet', 'action' => 'index', $this->Auth->user('username')]);
     }
 
-    // partage
+    // partage d'un tweet
     public function share($id = null)
     {
         $tweet = $this->Tweet->newEntity();
