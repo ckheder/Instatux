@@ -2,6 +2,15 @@
 use Cake\I18n\Time;
 use Cake\Network\Request;
 
+           if(isset($test_tweet))
+            {
+                echo '<div class="alert alert-info">
+                                Ce tweet n\'existe pas
+                        </div>';
+            }
+            else
+            {
+
 
  foreach ($tweet as $tweet): ?>
 
@@ -64,5 +73,5 @@ use Cake\Network\Request;
         <?php endforeach; ?>
 
 
-<?php endforeach; ?>
+<?php endforeach; }?>
 

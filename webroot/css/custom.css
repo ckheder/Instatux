@@ -5,10 +5,17 @@ body {
   color : black;
   background-color: #DCDCDC;
   padding-top : 52px;
-  padding-right:0px !important;
-margin-right:0px !important;
+overflow-y:scroll;
 }
 
+.modal {
+ overflow-y: auto;
+}
+
+.modal-open {
+  overflow: inherit;
+  padding-right: 0 !important;
+}
 
 /* tweet, comm, message */
 /* image */
@@ -313,7 +320,7 @@ color: #657786;
 .blue
 {
   color: #4BB5C1;
-  margin-left : 30px;
+  margin-left : 5px;
 }
 .blue_actu
 {
@@ -324,3 +331,7 @@ color: #657786;
   color: red;
 }
 /* fin couleur glyphicon */
+#textarea_message
+{
+  width : 100%;
+}

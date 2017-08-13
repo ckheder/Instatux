@@ -2,7 +2,7 @@
                 echo $this->Modal->create(['id' => 'modalmessage']) ;
                 echo $this->Modal->header('Envoyer un message à '.$this->request->getParam('username').'', ['close'=>false]) ;
                 echo $this->Form->create('Messagerie', array('class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'addprofil')));
-                echo $this->Form->Textarea('message', ['rows' => '2', 'cols' => '60', 'placeholder' =>'Votre message...']) ;
+                echo $this->Form->Textarea('message', ['id' =>'textarea_message','placeholder' =>'Votre message...']) ;
                 echo $this->Form->hidden('destinataire', ['value' => $this->request->getParam('username')]) ;
                 echo $this->Form->hidden('user_message', ['value' => $this->request->getParam('username')])  // nom du destinataire ;?>
                 <br />

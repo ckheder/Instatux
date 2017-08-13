@@ -4,13 +4,16 @@ use Cake\I18n\Time;
             if(isset($nb_tweet))
             {
                 echo '<div class="alert alert-info">
-                                Aucun tweet à afficher
+                        Aucun tweet à afficher
                         </div>';
-            }
-            else
-            {
-?>
-            <?php foreach ($tweet as $tweet): ?>
+                    }
+                        else
+                        {
+                
+                 foreach ($tweet as $tweet):   
+                    ?>
+                
+                 
             <div class="tweet">
             <?php
             if($tweet->share == 1) // si tweet partagé
@@ -71,7 +74,7 @@ use Cake\I18n\Time;
             ?>
 
     </div>
-        <?php endforeach; }?>
+        <?php  endforeach; }?>
 
 
 

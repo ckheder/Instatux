@@ -23,10 +23,18 @@ class TweetController extends AppController
         $this->viewBuilder()->layout('tweet');
         $this->set('title', ''.$this->request->getParam('username').' | Instatux'); // titre de la page
 
-        $username = $this->request->getParam('username');
+        $username = $this->request->getParam('username'); // nom en paramètre
+
+        if($this->verif_user($username) == 0)
+        {
+                    $this->Flash->error(__('Cette page n\'existe pas.'));
+                    return $this->redirect('/'.$this->Auth->user('username').'');
+                    //die();
+        }
+        else
+        {
 
         $tweet = $this->Tweet->find()->select([
-            'Users.id',
             'Users.username',
             'Users.avatarprofil',
             'Tweet.id',
@@ -46,14 +54,15 @@ class TweetController extends AppController
 
          $nb_tweet =  $tweet->count(); // calcul du nombre de tweet
 
+
          if($nb_tweet == 0)
          {
              $this->set('nb_tweet', $nb_tweet);
          }
-         else
-         {
+         
             $this->set(compact('tweet'));
-         }      
+
+}
     }
 
     /**
@@ -78,8 +87,18 @@ class TweetController extends AppController
           }])
         ->contain(['Commentaires.Users']);
 
+        $test_tweet = $tweet->count();
+
+                 if($test_tweet == 0) // test de l'existence du tweet
+         {
+             $this->set('test_tweet', $test_tweet);
+         }
+         else
+         {
+
+
         $this->set('tweet', $tweet);
-        
+        }
       
     }
     // parsage des tweets
@@ -255,13 +274,11 @@ class TweetController extends AppController
 
     }
 
-        private function getid($username) // id de l'utilisateur
+        private function verif_user($username) // on vérifie si l'utilisateur existe
     {
         $this->loadModel('Users');
-        $id = $this->Users->find();
-        $id->select(['id'])
-        ->where(['username' => $username ]);
-        return $id;
+        $check_user = $this->Users->find()->where(['username' => $username ])->count();
+        return $check_user;
     }
 
 
