@@ -37,6 +37,13 @@ use Cake\I18n\Time;
                 <?php
             }
 
+                if(!empty($user->website))
+                {
+                    ?>
+                <li><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;<?= $this->Html->link(''.$user->website.'',''.$user->website.''); ?></li>
+                <?php
+            }
+
             $time = new Time($user->created);
             $time->toUnixString();
             $date_insc = $time->timeAgoInWords([

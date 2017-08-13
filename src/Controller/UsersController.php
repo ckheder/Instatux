@@ -178,6 +178,24 @@ $user->lieu = $this->request->data('lieu');
             }
         }
 
+    public function editwebsite()
+    {
+
+$usersTable = TableRegistry::get('Users');
+$user = $usersTable->get($this->Auth->user('id'));
+$user->website = $this->request->data('website');
+
+            if ($usersTable->save($user)) {
+                $this->Flash->success(__('Mise à jour du site effectué.'));
+
+           return $this->redirect('/settings');
+            } else {
+                $this->Flash->error(__('Modification non effectuée.'));
+                return $this->redirect('/settings');
+            }
+        }
+
+
     
 
 

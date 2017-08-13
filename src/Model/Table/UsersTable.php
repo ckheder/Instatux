@@ -94,6 +94,8 @@ $validator = new Validator();
             ->allowEmpty('avatarprofil')
 
             ->allowEmpty('lieu')
+
+            ->allowEmpty('website')
             
             ->notEmpty('email', "une adresse mail doit être renseigné")
             ->requirePresence('email')

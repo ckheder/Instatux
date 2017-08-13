@@ -28,6 +28,20 @@
 <?= $this->Form->end() ?>
 <hr>
 <div class="text-center">
+<h4><span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Mon site web</h4>
+</div>
+<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editwebsite' )));?>
+
+<?= $this->Form->url('website', ['label'=>''],array('class'=>'form-controle')) ?>
+
+
+<br />
+<div class="text-center">
+<?= $this->Form->button('Mise à jour de mon site web', array('class'=>'btn btn-info')) ?>
+</div>
+<?= $this->Form->end() ?>
+<hr>
+<div class="text-center">
 <h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;Changer ma photo de profil</h4>
 </div>
 <br />
@@ -41,10 +55,7 @@
 
 <hr>
 <div class="text-center">
-<h4><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Supprimer mon compte</h4>
-</div>
-<div class="text-center">
-<?= $this->Form->button(__('Supprimer mon compte'), ['controller'=>'users', 'action' => 'delete', 'class' => 'btn btn-danger', $authUser], ['confirm' => __('Are you sure you want to delete # {0}?', $authUser)]) ?>
+<?= $this->Form->button(__('<i class="glyphicon glyphicon-trash"></i>&nbsp;Supprimer mon compte'), ['controller'=>'users', 'action' => 'delete', 'class' => 'btn btn-danger', $authUser], ['confirm' => __('Are you sure you want to delete # {0}?', $authUser)]) ?>
 </div>
 <br />
 
