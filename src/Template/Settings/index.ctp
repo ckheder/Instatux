@@ -5,7 +5,13 @@
 <?php 
 if($setup_profil == 0)
 {
-	echo '<div class="alert alert-success">Votre profil est actuellement public</div>';
+	echo '<div class="alert alert-success">
+
+	<ul>
+	<li>Tous le monde peut voir vos publications.</li>
+	<li>Les demandes d\'abonnement sont acceptés automatiquement.</li>
+	</ul>
+	</div>';
 	?>
 
 <?= $this->Form->create('', array('url'=>array('controller'=>'settings', 'action'=>'setup_profil_prive' )));?>
@@ -19,10 +25,16 @@ if($setup_profil == 0)
 }
 else
 {
-	echo '<div class="alert alert-danger">Votre profil est actuellement privé</div>';
+	echo '<div class="alert alert-danger">
+
+	<ul>
+	<li>Seules vos abonnés voient vos publications.</li>
+	<li>Vous pouvez choisir d\'accepter ou non un abonnement.</li>
+	</ul>
+
+	</div>';
 	?>
 <?= $this->Form->create('', array('url'=>array('controller'=>'settings', 'action'=>'setup_profil_public' )));?>
-<br />
 
 <div class="text-center">
 
