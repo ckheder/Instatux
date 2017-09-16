@@ -8,6 +8,13 @@ use Cake\Network\Request;
                                 Ce tweet n\'existe pas
                         </div>';
             }
+                        elseif(isset($no_follow))
+            {
+                echo '<div class="alert alert-danger">
+                        Cette publication est privée, vous devez vous abonner à son auteur pour en voir le contenu.
+                        </div>';
+
+            }
             else
             {
 

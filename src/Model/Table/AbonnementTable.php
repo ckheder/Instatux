@@ -66,6 +66,10 @@ class AbonnementTable extends Table
             ->requirePresence('suivi', 'create')
             ->notEmpty('suivi');
 
+        $validator
+            ->requirePresence('etat', 'create')
+            ->allowEmpty('etat');
+
         return $validator;
     }
 

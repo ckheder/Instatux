@@ -7,6 +7,7 @@ use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
 use Cake\Database\Expression\QueryExpression;
 
+
 class HashtagListener implements EventListenerInterface {
 
     public function implementedEvents() {
@@ -23,7 +24,8 @@ class HashtagListener implements EventListenerInterface {
 
     // extraction des hashtag
 
-    function getHashtags($string) {  
+    function getHashtags($string) 
+    {  
     $hashtags= FALSE;  
     preg_match_all("/(#\w+)/u", $string, $matches);  
     if ($matches) {
@@ -31,11 +33,11 @@ class HashtagListener implements EventListenerInterface {
         $hashtags = array_keys($hashtagsArray);
     }
     return $hashtags;
-}
+    }
 
 $array_hash = getHashtags($tweet->contenu_tweet);
 
-$table_hashtag= TableRegistry::get('Hashtag');
+$table_hashtag = TableRegistry::get('Hashtag');
 
     // vérification de l'existence de hashtag
 
@@ -109,6 +111,6 @@ $array_username = getUsernames($tweet->contenu_tweet);
 }
  endforeach;
 
-
 }
+
 }

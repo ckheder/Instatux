@@ -79,13 +79,13 @@ class TweetTable extends Table
             ->allowEmpty('partage');
 
         $validator
-            ->allowEmpty('other_user');
-
-        $validator
             ->allowEmpty('nb_commentaire');
 
         $validator
             ->allowEmpty('nb_partage');
+
+        $validator
+            ->allowEmpty('private');
             
  
         return $validator;

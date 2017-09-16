@@ -37,7 +37,8 @@ class AbonnementCell extends Cell
 'user_id' =>  $authname
 
             ])
-        ->where(['suivi'=> $this->request->getParam('username')]);
+        ->where(['suivi'=> $this->request->getParam('username')])
+        ->where(['etat' => 1]);
         
         if ($abonnement->isEmpty()) 
         {

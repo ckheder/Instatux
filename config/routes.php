@@ -115,6 +115,10 @@ Router::connect('/abonnement/add/:username',['controller' => 'Abonnement', 'acti
 Router::connect('/abonnement/delete/:username',['controller' => 'Abonnement', 'action' => 'delete']);
     // fin route abonnement/delete
 
+    // route accepter abonnement
+Router::connect('/abonnement/:act/:username',['controller' => 'Abonnement', 'action' => 'validate']);
+    // fin route abonnement/delete
+
     // route settings
 Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
     // fin route settings

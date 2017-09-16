@@ -52,13 +52,6 @@
                 'class' => 'btn btn-danger', 
                 'role' => 'button',
                 'escape' => false]);
-                  ?> - 
-                              <?= $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', // lien pour tweeter la personne
-                [ 'data-toggle' => 'modal',
-                  'data-target' => '#ModalTweettoUser',
-                  'class' => 'btn btn-success navbar-btn',
-                  'title' => 'Tweeter '.$this->request->getParam('username').'',
-                  'type' => 'button']);
                   
             }
           } 

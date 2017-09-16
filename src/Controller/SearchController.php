@@ -36,6 +36,7 @@ $query_tweet = $this->Tweet->find()
     ->where([
         "MATCH(Tweet.contenu_tweet) AGAINST(:search)" 
     ])
+    ->where(['private' => 0]) // on ne cherche que les tweets publics
     ->bind(':search', $search)
     ->order(['Tweet.created' => 'DESC'])
     ->contain(['Users']);

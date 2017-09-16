@@ -73,6 +73,7 @@ use App\Event\MessageListener; // listener personnel pour lévènement model.abo
 use App\Event\NotificationupdateListener; // listener personnel pour l'update de notif
 use App\Event\PartageListener; // listener personnel pour l'ajout d'un partage
 use App\Event\HashtagListener; // listener personnel pour l'ajout d'un partage
+use App\Event\SettingsListener; // listener personnel pour l'ajout d'un partage
 /*
  * Read configuration file and inject configuration into various
  * CakePHP classes.
@@ -254,3 +255,6 @@ EventManager::instance()->attach($PartageListener);
 /* évènement hashtag */
 $HashtagListener = new HashtagListener();
 EventManager::instance()->attach($HashtagListener);
+/* évènement settings */
+$SettingsListener = new SettingsListener();
+EventManager::instance()->attach($SettingsListener);

@@ -40,7 +40,8 @@ use Cake\I18n\Time;
                 if(!empty($user->website))
                 {
                     ?>
-                <li><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;<?= $this->Html->link(''.$user->website.'',''.$user->website.''); ?></li>
+                <li><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;<?= $this->Html->link(''.$user->website.'',''.$user->website.'',
+    ['target' => '_blank']); ?></li>
                 <?php
             }
 

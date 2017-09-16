@@ -335,3 +335,21 @@ color: #657786;
 {
   width : 100%;
 }
+/* couleur lien accepter abo */
+.link_abo
+{
+
+  margin-top: 15px;
+
+
+}
+.accept-link
+{
+  color : green;
+
+}
+.refuse-link
+{
+  color : red;
+}
+/* fin couleur lien accepter abo */

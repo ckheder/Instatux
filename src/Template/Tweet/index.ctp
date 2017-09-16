@@ -6,9 +6,17 @@ use Cake\I18n\Time;
                 echo '<div class="alert alert-info">
                         Aucun tweet à afficher
                         </div>';
-                    }
-                        else
-                        {
+                        
+            }
+            elseif(isset($no_follow))
+            {
+                echo '<div class="alert alert-danger">
+                        Ce profil est privé, vous devez vous abonner pour en voir le contenu.
+                        </div>';
+
+            }
+            else
+            {
                 
                  foreach ($tweet as $tweet):   
                     ?>
@@ -22,11 +30,6 @@ use Cake\I18n\Time;
                  echo  $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter'));
             echo  $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username?></span>
             <?
-            }
-            elseif($tweet->other_user == 1) // si tweet d'un autre
-            {
-                echo $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')), 
-                    $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']).'&nbsp;<span class="glyphicon glyphicon-triangle-right"></span>&nbsp;'.$this->Html->link($this->request->getParam('username'),'/'.$this->request->getParam('username').'',['class' => 'link_username_tweet']);
             }
             else
             {
@@ -65,7 +68,7 @@ use Cake\I18n\Time;
 
                <span class="glyphicon glyphicon-share-alt blue"></span>&nbsp;<?= $tweet->nb_partage ?>
                <?php
-            if($tweet->share != 1 AND $tweet->user_id != $authName AND $tweet->other_user != 1) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
+            if($tweet->share != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
             ?>
 
@@ -74,7 +77,8 @@ use Cake\I18n\Time;
             ?>
 
     </div>
-        <?php  endforeach; }?>
+        <?php  endforeach; 
+        }?>
 
 
 

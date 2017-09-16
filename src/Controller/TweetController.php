@@ -25,25 +25,30 @@ class TweetController extends AppController
 
         $username = $this->request->getParam('username'); // nom en paramètre
 
-        if($this->verif_user($username) == 0)
+        if($username != $this->Auth->user('username')) // si je ne suis pas sur mon profil
+    {
+
+            if($this->verif_user($username) == 0) // membre ou page inexistante
         {
                     $this->Flash->error(__('Cette page n\'existe pas.'));
                     return $this->redirect('/'.$this->Auth->user('username').'');
-                    //die();
         }
-        else
+            if($this->check_profil($username) == 0) // profil privé et non abonné
         {
+            $no_follow = 0;
+            $this->set('no_follow', $no_follow);
 
+        }
+    }
         $tweet = $this->Tweet->find()->select([
             'Users.username',
             'Users.avatarprofil',
             'Tweet.id',
             'Tweet.user_id',
-            'Tweet.contenu_tweet',
             'Tweet.user_timeline',
+            'Tweet.contenu_tweet',
             'Tweet.created',
             'Tweet.share',
-            'Tweet.other_user',
             'Tweet.nb_commentaire',
             'Tweet.nb_partage',
             ])
@@ -59,11 +64,10 @@ class TweetController extends AppController
          {
              $this->set('nb_tweet', $nb_tweet);
          }
-         
-            $this->set(compact('tweet'));
 
+            $this->set(compact('tweet'));
 }
-    }
+
 
     /**
      * View method
@@ -76,8 +80,11 @@ class TweetController extends AppController
     {
         $this->viewBuilder()->layout('profil');
         $this->set('title', 'Commentaires'); // titre de la page
-        $tweet = $this->Tweet->find()
-        
+
+        // vérification si on peut
+
+        $tweet = $this->Tweet->find() // récupération des infos du tweet
+
         ->where(['Tweet.id' => $this->request->getParam('id')])
 
 
@@ -89,27 +96,35 @@ class TweetController extends AppController
 
         $test_tweet = $tweet->count();
 
-                 if($test_tweet == 0) // test de l'existence du tweet
+        if($test_tweet == 0) // test de l'existence du tweet
+
          {
              $this->set('test_tweet', $test_tweet);
          }
          else
          {
+            if($this->view_tweet($this->request->getParam('id')) == 0) // profil privé et non abonné
+        {
+            $no_follow = 0;
+            $this->set('no_follow', $no_follow);
 
+        }
 
         $this->set('tweet', $tweet);
         }
-      
+
     }
     // parsage des tweets
-    private function linkify_tweet($tweet) {
-    $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
+    private function linkify_tweet($tweet)
+    {
+        $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
         '$1<a href="$2">@$2</a>',
         $tweet);
-    return preg_replace('/#([^\s]+)/',
+
+        return preg_replace('/#([^\s]+)/',
         '<a href="search-%23$1">#$1</a>',
         $tweet);
-}
+    }
 
     /**
      * Add method
@@ -120,55 +135,39 @@ class TweetController extends AppController
     {
         $tweet = $this->Tweet->newEntity();
         if ($this->request->is('post')) {
-
-            // vérification du user_timeline si je tweet ou si je tweet qulqu'un d'autre
-            if(!empty($this->request->data('user_timeline')))
-            {
-                $user_timeline = $this->request->data('user_timeline');// l'autre
-                $other = 1;
-                if(!preg_match('/@'.$user_timeline.'/', $this->request->data('contenu_tweet')))
-                {
-                    $this->Flash->error(__('Le nom de la personne que vous tweetez doit figurer dans votre tweet.'));
-                    return $this->redirect($this->referer());
-                    die();
-                }
-            }
-            else
-            {
-                $user_timeline = $this->Auth->user('username'); // moi
-                $other = 0;
-            }
             // fin vérification
                    $data = array(
             'id' => rand(5, 15),
             'user_id' => $this->Auth->user('username'),
-            'user_timeline' => $user_timeline,
+            'user_timeline' => $this->Auth->user('username'),
             'contenu_tweet' => $this->linkify_tweet($this->request->data('contenu_tweet')),
-            'other_user' => $other,
+            'private' =>$this->get_type_profil($this->Auth->user('username')),
                         //evenement username
             'avatar_session' => $this->Auth->user('avatarprofil'),
             'auth_name' => $this->Auth->user('username')
             );
             $tweet = $this->Tweet->patchEntity($tweet, $data);
 
-           
+
 
             if ($this->Tweet->save($tweet)) {
                 // évènement hashtag/username
 
 
                  $event = new Event('Model.Tweet.afterAdd', $this, ['tweet' => $tweet]);
-                
+
                 $this->eventManager()->dispatch($event);
-            
+
                 //fin évènement hashtag
                 $this->Flash->success(__('The tweet has been saved.'));
 
-                return $this->redirect($this->referer());
+
             } else {
                 $this->Flash->error(__('The tweet could not be saved. Please, try again.'));
             }
         }
+
+        return $this->redirect($this->referer());
 
     }
 
@@ -181,7 +180,7 @@ class TweetController extends AppController
      */
     public function delete($id = null)
     {
-        
+
  $tweet_verif = $this->Tweet->find();
         $tweet_verif->where([
 
@@ -189,7 +188,7 @@ class TweetController extends AppController
 
             ])
         ->where(['id' => $this->request->getParam('id')]);
-       
+
         if(!$tweet_verif->isEmpty())
         {
             $id_tweet = $this->request->getParam('id');
@@ -215,7 +214,7 @@ class TweetController extends AppController
         $info_tweet = $this->Tweet->find()
         ->select([
          'user_id',
-         'contenu_tweet',     
+         'contenu_tweet',
             ])
         ->where(['Tweet.id' => $this->request->getParam('id')]);
 
@@ -245,12 +244,12 @@ class TweetController extends AppController
 
                 $this->Flash->success(__('Tweet partagé'));
 
-                
+
             } else {
                 $this->Flash->error(__('Impossible de partager ce tweet'));
             }
             return $this->redirect($this->referer());
-        
+
     }
     // tweet sur l'accueuil
 
@@ -259,7 +258,7 @@ class TweetController extends AppController
                 $this->viewBuilder()->layout('profil');
                 $this->set('title', 'Actualités'); // titre de la page
                 $abonnement = $this->Tweet->find('all')
-                
+
        ->where([
 
         'Abonnement.user_id' =>  $this->Auth->user('username')
@@ -268,8 +267,8 @@ class TweetController extends AppController
         ->order(['Tweet.created' => 'DESC'])
         ->contain(['Users'])
         ->contain(['Abonnement']);
- 
-     
+
+
      $this->set(compact('abonnement'));
 
     }
@@ -279,6 +278,102 @@ class TweetController extends AppController
         $this->loadModel('Users');
         $check_user = $this->Users->find()->where(['username' => $username ])->count();
         return $check_user;
+    }
+
+    private function check_profil($username) // autorisations de voir le profil d'un user,0 -> pas le droit, 1 -> le droit
+    {
+        $this->loadModel('Settings');
+
+        // on récupère d'abord le type de profil de l'utilisateur -> 0 : public, 1 : privé
+
+        $verif_type_profil = $this->Settings->find()->select(['type_profil'])->where(['user_id' => $username]);
+
+        foreach($verif_type_profil as $verif_type_profil)
+        {
+            $type_profil = $verif_type_profil->type_profil;
+        }
+
+
+        // si le profil est privé , on vérifie si on est abonné
+
+        if($type_profil == 1)
+        {
+
+            if($this->test_abo == 0) // pas d'abonnement
+            {
+                $voir_profil = 0; // interdiction de voir les tweets
+            }
+
+        }
+        else
+        {
+            $voir_profil = 1;// autoriser à voir les tweets
+        }
+
+        return $voir_profil;
+    }
+
+    private function view_tweet($id = null) // 0 -> pas le droit, 1 -> le droit
+    {
+        $tweet = $this->Tweet->find() // on récupère l'auteur du tweet et si c'est un partage
+
+        ->select(['Tweet.user_id', 'share','private'])
+
+        ->where(['Tweet.id' => $this->request->getParam('id')]);
+
+        foreach($tweet as $tweet)
+        {
+            $auteur_tweet = $tweet->user_id;
+            $share = $tweet->share;
+            $private = $tweet->private;
+        }
+
+        if($private == 1) // on vérifie d'abord si c'est un tweet privé
+        {
+
+       if($auteur_tweet != $this->Auth->user('username') AND $share == 0) // si je ne suis pas l'auteur et que ce n'est pas un tweet partagé
+
+        {
+
+            if($this->test_abo == 0) // pas d'abonnement
+            {
+                $voir_tweet = 0; // interdiction de voir le tweet
+            }
+
+        }
+    }
+        else
+        {
+            $voir_tweet = 1; // autorisation de voir le tweet
+        }
+
+
+    return $voir_tweet;
+    }
+
+    private function test_abo() // on test l'abonnement dans le cas d'un profil ou d'un tweet privé
+    {
+
+            $this->loadModel('Abonnement');
+
+            $verif_abo = $this->Abonnement->find()->where(['user_id' => $this->Auth->user('username')])
+
+                                                            ->where(['suivi' => $auteur_tweet])
+                                                            ->where(['etat' => 1]);
+             $result_abo = $verif_abo->count();
+
+             return $result_abo;
+    }
+
+    private function get_type_profil($username = null) // récupération du type de profil de l'utilisateur pour déterminer si un tweet est privé ou non
+    {
+        $this->loadModel('Settings');
+
+        $type_profil = $this->Settings->find()->select(['type_profil'])->where(['user_id' => $username]);
+
+        foreach($type_profil as $type_profil)
+            $type_profil = $type_profil->type_profil;
+        return $type_profil;
     }
 
 

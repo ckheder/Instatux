@@ -46,9 +46,11 @@ use Cake\I18n\Time;
     'accuracy' => ['month' => 'month'],
     'end' => '1 year'
 ]);
+
+            $resultat_tweet = str_replace('</p>', '', $resultat_tweet->contenu_tweet);
             ?>
                 <span class="date_tweet">Posté <?= $date_tweet ?></span>
-                <?= $this->Text->highlight($this->Text->autoParagraph($resultat_tweet->contenu_tweet), $search , ['format'=>'<span class="surbrillance">\1</span>']) ?>
+                <?= $this->Text->highlight($this->Text->autoParagraph($resultat_tweet), $search , ['format'=>'<span class="surbrillance">\1</span>']) ?>
                 </div>
             <?php endforeach; ?>
 
