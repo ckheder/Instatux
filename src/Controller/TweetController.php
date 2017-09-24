@@ -51,6 +51,7 @@ class TweetController extends AppController
             'Tweet.share',
             'Tweet.nb_commentaire',
             'Tweet.nb_partage',
+            'Tweet.allow_comment',
             ])
          // titre de la page
         ->where(['Tweet.user_timeline' => $username])
@@ -341,6 +342,10 @@ class TweetController extends AppController
             }
 
         }
+         else
+        {
+            $voir_tweet = 1; // autorisation de voir le tweet
+        }
     }
         else
         {
@@ -374,6 +379,44 @@ class TweetController extends AppController
         foreach($type_profil as $type_profil)
             $type_profil = $type_profil->type_profil;
         return $type_profil;
+    }
+
+    public function allowComment()
+    {
+        if($this->request->data('allow_comment') == 1) // si les commentaires sont déjà désactivés
+        {
+            $allow_comment = 0;
+        }
+        else
+        {
+            $allow_comment = 1;
+        }
+
+          $query = $this->Tweet->query()
+                            ->update()
+                            ->set(['allow_comment' => $allow_comment])
+                            ->where(['id' => $this->request->data('id_tweet')])
+                            ->where(['user_timeline' => $this->Auth->user('username')]) // on vérifie que ce tweet est le tweet courant et que j'en suis le timeline
+                            ->execute();
+
+        if($query AND $allow_comment == 0)
+        {
+              $this->Flash->success(__('Les commentaires sont désormais activés pour ce post.'));
+            
+            
+        }
+        elseif($query AND $allow_comment == 1)
+        {
+              $this->Flash->success(__('Les commentaires sont désormais désactivés pour ce post.'));
+            
+            
+        }
+        else
+        {
+                $this->Flash->error(__('Impossible de désactivés les commentaires pour ce post.'));
+        }
+
+        return $this->redirect($this->referer());
     }
 
 

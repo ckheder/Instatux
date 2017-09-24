@@ -4,9 +4,9 @@ echo $this->Modal->create(['id' => 'ModalTweet']) ;
                 echo $this->Form->create('Tweet', array('class'=>'form-inline','url'=>array('controller'=>'Tweet', 'action'=>'add')));
 
                 ?>
-                <textarea id="editor2" name="contenu_tweet"></textarea>
+                <textarea id="editor1" name="contenu_tweet"></textarea>
                 <script>
-                CKEDITOR.replace( 'editor2' );
+                CKEDITOR.replace( 'editor1' );
             </script>
                 <br />
 <div class="text-center">

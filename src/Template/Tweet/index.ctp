@@ -52,17 +52,18 @@ use Cake\I18n\Time;
 
              $contenu = str_replace('</p>', '', $tweet->contenu_tweet);
              ?>
-                <?= $this->Text->autoParagraph($contenu); ?>
+                <?= $this->Text->autoParagraph($contenu); 
 
-                <?php if($tweet->user_timeline == $authName)
-                {
-                ?>
+ 
                 
-                <?= $this->Html->Link("Effacer ce tweet", ['controller' => 'Tweet','action' => 'delete',$tweet->id ], ['title' =>'delete', 'class' =>'deletetweet' ]) ?>
-                <?php
-                };
-                ?>
-               <span class="glyphicon glyphicon-comment green"></span>&nbsp;<?= $this->Html->link(''.$tweet->nb_commentaire.'', ['action' => 'view',  $tweet->id]) ?>
+                if($tweet->allow_comment == 1) // si les commentaires sont désactivés
+                {
+                    echo '<div class="alert alert-info">Les commentaires sont désactivés pour cette publication</div>';
+                }
+                else
+                {
+                    ?>
+               <span class="glyphicon glyphicon-comment green"></span>&nbsp;<?= $this->Html->link(''.$tweet->nb_commentaire.'', ['action' => 'view',  $tweet->id]); }?>
 
                 
 
@@ -74,8 +75,15 @@ use Cake\I18n\Time;
 
             <span class="glyphicon glyphicon-share green_share"></span>&nbsp;<?= $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.'');
         }      
-            ?>
-
+            
+                if($tweet->user_timeline == $authName) // si je suis sur mon mur
+                {
+                ?>
+                
+                <?= $this->Html->Link("Effacer ce tweet", ['controller' => 'Tweet','action' => 'delete',$tweet->id ], ['title' =>'delete', 'class' =>'deletetweet' ]) ?>
+                <?php
+                };
+                ?>
     </div>
         <?php  endforeach; 
         }?>

@@ -62,6 +62,4 @@
 <!-- modal envoi de message -->
 <?= $this->element('modalmessage') ?>
 <!-- fin modal envoi de message -->
-<!-- modal envoi de tweet -->
-<?= $this->element('modaltweettouser') ?>
-<!-- fin modal envoi de tweet -->
+

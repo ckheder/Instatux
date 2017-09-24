@@ -40,7 +40,10 @@ use Cake\Network\Request;
          
 </div>
 
- <?= $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
+<?php if(!$tweet->allow_comment == 1) // si les commentaires sont autorisés
+{
+   echo $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
+
 <?= $this->Form->input('comm', ['placeholder' => 'Commentaire...', 'label'=> '']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
 <?= $this->Form->hidden('userosef', ['value' => $tweet->user->username]) // auteur du tweet?>
@@ -48,7 +51,38 @@ use Cake\Network\Request;
 <?= $this->Form->button('Envoyer', array('class'=>'btn btn-success')) ?>
 </div>
 <?= $this->Form->end(); ?>
-<br />
+<hr>
+<?php
+
+//Bloquer les commentaires 
+
+if($tweet->user_id == $authName AND $tweet->allow_comment == 0)
+{
+    echo $this->Form->create('', array('url'=>array('controller'=>'tweet', 'action'=>'allow_comment')));
+    echo $this->Form->hidden('allow_comment', ['value' => $tweet->allow_comment]); 
+    echo $this->Form->hidden('id_tweet', ['value' => $this->request->getParam('id')]); ?>
+
+<div class="text-center">
+
+<?= $this->Form->button('Désactiver les commentaires', array('class'=>'btn btn-danger')) ?>
+<hr>
+</div>
+<?= $this->Form->end();
+}
+
+
+?>
+<!-- Fin bloquer les commentaires -->
+<?php
+if($tweet->nb_commentaire == 0)
+{
+    echo '<div class="alert alert-info">Aucun commentaire pour cette publication</div>';
+}
+else
+{
+    ?>
+<div class="text-center"><h3><?= $tweet->nb_commentaire ;?>&nbsp commentaire(s)</h3></div>
+
         <?php foreach ($tweet->commentaires as $commentaires): ?>
             <div class="tweet">
  <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
@@ -77,8 +111,27 @@ use Cake\Network\Request;
 
 
         </div>
-        <?php endforeach; ?>
+        <?php endforeach; 
+}
+}
+else
+{
+// commentaires non autorisés
+ echo '<div class="alert alert-danger">Les commentaires sont désactivés pour cette publication</div>';
+ if($tweet->user_id == $authName)
+{
+    echo $this->Form->create('', array('url'=>array('controller'=>'tweet', 'action'=>'allow_comment')));
+    echo $this->Form->hidden('allow_comment', ['value' => $tweet->allow_comment]); 
+    echo $this->Form->hidden('id_tweet', ['value' => $this->request->getParam('id')]); ?>
 
+<div class="text-center">
 
-<?php endforeach; }?>
+<?= $this->Form->button('Activer les commentaires', array('class'=>'btn btn-success')) ?>
+<hr>
+</div>
+<?= $this->Form->end();
+}
+
+}
+endforeach;}?>
 

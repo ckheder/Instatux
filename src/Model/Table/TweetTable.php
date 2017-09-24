@@ -86,6 +86,9 @@ class TweetTable extends Table
 
         $validator
             ->allowEmpty('private');
+
+        $validator
+            ->allowEmpty('allow_comment');
             
  
         return $validator;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Sam 16 Septembre 2017 à 17:32
+-- Généré le :  Dim 24 Septembre 2017 à 17:22
 -- Version du serveur :  10.2.8-MariaDB-10.2.8+maria~xenial
 -- Version de PHP :  7.0.22-0ubuntu0.16.04.1
 
@@ -111,7 +111,10 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 (209, '<a href="../test">@test</a> <a href="../test2">@test2</a>', '196', '18', '2017-07-20 09:28:14'),
 (210, 'quoi ?', '226', '17', '2017-07-24 12:33:26'),
 (211, 'va te faire', '226', '18', '2017-07-24 12:35:14'),
-(212, 'fgd', '211', '18', '2017-08-07 09:05:22');
+(212, 'fgd', '211', '18', '2017-08-07 09:05:22'),
+(216, 'dfg', '245', '17', '2017-09-24 09:27:37'),
+(215, 'dfg', '243', '17', '2017-09-22 15:32:30'),
+(217, 'dfg', '240', '17', '2017-09-24 15:22:21');
 
 -- --------------------------------------------------------
 
@@ -231,7 +234,8 @@ INSERT INTO `notifications` (`id_notif`, `user_name`, `notification`, `created`,
 (185, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-11 19:13:25', 1),
 (187, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-11 19:29:41', 1),
 (188, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-12 08:11:07', 1),
-(189, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-12 08:13:30', 1);
+(189, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-12 08:13:30', 1),
+(190, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/240">publication</a><br /><br />dfg', '2017-09-24 15:22:21', 0);
 
 -- --------------------------------------------------------
 
@@ -267,8 +271,6 @@ INSERT INTO `partage` (`id_partage`, `tweet_partage`, `created`) VALUES
 (17, 8, '2017-07-17 08:10:31'),
 (18, 8, '2017-07-17 08:10:52'),
 (19, 8, '2017-07-17 08:12:35'),
-(32, 98, '2017-07-17 08:37:54'),
-(33, 98, '2017-07-19 12:27:57'),
 (34, 8, '2017-09-11 19:08:09'),
 (35, 8, '2017-09-11 19:13:25'),
 (36, 8, '2017-09-11 19:14:41'),
@@ -332,25 +334,26 @@ CREATE TABLE `tweet` (
   `share` int(111) DEFAULT 0,
   `nb_commentaire` int(111) DEFAULT 0,
   `nb_partage` int(111) NOT NULL DEFAULT 0,
-  `private` tinyint(1) NOT NULL DEFAULT 0
+  `private` tinyint(1) NOT NULL DEFAULT 0,
+  `allow_comment` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `tweet`
 --
 
-INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created`, `share`, `nb_commentaire`, `nb_partage`, `private`) VALUES
-(8, 'essai', 'essai', 'accueuil moi', '2016-09-06 19:35:36', 0, 5, 18, 0),
-(15, 'test2', 'test2', 'accueuil test 2 essai', '2016-10-07 08:50:07', 0, 1, 1, 0),
-(43, 'test', 'test', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', 0, 11, 0, 1),
-(87, 'test2', 'test', 'accueuil test 2 essai', '2017-06-22 12:04:39', 1, 0, 2, 0),
-(95, 'test', 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-07-01 16:37:56', 0, 0, 0, 1),
-(98, 'test', 'test', '<div data-oembed-url="http://img.voi.pmdstatic.net/fit/http.3A.2F.2Fwww.2Evoici.2Efr.2Fvar.2Fvoi.2Fstorage.2Fimages.2Fmedia.2Fmultiupload-du-04-octobre-2016.2F2_jennifer-lopez-sexy-selfie-seins.2F10071896-1-fre-FR.2F2_jennifer-lopez-sexy-selfie-seins.2Ejpg/1237x693/quality/80/2-jennifer-lopez-sexy-selfie-seins.jpg"><div style="max-width: 1484px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.0226%;"><iframe tabindex="-1" src="//cdn.iframe.ly/2pk7UlS" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-07-01 16:43:07', 0, 1, 2, 1),
-(231, 'test', 'test', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-08-10 15:52:56', 0, 0, 0, 1),
-(240, 'essai', 'test', 'accueuil moi', '2017-09-12 08:13:30', 1, 0, 0, 0),
-(241, 'essai', 'essai', '<p>pas voir</p>', '2017-09-12 08:16:45', 0, 0, 0, 0),
-(242, 'essai', 'essai', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-09-14 12:34:31', 0, 0, 0, 0),
-(243, 'test', 'test', '<p>test private</p>', '2017-09-16 15:32:17', 0, 0, 0, 1);
+INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created`, `share`, `nb_commentaire`, `nb_partage`, `private`, `allow_comment`) VALUES
+(8, 'essai', 'essai', 'accueuil moi', '2016-09-06 19:35:36', 0, 5, 18, 0, 0),
+(15, 'test2', 'test2', 'accueuil test 2 essai', '2016-10-07 08:50:07', 0, 1, 1, 0, 0),
+(43, 'test', 'test', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', 0, 11, 0, 1, 0),
+(87, 'test2', 'test', 'accueuil test 2 essai', '2017-06-22 12:04:39', 1, 0, 2, 0, 0),
+(95, 'test', 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-07-01 16:37:56', 0, 0, 0, 1, 0),
+(231, 'test', 'test', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-08-10 15:52:56', 0, 0, 0, 1, 0),
+(240, 'essai', 'test', 'accueuil moi', '2017-09-12 08:13:30', 1, 1, 0, 0, 0),
+(241, 'essai', 'essai', '<p>pas voir</p>', '2017-09-12 08:16:45', 0, 0, 0, 0, 0),
+(242, 'essai', 'essai', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-09-14 12:34:31', 0, 0, 0, 0, 1),
+(243, 'test', 'test', '<p>test private</p>', '2017-09-16 15:32:17', 0, 1, 0, 1, 1),
+(245, 'test', 'test', '<div data-oembed-url="https://cdn.artstation.com/p/assets/images/images/007/008/902/large/qichao-wang-1.jpg?1502985771"><div style="max-width: 1200px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 144.4%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/LS8QLjy" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-09-22 19:07:12', 0, 1, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -468,7 +471,7 @@ ALTER TABLE `abonnement`
 -- AUTO_INCREMENT pour la table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 --
 -- AUTO_INCREMENT pour la table `conversation`
 --
@@ -488,7 +491,7 @@ ALTER TABLE `messagerie`
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
@@ -503,7 +506,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
