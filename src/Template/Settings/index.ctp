@@ -45,7 +45,8 @@ else
  }
 
  ?>
-
+<!-- fin mise à jour type profil -->
+<!-- modifier ma descritpion -->
 <hr>
 <div class="text-center">
 <h4> <span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;Changer ma description</h4>
@@ -60,6 +61,8 @@ else
 <?= $this->Form->button('Mise à jour de ma description', array('class'=>'btn')) ?>
 </div>
 <?= $this->Form->end() ?>
+<!-- fin modifier ma descritpion -->
+<!-- modifier mon lieu -->
 <hr>
 <div class="text-center">
 <h4><span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Changer mon lieu d'habitation</h4>
@@ -74,6 +77,8 @@ else
 <?= $this->Form->button('Mise à jour de mon lieu', array('class'=>'btn')) ?>
 </div>
 <?= $this->Form->end() ?>
+<!-- fin modifier mon lieu -->
+<!-- modifier mon site web -->
 <hr>
 <div class="text-center">
 <h4><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;Mon site web</h4>
@@ -88,6 +93,8 @@ else
 <?= $this->Form->button('Mise à jour de mon site web', array('class'=>'btn')) ?>
 </div>
 <?= $this->Form->end() ?>
+<!-- fin modifier mon site web -->
+<!-- modifier mon avatar -->
 <hr>
 <div class="text-center">
 <h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;Changer ma photo de profil</h4>
@@ -99,11 +106,12 @@ else
 <div class="text-center">
 <?= $this->Form->button('Mise à jour de mon avatar', array('class'=>'btn')) ?>
 </div>
-<?= $this->Form->end() ?>
-
+<!-- supprimer mon compte -->
 <hr>
 <div class="text-center">
 <?= $this->Form->button(__('<i class="glyphicon glyphicon-trash"></i>&nbsp;Supprimer mon compte'), ['controller'=>'users', 'action' => 'delete', 'class' => 'btn btn-danger', $authUser], ['confirm' => __('Are you sure you want to delete # {0}?', $authUser)]) ?>
 </div>
 <br />
+<!-- fin supprimer mon compte -->
+
 

@@ -74,6 +74,7 @@ use App\Event\NotificationupdateListener; // listener personnel pour l'update de
 use App\Event\PartageListener; // listener personnel pour l'ajout d'un partage
 use App\Event\HashtagListener; // listener personnel pour l'ajout d'un partage
 use App\Event\SettingsListener; // listener personnel pour l'ajout d'un partage
+use App\Event\UsersListener; // listener personnel pour la création de la ligne settings à l'inscription
 /*
  * Read configuration file and inject configuration into various
  * CakePHP classes.
@@ -258,3 +259,6 @@ EventManager::instance()->attach($HashtagListener);
 /* évènement settings */
 $SettingsListener = new SettingsListener();
 EventManager::instance()->attach($SettingsListener);
+/* évènement users */
+$UsersListener = new UsersListener();
+EventManager::instance()->attach($UsersListener);

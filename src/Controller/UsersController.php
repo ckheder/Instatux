@@ -97,6 +97,12 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
                  $this->Auth->setUser($user);
 
+                 // évènement de création de la ligne settings 
+
+                $event = new Event('Model.Settings.afteradd', $this, ['user' => $user]);
+
+                $this->eventManager()->dispatch($event);
+
                 $this->Flash->success(__('Inscription réussie, bienvenue '.h($this->request->data('username')).' sur Instatux.'));
                 return $this->redirect('/'.$this->Auth->user('username').'');
                 

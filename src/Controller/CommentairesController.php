@@ -212,7 +212,7 @@ $this->request->data['id']
         $commentaire = $this->Commentaires->get($id);
         if ($this->Commentaires->delete($commentaire)) 
         {
-            $this->Flash->success(__('The commentaire has been deleted.'));
+            $this->Flash->success(__('Commentaire supprimé.'));
         } 
 
         return $this->redirect([
@@ -226,7 +226,7 @@ $this->request->data['id']
 
     else 
     {
-            $this->Flash->error(__('The commentaire could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Impossible de supprimé ce commentaire.'));
         }
 }
 }

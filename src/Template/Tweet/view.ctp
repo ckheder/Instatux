@@ -2,6 +2,7 @@
 use Cake\I18n\Time;
 use Cake\Network\Request;
 
+
            if(isset($test_tweet))
             {
                 echo '<div class="alert alert-info">
@@ -23,17 +24,10 @@ use Cake\Network\Request;
 
 <div class="tweet">
             <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
-            <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username ?></span>
+            <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username ?></span> - 
             
-                        <?php
-            $time = new Time($tweet->created);
-            $time->toUnixString();
-            $date_tweet = $time->timeAgoInWords([
-    'accuracy' => ['month' => 'month'],
-    'end' => '1 year'
-]);
-            ?>
-             <span class="date_tweet">Posté <?=  h($date_tweet) ?></span>
+
+             <?= $tweet->created->i18nformat('dd MMMM YYYY'); ?>
 
 <?= $this->Text->autoParagraph($tweet->contenu_tweet); ?>
 
@@ -42,7 +36,18 @@ use Cake\Network\Request;
 
 <?php if(!$tweet->allow_comment == 1) // si les commentaires sont autorisés
 {
-   echo $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
+  if(isset($bloquer))
+  {
+    echo '<div class="alert alert-danger">
+                        Vous n\'êtes pas autorisé à commenter cette publication.
+                        </div>';
+  }
+elseif(!isset($bloquer))
+{
+  
+  echo $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
+
+  
 
 <?= $this->Form->input('comm', ['placeholder' => 'Commentaire...', 'label'=> '']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
@@ -85,32 +90,47 @@ else
 
         <?php foreach ($tweet->commentaires as $commentaires): ?>
             <div class="tweet">
+               
+              
+                <!-- bouton dropdown comm -->
+                        <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    ...
+      </button>
+  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+    <?php if($tweet->user_timeline == $authName or $commentaires->user_id == $authUser)
+    {
+        ?>
+        <li>
+        <?= $this->Html->link("Effacer ce commentaire", ['controller' => 'Commentaires','action' => 'delete', $commentaires->id, $tweet->id]);
+         } 
+         ?>
+             
+         </li>
+    
+        <?php if($commentaires->user_id != $authUser)
+    {
+
+        ?>
+        <li><?= $this->Html->link('Bloquer '.$commentaires->user->username.'', ['controller' => 'Blocage','action' => 'add', $commentaires->user->username]); ?></li> <!-- bloquer les commentaires -->
+            <li><a href="#">Signaler ce commentaire</a></li>
+            <?php
+         } 
+         ?>
+             
+         
+  </ul>
+</div>
+<!-- fin bouton dropdown comm -->
  <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
- <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span>
+ <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - 
 
-                         <?php
-            $time = new Time($commentaires->created);
-            $time->toUnixString();
-            $date_comm = $time->timeAgoInWords([
-    'accuracy' => ['month' => 'month'],
-    'end' => '1 year'
-]);
-            
+<?= $commentaires->created->i18nformat('dd MMMM YYYY'); ?>
 
-?>
- <span class="date_tweet">Commenté <?= $date_comm ?></span>
 
 <?= $this->Text->autoParagraph(strip_tags($commentaires->comm, '<a>')) ; ?>
-<span class="glyphicon glyphicon-comment"></span>&nbsp;
-<?php if($tweet->user_id == $authName or $commentaires->auteur == $authUser)
-
-    echo  $this->Html->link("Delete", ['controller' => 'Commentaires','action' => 'delete', $commentaires->id, $tweet->id],['title' =>'delete', 'class' =>'deletetweet' ]);
-
-
-?>
-
-
-        </div>
+      
+</div>
         <?php endforeach; 
 }
 }
@@ -132,6 +152,7 @@ else
 <?= $this->Form->end();
 }
 
+}
 }
 endforeach;}?>
 

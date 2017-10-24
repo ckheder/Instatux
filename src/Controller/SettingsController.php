@@ -15,8 +15,10 @@ class SettingsController extends AppController
 
     public function index()
     {
+            $this->viewBuilder()->layout('profil');
+        
     	$this->set('title', 'Paramètre de compte'); // titre de la page
-        $this->viewBuilder()->layout('profil');
+    
 
         // récupération des paramètres de mon profil
 

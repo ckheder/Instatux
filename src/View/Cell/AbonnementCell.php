@@ -88,7 +88,7 @@ $this->set('nb_abonnement',$nb_abonnement);
         
     }
 
-    public function nbabonnes($id) // pour la cell sur la page d'abonnement
+    public function nbabonnes($id) // pour la cell sur la page d'abonnement, le nombre d'abonnés sur l page des abonnements
     {
     $this->loadModel('Abonnement');
         
@@ -98,7 +98,7 @@ $this->set('nb_abonnes',$nb_abonnes);
 
     }
 
-         public function avatar_user($user, $share, $other, $abonnement) // avatar de l'utilisateur abonné sur l'accueuil
+         public function avatar_user($user, $share,$abonnement) // avatar de l'utilisateur abonné sur l'accueuil dans le cas d'un partage
     {
         $this->loadModel('Users');
         $avatar_user = $this->Users->find();
@@ -113,10 +113,7 @@ $this->set('nb_abonnes',$nb_abonnes);
         {
             $this->set('share', $share);
         }
-        elseif($other == 1)
-        {
-            $this->set('other', $other);
-        }
+
         
     }
 

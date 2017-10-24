@@ -5,21 +5,45 @@ use Cake\Routing\Router;
                 echo $this->Form->button('Répondre', 
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#ModalConv',
-                  'class' => 'btn btn-success pull-left']) ;
+                  'class' => 'btn btn-info pull-left']) ;
 
-                  echo $this->html->link('Supprimer cette conversation', [
+                  
+?>
+
+ <div class="dropdown pull-right">
+  <button class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">
+    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><?= $this->html->link('Supprimer cette conversation', [
                  'controller' => 'Conversation',
                   'action' => 'edit',
-                  $this->request->getParam('id')],[
-                  'class' => 'btn btn-danger pull-right',
-                  'confirm' => ('Are you sure you want to delete ?')]) ;
-?>
+                  $this->request->getParam('id')]) ?></li>
+    <li><?= $this->Html->link('Bloquer '.$destinataire.'', ['controller' => 'Blocage','action' => 'add', $destinataire]); ?></li>
+    <li><a href="#">JavaScript</a></li>
+  </ul>
+</div> 
 
 <br />
 <br />
 Nombre de message : <?= $nb_msg;?>
 <br />
 <br />
+
+ <?= $this->Form->create('Messagerie', array('class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'add'))); ?>
+                
+<textarea name="message" class="textarea_message" placeholder=" Répondre à <?= $destinataire ?>..."></textarea>
+<br />
+<?= $this->Form->hidden('conversation', ['value' => $this->request->getParam('id')]) // id de la conv ?>  
+<?= $this->Form->hidden('destinataire', ['value' => $destinataire]) // id du destinataire?>
+
+                <br />
+<div class="text-center">
+                <?= $this->Form->button('Envoyer', array('class'=>'btn btn-success')) ?>
+</div>
+                <br />
+
+                <?= $this->Form->end(); ?>
 
 
             <?php foreach ($message as $message): ?>
@@ -64,41 +88,7 @@ Nombre de message : <?= $nb_msg;?>
 <br />
 <br />
 
-                        <?php
-if($message->user_id == $authUser)
-{
- $destinataire = $message->destinataire;
- }
- else
- {
- $destinataire = $message->user_id;
- }
-?>
+
 
             <?php endforeach; ?>
-            
 
-<?php
-echo $this->Modal->create(['id' => 'ModalConv']) ;
-                echo $this->Modal->header('Répondre', ['close'=>false]) ;
-                echo $this->Form->create('Messagerie', array('class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'add')));
-                ?>
-<textarea name="message" class="textarea_message" placeholder="Message..."></textarea>
-<br />
-<?= $this->Form->hidden('conversation', ['value' => $this->request->getParam('id')]) // id de la conv ?>  
-<?= $this->Form->hidden('user_id', ['value' => $destinataire]) // id du destinataire?>
-
-                <br />
-<div class="text-center">
-                <?= $this->Form->button('Envoyer', array('class'=>'btn btn-success')) ?>
-</div>
-                <br />
-
-                <?= $this->Form->end(); 
-               echo $this->Modal->footer([
-                    $this->Form->button('Fermer', ['data-dismiss' => 'modal', 'class' =>'btn btn-danger'])
-                    ]);
-                echo $this->Modal->end() ;
-
-
-?>

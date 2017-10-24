@@ -11,7 +11,22 @@ class SettingsListener implements EventListenerInterface {
         return array(
             'Model.Settings.afterPrivate' => 'updatetweetprivate',
             'Model.Settings.afterPublic' => 'updatetweetpublic',
+            'Model.Settings.afteradd' => 'addentity',
         );
+    }
+
+        public function addentity($event, $user) // création de la ligne Settings pour un utilisateur nouvellement enregistré
+    {
+
+    $entity = TableRegistry::get('Settings');
+
+    $query = $entity->query();
+$query->insert(['user_id'])
+    ->values([
+        'user_id' => $user->username
+    ])
+    ->execute();
+
     }
 
     public function updatetweetprivate($event, $authname) {
@@ -36,4 +51,6 @@ class SettingsListener implements EventListenerInterface {
 
  
 }
+
+
 }

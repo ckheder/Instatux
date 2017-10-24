@@ -55,9 +55,11 @@ class SettingsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->allowEmpty('user_id');
+
+        $validator
             ->boolean('type_profil')
-            ->requirePresence('type_profil', 'create')
-            ->notEmpty('type_profil');
+            ->allowEmpty('type_profil');
 
         return $validator;
     }

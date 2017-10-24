@@ -7,7 +7,7 @@
 
         if(isset($nbabonnement_attente))
         {
-         echo '<div class="alert alert-info">Aucun abonnement en attente</div>';
+         echo '<div class="alert alert-info">Aucun demande d\'abonnement en attente.</div>';
         }
         else
         {
@@ -33,7 +33,7 @@
         }
         else
         {
-            echo '<div class="alert alert-success"><span class="glyphicon glyphicon-user"></span>&nbsp;'.$count_abonnes.' abonné(s).</div>';
+            echo '<div class="alert alert-success"><span class="glyphicon glyphicon-user"></span>&nbsp;'.$count_abonnes.' abonnement(s).</div>';
         ?>
         
         <!-- abonnement validé -->

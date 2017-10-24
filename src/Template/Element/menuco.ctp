@@ -38,6 +38,7 @@
       <ul class="nav navbar-nav navbar-right">
      
        <li><a href="/instatux/messagerie" title="Messagerie"><span class="glyphicon glyphicon-envelope"></span>&nbsp;</a></li>
+       <li><a href="/instatux/bloques" title="Messagerie"><span class="glyphicon glyphicon-ban-circle"></span>&nbsp;</a></li>
        <li><a href="/instatux/settings" title="Paramètres"><span class="glyphicon glyphicon-wrench"></span></a></li>
         <li><a href="/instatux/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Déconnexion</a></li>
       </ul>

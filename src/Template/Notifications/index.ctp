@@ -24,28 +24,40 @@ else
 {
     ?>
 <div class="tweet">
-  <?php
-  }
-
-            $time = new Time($notification->created);
-            $time->toUnixString();
-            $date_notif = $time->timeAgoInWords([
-    'accuracy' => ['month' => 'month'],
-    'end' => '1 year'
-]);
-            ?>
-             <span class="date_tweet"><?= $date_notif ?></span>
-       
-
-             <?= $this->Text->autoParagraph($notification->notification) ?>
-              
-             <?php if($notification->user_name == $authName)
+                            <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    ...
+      </button>
+  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+    <?php
+                
+            
+                if($notification->user_name == $authName) // si c'est une notification me concernant
                 {
                 ?>
-                
-                <?= $this->Html->link("Delete", ['action' => 'delete',$notification->id_notif], ['title' =>'delete', 'class' =>'deletetweet' ]);
+                <li>
+                <?= $this->Html->link("Effacer cette notification", ['action' => 'delete',$notification->id_notif], ['title' =>'delete']); // je peut effacer mon post 
+                ?>
+            </li>
+
+             <?php
                 }
                 ?>
+
+  </ul>
+</div>
+<!-- fin bouton dropdown tweet -->
+  <?php
+  }
+?>
+            <span class="date_notif">
+
+            <?= $notification->created->i18nformat('dd MMMM YYYY'); ?>
+                 
+             </span>
+       
+
+            <?= $this->Text->autoParagraph($notification->notification); ?>
 
 </div>
 <?php endforeach; 

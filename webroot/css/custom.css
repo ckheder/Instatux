@@ -27,7 +27,6 @@ overflow-y:scroll;
   padding : 6px ;
   color : black;
 margin-bottom: 12px;
-
 }
 
 .vcenter_left {
@@ -54,10 +53,12 @@ margin-bottom: 12px;
 .textarea_message
 {
   width : 100%;
+  border-radius: 5px;
 }
 .tweet a /* enlève le soulignement des liens */
 {
 text-decoration: none;
+
 }
 .link_username_tweet 
 {
@@ -79,13 +80,7 @@ float: left;
   height : 48px;
   width : 48px;
 }
-.date_tweet
-{
 
-  float: right;
-  color : #657786;
-
-}
 .deletetweet
 {
   display: none;
@@ -99,7 +94,7 @@ float: left;
 .alias_tweet
 {
   color: #657786;
-  margin-left: 10px;
+  margin-left: 6px;
 }
 /* abonnement */
 .liste_abo
@@ -207,6 +202,12 @@ float: right;
 /* notification */
   .badge_notif{
    background:#046380;
+  }
+
+  .date_notif
+  {
+    float : right;
+    margin-right : 10px;
   }
 
 /* div notif non lu */
@@ -353,3 +354,15 @@ color: #657786;
   color : red;
 }
 /* fin couleur lien accepter abo */
+/* barre du nombre de commentaire et de partage */
+.nb_comm_share
+{
+  float: right;
+  color : #90949c;
+}
+.link_comm_share a
+{
+  color : #484C4B;
+font-weight: bold;
+}
+/* fin barre du nombre de commentaire et de partage */

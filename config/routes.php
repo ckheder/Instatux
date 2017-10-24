@@ -127,6 +127,10 @@ Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
 Router::connect('messagerie',['controller' => 'Messagerie', 'action' => 'index']);
     //fin route messagerie
 
+    // route utilisateurs bloques
+Router::connect('bloques',['controller' => 'Blocage', 'action' => 'listebloques']);
+    //fin route utlisateurs bloques
+
     // route conversation
 Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['id' => '\d+', 'pass' =>['id']]);
     //fin route conversation

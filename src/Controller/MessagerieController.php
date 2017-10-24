@@ -60,13 +60,13 @@ class MessagerieController extends AppController
 
 // vérification que l'on peut accéder à une conversation
     
-    private function verifconv($id = null)
+    private function verifconv($username)
     {
         $this->loadModel('Conversation');
         $verif = $this->Conversation->find();
        
-        $verif->where(['participant1' => $this->Auth->user('username')])
-        ->orwhere(['participant2'=>$this->Auth->user('username')])
+        $verif->where(['participant1' => $username])
+        ->orwhere(['participant2'=> $username])
         ->where(['conv' => $this->request->getParam('id')]);
 
         if ($verif->isEmpty())
@@ -86,12 +86,12 @@ class MessagerieController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($id = null) // voir une conversation
     {
         $this->viewBuilder()->layout('profil');
          $this->set('title', 'Conversation'); // titre de la page
 
-         $verif_user = $this->verifconv($this->Auth->user('id'));
+         $verif_user = $this->verifconv($this->Auth->user('username'));
 
          if($verif_user == 0)
          {
@@ -101,8 +101,7 @@ class MessagerieController extends AppController
     'action' => 'index'
         
 ]);
-
-                 
+               
                 die();
          }
          else
@@ -114,17 +113,34 @@ class MessagerieController extends AppController
 
 
         ->contain(['Users']);
-        $nb_msg = $message->count(); // calcul du nombre de conversations actives
+        $nb_msg = $message->count(); // calcul du nombre de message
 
         $this->set('nb_msg',$nb_msg);
 $this->set('verif_user',1);
  $this->set(compact('message'));
+
+ foreach ($message as $message): 
+                        
+if($message->user_id == $this->Auth->user('username'))
+{
+ $destinataire = $message->destinataire;
+ }
+ else
+ {
+ $destinataire = $message->user_id;
+ }
+
+endforeach;
+
+$this->set('destinataire', $destinataire);
+
 }
   
     }
 
         // parsage des tweets
-    private function linkify_tweet($tweet) {
+    private function linkify_tweet($tweet) 
+    {
     $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
         '$1<a href="$2">@$2</a>',
         $tweet);
@@ -139,58 +155,31 @@ $this->set('verif_user',1);
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add() // ajouter un message à une conversation
+    public function add() // envoyer un message, ajout auto à une conv ou création d'une nouvelle
     {
-$message = $this->Messagerie->newEntity();
-        if ($this->request->is('post')) {
-            $data = array(
-            'user_id' => $this->Auth->user('username'), // expediteur
-            'destinataire' => $this->request->data['user_id'],
-            'message' =>  $this->linkify_tweet($this->request->data['message']), // message
-            'conv' => $this->request->data['conversation'],
-            //evenement abonnement
-            'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' => $this->Auth->user('avatarprofil')
-            );
-            $message = $this->Messagerie->patchEntity($message, $data);
-            
-            if ($this->Messagerie->save($message)) 
-            {
+         if($this->test_blocage($this->request->data['destinataire'])) // si je suis bloqué
+        {
 
-                    //évènenement
+        $this->Flash->error(__('Message non envoyé, cet utilisateur vous à bloqué.'));
 
-                 $event = new Event('Model.Messagerie.afterAdd', $this, ['message' => $message]);
-                $this->eventManager()->dispatch($event);
-
-                // fin évènement
-                $this->Flash->success(__('Message envoyé.'));
-
-              
-
-                return $this->redirect([
-    'controller' => 'messagerie',
-    'action' => 'view',
-    $this->request->data['conversation']
+        return $this->redirect($this->referer());
         
-]);
-            } else {
-                $this->Flash->error(__('Message non envoyé.'));
-                return $this->redirect([
-                    'controller' => 'messagerie',
-    'action' => 'view',
-    $this->request->data['conversation']
-        
-]);
-            }
+
         }
-    }
+        else
+        {
 
-    public function addprofil() // envoyer message depuis profil
-    {
 
-// récupération de conversation : tabel conversation
+$message = $this->Messagerie->newEntity();
 
-    $this->loadModel('Conversation');
+if(isset($this->request->data['conversation']))
+{
+    $conversation = $this->request->data['conversation'];
+    $new_conv = 0;
+}
+else
+{
+       $this->loadModel('Conversation');
 
 $checkconv = $this->Conversation
         ->find()
@@ -203,7 +192,7 @@ $checkconv = $this->Conversation
         ->where(['participant2' => $this->request->data['destinataire']]);
 
 
- if ($checkconv->isEmpty()) // si pas de résultat, on crée
+ if ($checkconv->isEmpty()) // si pas de résultat, on crée une nouvelle conversation
         {
 
             $conversation = rand();
@@ -212,58 +201,58 @@ $checkconv = $this->Conversation
             }
             else
             {
-                foreach ($checkconv as $row)
+                foreach ($checkconv as $row) // recupération de la conversation
                 {
                 $conversation = $row['conv'];
-                $new_conv = 1;
+                $new_conv = 1; // converstion existante
                 }
 
             }
-
-// fin récupération conversation
-
+}
         
             $data = array(
             'user_id' => $this->Auth->user('username'), // expediteur
             'destinataire' => $this->request->data['destinataire'],
-            'message' =>  $this->request->data['message'], // message
+            'message' =>  $this->linkify_tweet($this->request->data['message']), // message
             'conv' => $conversation,
             //evenement abonnement
             'nom_session' => $this->Auth->user('username'),//nom de session
             'avatar_session' => $this->Auth->user('avatarprofil'),
-            'new_conv' => $new_conv // si il faut crée ou non une conversation
+             'new_conv' => $new_conv
             );
 
-            $username = $this->request->data['destinataire']; // nom du destinataire
-            $message = $this->Messagerie->newEntity();
             $message = $this->Messagerie->patchEntity($message, $data);
-
-         //dd($data);
             
-            if ($this->Messagerie->save($message)) {
-                $this->Flash->success(__('Message envoyé à '.$username.''));
+            if ($this->Messagerie->save($message)) 
+            {
+                    //évènenement
 
-                  $event = new Event('Model.Messagerie.afterAdd', $this, ['message' => $message]);
+                 $event = new Event('Model.Messagerie.afterAdd', $this, ['message' => $message]);
                 $this->eventManager()->dispatch($event);
 
                 // fin évènement
-
-                return $this->redirect([
-    'controller' => 'tweet',
-    'action' => 'index',
-    $username
-        
-]);
-            } else {
-                $this->Flash->error(__('Message non envoyé.'));
-                                return $this->redirect([
-    'controller' => 'tweet',
-    'action' => 'index',
-    $username
-        
-]);
+                $this->Flash->success(__('Message envoyé.'));
+                
             }
+            else
+            {
+                $this->Flash->success(__('Message non envoyé.'));
+            }
+
+           return $this->redirect($this->referer());
         
+    }
+    }
+
+        private function test_blocage($username) // on vérifie que le destinataire ne m'a pas bloqué
+    {
+        $this->loadModel('Blocage');
+
+        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $username])->where(['bloquer' => $this->Auth->user('username') ]);
+
+        $result_blocage = $verif_blocage->count();
+
+             return $result_blocage;
     }
 
 

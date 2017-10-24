@@ -244,7 +244,7 @@ class AbonnementController extends AppController
             }
         $this->set(compact('abonnement'));
         $this->set('_serialize', ['abonnement']);
-return $this->redirect(['action' => 'index']);
+return $this->redirect($this->referer());
     }
 
     public function indexmessagerie() // liste de mes abonnements pour la messagerie

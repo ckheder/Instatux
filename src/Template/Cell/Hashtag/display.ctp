@@ -1,5 +1,5 @@
 <div class="text-center">
-<h4>Tendance</h4>
+<h4><span class="glyphicon glyphicon-fire"></span>&nbsp;Tendance</h4>
 </div>
 <ul class="hashtag">
 <?php foreach ($hashtag as $hashtag): ?>

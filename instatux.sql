@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Dim 24 Septembre 2017 à 17:22
--- Version du serveur :  10.2.8-MariaDB-10.2.8+maria~xenial
+-- Généré le :  Lun 23 Octobre 2017 à 11:32
+-- Version du serveur :  10.2.9-MariaDB-10.2.9+maria~xenial
 -- Version de PHP :  7.0.22-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -32,6 +32,33 @@ CREATE TABLE `abonnement` (
   `suivi` varchar(255) NOT NULL,
   `etat` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `abonnement`
+--
+
+INSERT INTO `abonnement` (`id`, `user_id`, `suivi`, `etat`) VALUES
+(83, 'test', 'essai', 1),
+(84, 'essai', 'test', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `blocage`
+--
+
+CREATE TABLE `blocage` (
+  `id` int(11) NOT NULL,
+  `bloqueur` varchar(255) NOT NULL,
+  `bloquer` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `blocage`
+--
+
+INSERT INTO `blocage` (`id`, `bloqueur`, `bloquer`) VALUES
+(5, 'test', 'essai');
 
 -- --------------------------------------------------------
 
@@ -74,13 +101,10 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 (170, '#facebook lol', '137', '17', '2017-07-04 09:04:53'),
 (156, 'test', '43', '17', '2017-06-20 13:57:59'),
 (157, 'test', '43', '17', '2017-06-20 14:00:12'),
-(158, 'test', '43', '17', '2017-06-20 14:16:40'),
 (159, 'test', '43', '17', '2017-06-20 14:16:54'),
 (160, 'test', '43', '17', '2017-06-20 14:17:35'),
 (161, 'test', '43', '17', '2017-06-20 14:21:51'),
 (162, 'test', '43', '17', '2017-06-20 14:26:58'),
-(163, 'test', '43', '17', '2017-06-20 16:41:27'),
-(164, 'test', '43', '17', '2017-06-20 16:43:44'),
 (166, 'test', '81', '17', '2017-06-21 09:18:41'),
 (171, 'test', '138', '17', '2017-07-05 09:32:20'),
 (172, 'gg', '138', '17', '2017-07-07 13:28:36'),
@@ -114,7 +138,9 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`) VALU
 (212, 'fgd', '211', '18', '2017-08-07 09:05:22'),
 (216, 'dfg', '245', '17', '2017-09-24 09:27:37'),
 (215, 'dfg', '243', '17', '2017-09-22 15:32:30'),
-(217, 'dfg', '240', '17', '2017-09-24 15:22:21');
+(222, 'rtyrt', '95', '18', '2017-09-26 00:00:00'),
+(221, 'dfg', '95', '17', '2017-09-30 12:11:51'),
+(224, 'en effet', '43', '18', '2017-10-09 15:18:35');
 
 -- --------------------------------------------------------
 
@@ -135,12 +161,17 @@ CREATE TABLE `conversation` (
 --
 
 INSERT INTO `conversation` (`id`, `conv`, `participant1`, `participant2`, `statut`) VALUES
-(17, 1656791438, 'test', 'test2', 1),
 (18, 1656791438, 'test2', 'test', 1),
 (19, 1372035574, 'test', 'essai', 1),
 (20, 1372035574, 'essai', 'test', 1),
-(21, 975971343, 'test', 'osefman156', 1),
-(22, 975971343, 'osefman156', 'test', 1);
+(21, 975971343, 'test', 'osefman156', 0),
+(22, 975971343, 'osefman156', 'test', 1),
+(23, 1372035574, 'test', 'essai', 1),
+(24, 1372035574, 'essai', 'test', 1),
+(25, 1372035574, 'test', 'essai', 1),
+(26, 1372035574, 'essai', 'test', 1),
+(27, 1565742761, 'test', 'test2', 1),
+(28, 1565742761, 'test2', 'test', 1);
 
 -- --------------------------------------------------------
 
@@ -203,7 +234,19 @@ INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`,
 (106, 'test', 'test2', 'redf', '2017-07-11 15:52:08', 1656791438),
 (107, 'test', 'essai', 'test', '2017-07-13 08:24:59', 1372035574),
 (111, 'test', 'test', '<a href="essai">@essai</a>@osef', '2017-07-18 16:21:56', 1372035574),
-(112, 'essai', 'test', '@essai #teamgius', '2017-07-19 12:28:23', 1372035574);
+(112, 'essai', 'test', '@essai #teamgius', '2017-07-19 12:28:23', 1372035574),
+(113, 'test', 'essai', 'dfg', '2017-10-18 19:08:40', 1372035574),
+(114, 'essai', 'test', 'suis-je bloqué ?', '2017-10-20 09:23:35', 1372035574),
+(115, 'essai', 'test', 'suis-je bloqué ?', '2017-10-20 09:24:18', 1372035574),
+(116, 'essai', 'test', 'suis-je bloqué', '2017-10-20 09:27:09', 1372035574),
+(117, 'test', 'essai', 'oui', '2017-10-20 09:29:13', 1372035574),
+(118, 'test', 'essai', 'test new add', '2017-10-23 09:24:48', 1372035574),
+(119, 'test', 'essai', 'test new add', '2017-10-23 09:25:16', 1372035574),
+(120, 'test', 'essai', 'test new add', '2017-10-23 09:26:04', 1372035574),
+(121, 'test', 'essai', 'test new add', '2017-10-23 09:26:38', 1372035574),
+(122, 'test', 'essai', 'osef', '2017-10-23 09:27:48', 1372035574),
+(123, 'test', 'essai', 'test depuis profil', '2017-10-23 09:28:02', 1372035574),
+(124, 'test', 'test2', 'ça marche', '2017-10-23 09:29:26', 1565742761);
 
 -- --------------------------------------------------------
 
@@ -228,14 +271,38 @@ INSERT INTO `notifications` (`id_notif`, `user_name`, `notification`, `created`,
 (178, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à accepté votre demande d\'abonnement', '2017-08-28 08:41:30', 1),
 (179, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a><span class="alias_tweet">@essai</span> souhaite s\'abonné\n            <a href="/instatux/abonnement/">Gérer mes abonnements</a>', '2017-08-28 08:46:56', 1),
 (180, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à accepté votre demande d\'abonnement', '2017-08-28 08:47:11', 1),
-(181, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a><span class="alias_tweet">@essai</span> souhaite s\'abonné\n            <a href="/instatux/abonnement/">Gérer mes abonnements</a>', '2017-08-30 15:39:08', 1),
 (183, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a><span class="alias_tweet">@essai</span> souhaite s\'abonné\n            <a href="/instatux/abonnement/">Gérer mes abonnements</a>', '2017-08-30 15:41:43', 1),
 (184, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-11 19:08:09', 1),
 (185, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-11 19:13:25', 1),
 (187, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-11 19:29:41', 1),
 (188, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-12 08:11:07', 1),
 (189, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/8">post</a> !', '2017-09-12 08:13:30', 1),
-(190, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/240">publication</a><br /><br />dfg', '2017-09-24 15:22:21', 0);
+(190, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/240">publication</a><br /><br />dfg', '2017-09-24 15:22:21', 1),
+(191, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/240">publication</a><br /><br />test', '2017-09-30 09:03:42', 1),
+(192, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/240">publication</a><br /><br />test', '2017-09-30 09:05:13', 1),
+(193, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2017-10-04 15:04:49', 1),
+(194, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2017-10-04 15:08:44', 1),
+(195, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2017-10-05 08:55:04', 1),
+(196, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/242">post</a> !', '2017-10-05 09:02:23', 1),
+(197, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2017-10-05 16:40:03', 1),
+(198, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2017-10-06 08:56:44', 1),
+(199, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2017-10-08 09:55:48', 1),
+(200, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/240">publication</a><br /><br /><a href="../test"><a href="test">@test</a></a>', '2017-10-08 18:57:04', 1),
+(201, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a><span class="alias_tweet">@essai</span> souhaite s\'abonné\n            <a href="/instatux/abonnement/">Gérer mes abonnements</a>', '2017-10-09 15:16:50', 1),
+(202, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> à accepté votre demande d\'abonnement', '2017-10-09 15:16:59', 1),
+(203, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/43">publication</a><br /><br />en effet', '2017-10-09 15:18:35', 1),
+(204, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-18 19:08:40', 1),
+(205, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-20 09:23:35', 1),
+(206, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-20 09:24:18', 1),
+(207, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/essai">essai</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-20 09:27:09', 1),
+(208, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-20 09:29:13', 1),
+(209, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-23 09:24:48', 0),
+(210, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-23 09:25:16', 0),
+(211, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-23 09:26:04', 0),
+(212, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-23 09:26:38', 0),
+(213, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-23 09:27:48', 0),
+(214, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1372035574">message</a> !', '2017-10-23 09:28:02', 0),
+(215, 'test2', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1565742761">message</a> !', '2017-10-23 09:29:26', 0);
 
 -- --------------------------------------------------------
 
@@ -276,7 +343,8 @@ INSERT INTO `partage` (`id_partage`, `tweet_partage`, `created`) VALUES
 (36, 8, '2017-09-11 19:14:41'),
 (37, 8, '2017-09-11 19:29:41'),
 (38, 8, '2017-09-12 08:11:07'),
-(39, 8, '2017-09-12 08:13:30');
+(39, 8, '2017-09-12 08:13:30'),
+(40, 242, '2017-10-05 09:02:23');
 
 -- --------------------------------------------------------
 
@@ -316,8 +384,8 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `user_id`, `type_profil`) VALUES
-(1, 'test', 1),
-(2, 'essai', 0);
+(3, 'test', 0),
+(5, 'essai', 0);
 
 -- --------------------------------------------------------
 
@@ -343,17 +411,13 @@ CREATE TABLE `tweet` (
 --
 
 INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created`, `share`, `nb_commentaire`, `nb_partage`, `private`, `allow_comment`) VALUES
-(8, 'essai', 'essai', 'accueuil moi', '2016-09-06 19:35:36', 0, 5, 18, 0, 0),
-(15, 'test2', 'test2', 'accueuil test 2 essai', '2016-10-07 08:50:07', 0, 1, 1, 0, 0),
-(43, 'test', 'test', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', 0, 11, 0, 1, 0),
+(8, 'essai', 'essai', '<p>accueil moi</p>', '2016-09-06 19:35:36', 0, 5, 18, 0, 0),
+(15, 'test2', 'test2', '<p>accueil test 2 essai</p>', '2016-10-07 08:50:07', 0, 1, 1, 0, 0),
+(43, 'test', 'test', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-02-15 16:03:22', 0, 9, 0, 0, 0),
 (87, 'test2', 'test', 'accueuil test 2 essai', '2017-06-22 12:04:39', 1, 0, 2, 0, 0),
-(95, 'test', 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-07-01 16:37:56', 0, 0, 0, 1, 0),
-(231, 'test', 'test', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-08-10 15:52:56', 0, 0, 0, 1, 0),
-(240, 'essai', 'test', 'accueuil moi', '2017-09-12 08:13:30', 1, 1, 0, 0, 0),
-(241, 'essai', 'essai', '<p>pas voir</p>', '2017-09-12 08:16:45', 0, 0, 0, 0, 0),
-(242, 'essai', 'essai', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-09-14 12:34:31', 0, 0, 0, 0, 1),
-(243, 'test', 'test', '<p>test private</p>', '2017-09-16 15:32:17', 0, 1, 0, 1, 1),
-(245, 'test', 'test', '<div data-oembed-url="https://cdn.artstation.com/p/assets/images/images/007/008/902/large/qichao-wang-1.jpg?1502985771"><div style="max-width: 1200px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 144.4%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/LS8QLjy" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-09-22 19:07:12', 0, 1, 0, 1, 1);
+(95, 'test', 'test', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-07-01 16:37:56', 0, 1, 0, 0, 1),
+(241, 'essai', 'essai', '<p>pas voir</p>', '2017-09-12 08:16:45', 0, 0, 0, 1, 0),
+(242, 'essai', 'essai', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-09-14 12:34:31', 0, 0, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -371,7 +435,7 @@ CREATE TABLE `users` (
   `description` text DEFAULT NULL,
   `avatarprofil` varchar(255) DEFAULT NULL,
   `lieu` varchar(255) DEFAULT NULL,
-  `website` varchar(255) NOT NULL
+  `website` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -381,10 +445,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`, `modified`, `description`, `avatarprofil`, `lieu`, `website`) VALUES
 (17, 'test', '$2y$10$UIQ9op5aAipqz8pDVruLU.pvOIj1kWtiYDxejEP9J40xE439wn1W6', 'alexa@gmail.com', '2016-09-02 12:08:17', '2017-08-13 18:48:06', 'Développeur WEB, créateur d\'Instatux', 'avatars/1480966833_183.jpg', 'New York', 'https://christophekheder.com/'),
 (18, 'essai', '$2y$10$iXLVGo6eGEB2cTKBpg/nieN5xr/VfBLiKl9LFBcQ1nVAfW00I3JOG', 'osef@gmail.com', '2016-09-06 19:03:25', '2016-09-06 19:03:25', 'essai cakephp 3', 'avatars/warcraft.png', NULL, ''),
-(19, 'test2', '$2y$10$UDe2RZRiavxk55ebkfOlA.J4TS6HKOlB25.PXLCZl06MZlrhJ3JB6', 'test2@gmail.com', '2016-10-07 08:47:30', '2016-10-07 08:47:30', 'test cakephp 3', 'avatars/default.png', NULL, ''),
-(32, 'demo', '$2y$10$/lwPUiLboLplQQTwWhcbIegs5ejnZn.xWzziJbK5M8v6ErjfUB4GK', 'demo@gmail.com', '2017-06-19 08:28:59', '2017-06-19 08:28:59', 'demo', 'avatars/default.png', NULL, ''),
-(33, 'ralph', '$2y$10$jq.sj5Lh9Rusqh3xJR19N.8xi5HH2v0T36COHH/NcML/Kjhhp47pm', 'ofre@gmail.com', '2017-06-27 08:58:39', '2017-06-27 08:58:39', NULL, 'avatars/default.png', NULL, ''),
-(34, 'osefman156', '$2y$10$neOwTgwCHTfGBfAQCNlnueJF9zOxQ864q7HMZr6CyyMxVjzcPOgmq', 'mewa@gmail.com', '2017-06-27 08:59:54', '2017-06-27 09:03:01', 'osef', 'avatars/default.png', NULL, '');
+(19, 'test2', '$2y$10$UDe2RZRiavxk55ebkfOlA.J4TS6HKOlB25.PXLCZl06MZlrhJ3JB6', 'test2@gmail.com', '2016-10-07 08:47:30', '2016-10-07 08:47:30', 'test cakephp 3', 'avatars/default.png', NULL, '');
 
 --
 -- Index pour les tables exportées
@@ -396,6 +457,12 @@ INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`, `modified
 ALTER TABLE `abonnement`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_key` (`suivi`);
+
+--
+-- Index pour la table `blocage`
+--
+ALTER TABLE `blocage`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `commentaires`
@@ -466,17 +533,22 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+--
+-- AUTO_INCREMENT pour la table `blocage`
+--
+ALTER TABLE `blocage`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 --
 -- AUTO_INCREMENT pour la table `conversation`
 --
 ALTER TABLE `conversation`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT pour la table `hashtag`
 --
@@ -486,32 +558,32 @@ ALTER TABLE `hashtag`
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 --
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
 ALTER TABLE `partage`
-  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT pour la table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=248;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- Contraintes pour les tables exportées
 --
