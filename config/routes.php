@@ -85,23 +85,23 @@ Router::connect('/post/delete/:id',['controller' => 'Tweet', 'action' => 'delete
 
 //fin essai route tweet
 
+// route  notif
+
+Router::connect('/notifications',['controller' => 'Notifications', 'action' => 'index']);
+
+//fin route  notif
+
 // route delete notif
 
 Router::connect('/notifications/delete/:id',['controller' => 'Notifications', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
 
 //fin route delete notif
 
-// route hashtag
+// route recherche
 
 Router::connect('/search-:string',['controller' => 'Search', 'action' => 'search']);
 
-//fin route hashtag
-
-// route  notif
-
-Router::connect('/notifications',['controller' => 'Notifications', 'action' => 'index']);
-
-//fin route  notif
+//fin route recherche
 
     // route abonnement index
 Router::connect('/abonnement',['controller' => 'Abonnement', 'action' => 'index']);
@@ -127,16 +127,12 @@ Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
 Router::connect('messagerie',['controller' => 'Messagerie', 'action' => 'index']);
     //fin route messagerie
 
-    // route utilisateurs bloques
-Router::connect('bloques',['controller' => 'Blocage', 'action' => 'listebloques']);
-    //fin route utlisateurs bloques
-
     // route conversation
 Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['id' => '\d+', 'pass' =>['id']]);
     //fin route conversation
 
     // route accueil
-Router::connect('/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);
+Router::connect('/actualités',['controller' => 'Tweet', 'action' => 'accueuil']);
     // fin route accueil
 
     // route partage add

@@ -12,7 +12,14 @@ use Cake\Network\Request;
                         elseif(isset($no_follow))
             {
                 echo '<div class="alert alert-danger">
-                        Cette publication est privée, vous devez vous abonner à son auteur pour en voir le contenu.
+                        Impossible d\'afficher cette publication
+                        <br />
+                        Raisons possibles : 
+                        <ul>
+                        <li>Ce profil est privé, vous devez vous abonner pour en voir le contenu.</li>
+                        <li>Cet utilisateur vous à bloqué.</li>
+                        </ul>
+                        
                         </div>';
 
             }
@@ -36,14 +43,7 @@ use Cake\Network\Request;
 
 <?php if(!$tweet->allow_comment == 1) // si les commentaires sont autorisés
 {
-  if(isset($bloquer))
-  {
-    echo '<div class="alert alert-danger">
-                        Vous n\'êtes pas autorisé à commenter cette publication.
-                        </div>';
-  }
-elseif(!isset($bloquer))
-{
+
   
   echo $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
 
@@ -153,6 +153,6 @@ else
 }
 
 }
-}
+
 endforeach;}?>
 

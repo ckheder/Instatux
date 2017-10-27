@@ -234,10 +234,10 @@ $user->website = $this->request->data('website');
                 }
         // fin effacer avatar
         if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
+            $this->Flash->success(__('Compte supprimé.'));
             return $this->redirect('/');
         } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Impossible de supprimer votre compte.'));
             return $this->redirect('/settings');
         }
 
@@ -321,31 +321,31 @@ $user->website = $this->request->data('website');
 
                         // fin maj database
                     
-                        $this->Flash->success(__('File has been uploaded and inserted successfully.'));
+                        $this->Flash->success(__('Nouvel avatar défini.'));
                         return $this->redirect('/settings');
                 }
                     else
                     {
-                        $this->Flash->error(__('Unable to upload file, please try again.'));
+                        $this->Flash->error(__('Impossible d\'envoyer ce fichier.'));
                         return $this->redirect('/settings');
                     }
            }
                     else
                     {
-                      $this->Flash->error(__('extensions incorrects.'));
+                      $this->Flash->error(__('extension de fichier incorrect.'));
                         return $this->redirect('/settings');
                     }
       }
                     else
                     {
-                      $this->Flash->error(__('taille.'));
+                      $this->Flash->error(__('fichier trop volumineux.'));
                         return $this->redirect('/settings');
                     }
                 
               }
             else
             {
-                $this->Flash->error(__('Please choose a file to upload.'));
+                $this->Flash->error(__('Choisissez un fichier à envoyer.'));
                 return $this->redirect('/settings');
             }
             

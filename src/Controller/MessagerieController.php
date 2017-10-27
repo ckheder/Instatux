@@ -95,7 +95,7 @@ class MessagerieController extends AppController
 
          if($verif_user == 0)
          {
-            $this->Flash->error(__('Vous n\'avez l\'autorisation de voir cette conversation.'));
+            $this->Flash->error(__('Vous n\'avez pas l\'autorisation de voir cette conversation.'));
                 return $this->redirect([
                     'controller' => 'messagerie',
     'action' => 'index'

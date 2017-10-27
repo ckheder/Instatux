@@ -13,56 +13,7 @@ use Cake\ORM\TableRegistry;
 class ConversationController extends AppController
 {
 
-    /**
-     * Index method
-     *
-     * @return \Cake\Network\Response|null
-     */
-    public function index()
-    {
-        $conversation = $this->paginate($this->Conversation);
 
-        $this->set(compact('conversation'));
-        $this->set('_serialize', ['conversation']);
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Conversation id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $conversation = $this->Conversation->get($id, [
-            'contain' => []
-        ]);
-
-        $this->set('conversation', $conversation);
-        $this->set('_serialize', ['conversation']);
-    }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $conversation = $this->Conversation->newEntity();
-        if ($this->request->is('post')) {
-            $conversation = $this->Conversation->patchEntity($conversation, $this->request->data);
-            if ($this->Conversation->save($conversation)) {
-                $this->Flash->success(__('The conversation has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The conversation could not be saved. Please, try again.'));
-        }
-        $this->set(compact('conversation'));
-        $this->set('_serialize', ['conversation']);
-    }
 
     /**
      * Edit method

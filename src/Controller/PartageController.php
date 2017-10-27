@@ -45,46 +45,7 @@ class PartageController extends AppController
         $this->set('_serialize', ['partage']);
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $partage = $this->Partage->newEntity();
-       
-            $data = array(
-            'user_id' => $this->Auth->user('id'), // moi
-            'tweet_partage' => $this->request->getParam('id'), // tweet_partage
-            //evenement partage
-            'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' => $this->Auth->user('avatarprofil'),
-            'auteur' => $this->request->getParam('id_auteur')
-            );
 
-        $partage = $this->Partage->patchEntity($partage, $data);
-            
-            if ($this->Partage->save($partage)) 
-            {
-
-                // évènement création de partage
-
-                 $event = new Event('Model.Partage.afterAdd', $this, ['partage' => $partage]);
-                $this->eventManager()->dispatch($event);
-
-                // fin évènement création de partage
-
-                $this->Flash->success(__('The partage has been saved.'));
-
-                
-            }
-            else
-            {
-            $this->Flash->error(__('The partage could not be saved. Please, try again.'));
-        }
-            return $this->redirect($this->referer());
-    }
     
 
     /**
@@ -110,9 +71,9 @@ class PartageController extends AppController
 
             $result = $this->Partage->delete($partage);
 
-            $this->Flash->success(__('The partage has been deleted.'));
+            $this->Flash->success(__('Partage supprimé.'));
         } else {
-            $this->Flash->error(__('The partage could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Impossible de supprimer ce partage.'));
         }
 
         return $this->redirect('/'.$this->Auth->user('username').'');

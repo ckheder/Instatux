@@ -91,10 +91,10 @@ class CommentairesController extends AppController
                 //fin évènement
               }
 
-                $this->Flash->success(__('The commentaire has been saved.'));
+                $this->Flash->success(__('Commentaire posté avec succès.'));
 
             } else {
-                $this->Flash->error(__('The commentaire could not be saved. Please, try again.'));
+                $this->Flash->error(__('Impossible de commenter.'));
 
             }
         }

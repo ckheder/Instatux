@@ -33,7 +33,7 @@ class TweetController extends AppController
                     $this->Flash->error(__('Cette page n\'existe pas.'));
                     return $this->redirect('/'.$this->Auth->user('username').'');
         }
-            if($this->check_profil($username) == 0) // profil privé et non abonné
+            if($this->allow_see_profil($username) == 0) // profil privé et non abonné
         {
             $no_follow = 0;
             $this->set('no_follow', $no_follow);
@@ -71,6 +71,66 @@ class TweetController extends AppController
             $this->set(compact('tweet'));
 }
 
+    private function allow_see_profil($username) // $username = $this->request->getPram('username')
+    {
+
+        // 1) on vérifie si je suis bloqué : bloqueur -> l'autre et bloqué -> moi
+
+        $this->loadModel('Blocage');
+
+        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $username])->where(['bloquer' => $this->Auth->user('username')]);
+
+        $result_blocage = $verif_blocage->count();
+
+        if($result_blocage == 1) // je suis bloqué
+        {
+            return $voir = 0; // interdiction de voir le profil
+        }
+        else 
+        {
+        // récupération du profil courant 1) profil prive 0/ profil public
+
+        $this->loadModel('Settings');
+
+        $type_profil = $this->Settings->find()->select(['type_profil'])->where(['user_id' => $username]);
+
+        foreach($type_profil as $type_profil)
+
+            $type_profil = $type_profil->type_profil;
+
+            if($type_profil == 1) // profil privé
+            {
+
+        // on vérifie si je suis abonné
+
+        $this->loadModel('Abonnement');
+
+        $verif_abo = $this->Abonnement->find()->where(['user_id' => $this->Auth->user('username')])
+
+                                                            ->where(['suivi' => $username])
+                                                            ->where(['etat' => 1]);
+        $result_abo = $verif_abo->count();
+
+        if($result_abo == 0) // je ne suis pas abonné
+        {
+            $voir = 0; // interdiction de voir
+        }
+         else
+        {
+            $voir = 1; // autorisation de voir
+        }
+
+}
+
+    else // profil public et non bloqué je peut voir les tweets
+        {
+            $voir = 1;
+        }
+            } 
+
+            return $voir;
+    }
+
 
     /**
      * View method
@@ -106,21 +166,96 @@ class TweetController extends AppController
          }
          else
          {
-            if($this->view_tweet($this->Auth->user('username')) == 0) // profil privé et non abonné
+            if($this->allow_view_tweet($this->Auth->user('username')) == 0) // pas le droit de voir le tweet
         {
             $no_follow = 0;
             $this->set('no_follow', $no_follow);
 
         }
-        elseif ($this->test_blocage($this->Auth->user('username')) == 1) // utilisateur bloqué 
-        {
-            $this->set('bloquer', 0);
-        }
-
+        
         $this->set('tweet', $tweet);
         }
 
     }
+
+        /**
+     * allow-view_tweet method
+     * test des autorisations de voir un tweet
+     * @param string| $username $this->Auth->user('username').
+     */
+
+        private function allow_view_tweet($username)
+    {
+
+        $tweet = $this->Tweet->find() // on récupère l'auteur du tweet et si c'est un partage et si il est privé
+
+        ->select(['Tweet.user_id', 'share','private'])
+
+        ->where(['Tweet.id' => $this->request->getParam('id')]);
+
+        foreach($tweet as $tweet)
+        {
+            $auteur_tweet = $tweet->user_id;
+            $share = $tweet->share;
+            $private = $tweet->private;
+        }
+
+        // 1) on vérifie si je suis bloqué : bloqueur -> l'autre et bloqué -> moi
+
+        $this->loadModel('Blocage');
+
+        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $auteur_tweet])->where(['bloquer' => $this->Auth->user('username')]);
+
+        $result_blocage = $verif_blocage->count();
+
+        if($result_blocage == 1) // je suis bloqué
+        {
+            return $voir = 0; // interdiction de voir le tweet
+        }
+        else 
+        {
+        // vérification si c'est un tweet privé
+
+            if($private == 1) // tweet privé
+            {
+
+                if($auteur_tweet != $this->Auth->user('username') AND $share == 0) // je ne suis pas l'auteur et que ce n'est pas un tweet partagé
+
+                {
+
+        // on vérifie si je suis abonné
+
+        $this->loadModel('Abonnement');
+
+        $verif_abo = $this->Abonnement->find()->where(['user_id' => $this->Auth->user('username')])
+
+                                                            ->where(['suivi' => $auteur_tweet])
+                                                            ->where(['etat' => 1]);
+        $result_abo = $verif_abo->count();
+
+
+
+        if($result_abo == 0) // je ne suis pas abonné
+        {
+            $voir = 0; //interdiction de voir le tweet
+        }
+        else
+        {
+            $voir = 1;
+        }
+
+            }
+
+            }
+            else // tweet public, on peut le voir
+            {
+                $voir = 1;
+            }
+            
+    }
+
+    return $voir;
+}
     // parsage des tweets
     private function linkify_tweet($tweet)
     {
@@ -166,11 +301,11 @@ class TweetController extends AppController
                 $this->eventManager()->dispatch($event);
 
                 //fin évènement hashtag
-                $this->Flash->success(__('The tweet has been saved.'));
+                $this->Flash->success(__('Nouveau tweet ajouté.'));
 
 
             } else {
-                $this->Flash->error(__('The tweet could not be saved. Please, try again.'));
+                $this->Flash->error(__('Impossible d\'ajouter ce tweet.'));
             }
         }
 
@@ -203,11 +338,11 @@ class TweetController extends AppController
             $result = $this->Tweet->delete($entity);
             if($result)
             {
-            $this->Flash->success(__('The tweet has been deleted.'));
+            $this->Flash->success(__('Tweet supprimé.'));
         }
         }
          else {
-            $this->Flash->error(__('The tweet could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Impossible de supprimer ce tweet.'));
         }
 
         return $this->redirect(['controller'=> 'tweet', 'action' => 'index', $this->Auth->user('username')]);
@@ -260,7 +395,7 @@ class TweetController extends AppController
     }
     // tweet sur l'accueuil
 
-    public function accueuil($id = null)
+    public function accueuil()
     {
                 $this->viewBuilder()->layout('profil');
                 $this->set('title', 'Actualités'); // titre de la page
@@ -275,135 +410,18 @@ class TweetController extends AppController
         ->contain(['Users'])
         ->contain(['Abonnement']);
 
+        $nb_tweet_accueuil = $abonnement->count();
+
+        if($nb_tweet_accueuil == 0)
+        {
+            $this->set('nb_tweet_accueuil', $nb_tweet_accueuil);
+        }
+
 
      $this->set(compact('abonnement'));
 
     }
 
-        private function verif_user($username) // on vérifie si l'utilisateur existe
-    {
-        $this->loadModel('Users');
-        $check_user = $this->Users->find()->where(['username' => $username ])->count();
-        return $check_user;
-    }
-
-    private function check_profil($username) // autorisations de voir le profil d'un user,0 -> pas le droit, 1 -> le droit
-    {
-        $this->loadModel('Settings');
-
-        // on récupère d'abord le type de profil de l'utilisateur -> 0 : public, 1 : privé
-
-        $verif_type_profil = $this->Settings->find()->select(['type_profil'])->where(['user_id' => $username]);
-
-        foreach($verif_type_profil as $verif_type_profil)
-        {
-            $type_profil = $verif_type_profil->type_profil;
-        }
-
-
-        // si le profil est privé , on vérifie si on est abonné
-
-        if($type_profil == 1)
-        {
-
-            if($this->test_abo($username) == 0) // pas d'abonnement
-            {
-                $voir_profil = 0; // interdiction de voir les tweets
-            }
-            else
-            {
-                $voir_profil = 1;
-            }
-
-        }
-        elseif ($type_profil == 0 AND $this->test_blocage($username) == 1) //   bloqué sur un profil public 
-        {
-            $voir_profil = 0; // interdiction de voir les tweets
-        }
-        else
-        {
-            $voir_profil = 1;// autoriser à voir les tweets
-        }
-
-        return $voir_profil;
-    }
-
-    private function view_tweet($id = null) // 0 -> pas le droit, 1 -> le droit
-    {
-        $tweet = $this->Tweet->find() // on récupère l'auteur du tweet et si c'est un partage et si il est privé
-
-        ->select(['Tweet.user_id', 'share','private'])
-
-        ->where(['Tweet.id' => $this->request->getParam('id')]);
-
-        foreach($tweet as $tweet)
-        {
-            $auteur_tweet = $tweet->user_id;
-            $share = $tweet->share;
-            $private = $tweet->private;
-        }
-
-        
-
-    if($private == 1) // on vérifie d'abord si c'est un tweet privé
-
-        {
-
-            if($auteur_tweet != $this->Auth->user('username') AND $share == 0) // si je ne suis pas l'auteur et que ce n'est pas un tweet partagé
-
-        {
-
-                if($this->test_abo($auteur_tweet) == 0) // on test si je suis abonné à l'auteur : 0-> non donc pas de tweet
-        {
-                $voir_tweet = 0; // interdiction de voir le tweet
-            }
-
-                     else
-        {
-            $voir_tweet = 1; // autorisation de voir le tweet
-        }
-
-        }
-
-                 else
-        {
-            $voir_tweet = 1; // autorisation de voir le tweet
-        }
-
-    }
-        else // tweet public pas de problème
-        {
-            $voir_tweet = 1; // autorisation de voir le tweet
-        }
-
-
-    return $voir_tweet;
-    }
-
-    private function test_abo($username) // on test l'abonnement dans le cas d'un profil ou d'un tweet privé
-    {
-
-            $this->loadModel('Abonnement');
-
-            $verif_abo = $this->Abonnement->find()->where(['user_id' => $this->Auth->user('username')])
-
-                                                            ->where(['suivi' => $username])
-                                                            ->where(['etat' => 1]);
-             $result_abo = $verif_abo->count();
-
-             return $result_abo;
-    }
-
-    private function get_type_profil($username = null) // récupération du type de profil de l'utilisateur pour déterminer si un tweet est privé ou non
-    {
-        $this->loadModel('Settings');
-
-        $type_profil = $this->Settings->find()->select(['type_profil'])->where(['user_id' => $username]);
-
-        foreach($type_profil as $type_profil)
-            $type_profil = $type_profil->type_profil;
-        return $type_profil;
-    }
 
     public function allowComment() // activer/désactiver les commentaires
     {
@@ -443,28 +461,14 @@ class TweetController extends AppController
         return $this->redirect($this->referer());
     }
 
-    private function test_blocage($username)
+    
+        private function verif_user($username) // on vérifie si l'utilisateur existe
     {
-
-        $tweet = $this->Tweet->find() // on récupère l'auteur du tweet et si c'est un partage et si il est privé
-
-        ->select(['Tweet.user_id'])
-
-        ->where(['Tweet.id' => $this->request->getParam('id')]);
-
-        foreach($tweet as $tweet)
-        {
-            $auteur_tweet = $tweet->user_id;
-        }
-
-        $this->loadModel('Blocage');
-
-        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $auteur_tweet])->where(['bloquer' => $username]);
-
-        $result_blocage = $verif_blocage->count();
-
-             return $result_blocage;
+        $this->loadModel('Users');
+        $check_user = $this->Users->find()->where(['username' => $username ])->count();
+        return $check_user;
     }
+
 
 
 }

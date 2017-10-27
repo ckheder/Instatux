@@ -1,10 +1,17 @@
 <?php
 use Cake\I18n\Time;
-?>
+
+if(isset($nb_tweet_accueuil))
+{
+          
+         echo '<div class="alert alert-info">Aucun actualités à afficher.</div>';
+        }
+        else
+        {
 
 
 
-            <?php foreach ($abonnement as $abonnement): ?>
+             foreach ($abonnement as $abonnement): ?>
             
               <div class="tweet">
                                        <div class="dropdown">
@@ -88,7 +95,7 @@ use Cake\I18n\Time;
 ?>
 </span>
             </div>
-            <?php endforeach; ?>
+            <?php endforeach; }?>
 
 
 

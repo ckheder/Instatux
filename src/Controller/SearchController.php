@@ -32,7 +32,14 @@ var $uses = array(); // se passer d'un modèle
  $this->loadModel('Tweet');
 
 
-$query_tweet = $this->Tweet->find()
+$query_tweet = $this->Tweet->find()->select([
+            'Users.username',
+            'Users.avatarprofil',
+            'Tweet.contenu_tweet',
+            'Tweet.created',
+            'Tweet.nb_commentaire',
+            'Tweet.nb_partage',
+            ])
     ->where([
         "MATCH(Tweet.contenu_tweet) AGAINST(:search)" 
     ])
@@ -40,8 +47,6 @@ $query_tweet = $this->Tweet->find()
     ->bind(':search', $search)
     ->order(['Tweet.created' => 'DESC'])
     ->contain(['Users']);
-
-
 
     if ($query_tweet->isEmpty()) 
 {
