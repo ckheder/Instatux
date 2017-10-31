@@ -123,6 +123,10 @@ Router::connect('/abonnement/:act/:username',['controller' => 'Abonnement', 'act
 Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
     // fin route settings
 
+    // route liste bloques
+Router::connect('/bloques',['controller' => 'Blocage', 'action' => 'listebloques']);
+    // fin route listebloques
+
     // route messagerie
 Router::connect('messagerie',['controller' => 'Messagerie', 'action' => 'index']);
     //fin route messagerie

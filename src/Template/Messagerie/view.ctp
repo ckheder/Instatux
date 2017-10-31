@@ -2,11 +2,6 @@
 use Cake\I18n\Time;
 use Cake\Routing\Router;
 
-                echo $this->Form->button('Répondre', 
-                [ 'data-toggle' => 'modal',
-                  'data-target' => '#ModalConv',
-                  'class' => 'btn btn-info pull-left']) ;
-
                   
 ?>
 
@@ -20,19 +15,15 @@ use Cake\Routing\Router;
                   'action' => 'edit',
                   $this->request->getParam('id')]) ?></li>
     <li><?= $this->Html->link('Bloquer '.$destinataire.'', ['controller' => 'Blocage','action' => 'add', $destinataire]); ?></li>
-    <li><a href="#">JavaScript</a></li>
+    <li><a href="#">Signaler</a></li>
   </ul>
 </div> 
-
-<br />
-<br />
-Nombre de message : <?= $nb_msg;?>
 <br />
 <br />
 
  <?= $this->Form->create('Messagerie', array('class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'add'))); ?>
                 
-<textarea name="message" class="textarea_message" placeholder=" Répondre à <?= $destinataire ?>..."></textarea>
+<?= $this->Form->Textarea ('message' ,['cols' => 45, 'rows' => 3, 'placeholder'=> 'Répondre à '.$destinataire.' ...']); ?>
 <br />
 <?= $this->Form->hidden('conversation', ['value' => $this->request->getParam('id')]) // id de la conv ?>  
 <?= $this->Form->hidden('destinataire', ['value' => $destinataire]) // id du destinataire?>
@@ -48,45 +39,26 @@ Nombre de message : <?= $nb_msg;?>
 
             <?php foreach ($message as $message): ?>
             
-            <?php if($message->user_id == $authName) 
+            <?php if($message->user_id == $authName) // moi 
             {
-               
-               echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter_left')); 
-               ?>
-            <div class="bubble me">
-                <?php 
+               echo ' <div class="messagemoi">';
+               echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail')); 
+ 
             }
             else
                 { 
-                    echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter_right')) ; ?>
-                    <div class="bubble other">
-                    <?php
+                  echo '<div class="messagemoi other">'; // destinataire
+                    echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail right'));
                 }
-                ?>
-           
-            <?= $this->Html->link(h($message->user->username),'/'.h($message->user->username).'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$message->user->username ?></span>
-<br />
-                                    <?php
-            $time = new Time($message->created);
-            $time->toUnixString();
-            $date_tweet = $time->timeAgoInWords([
-    'accuracy' => ['month' => 'month'],
-    'end' => '1 year'
-]);
+                ?>           
 
-            $date_tweet = str_replace('il y a','', $date_tweet)
-            ?>
-             <span class="date_message"> <?=  h($date_tweet) ?></span>
+                <p><?= $this->Text->autoParagraph(strip_tags($message->message, '<a>'))  ?></p>
 
-                <?= $this->Text->autoParagraph(strip_tags($message->message, '<a>'))  ?>
+                  <span class="date_message"> <?=  $message->created->i18nformat('dd MMMM YYYY') ?></span>
                 
             </div>
             
-<br />
-<br />
-<br />
-<br />
-<br />
+
 
 
 

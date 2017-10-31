@@ -101,4 +101,25 @@ public function nbnotif()
        
 }
 
+public function delete($id) // suppression d'une notification
+
+{
+    $query = $this->Notifications->query()
+                                ->delete()
+                                ->where(['id_notif' => $id])
+                                ->where(['user_name' => $this->Auth->user('username')])
+                                ->execute();
+
+    if($query)
+    {
+         $this->Flash->success(__('Notification supprimée'));
+    }
+    else
+    {
+        $this->Flash->error(__('Impossible de supprimée cette notifications.'));
+    }
+
+return $this->redirect($this->referer());
+}
+
 }

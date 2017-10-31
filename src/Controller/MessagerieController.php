@@ -33,10 +33,6 @@ class MessagerieController extends AppController
         ->where(['participant1' => $this->Auth->user('username')])
         ->where(['statut' => 1]);
 
-        $nb_conv = $conv->count(); // calcul du nombre de conversations actives
-
-        $this->set('nb_conv',$nb_conv);
-
         // requête des conversations, on recherche tous les id de derniers messages reçu ou envoyés par moi et on les regroupe par conv
         // $conv regroupe toutes les conversations non masquées 
 
@@ -89,7 +85,7 @@ class MessagerieController extends AppController
     public function view($id = null) // voir une conversation
     {
         $this->viewBuilder()->layout('profil');
-         $this->set('title', 'Conversation'); // titre de la page
+         
 
          $verif_user = $this->verifconv($this->Auth->user('username'));
 
@@ -113,9 +109,7 @@ class MessagerieController extends AppController
 
 
         ->contain(['Users']);
-        $nb_msg = $message->count(); // calcul du nombre de message
 
-        $this->set('nb_msg',$nb_msg);
 $this->set('verif_user',1);
  $this->set(compact('message'));
 
@@ -131,6 +125,8 @@ if($message->user_id == $this->Auth->user('username'))
  }
 
 endforeach;
+
+$this->set('title', 'Conversation avec  '.$destinataire.''); // titre de la page
 
 $this->set('destinataire', $destinataire);
 
@@ -172,14 +168,14 @@ $this->set('destinataire', $destinataire);
 
 $message = $this->Messagerie->newEntity();
 
-if(isset($this->request->data['conversation']))
+if(isset($this->request->data['conversation'])) // on vérifie si j'envoi une conversation
 {
     $conversation = $this->request->data['conversation'];
-    $new_conv = 0;
+    $new_conv = 1; // conversation existante
 }
 else
 {
-       $this->loadModel('Conversation');
+       $this->loadModel('Conversation'); // on vérifie si il y'a déjà une conversation entre nous
 
 $checkconv = $this->Conversation
         ->find()
@@ -196,7 +192,7 @@ $checkconv = $this->Conversation
         {
 
             $conversation = rand();
-            $new_conv = 0;
+            $new_conv = 0; // conversatio in existante
 
             }
             else
