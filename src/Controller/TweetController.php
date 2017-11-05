@@ -13,6 +13,17 @@ use Cake\Event\Event;
 class TweetController extends AppController
 {
 
+        public $paginate = [
+        'limit' => 8,
+        
+    ];
+
+            public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
     /**
      * Index method
      *
@@ -60,6 +71,8 @@ class TweetController extends AppController
         ->order(['Tweet.created' => 'DESC'])
         ->contain(['Users']);
 
+
+
          $nb_tweet =  $tweet->count(); // calcul du nombre de tweet
 
 
@@ -68,7 +81,9 @@ class TweetController extends AppController
              $this->set('nb_tweet', $nb_tweet);
          }
 
-            $this->set(compact('tweet'));
+            $this->set('tweet', $this->Paginator->paginate($tweet, ['limit' => 8]));
+
+
 }
 
     private function allow_see_profil($username) // $username = $this->request->getPram('username')
@@ -418,7 +433,7 @@ class TweetController extends AppController
         }
 
 
-     $this->set(compact('abonnement'));
+     $this->set('abonnement', $this->Paginator->paginate($abonnement, ['limit' => 8]));
 
     }
 
@@ -467,6 +482,20 @@ class TweetController extends AppController
         $this->loadModel('Users');
         $check_user = $this->Users->find()->where(['username' => $username ])->count();
         return $check_user;
+    }
+
+    private function get_type_profil()
+    {
+        $this->loadModel('Settings');
+
+        $type_profil = $this->Settings->find()->select(['type_profil'])->where(['user_id' => $this->Auth->user('username')]);
+
+        foreach ($type_profil as $type_profil)
+        {
+            $type_profil = $type_profil->type_profil;
+        }
+
+        return $type_profil;
     }
 
 

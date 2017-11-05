@@ -12,6 +12,18 @@ use Cake\Event\Event;
 class NotificationsController extends AppController
 {
 
+            public $paginate = [
+        'limit' => 10,
+        
+    ];
+
+            public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
+
     /**
      * Index method
      *
@@ -38,7 +50,7 @@ class NotificationsController extends AppController
          }
          else
          {
-            $this->set('notification', $notification);
+            $this->set('notification', $this->Paginator->paginate($notification, ['limit' => 10]));
          }      
              
     }
@@ -54,7 +66,7 @@ public function singleNotifLue($id_notif)
 
                  if($query)
                  {
-                    $this->Flash->success(__('Notification marquée comme lue..'));
+                    $this->Flash->success(__('Notification marquée comme lue.'));
                 
             } else {
                 $this->Flash->error(__('Impossible de marquée cette notification comme lue.'));
@@ -72,7 +84,7 @@ public function allNotiflue()
 
                  if($query)
                  {
-                    $this->Flash->success(__('Toutes les notifications sont marquées comme lue..'));
+                    $this->Flash->success(__('Toutes les notifications sont marquées comme lue.'));
                 
             } else {
                 $this->Flash->error(__('Impossible de marquée toute les notifications comme lue.'));

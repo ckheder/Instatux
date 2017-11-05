@@ -36,6 +36,7 @@ use Cake\Routing\Router;
     <?= $this->Html->script('textarea_limit.js') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('fix.js') ?>
+    <?= $this->Html->script('jquery-ias.min.js') ?>
     <?= $this->fetch('meta') ?>
  <script type="text/javascript">
     var auto_refresh = setInterval(

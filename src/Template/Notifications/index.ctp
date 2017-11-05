@@ -30,6 +30,8 @@ echo $this->Html->Link("Paramètres", ['controller' => 'Notifications','action' 
 
 <?php
 
+echo '<div id="list_tweet">';
+
  foreach ($notification as $notification): 
 
 if($notification->statut == 0) // notif non lu
@@ -64,7 +66,44 @@ else // notif lue
 
 </div>
 <?php endforeach; 
+            echo '</div>';
 
-
-}
 ?>
+
+
+            <div id="pagination">
+
+            <?= $this->Paginator->next('Next page'); ?>
+
+
+
+
+
+          </div>
+
+ <?php         
+
+        } ?>
+
+
+
+           
+
+            <script>
+
+              var ias = jQuery.ias({
+  container:  '#list_tweet',
+  item:       '.tweet',
+  pagination: '#pagination',
+  next:       '.next'
+});
+
+
+  ias.extension(new IASSpinnerExtension());
+  ias.extension(new IASTriggerExtension({offset: 2}));
+  ias.extension(new IASNoneLeftExtension({text: "You reached the end"}));
+  ias.extension(new IASPagingExtension());
+
+</script>
+
+

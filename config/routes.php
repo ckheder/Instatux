@@ -99,7 +99,7 @@ Router::connect('/notifications/delete/:id',['controller' => 'Notifications', 'a
 
 // route recherche
 
-Router::connect('/search-:string',['controller' => 'Search', 'action' => 'search']);
+Router::connect('/search-:string',['controller' => 'Search', 'action' => 'index']);
 
 //fin route recherche
 

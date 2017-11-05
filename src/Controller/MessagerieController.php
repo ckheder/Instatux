@@ -12,6 +12,19 @@ use Cake\Event\Event;
 class MessagerieController extends AppController
 {
 
+    public $paginate = [
+        'limit' => 8,
+        'order' => [
+            'Messagerie.created' => 'desc'
+        ]
+    ];
+
+            public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
     /**
      * Index method
      *
@@ -103,17 +116,39 @@ class MessagerieController extends AppController
          else
          {
 
-        $message = $this->Messagerie->find('all')
-        ->where(['conv' => $this->request->getParam('id')])
-        ->order(['Messagerie.created' => 'DESC'])
+            // partie normale
 
+        //$message = $this->Messagerie->find('all')
+        //->where(['conv' => $this->request->getParam('id')])
+        //->order(['Messagerie.created' => 'DESC'])
+
+
+        //->contain(['Users']);
+
+//$this->set('verif_user',1);
+ //$this->set(compact('message'));
+
+            // fin partie normale
+
+            // pagination
+   $message = $this->Messagerie->find('all')
+        ->where(['conv' => $this->request->getParam('id')])
 
         ->contain(['Users']);
+   $this->set('message', $this->Paginator->paginate($message, ['limit' => 8]));
 
-$this->set('verif_user',1);
- $this->set(compact('message'));
 
- foreach ($message as $message): 
+             try {
+        $this->paginate();
+    } catch (NotFoundException $e) {
+        // Faire quelque chose ici comme rediriger vers la première ou dernière page.
+        // $this->request->getParam('paging') vous donnera les infos demandées.
+    }
+
+
+            // fin pagination
+
+foreach ($message as $message): 
                         
 if($message->user_id == $this->Auth->user('username'))
 {
@@ -125,6 +160,8 @@ if($message->user_id == $this->Auth->user('username'))
  }
 
 endforeach;
+
+
 
 $this->set('title', 'Conversation avec  '.$destinataire.''); // titre de la page
 
@@ -250,6 +287,8 @@ $checkconv = $this->Conversation
 
              return $result_blocage;
     }
+
+
 
 
 }

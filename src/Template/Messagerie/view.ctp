@@ -36,6 +36,7 @@ use Cake\Routing\Router;
 
                 <?= $this->Form->end(); ?>
 
+                <div id="list_conv">
 
             <?php foreach ($message as $message): ?>
             
@@ -63,4 +64,35 @@ use Cake\Routing\Router;
 
 
             <?php endforeach; ?>
+
+            <div id="pagination">
+
+            <?= $this->Paginator->next('Next page'); ?>
+
+
+
+
+
+          </div>
+           
+
+            <script>
+
+              var ias = jQuery.ias({
+  container:  '#list_conv',
+  item:       '.messagemoi',
+  pagination: '#pagination',
+  next:       '.next'
+});
+
+
+  ias.extension(new IASSpinnerExtension());
+  ias.extension(new IASTriggerExtension({offset: 2}));
+  ias.extension(new IASNoneLeftExtension({text: "You reached the end"}));
+  ias.extension(new IASPagingExtension());
+
+</script>
+
+
+          </div>
 

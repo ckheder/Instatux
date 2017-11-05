@@ -16,6 +16,8 @@
           <li><a href="/instatux/<?= $authName ;?>"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Moi</a></li>
       </ul>
 <?= $this->Form->create('', array('class'=>'navbar-form navbar-left','url'=>array('controller'=>'search', 'action'=>'search')));?>
+    
+
    <div class="input-group">
        <?= $this->Form->input('search',['class' => 'form-control', 'label'=>'', 'placeholder' =>'Membre, Tweet,#']); ?>
        <div class="input-group-btn">

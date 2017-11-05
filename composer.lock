@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ad8971b883035027c036e7a5af34e8d0",
-    "content-hash": "bf151df332a30f169a394f4e4dcc73d7",
+    "hash": "dc5538633b0c41225a65962f31f13b8e",
+    "content-hash": "f130d76663157ec1decc30c25ca6c087",
     "packages": [
         {
             "name": "aura/intl",
@@ -55,16 +55,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.5.0",
+            "version": "3.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "2149b75793b1a20b60b0b70f2b75e2d0bf10a480"
+                "reference": "042d0cd868412fa60d9ea63e5e299e65289768c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/2149b75793b1a20b60b0b70f2b75e2d0bf10a480",
-                "reference": "2149b75793b1a20b60b0b70f2b75e2d0bf10a480",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/042d0cd868412fa60d9ea63e5e299e65289768c0",
+                "reference": "042d0cd868412fa60d9ea63e5e299e65289768c0",
                 "shasum": ""
             },
             "require": {
@@ -137,7 +137,7 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2017-08-19 01:20:13"
+            "time": "2017-11-02 01:05:43"
         },
         {
             "name": "cakephp/chronos",
@@ -1040,16 +1040,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803"
+                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
-                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
                 "shasum": ""
             },
             "require": {
@@ -1061,7 +1061,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5-dev"
+                    "dev-master": "1.6-dev"
                 }
             },
             "autoload": {
@@ -1095,7 +1095,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-14 15:44:48"
+            "time": "2017-10-11 12:05:26"
         },
         {
             "name": "symfony/yaml",
@@ -1206,16 +1206,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "2faa791b66bac33ca40031d8bce03b7dc8143490"
+                "reference": "c8664b92a6d5bc229e48b0923486c097e45a7877"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/2faa791b66bac33ca40031d8bce03b7dc8143490",
-                "reference": "2faa791b66bac33ca40031d8bce03b7dc8143490",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/c8664b92a6d5bc229e48b0923486c097e45a7877",
+                "reference": "c8664b92a6d5bc229e48b0923486c097e45a7877",
                 "shasum": ""
             },
             "require": {
@@ -1254,22 +1254,22 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2017-09-13 14:47:08"
+            "time": "2017-10-12 15:24:51"
         }
     ],
     "packages-dev": [
         {
             "name": "cakephp/bake",
-            "version": "1.4.2",
+            "version": "1.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/bake.git",
-                "reference": "952f1d4f6d96fe7834a0f9eb39b2bd207ed6629f"
+                "reference": "1457d59df095db2d5aee2f280eb576970f932194"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/bake/zipball/952f1d4f6d96fe7834a0f9eb39b2bd207ed6629f",
-                "reference": "952f1d4f6d96fe7834a0f9eb39b2bd207ed6629f",
+                "url": "https://api.github.com/repos/cakephp/bake/zipball/1457d59df095db2d5aee2f280eb576970f932194",
+                "reference": "1457d59df095db2d5aee2f280eb576970f932194",
                 "shasum": ""
             },
             "require": {
@@ -1303,7 +1303,7 @@
                 "bake",
                 "cakephp"
             ],
-            "time": "2017-09-15 12:24:02"
+            "time": "2017-10-14 20:01:15"
         },
         {
             "name": "cakephp/debug_kit",
@@ -1796,16 +1796,16 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "5.2.4",
+            "version": "5.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinrainbow/json-schema.git",
-                "reference": "7ccb0e67ea8ace0f84c40900ca3c8a234467628c"
+                "reference": "d283e11b6e14c6f4664cf080415c4341293e5bbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/7ccb0e67ea8ace0f84c40900ca3c8a234467628c",
-                "reference": "7ccb0e67ea8ace0f84c40900ca3c8a234467628c",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/d283e11b6e14c6f4664cf080415c4341293e5bbd",
+                "reference": "d283e11b6e14c6f4664cf080415c4341293e5bbd",
                 "shasum": ""
             },
             "require": {
@@ -1858,7 +1858,7 @@
                 "json",
                 "schema"
             ],
-            "time": "2017-10-04 20:57:36"
+            "time": "2017-10-21 13:15:38"
         },
         {
             "name": "nikic/php-parser",
@@ -1913,16 +1913,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.11",
+            "version": "v0.8.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "b193cd020e8c6b66cea6457826ae005e94e6d2c0"
+                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/b193cd020e8c6b66cea6457826ae005e94e6d2c0",
-                "reference": "b193cd020e8c6b66cea6457826ae005e94e6d2c0",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
+                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
                 "shasum": ""
             },
             "require": {
@@ -1982,7 +1982,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-07-29 19:30:02"
+            "time": "2017-10-19 06:13:20"
         },
         {
             "name": "seld/cli-prompt",

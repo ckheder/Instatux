@@ -24,6 +24,9 @@ use Cake\I18n\Time;
             }
             else
             {
+                ?>
+                <div id="list_tweet">
+                    <?
                 
                  foreach ($tweet as $tweet):   
                     ?>
@@ -138,9 +141,46 @@ use Cake\I18n\Time;
         </span>
     </div>
         <?php  endforeach; 
-        }?>
+        
+echo '</div>';
+
+?>
 
 
+            <div id="pagination">
+
+            <?= $this->Paginator->next('Next page'); ?>
+
+
+
+
+
+          </div>
+
+ <?php         
+
+        } ?>
+
+
+
+           
+
+            <script>
+
+              var ias = jQuery.ias({
+  container:  '#list_tweet',
+  item:       '.tweet',
+  pagination: '#pagination',
+  next:       '.next'
+});
+
+
+  ias.extension(new IASSpinnerExtension());
+  ias.extension(new IASTriggerExtension({offset: 2}));
+  ias.extension(new IASNoneLeftExtension({text: "You reached the end"}));
+  ias.extension(new IASPagingExtension());
+
+</script>
 
 
 

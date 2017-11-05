@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 31 Octobre 2017 à 17:54
--- Version du serveur :  10.2.9-MariaDB-10.2.9+maria~xenial
+-- Généré le :  Jeu 02 Novembre 2017 à 20:48
+-- Version du serveur :  10.2.10-MariaDB-10.2.10+maria~xenial
 -- Version de PHP :  7.0.22-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -214,6 +214,14 @@ CREATE TABLE `messagerie` (
 --
 
 INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`, `conv`) VALUES
+(148, 'test', 'essai', 'last', '2017-11-01 13:55:38', 1768986576),
+(147, 'test', 'essai', 'juju', '2017-11-01 13:38:59', 1768986576),
+(146, 'test', 'essai', 'dernier lol', '2017-11-01 13:30:16', 1768986576),
+(145, 'test', 'essai', 'xd', '2017-11-01 12:54:54', 1768986576),
+(144, 'test', 'essai', 'lol', '2017-11-01 12:54:49', 1768986576),
+(143, 'test', 'essai', 'gg', '2017-11-01 12:54:46', 1768986576),
+(142, 'test', 'essai', 'osef', '2017-11-01 12:54:43', 1768986576),
+(141, 'test', 'essai', 'test', '2017-11-01 12:54:39', 1768986576),
 (140, 'essai', 'test', 'test', '2017-10-31 16:51:07', 1768986576),
 (139, 'essai', 'test', 'je t\'aime', '2017-10-31 14:23:21', 1768986576),
 (138, 'test', 'test2', 'yo 2', '2017-10-31 09:57:34', 2078660550),
@@ -254,7 +262,15 @@ INSERT INTO `notifications` (`id_notif`, `user_name`, `notification`, `created`,
 (234, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-10-31 09:52:06', 0),
 (235, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-10-31 09:56:44', 0),
 (236, 'test2', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-2078660550">message</a> !', '2017-10-31 09:57:23', 0),
-(237, 'test2', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-2078660550">message</a> !', '2017-10-31 09:57:34', 0);
+(237, 'test2', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-2078660550">message</a> !', '2017-10-31 09:57:34', 0),
+(240, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-11-01 12:54:39', 0),
+(241, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-11-01 12:54:43', 0),
+(242, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-11-01 12:54:46', 0),
+(243, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-11-01 12:54:49', 0),
+(244, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-11-01 12:54:54', 0),
+(245, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-11-01 13:30:16', 0),
+(246, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-11-01 13:38:59', 0),
+(247, 'essai', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-1768986576">message</a> !', '2017-11-01 13:55:38', 0);
 
 -- --------------------------------------------------------
 
@@ -516,12 +532,12 @@ ALTER TABLE `hashtag`
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 --
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=248;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
