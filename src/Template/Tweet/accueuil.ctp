@@ -61,15 +61,15 @@ if(isset($nb_tweet_accueuil))
 
                 <?= $this->Text->autoParagraph($abonnement->contenu_tweet); ?>
 
+                <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-<?= $abonnement->id ;?>"><?= $abonnement->nb_like ;?></span></span>
+
                 <span class="nb_comm_share"><?= $abonnement->nb_commentaire ?> commentaire(s) - <?= $abonnement->nb_partage ?> partage(s)</span>
                 <br />
                 <br />
                 <span class="link_comm_share">
                         <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
-                     <?= $this->Html->link('J\'aime', ['action' => 'view']); 
-
-                     ?>
+                     <?= $this->Html->link('J\'aime', '/like-'.$abonnement->id.'', array('data-value' => ''.$abonnement->id.'','class' => 'link_like')); ?>
                &nbsp;&nbsp;&nbsp;
                <?
                 
@@ -135,7 +135,7 @@ if(isset($nb_tweet_accueuil))
 
   ias.extension(new IASSpinnerExtension());
   ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "You reached the end"}));
+  ias.extension(new IASNoneLeftExtension({text: "Fin de l'actualité"}));
   ias.extension(new IASPagingExtension());
 
 </script>

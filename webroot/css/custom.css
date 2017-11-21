@@ -128,7 +128,6 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 }
 .surbrillance
 {
-	color : red;
 	font-weight: bold;
 }
 
@@ -238,6 +237,12 @@ color : red;
     text-decoration: none;
 color : green;
 }
+.bouton_abo_search
+{
+
+    float: right;
+    margin-top: 20px;
+}
 
 /* couleur abonnes, page abonnement*/
 
@@ -335,10 +340,15 @@ color: #657786;
   color : red;
 }
 /* fin couleur lien accepter abo */
-/* barre du nombre de commentaire et de partage */
+/* barre du nombre de commentaire ,de like et de partage */
 .nb_comm_share
 {
   float: right;
+  color : #90949c;
+}
+.nb_like
+{
+    float: left;
   color : #90949c;
 }
 .link_comm_share a
@@ -346,4 +356,4 @@ color: #657786;
   color : #484C4B;
 font-weight: bold;
 }
-/* fin barre du nombre de commentaire et de partage */
+/* fin barre du nombre de commentaire, de like  et de partage */

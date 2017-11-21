@@ -29,17 +29,44 @@ use Cake\Network\Request;
 
  foreach ($tweet as $tweet): ?>
 
-<div class="tweet">
-            <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
+<div class="tweet"> <!-- partie info sur le tweet -->
+            <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle left')) ?>
             <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username ?></span> - 
             
 
-             <?= $tweet->created->i18nformat('dd MMMM YYYY'); ?>
+             <span class="date_message"><?= $tweet->created->i18nformat('dd MMMM YYYY'); ?></span>
 
-<?= $this->Text->autoParagraph($tweet->contenu_tweet); ?>
+<p><?= $tweet->contenu_tweet; ?></p>
 
-         
-</div>
+
+
+                 <span class="nb_like"><span id="compteur_like-<?= $tweet->id ;?>"><?= $tweet->nb_like ;?></span> like(s)</span>
+                <span class="nb_comm_share"><?= $tweet->nb_commentaire ?> commentaire(s) - <?= $tweet->nb_partage ?> partage(s)</span>
+                <br />
+                <br />
+                <span class="link_comm_share">
+                     <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
+
+                     <?= $this->Html->link('J\'aime', '/like-'.$tweet->id.'', array('data-value' => ''.$tweet->id.'','class' => 'link_like')); 
+
+                            ?>
+               &nbsp;&nbsp;&nbsp;
+               <?
+
+                                    if($tweet->share != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
+            {
+                 ?>
+              <span class="glyphicon glyphicon-share" style="vertical-align:center"></span>
+              <?php
+                echo $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.''); 
+                
+            }
+            ?>
+
+                     
+
+    </span>     
+</div> <!-- fin partie info sur le tweet -->
 
 <?php if(!$tweet->allow_comment == 1) // si les commentaires sont autorisés
 {
@@ -49,7 +76,7 @@ use Cake\Network\Request;
 
   
 
-<?= $this->Form->input('comm', ['placeholder' => 'Commentaire...', 'label'=> '']) ?>
+<?= $this->Form->input('comm', ['prepend'=> ' <span class="glyphicon glyphicon-comment"></span> ','placeholder' => 'Commentaire...', 'label'=> '']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
 <?= $this->Form->hidden('userosef', ['value' => $tweet->user->username]) // auteur du tweet?>
 <div class="text-center">
@@ -75,10 +102,8 @@ if($tweet->user_id == $authName AND $tweet->allow_comment == 0)
 <?= $this->Form->end();
 }
 
+// Fin bloquer les commentaires 
 
-?>
-<!-- Fin bloquer les commentaires -->
-<?php
 if($tweet->nb_commentaire == 0)
 {
     echo '<div class="alert alert-info">Aucun commentaire pour cette publication</div>';
@@ -88,8 +113,10 @@ else
     ?>
 <div class="text-center"><h3><?= $tweet->nb_commentaire ;?>&nbsp commentaire(s)</h3></div>
 
+
+
         <?php foreach ($tweet->commentaires as $commentaires): ?>
-            <div class="tweet">
+            <div class="messagemoi">
                
               
                 <!-- bouton dropdown comm -->
@@ -122,16 +149,17 @@ else
   </ul>
 </div>
 <!-- fin bouton dropdown comm -->
- <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
- <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - 
+ <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail left')) ?>
+ <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - <span class="date_message"><?= $commentaires->created->i18nformat('dd MMMM YYYY'); ?></span>
 
-<?= $commentaires->created->i18nformat('dd MMMM YYYY'); ?>
+<p><?= $this->Text->autoParagraph(strip_tags($commentaires->comm, '<a>')) ; ?></p>
 
 
-<?= $this->Text->autoParagraph(strip_tags($commentaires->comm, '<a>')) ; ?>
       
 </div>
+
         <?php endforeach; 
+  
 }
 }
 else
@@ -154,5 +182,14 @@ else
 
 }
 
-endforeach;}?>
+   endforeach; 
+
+    
+        } ?>
+
+
+
+           
+
+
 

@@ -52,6 +52,8 @@ class TweetTable extends Table
 
           $this->hasMany('Commentaires');
 
+          $this->hasMany('Aime');
+
           $this->hasOne('Partage', [
             'foreignKey' => 'tweet_partage',
             'dependent' => true
@@ -84,11 +86,17 @@ class TweetTable extends Table
         $validator
             ->allowEmpty('nb_partage');
 
+         $validator
+            ->allowEmpty('nb_like');
+
         $validator
             ->allowEmpty('private');
 
         $validator
             ->allowEmpty('allow_comment');
+
+        $validator
+            ->allowEmpty('nb_like');
             
  
         return $validator;

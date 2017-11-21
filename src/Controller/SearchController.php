@@ -13,8 +13,19 @@ class SearchController extends AppController
 {
 var $uses = array(); // se passer d'un modèle
 
+        public $paginate = [
+        'limit' => 8,
+        
+    ];
 
-    public function search($search = null)
+            public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+
+
+    public function index($search = null)
     {
 
 
@@ -22,14 +33,9 @@ var $uses = array(); // se passer d'un modèle
 
         $this->set('title', 'Résultat de recherche'); // titre de la page
 
-        if(!isset($this->request->data['search']))
-        {
+      
             $search = $this->request->GetParam('string');
-        }
-        else
-        {
-            $search = $this->request->data['search'];
-        }
+
 // recherche dans les tweets
  $this->loadModel('Tweet');
 
@@ -37,52 +43,50 @@ var $uses = array(); // se passer d'un modèle
 $query_tweet = $this->Tweet->find()->select([
             'Users.username',
             'Users.avatarprofil',
+            'Tweet.id',
+            'Tweet.user_id',
             'Tweet.contenu_tweet',
             'Tweet.created',
             'Tweet.nb_commentaire',
             'Tweet.nb_partage',
+            'Tweet.nb_like',
+            'Tweet.allow_comment',
             ])
     ->where([
         "MATCH(Tweet.contenu_tweet) AGAINST(:search)" 
     ])
     ->where(['private' => 0]) // on ne cherche que les tweets publics
-    ->bind(':search', $search)
+    ->bind(':search',$search)
     ->order(['Tweet.created' => 'DESC'])
     ->contain(['Users']);
 
-    if ($query_tweet->isEmpty()) 
-{
-   $this->set('resultat_tweet',0);
-}
-else
-{
-	$this->set('resultat_tweet',$query_tweet);
 
-}
+
+	$this->set('resultat_tweet', $this->Paginator->paginate($query_tweet, ['limit' => 8]));
+
+    //$this->set('resultat_tweet', $query_tweet);
 
  // recherche dans les users
-
    $this->loadModel('Users');
-
 $query_user = $this->Users->find()
-
                             ->where([
         "MATCH(Users.username) AGAINST(:search)" 
     ])
                             ->bind(':search', $search);
 
 
-
-            if ($query_user->isEmpty()) 
-        {
-   $this->set('resultat_users',0);
-}
-else
-{
     $this->set('resultat_users',$query_user);
     
-}  
+
 $this->set('search',$search); // on renvoi la requete   
     }
+
+public function redirectsearch()//redirection formulaire
+{
+    if(!empty($this->request->data['search']))
+    {
+        return $this->redirect('/search-'.$this->request->data['search'].'');
+    }
+}
 
 }

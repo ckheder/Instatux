@@ -1,5 +1,6 @@
 <?php
 use Cake\I18n\Time;
+use Cake\Routing\Router;
 
             if(isset($nb_tweet))
             {
@@ -78,13 +79,13 @@ use Cake\I18n\Time;
             if($tweet->share == 1) // si tweet partagé
             {
                 echo '<span class="glyphicon glyphicon-share-alt"></span>&nbsp; Partagé par '.$this->request->getParam('username').'<br />';
-                 echo  $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter'));
+                 echo  $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter'));
             echo  $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username?></span> - 
             <?
             }
             else
             {
-            echo $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter'));
+            echo $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter'));
             echo  $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username?></span> - 
             <?php
             }
@@ -97,14 +98,17 @@ use Cake\I18n\Time;
              ?>
                 <?= $this->Text->autoParagraph($contenu); ?>
 
-                
+
+
+                  <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-<?= $tweet->id ;?>"><?= $tweet->nb_like ;?></span></span>
+
                 <span class="nb_comm_share"><?= $tweet->nb_commentaire ?> commentaire(s) - <?= $tweet->nb_partage ?> partage(s)</span>
                 <br />
                 <br />
                 <span class="link_comm_share">
                      <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
-                     <?= $this->Html->link('J\'aime', ['action' => 'view']); 
+                     <?= $this->Html->link('J\'aime', '/like-'.$tweet->id.'', array('data-value' => ''.$tweet->id.'','class' => 'link_like')); 
 
                      ?>
                &nbsp;&nbsp;&nbsp;
@@ -140,6 +144,7 @@ use Cake\I18n\Time;
             ?>
         </span>
     </div>
+
         <?php  endforeach; 
         
 echo '</div>';
@@ -177,10 +182,13 @@ echo '</div>';
 
   ias.extension(new IASSpinnerExtension());
   ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "You reached the end"}));
+  ias.extension(new IASNoneLeftExtension({text: "Fin des tweets"}));
   ias.extension(new IASPagingExtension());
 
 </script>
+
+
+
 
 
 

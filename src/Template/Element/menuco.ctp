@@ -15,7 +15,7 @@
         <li><a href="/instatux/abonnement"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Abonnement</a></li>
           <li><a href="/instatux/<?= $authName ;?>"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Moi</a></li>
       </ul>
-<?= $this->Form->create('', array('class'=>'navbar-form navbar-left','url'=>array('controller'=>'search', 'action'=>'search')));?>
+<?= $this->Form->create('', array('class'=>'navbar-form navbar-left','url'=>array('controller'=>'search', 'action'=>'redirectsearch')));?>
     
 
    <div class="input-group">

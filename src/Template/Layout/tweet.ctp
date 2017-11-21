@@ -32,14 +32,12 @@ use Cake\Routing\Router;
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('ckeditor/ckeditor.js') ?>
-    <?= $this->Html->script('textarea_limit.js') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('fix.js') ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
+
     <?= $this->fetch('meta') ?>
  <script type="text/javascript">
-
-
     var auto_refresh = setInterval(
   function ()
   {
@@ -49,10 +47,7 @@ use Cake\Routing\Router;
 </script>
 </head>
 <body>
-
     
-
- 
    <div class="container" style="border:1px solid #cecece;">
 <?= $this->element('menuco') ?>
 <?= $this->Flash->render() ?>
@@ -77,5 +72,6 @@ use Cake\Routing\Router;
 <?= $this->element('modaltweet') ?>
     <footer>
     </footer>
+      <?= $this->Html->script('countlike.js') ?>
 </body>
 </html>

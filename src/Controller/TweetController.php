@@ -14,7 +14,7 @@ class TweetController extends AppController
 {
 
         public $paginate = [
-        'limit' => 8,
+        'limit' => 4,
         
     ];
 
@@ -41,9 +41,9 @@ class TweetController extends AppController
 
             if($this->verif_user($username) == 0) // membre ou page inexistante
         {
-                    $this->Flash->error(__('Cette page n\'existe pas.'));
-                    return $this->redirect('/'.$this->Auth->user('username').'');
-        }
+                   $this->Flash->error(__('Cette page n\'existe pas.'));
+                   return $this->redirect('/'.$this->Auth->user('username').'');
+       }
             if($this->allow_see_profil($username) == 0) // profil privé et non abonné
         {
             $no_follow = 0;
@@ -64,6 +64,7 @@ class TweetController extends AppController
             'Tweet.share',
             'Tweet.nb_commentaire',
             'Tweet.nb_partage',
+            'Tweet.nb_like',
             'Tweet.allow_comment',
             ])
          // titre de la page
@@ -161,7 +162,7 @@ class TweetController extends AppController
 
         // vérification si on peut
 
-        $tweet = $this->Tweet->find() // récupération des infos du tweet
+        $tweet_comm = $this->Tweet->find() // récupération des infos du tweet
 
         ->where(['Tweet.id' => $this->request->getParam('id')])
 
@@ -172,7 +173,7 @@ class TweetController extends AppController
           }])
         ->contain(['Commentaires.Users']);
 
-        $test_tweet = $tweet->count(); // on compte les résultats
+        $test_tweet = $tweet_comm->count(); // on compte les résultats
 
         if($test_tweet == 0) // test de l'existence du tweet
 
@@ -187,8 +188,9 @@ class TweetController extends AppController
             $this->set('no_follow', $no_follow);
 
         }
-        
-        $this->set('tweet', $tweet);
+        $this->set('tweet', $this->Paginator->paginate($tweet_comm, ['limit' => 4]));
+
+        //$this->set('tweet', $tweet);
         }
 
     }
@@ -215,6 +217,9 @@ class TweetController extends AppController
             $private = $tweet->private;
         }
 
+        if($auteur_tweet != $this->Auth->user('username'))
+        {
+
         // 1) on vérifie si je suis bloqué : bloqueur -> l'autre et bloqué -> moi
 
         $this->loadModel('Blocage');
@@ -223,11 +228,12 @@ class TweetController extends AppController
 
         $result_blocage = $verif_blocage->count();
 
+
         if($result_blocage == 1) // je suis bloqué
         {
             return $voir = 0; // interdiction de voir le tweet
         }
-        else 
+        else
         {
         // vérification si c'est un tweet privé
 
@@ -268,9 +274,17 @@ class TweetController extends AppController
             }
             
     }
+}
+
+        else
+    {
+        $voir = 1;
+    }
+
 
     return $voir;
 }
+
     // parsage des tweets
     private function linkify_tweet($tweet)
     {

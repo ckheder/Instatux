@@ -101,7 +101,7 @@ else // notif lue
 
   ias.extension(new IASSpinnerExtension());
   ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "You reached the end"}));
+  ias.extension(new IASNoneLeftExtension({text: "Fin des notifications"}));
   ias.extension(new IASPagingExtension());
 
 </script>

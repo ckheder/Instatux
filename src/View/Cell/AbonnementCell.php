@@ -117,5 +117,31 @@ $this->set('nb_abonnes',$nb_abonnes);
         
     }
 
+    public function test_abo($authname, $suivi) // test de l'abonnement sur le moeteur de recherche
+    {
+
+        $this->loadModel('Abonnement');
+        $abonnement = $this->Abonnement->find();
+        $abonnement->where([
+
+'user_id' =>  $authname
+
+            ])
+        ->where(['suivi'=> $suivi])
+        ->where(['etat' => 1]);
+        
+        if ($abonnement->isEmpty()) 
+        {
+   $this->set('abonnement',0);
+}
+else
+{
+     $this->set('abonnement',1);
+
+}
+
+$this->set('suivi', $suivi);
+    }
+
 
 }

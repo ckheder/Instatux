@@ -72,7 +72,7 @@ use App\Event\AbonnementListener; // listener personnel pour lévènement model.
 use App\Event\MessageListener; // listener personnel pour lévènement model.abonnement.add
 use App\Event\NotificationupdateListener; // listener personnel pour l'update de notif
 use App\Event\PartageListener; // listener personnel pour l'ajout d'un partage
-use App\Event\HashtagListener; // listener personnel pour l'ajout d'un partage
+use App\Event\HashtagListener; // listener personnel pour la création de hashtag
 use App\Event\SettingsListener; // listener personnel pour l'ajout d'un partage
 use App\Event\UsersListener; // listener personnel pour la création de la ligne settings à l'inscription
 /*

@@ -101,6 +101,8 @@ Router::connect('/notifications/delete/:id',['controller' => 'Notifications', 'a
 
 Router::connect('/search-:string',['controller' => 'Search', 'action' => 'index']);
 
+Router::connect('/search/index/-:string',['controller' => 'Search', 'action' => 'index']); // utliser dans la pagination
+
 //fin route recherche
 
     // route abonnement index
@@ -110,6 +112,10 @@ Router::connect('/abonnement',['controller' => 'Abonnement', 'action' => 'index'
     // route abonnement add
 Router::connect('/abonnement/add/:username',['controller' => 'Abonnement', 'action' => 'add']);
     // fin route abonnement/add
+
+    // route like
+Router::connect('/like-:id',['controller' => 'Aime', 'action' => 'add'],['id' => '\d+', 'pass' =>['id']],['_name' => 'routelike']);
+    // fin route like
 
     // route abonnement delete
 Router::connect('/abonnement/delete/:username',['controller' => 'Abonnement', 'action' => 'delete']);
