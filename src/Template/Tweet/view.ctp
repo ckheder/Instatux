@@ -110,7 +110,7 @@ else
 
 <div id="list_comm">
 
-        <?php foreach ($tweet->commentaires as $commentaires): ?>
+        <?php foreach ($commentaires as $commentaires): ?>
             <div class="messagemoi">
                
               

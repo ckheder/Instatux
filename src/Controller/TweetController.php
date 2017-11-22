@@ -162,16 +162,22 @@ class TweetController extends AppController
 
         // vérification si on peut
 
-        $tweet_comm = $this->Tweet->find() // récupération des infos du tweet
+        $info_tweet = $this->Tweet->find() // récupération des infos du tweet
 
         ->where(['Tweet.id' => $this->request->getParam('id')])
 
 
-        ->contain(['Users'])
-        ->contain(['Commentaires'=> function($q) { // appliquer un order by sur un contain
-              return $q->order(['Commentaires.created' => 'DESC']);
-          }])
-        ->contain(['Commentaires.Users']);
+        ->contain(['Users']);
+
+        $this->set('tweet', $info_tweet);
+
+        // partie commentaire
+
+        $this->loadModel('Commentaires');
+
+        $comm_tweet = $this->Commentaires->find()->where(['Commentaires.tweet_id' => $this->request->getParam('id')])
+       ->order(['Commentaires.created' => 'DESC'])
+        ->contain(['Users']);
 
 
             if($this->allow_view_tweet($this->Auth->user('username')) == 0) // pas le droit de voir le tweet
@@ -181,7 +187,10 @@ class TweetController extends AppController
             die();
 
         }
-        $this->set('tweet', $this->Paginator->paginate($tweet_comm, ['limit' => 8]));
+        else
+        {
+        $this->set('commentaires', $this->Paginator->paginate($comm_tweet, ['limit' => 8]));
+    }
 
         //$this->set('tweet', $tweet);
         
