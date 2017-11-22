@@ -8,11 +8,14 @@ body {
 overflow-y:scroll;
 }
 
-.modal {
- overflow-y: auto;
+body.modal-open{
+    width:100%!important;
+    padding-right:0!important;
+    overflow-y:scroll!important;
+   
 }
 
-.modal-open {
+/*.modal-open {
   overflow: inherit;
   padding-right: 0 !important;
 }

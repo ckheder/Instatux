@@ -94,5 +94,3 @@ use Cake\Routing\Router;
 </script>
 
 
-          </div>
-

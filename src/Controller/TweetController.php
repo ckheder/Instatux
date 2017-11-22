@@ -14,7 +14,7 @@ class TweetController extends AppController
 {
 
         public $paginate = [
-        'limit' => 4,
+        'limit' => 8,
         
     ];
 
@@ -173,25 +173,18 @@ class TweetController extends AppController
           }])
         ->contain(['Commentaires.Users']);
 
-        $test_tweet = $tweet_comm->count(); // on compte les résultats
 
-        if($test_tweet == 0) // test de l'existence du tweet
-
-         {
-             $this->set('test_tweet', $test_tweet);
-         }
-         else
-         {
             if($this->allow_view_tweet($this->Auth->user('username')) == 0) // pas le droit de voir le tweet
         {
             $no_follow = 0;
             $this->set('no_follow', $no_follow);
+            die();
 
         }
-        $this->set('tweet', $this->Paginator->paginate($tweet_comm, ['limit' => 4]));
+        $this->set('tweet', $this->Paginator->paginate($tweet_comm, ['limit' => 8]));
 
         //$this->set('tweet', $tweet);
-        }
+        
 
     }
 

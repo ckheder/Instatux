@@ -3,13 +3,8 @@ use Cake\I18n\Time;
 use Cake\Network\Request;
 
 
-           if(isset($test_tweet))
-            {
-                echo '<div class="alert alert-info">
-                                Ce tweet n\'existe pas
-                        </div>';
-            }
-                        elseif(isset($no_follow))
+ 
+                        if(isset($no_follow))
             {
                 echo '<div class="alert alert-danger">
                         Impossible d\'afficher cette publication
@@ -113,7 +108,7 @@ else
     ?>
 <div class="text-center"><h3><?= $tweet->nb_commentaire ;?>&nbsp commentaire(s)</h3></div>
 
-
+<div id="list_comm">
 
         <?php foreach ($tweet->commentaires as $commentaires): ?>
             <div class="messagemoi">
@@ -158,7 +153,12 @@ else
       
 </div>
 
-        <?php endforeach; 
+
+
+        <?php endforeach; ?>
+
+      </div>
+      <?php
   
 }
 }
@@ -184,8 +184,36 @@ else
 
    endforeach; 
 
-    
-        } ?>
+    }
+         ?>
+
+         <div id="pagination">
+
+            <?= $this->Paginator->next('Next page'); ?>
+
+
+
+
+
+          </div>
+           
+
+            <script>
+
+              var ias = jQuery.ias({
+  container:  '#list_comm',
+  item:       '.messagemoi',
+  pagination: '#pagination',
+  next:       '.next'
+});
+
+
+  ias.extension(new IASSpinnerExtension());
+  ias.extension(new IASTriggerExtension({offset: 2}));
+  ias.extension(new IASNoneLeftExtension({text: "Fin des commentaires"}));
+  ias.extension(new IASPagingExtension());
+
+</script>
 
 
 
