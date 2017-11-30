@@ -184,7 +184,7 @@ class TweetController extends AppController
         {
             $no_follow = 0;
             $this->set('no_follow', $no_follow);
-            die();
+            
 
         }
         else
@@ -384,7 +384,7 @@ class TweetController extends AppController
     {
         $tweet = $this->Tweet->newEntity();
 
-        $info_tweet = $this->Tweet->find()
+        $info_tweet = $this->Tweet->find() // on récupère les infos du tweet pour le recrée
         ->select([
          'user_id',
          'contenu_tweet',
@@ -411,10 +411,13 @@ class TweetController extends AppController
             $tweet = $this->Tweet->patchEntity($tweet, $data);
             if ($this->Tweet->save($tweet)) {
 
+                 if($this->testnotifshare($user_tweet) == "oui")
+                {
+
                  $event = new Event('Model.Partage.afterAdd', $this, ['tweet' => $tweet]);
                 $this->eventManager()->dispatch($event);
 
-
+            }
                 $this->Flash->success(__('Tweet partagé'));
 
 
@@ -500,7 +503,7 @@ class TweetController extends AppController
         return $check_user;
     }
 
-    private function get_type_profil()
+    private function get_type_profil() // récupération du type de profil privé ou public
     {
         $this->loadModel('Settings');
 
@@ -513,6 +516,21 @@ class TweetController extends AppController
 
         return $type_profil;
     }
+
+        private function testnotifshare($username) // on vérifie si la personne à qui j'envoi un message accepte les notifications de message
+    {
+                $this->loadModel('Settings');
+
+        $verif_notif = $this->Settings->find()->select(['notif_partage'])->where(['user_id' => $username]);
+
+        foreach ($verif_notif as $verif_notif) // recupération de la conversation
+                {
+                $settings_notif = $verif_notif['notif_partage'];
+                }
+
+             return $settings_notif;
+    }
+
 
 
 

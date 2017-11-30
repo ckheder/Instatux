@@ -115,7 +115,7 @@ class AbonnementController extends AppController
 
         $check_profil = $this->check_type_profil($this->request->getParam('username'));
 
-        if($check_profil == 1)
+        if($check_profil == 1) // profil privé
         {
 
         // vérifie se je ne suis pas déjà abonné
@@ -176,12 +176,14 @@ class AbonnementController extends AppController
             $abonnement = $this->Abonnement->patchEntity($abonnement, $data);
             if ($abonnementTable->save($abonnement)) 
             {
+                 if($this->testnotifabo($this->request->getParam('username')) == "oui")
+                {
 
                  $event = new Event('Model.Abonnement.afterAdd', $this, ['abonnement' => $abonnement]);
                 $this->eventManager()->dispatch($event);
 
                 //fin évènement
-
+            }
 
                 $this->Flash->success(__('Abonnement ajouté !'));              
             }
@@ -360,6 +362,20 @@ private function check_abo() // vérifie si on est déjà abonné
 
     return $abonnement_verif;
 }
+
+    private function testnotifabo($username) // on vérifie si la personne à laquelle je m'abonne accepte les notifications d'abonnement, uniquement profil public
+    {
+                $this->loadModel('Settings');
+
+        $verif_notif = $this->Settings->find()->select(['notif_abo'])->where(['user_id' => $username]);
+
+        foreach ($verif_notif as $verif_notif) // recupération de la conversation
+                {
+                $settings_notif = $verif_notif['notif_abo'];
+                }
+
+             return $settings_notif;
+    }
 
     
 

@@ -62,6 +62,10 @@ class NotificationsTable extends Table
             ->requirePresence('statut', 'create')
             ->notEmpty('statut');
 
+         $validator
+            ->requirePresence('type_notif', 'create')
+            ->notEmpty('type_notif');
+
         return $validator;
     }
 

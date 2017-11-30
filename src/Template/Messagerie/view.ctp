@@ -65,6 +65,8 @@ use Cake\Routing\Router;
 
             <?php endforeach; ?>
 
+          </div>
+
             <div id="pagination">
 
             <?= $this->Paginator->next('Next page'); ?>

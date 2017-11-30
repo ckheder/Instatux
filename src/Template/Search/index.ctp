@@ -1,4 +1,5 @@
-<h3>Résultat pour "<?= h($search) ?>"</h3>
+<?php $search = str_replace('%23', '#', $search); ?>
+<h3>Résultat pour <?= $search ?></h3>
 <?php // résultat users
                          foreach ($resultat_users as $resultat_users): ?>
                          <div class="tweet">
@@ -38,7 +39,7 @@
             $resultat_tweet_contenu = str_replace('</p>', '', $resultat_tweet->contenu_tweet);
             ?>
                 
-                <?= $this->Text->highlight($this->Text->autoParagraph($resultat_tweet_contenu), $search , ['format'=>'<span class="surbrillance">\1</span>']) ?>
+                <?= $this->Text->autoParagraph($resultat_tweet_contenu) ?>
                                  <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-<?= $resultat_tweet->id ;?>"><?= $resultat_tweet->nb_like ;?></span></span>
 
                 <span class="nb_comm_share"><?= $resultat_tweet->nb_commentaire ?> commentaire(s) - <?= $resultat_tweet->nb_partage ?> partage(s)</span>

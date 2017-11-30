@@ -61,6 +61,18 @@ class SettingsTable extends Table
             ->boolean('type_profil')
             ->allowEmpty('type_profil');
 
+        $validator
+            ->allowEmpty('notif_cite');
+        $validator
+            ->allowEmpty('notif_partage');
+        $validator
+            ->allowEmpty('notif_abo');
+        $validator
+            ->allowEmpty('notif_comm');
+
+        $validator
+            ->allowEmpty('notif_message');
+
         return $validator;
     }
 

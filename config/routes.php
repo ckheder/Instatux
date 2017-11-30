@@ -129,6 +129,26 @@ Router::connect('/abonnement/:act/:username',['controller' => 'Abonnement', 'act
 Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
     // fin route settings
 
+ // route settings notif_message
+Router::connect('/settings-notif_message',['controller' => 'Settings', 'action' => 'notifmessage']);
+// fin route notif_message
+
+ // route settings notif_cite
+Router::connect('/settings-notif_cite',['controller' => 'Settings', 'action' => 'notifcite']);
+// fin route notif_cite
+
+ // route settings notif_partage
+Router::connect('/settings-notif_partage',['controller' => 'Settings', 'action' => 'notifpartage']);
+// fin route notif_partage
+
+ // route settings notif_abo
+Router::connect('/settings-notif_abo',['controller' => 'Settings', 'action' => 'notifabo']);
+// fin route notif_abo
+
+ // route settings notif_abo
+Router::connect('/settings-notif_comm',['controller' => 'Settings', 'action' => 'notifcomm']);
+// fin route notif_abo
+
     // route liste bloques
 Router::connect('/bloques',['controller' => 'Blocage', 'action' => 'listebloques']);
     // fin route listebloques

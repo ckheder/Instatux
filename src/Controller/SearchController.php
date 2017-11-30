@@ -32,11 +32,13 @@ var $uses = array(); // se passer d'un modèle
         $this->viewBuilder()->layout('profil');
 
         $this->set('title', 'Résultat de recherche'); // titre de la page
-
       
-            $search = $this->request->GetParam('string');
+        $keyword = $this->request->GetParam('string');
+
+        $search = str_replace('#', '%23', $keyword);
 
 // recherche dans les tweets
+
  $this->loadModel('Tweet');
 
 
@@ -64,8 +66,6 @@ $query_tweet = $this->Tweet->find()->select([
 
 	$this->set('resultat_tweet', $this->Paginator->paginate($query_tweet, ['limit' => 8]));
 
-    //$this->set('resultat_tweet', $query_tweet);
-
  // recherche dans les users
    $this->loadModel('Users');
 $query_user = $this->Users->find()
@@ -85,7 +85,12 @@ public function redirectsearch()//redirection formulaire
 {
     if(!empty($this->request->data['search']))
     {
-        return $this->redirect('/search-'.$this->request->data['search'].'');
+
+        $keyword = $this->request->data['search'];
+
+        $search = str_replace('#', '%23', $keyword);
+
+        return $this->redirect('/search-'.$search.'');
     }
 }
 

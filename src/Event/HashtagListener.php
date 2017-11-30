@@ -16,7 +16,7 @@ class HashtagListener implements EventListenerInterface {
         );
     }
 
-    // fonction qui va chercher les différends hashtag dans un post et remplir la base de données puis si on a tweeté sur un autre mur, envoyer une notification
+    // fonction qui va chercher les différends hashtag dans un post et remplir la base de données puis si on a tweeté sur un autre mur, envoyer une notification avec contrôle si la personne accepte les notifications
 
     public function hashtag_username($event, $tweet) {
 
@@ -91,7 +91,11 @@ $array_username = getUsernames($tweet->contenu_tweet);
         $username = str_replace('>@', '', $at_username);
 
         if($username != $tweet->auth_name)
+
 {
+
+     if($this->testnotifcite($username) == "oui")
+                {
     
 
          $notif = '<img src="/instatux/img/'.$tweet->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$tweet->user_id.'">'.$tweet->user_id.'</a> à vous à cité dans un <a href="/instatux/post/'.$tweet->id.'">tweet</a>';
@@ -109,8 +113,25 @@ $array_username = getUsernames($tweet->contenu_tweet);
 
     $entity->save($article); 
 }
+}
  endforeach;
 
 }
 
+private function testnotifcite($username)
+{
+$table_settings = TableRegistry::get('Settings');
+
+
+    $query = $table_settings->find()
+                            ->select(['notif_cite'])
+                            ->where(['user_id' => $username ]);
+
+            foreach ($query as $verif_notif) // recupération de la conversation
+                {
+                $settings_notif = $verif_notif['notif_cite'];
+                }
+
+             return $settings_notif;
+}
 }

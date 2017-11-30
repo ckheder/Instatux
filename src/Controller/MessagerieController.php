@@ -116,23 +116,9 @@ class MessagerieController extends AppController
          else
          {
 
-            // partie normale
-
-        //$message = $this->Messagerie->find('all')
-        //->where(['conv' => $this->request->getParam('id')])
-        //->order(['Messagerie.created' => 'DESC'])
-
-
-        //->contain(['Users']);
-
-//$this->set('verif_user',1);
- //$this->set(compact('message'));
-
-            // fin partie normale
-
-            // pagination
    $message = $this->Messagerie->find('all')
         ->where(['conv' => $this->request->getParam('id')])
+        ->order(['Messagerie.created' => 'DESC'])
 
         ->contain(['Users']);
    $this->set('message', $this->Paginator->paginate($message, ['limit' => 8]));
@@ -258,18 +244,20 @@ $checkconv = $this->Conversation
             
             if ($this->Messagerie->save($message)) 
             {
+                if($this->testnotifmessage($this->request->data['destinataire']) == "oui")
+                {
                     //évènenement
 
                  $event = new Event('Model.Messagerie.afterAdd', $this, ['message' => $message]);
                 $this->eventManager()->dispatch($event);
-
+            }
                 // fin évènement
                 $this->Flash->success(__('Message envoyé.'));
                 
             }
             else
             {
-                $this->Flash->success(__('Message non envoyé.'));
+                $this->Flash->error(__('Message non envoyé.'));
             }
 
            return $this->redirect($this->referer());
@@ -286,6 +274,20 @@ $checkconv = $this->Conversation
         $result_blocage = $verif_blocage->count();
 
              return $result_blocage;
+    }
+
+    private function testnotifmessage($username) // on vérifie si la personne à qui j'envoi un message accepte les notifications de message
+    {
+                $this->loadModel('Settings');
+
+        $verif_notif = $this->Settings->find()->select(['notif_message'])->where(['user_id' => $username]);
+
+        foreach ($verif_notif as $verif_notif) // recupération de la conversation
+                {
+                $settings_notif = $verif_notif['notif_message'];
+                }
+
+             return $settings_notif;
     }
 
 

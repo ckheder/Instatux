@@ -19,12 +19,7 @@
     
 
    <div class="input-group">
-       <?= $this->Form->input('search',['class' => 'form-control', 'label'=>'', 'placeholder' =>'Membre, Tweet,#']); ?>
-       <div class="input-group-btn">
-           <button class="btn btn-info">
-           <span class="glyphicon glyphicon-search"></span>
-           </button>
-       </div>
+       <?= $this->Form->input('search',['type' => 'search', 'label'=>'', 'placeholder' =>'Recherche...', 'required']); ?>
    </div>
 </form>
 
@@ -40,9 +35,9 @@
       <ul class="nav navbar-nav navbar-right">
      
        <li><a href="/instatux/messagerie" title="Messagerie"><span class="glyphicon glyphicon-envelope"></span>&nbsp;</a></li>
-       <li><a href="/instatux/bloques" title="Messagerie"><span class="glyphicon glyphicon-ban-circle"></span>&nbsp;</a></li>
+       <li><a href="/instatux/bloques" title="Utilisateurs bloqués"><span class="glyphicon glyphicon-ban-circle red"></span>&nbsp;</a></li>
        <li><a href="/instatux/settings" title="Paramètres"><span class="glyphicon glyphicon-wrench"></span></a></li>
-        <li><a href="/instatux/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Déconnexion</a></li>
+        <li><a href="/instatux/logout" title="Déconnexion"><span class="glyphicon glyphicon-log-out"></span></a></li>
       </ul>
     </div>
   </div>

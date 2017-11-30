@@ -73,5 +73,6 @@ use Cake\Routing\Router;
 <footer>
     </footer>
           <?= $this->Html->script('countlike.js') ?>
+          <?= $this->Html->script('settingsnotif.js') ?>
 </body>
 </html>

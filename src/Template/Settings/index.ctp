@@ -46,6 +46,57 @@ else
 
  ?>
 <!-- fin mise à jour type profil -->
+<!-- notifications -->
+<hr>
+<div class="text-center">
+<h4> <span class="glyphicon glyphicon-bell"></span>&nbsp;&nbsp;Notifications</h4>
+</div>
+<!-- notification de message -->
+<label for"notifmessage">Notification de message</label>
+<select name="notif_message" id="notifmess">
+	<option value="oui" <?php if($notif_message == 'oui') echo 'selected' ; ?> >oui</option>
+	<option value="non"<?php if($notif_message == 'non') echo 'selected' ; ?>>non</option>
+</select>
+<span id="result_message" class="spannotif"></span>
+<!-- fin notification de message -->
+<br />
+<!-- notification de citation -->
+<label for"notifcite">Notification de citation</label>
+<select name="notif_cite" id="notifcite">
+	<option value="oui" <?php if($notif_cite == 'oui') echo 'selected' ; ?> >oui</option>
+	<option value="non"<?php if($notif_cite == 'non') echo 'selected' ; ?>>non</option>
+</select>
+<span id="result_cite" class="spannotif"></span>
+<!-- fin notification de citation -->
+<br />
+<!-- notification de partage -->
+<label for"notifcite">Notification de partage</label>
+<select name="notif_partage" id="notifpartage">
+	<option value="oui" <?php if($notif_partage == 'oui') echo 'selected' ; ?> >oui</option>
+	<option value="non"<?php if($notif_partage == 'non') echo 'selected' ; ?>>non</option>
+</select>
+<span id="result_partage" class="spannotif"></span>
+<!-- notification de partage -->
+<br />
+<!-- notification d'abonnement -->
+<label for"notifabo">Notification d'abonnement</label>
+<select name="notif_abo" id="notifabo">
+	<option value="oui" <?php if($notif_abo == 'oui') echo 'selected' ; ?> >oui</option>
+	<option value="non"<?php if($notif_abo == 'non') echo 'selected' ; ?>>non</option>
+</select>
+<span id="result_abo" class="spannotif"></span>
+<!-- fin notification d'abonnement -->
+<br />
+<!-- notification commentaire -->
+<label for"notifcomm">Notification de commentaires</label>
+<select name="notif_comm" id="notifcomm">
+	<option value="oui" <?php if($notif_comm == 'oui') echo 'selected' ; ?> >oui</option>
+	<option value="non"<?php if($notif_comm == 'non') echo 'selected' ; ?>>non</option>
+</select>
+<span id="result_comm" class="spannotif"></span>
+    <!-- fin notification de commentaire -->
+<br />
+<!-- fin notifications -->
 <!-- modifier ma descritpion -->
 <hr>
 <div class="text-center">
@@ -53,7 +104,7 @@ else
 </div>
 <?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editdescription' )));?>
 
-<?= $this->Form->Textarea('description', ['label'=>''],array('class'=>'form-controle')) ?>
+<?= $this->Form->Textarea('description', ['label'=>'','placeholder' => 'Parler de moi...'],array('class'=>'form-controle')) ?>
 
 
 <br />
@@ -64,14 +115,9 @@ else
 <!-- fin modifier ma descritpion -->
 <!-- modifier mon lieu -->
 <hr>
-<div class="text-center">
-<h4><span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Changer mon lieu d'habitation</h4>
-</div>
 <?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editlieu' )));?>
 
-<?= $this->Form->input('lieu', ['label'=>''],array('class'=>'form-controle')) ?>
-
-
+<?= $this->Form->input('lieu', ['prepend' => ' <span class="glyphicon glyphicon-map-marker"></span> ','label'=>'','placeholder' => 'Ex: Paris, New York, Montréal,...'],array('class'=>'form-controle')) ?>
 <br />
 <div class="text-center">
 <?= $this->Form->button('Mise à jour de mon lieu', array('class'=>'btn')) ?>
@@ -80,12 +126,9 @@ else
 <!-- fin modifier mon lieu -->
 <!-- modifier mon site web -->
 <hr>
-<div class="text-center">
-<h4><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;Mon site web</h4>
-</div>
 <?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editwebsite' )));?>
 
-<?= $this->Form->url('website', ['label'=>''],array('class'=>'form-controle', 'placeholder' => 'http://www.monsite.com')) ?>
+<?= $this->Form->input('website', ['type' => 'url','prepend' => ' <span class="glyphicon glyphicon-globe"></span> ','label'=>'','placeholder' => 'http://www.monsite.com'],array('class'=>'form-controle')) ?>
 
 
 <br />

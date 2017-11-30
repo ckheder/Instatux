@@ -187,6 +187,33 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
    background:#046380;
   }
 
+/* span de message pour la modification des préférences de notifications */
+
+.spannotif
+{
+  float : right;
+  color : green;
+  margin-top : 5px;
+}
+
+
+
+label {
+    line-height:35px;
+    font-weight: 200;
+}
+select
+{
+  float: right;
+}
+.grey
+{
+  color : #657786;
+}
+
+
+/* fin des span */
+
   .date_notif
   {
     float : right;

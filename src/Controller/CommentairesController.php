@@ -84,10 +84,12 @@ class CommentairesController extends AppController
 
               if( $this->request->data['userosef'] != $this->Auth->user('username'))
                   {
+                     if($this->testnotifcomm($this->request->data['userosef']) == "oui")
+                {
               // évènement
               $event = new Event('Model.Commentaires.afterAdd', $this, ['commentaire' => $commentaire]);
                 $this->eventManager()->dispatch($event);
-
+              }
                 //fin évènement
               }
 
@@ -229,4 +231,19 @@ $this->request->data['id']
             $this->Flash->error(__('Impossible de supprimé ce commentaire.'));
         }
 }
+
+    private function testnotifcomm($username) // on vérifie si l'auteur du tweet accepte les notifications de commentaire'
+    {
+                $this->loadModel('Settings');
+
+        $verif_notif = $this->Settings->find()->select(['notif_comm'])->where(['user_id' => $username]);
+
+        foreach ($verif_notif as $verif_notif) // recupération de la conversation
+                {
+                $settings_notif = $verif_notif['notif_comm'];
+                }
+
+             return $settings_notif;
+    }
+
 }
