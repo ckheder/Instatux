@@ -11,16 +11,21 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="/instatux/actualités"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Actualités</a></li>
-        <li><a href="/instatux/notifications"><span class="glyphicon glyphicon-bell"></span>&nbsp;&nbsp;Notifications&nbsp;<span class="badge badge_notif"><span id="count_nb_notif">0</span></span></a></li>
-        <li><a href="/instatux/abonnement"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Abonnement</a></li>
+     
+        <li><a href="/instatux/settings" title="Paramètres"><span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;Configuration</a></li>
           <li><a href="/instatux/<?= $authName ;?>"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Moi</a></li>
+
       </ul>
 <?= $this->Form->create('', array('class'=>'navbar-form navbar-left','url'=>array('controller'=>'search', 'action'=>'redirectsearch')));?>
     
 
    <div class="input-group">
-       <?= $this->Form->input('search',['type' => 'search', 'label'=>'', 'placeholder' =>'Recherche...', 'required']); ?>
-   </div>
+       <?= $this->Form->input('search',['type' => 'text', 'label'=>'', 'placeholder' =>'Recherche...', 'required','class' =>'form-control']); ?>
+  
+    <div class="input-group-btn">
+        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+      </div>
+       </div>
 </form>
 
 <?= $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', 
@@ -33,10 +38,11 @@
           
 
       <ul class="nav navbar-nav navbar-right">
-     
-       <li><a href="/instatux/messagerie" title="Messagerie"><span class="glyphicon glyphicon-envelope"></span>&nbsp;</a></li>
-       <li><a href="/instatux/bloques" title="Utilisateurs bloqués"><span class="glyphicon glyphicon-ban-circle red"></span>&nbsp;</a></li>
-       <li><a href="/instatux/settings" title="Paramètres"><span class="glyphicon glyphicon-wrench"></span></a></li>
+     <li><a href="/instatux/notifications" title="Notifications"><span class="glyphicon glyphicon-bell"></span><span id="count_nb_notif"></span></a></li>
+       <li><a href="/instatux/messagerie" title="Messagerie"><span class="glyphicon glyphicon-envelope"></span></a></li>
+      
+       <li><a href="/instatux/abonnement/<?= $authName ;?>" title="Abonnement"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+       
         <li><a href="/instatux/logout" title="Déconnexion"><span class="glyphicon glyphicon-log-out"></span></a></li>
       </ul>
     </div>

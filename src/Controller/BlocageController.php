@@ -18,32 +18,6 @@ class BlocageController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function listebloques()
-    {
-        $this->viewBuilder()->layout('profil');
-
-        $this->set('title', 'Utilisateurs bloqués'); // titre de la page
-
-       $listebloques = $this->Blocage->find()
-                
-        ->where(['bloqueur' =>  $this->Auth->user('username') ])
-
-        ->order((['Users.username' => 'ASC']))
-        
-        ->contain(['Users']);
-
-        $nb_bloques = $listebloques->count();
-
-        if ($nb_bloques == 0) // aucun résultat
-        {
-            $this->set('nb_bloques',0);
-        }
-        else
-        {
-            
-            $this->set(compact('listebloques'));
-        }
-    }
 
     /**
      * Add method

@@ -113,6 +113,7 @@ public function nbnotif()
        
 }
 
+
 public function delete($id) // suppression d'une notification
 
 {

@@ -52,7 +52,7 @@
 
                      ?>
                &nbsp;&nbsp;&nbsp;
-               <?
+               <?php
                                
                 if($resultat_tweet->allow_comment == 1) // si les commentaires sont désactivés
                 {
@@ -68,7 +68,7 @@
 
                ?>
                &nbsp;&nbsp;&nbsp;
-               <?
+               <?php
 
                
            }

@@ -46,6 +46,34 @@ endforeach;
         $this->set('notif_comm', $notif_comm);
         $this->set('notif_abo', $notif_abo);
 
+    // fin récupération des paramètres
+
+    // récupération des utlisateurs bloqués
+
+    $this->loadModel('Blocage');
+
+           $listebloques = $this->Blocage->find()
+                
+        ->where(['bloqueur' =>  $this->Auth->user('username') ])
+
+        ->order((['Users.username' => 'ASC']))
+        
+        ->contain(['Users']);
+
+        $nb_bloques = $listebloques->count();
+
+        if ($nb_bloques == 0) // aucun résultat
+        {
+            $this->set('nb_bloques',0);
+        }
+        else
+        {
+            
+            $this->set(compact('listebloques'));
+        }
+
+    // fin récupération utilisateurs bloqués
+
     }
 
     // paramètre de profil : 0 -> profil public par défaut, 1 -> profil privé

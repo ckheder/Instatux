@@ -29,12 +29,15 @@ use Cake\Routing\Router;
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
+    <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('ckeditor/ckeditor.js') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('fix.js') ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
+     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
+     <?= $this->Html->script('/js/emoji/emojis.js') ?>
     <?= $this->fetch('meta') ?>
  <script type="text/javascript">
     var auto_refresh = setInterval(
@@ -56,9 +59,7 @@ use Cake\Routing\Router;
    
 <!-- partie tweet, selin id url -->
 <?= $this->cell('Info::moi', ['authname' => $authUser]);?>
-<?= $this->cell('Abonnement::moi', ['authname' => $authName]) ;  
-
-?>
+<?= $this->cell('Abonnement::moi', ['authname' => $authName]) ;  ?>
 
 </div>
 <div class="col-sm-5">
@@ -68,11 +69,14 @@ use Cake\Routing\Router;
 <div class="col-sm-4">
 <br />
         <?= $this->cell('Hashtag');?>
+        <?= $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;  ?>
 </div>
         <?= $this->element('modaltweet') ?>
 <footer>
     </footer>
           <?= $this->Html->script('countlike.js') ?>
           <?= $this->Html->script('settingsnotif.js') ?>
+          <?= $this->Html->script('settingsabojquery.js') ?>
+         
 </body>
 </html>

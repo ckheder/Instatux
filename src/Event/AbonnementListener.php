@@ -25,7 +25,7 @@ class AbonnementListener implements EventListenerInterface {
     if($abonnement->etat == 0)
     {
             $notif = '<img src="/instatux/img/'.$abonnement->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$abonnement->nom_session.'">'.$abonnement->nom_session.'</a><span class="alias_tweet">@'.$abonnement->nom_session.'</span> souhaite s\'abonné
-            <a href="/instatux/abonnement/">Gérer mes abonnements</a>';
+            <a href="/instatux/abonnement#tabs-3">Gérer mes abonnements</a>';
 
     $notif_abo = $entity->newEntity();
 

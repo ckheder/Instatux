@@ -68,6 +68,7 @@ use Cake\Routing\Router;
         <div class="col-sm-4">
         <br />
 <?= $this->cell('Hashtag');?>
+<?= $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;  ?>
 </div>
 <?= $this->element('modaltweet') ?>
     <footer>

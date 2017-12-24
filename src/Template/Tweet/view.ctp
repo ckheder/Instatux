@@ -46,7 +46,7 @@ use Cake\Network\Request;
 
                             ?>
                &nbsp;&nbsp;&nbsp;
-               <?
+               <?php
 
                                     if($tweet->share != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
@@ -71,11 +71,12 @@ use Cake\Network\Request;
 
   
 
-<?= $this->Form->input('comm', ['prepend'=> ' <span class="glyphicon glyphicon-comment"></span> ','placeholder' => 'Commentaire...', 'label'=> '']) ?>
+<?= $this->Form->input('comm', ['placeholder' => 'Votre commentaire...', 'label'=> '','class' =>'emojis-plain textarea_comm']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
 <?= $this->Form->hidden('userosef', ['value' => $tweet->user->username]) // auteur du tweet?>
+<br />
 <div class="text-center">
-<?= $this->Form->button('Envoyer', array('class'=>'btn btn-success')) ?>
+<?= $this->Form->button('Envoyer', array('class'=>'btn btn-info')) ?>
 </div>
 <?= $this->Form->end(); ?>
 <hr>
@@ -111,7 +112,7 @@ else
 <div id="list_comm">
 
         <?php foreach ($commentaires as $commentaires): ?>
-            <div class="messagemoi">
+            <div class="comm">
                
               
                 <!-- bouton dropdown comm -->
@@ -144,10 +145,10 @@ else
   </ul>
 </div>
 <!-- fin bouton dropdown comm -->
- <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail left')) ?>
+ <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail left avatarcomm')) ?>
  <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - <span class="date_message"><?= $commentaires->created->i18nformat('dd MMMM YYYY'); ?></span>
 
-<p><?= $this->Text->autoParagraph(strip_tags($commentaires->comm, '<a>')) ; ?></p>
+<p><?= $this->Text->autoParagraph($commentaires->comm) ; ?></p>
 
 
       
@@ -196,13 +197,30 @@ else
 
 
           </div>
-           
 
+
+                <script>
+    $('.emojis-plain').emojiarea({wysiwyg: false});
+
+    
+    var $wysiwyg = $('.emojis-wysiwyg').emojiarea({wysiwyg: false});
+    var $wysiwyg_value = $('#emojis-wysiwyg-value');
+    
+    $wysiwyg.on('change', function() {
+      $wysiwyg_value.text($(this).val());
+    });
+    $wysiwyg.trigger('change');
+
+
+
+    </script>
             <script>
+
+
 
               var ias = jQuery.ias({
   container:  '#list_comm',
-  item:       '.messagemoi',
+  item:       '.comm',
   pagination: '#pagination',
   next:       '.next'
 });

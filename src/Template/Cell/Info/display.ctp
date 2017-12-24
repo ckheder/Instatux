@@ -47,15 +47,10 @@ use Cake\I18n\Time;
     ['target' => '_blank']); ?></li>
                 <?php
             }
-            $time = new Time($user->created);
-            $time->toUnixString();
-            $date_insc = $time->timeAgoInWords([
-    'accuracy' => ['month' => 'month'],
-    'end' => '1 year'
-]);
+
             ?>
 
-               <li><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Inscrit <?= h($date_insc) ?></li>
+               <li><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Inscrit le <?= $user->created->i18nformat('dd MMMM YYYY'); ?></li>
 
 
           <?php endforeach; ?>

@@ -25,8 +25,9 @@ class InfoCell extends Cell
     public function moi($authuser) // info sur moi
     {
         $this->loadModel('Users');
-        $users =  $this->Users->find();
-        $users->where(['id' => $authuser]);
+        $users =  $this->Users->find()
+        ->select(['avatarprofil', 'username', 'description','lieu','website','created'])
+        ->where(['id' => $authuser]);
         $this->set('users',$users);
 
         
@@ -35,8 +36,9 @@ class InfoCell extends Cell
     public function display() // info sur les autres
     {
         $this->loadModel('Users');
-        $users =  $this->Users->find();
-        $users->where(['username' => $this->request->getParam('username')]);
+        $users =  $this->Users->find()
+        ->select(['avatarprofil', 'username', 'description','lieu','website','created'])
+        ->where(['username' => $this->request->getParam('username')]);
         $this->set('users',$users);
     }
 }

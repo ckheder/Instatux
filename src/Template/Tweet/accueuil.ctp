@@ -11,7 +11,7 @@ if(isset($nb_tweet_accueuil))
 
           ?>
                 <div id="list_tweet">
-                    <?
+                    <?php
 
 
 
@@ -40,7 +40,7 @@ if(isset($nb_tweet_accueuil))
                        
   </ul>
 </div>
-              <?
+              <?php
                           if($abonnement->share == 1) // si c'est un partage
             {
                 echo '<br />';
@@ -71,7 +71,7 @@ if(isset($nb_tweet_accueuil))
 
                      <?= $this->Html->link('J\'aime', '/like-'.$abonnement->id.'', array('data-value' => ''.$abonnement->id.'','class' => 'link_like')); ?>
                &nbsp;&nbsp;&nbsp;
-               <?
+               <?php
                 
                 if($abonnement->allow_comment == 1) // si les commentaires sont désactivés
                 {
@@ -81,11 +81,14 @@ if(isset($nb_tweet_accueuil))
                 {
                   ?>
 
-                <span class="glyphicon glyphicon-comment" style="vertical-align:center"></span> <?
-               echo $this->Html->link('Commenter ', ['action' => 'view',  $abonnement->id]); 
+                <span class="glyphicon glyphicon-comment" style="vertical-align:center"></span> 
+              <?php
+                    echo $this->Html->link('Commenter ', ['action' => 'view',  $abonnement->id]); 
 
-               ?> - <?php
-           }
+               ?> - 
+               
+               <?php }
+           
            
                if($abonnement->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {

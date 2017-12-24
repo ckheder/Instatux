@@ -1,13 +1,80 @@
 
+<div id="tabs">
+  <ul>
+    <li><a href="#abonnement">Abonnements</a></li>
+    <li><a href="#abonne">Abonnés</a></li>
+    <?php
+    if($this->request->getParam('username') == $authName)
+    {
+      ?>
+    <li><a href="#demande">Demande d'abonnement</a></li>
+    <?php
+  }
+  ?>
+  </ul>
+
+   <div id="abonnement"> <!-- personne que je suis -->
+    <?php
+        if(isset($nbabonnement_valide)) 
+        {
+            echo '<div class="alert alert-info">Aucun abonnement actif à afficher</div>';
+        }
+        else
+        {
+             echo '<div class="alert alert-info"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;'.$count_abonnement.' abonnement(s).</div>'; // nombre d'abonnés
+        ?>
+        <!-- abonnement validé -->
+        
+            <?php foreach ($abonnement_valide as $abonnement_valide): ?>
+          <div class="liste_abo">
+                
+            <?= $this->Html->link($this->Html->image(''.$abonnement_valide->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>' img-thumbnail vcenter', 'title' => ''.h($abonnement_valide->Users['username']).'')),'/'.h($abonnement_valide->Users['username']).'',['class' => 'link_username_tweet','escape' => false]) ?>
+           
+ </div>
+            <?php endforeach; ?>
 
 
+<!-- fin abonnement validé -->
+    <?php
+    }
+    ?>
+   </div>
+    <div id="abonne"> <!-- personne qui me suive -->
         <?php
+        if(isset($nbabonne_valide)) 
+        {
+            echo '<div class="alert alert-info">Aucun abonné pour le moment.</div>';
+        }
+        else
+        {
+             echo '<div class="alert alert-info"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;'.$count_abonnes.' abonné(s).</div>'; // nombre d'abonnés
+        ?>
+        <!-- abonnement validé -->
+        
+            <?php foreach ($abonne_valide as $abonne_valide): ?>
+          <div class="liste_abo">
+                
+            <?= $this->Html->link($this->Html->image(''.$abonne_valide->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>' img-thumbnail vcenter', 'title' => ''.h($abonne_valide->Users['username']).'')),'/'.h($abonne_valide->Users['username']).'',['class' => 'link_username_tweet','escape' => false]) ?>
+           
+ </div>
+            <?php endforeach; ?>
 
-        use App\Model\Entity\User;
+
+<!-- fin abonnement validé -->
+    <?php
+    }
+    ?>
+    </div>
+    <?php
+        if($this->request->getParam('username') == $authName)
+    {
+      ?>
+     <div id="demande"> <!-- demande d'abonnement -->
+                <?php
 
         if(isset($nbabonnement_attente))
         {
-         echo '<div class="alert alert-info">Aucun demande d\'abonnement en attente.</div>';
+         echo '<div class="alert alert-info">Aucune demande d\'abonnement en attente.</div>';
         }
         else
         {
@@ -15,7 +82,7 @@
             // abonnement attente //
  foreach ($abonnement_attente as $abonnement_attente):?>
         <div class="tweet">
-                          <?= $this->Html->image(''.$abonnement_attente->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
+                          <?= $this->Html->image(''.$abonnement_attente->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter')) ?>
                          
 <?= $this->Html->link(h($abonnement_attente->Users['username']),'/'.h($abonnement_attente->Users['username']).'');
                
@@ -26,59 +93,13 @@
                <?php  endforeach;
         
         }
-        // fin abonnement attente
-        if(isset($nbabonnement_valide)) 
-        {
-            echo '<div class="alert alert-info">Aucun abonnement actif à afficher</div>';
-        }
-        else
-        {
-            echo '<div class="alert alert-success"><span class="glyphicon glyphicon-user"></span>&nbsp;'.$count_abonnes.' abonnement(s).</div>';
-        ?>
-        
-        <!-- abonnement validé -->
-        <ul class="liste_abo">
-            <?php foreach ($abonnement_valide as $abonnement_valide): ?>
-          <li>
-            
-                               <?= $this->Html->image(''.$abonnement_valide->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>' vcenter')) ?>
-                <br />
-            <?= $this->Html->link(h($abonnement_valide->user->username),'/'.h($abonnement_valide->user->username).'',['class' => 'link_username_tweet']) ?>
-            <br />
-            <span class="alias_abo">@<?=$abonnement_valide->user->username ?></span> 
-                <br />
-            <?= $this->cell('Abonnement::nbabonnes', ['id' => $abonnement_valide->user->username])  ?>
-            <br />
-                            <?php if($abonnement_valide->user_id == $authName)
-                {
-                ?>
-                <?=  $this->Html->link(
-                'se désabonner',
-                array(
-                
-                'controller'=>'abonnement',
-                'action'=>'delete',
-                
-                
-                  $abonnement_valide->suivi
-                
+?>
+
+     </div>
+     <?php
+   }
+
+   ?>
 
 
-                ),
-                ["class" => "btn btn-danger btn_abo"]
-                );
-                };
-                ?>
-           
- 
-
- </li>
-            <?php endforeach; ?>
-
-</ul>
-<!-- fin abonnement validé -->
-    <?php
-    }
-    ?>
-
-
+</div>

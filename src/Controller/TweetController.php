@@ -433,7 +433,21 @@ class TweetController extends AppController
     {
                 $this->viewBuilder()->layout('profil');
                 $this->set('title', 'Actualités'); // titre de la page
-                $abonnement = $this->Tweet->find('all')
+                $abonnement = $this->Tweet->find()
+                ->select([
+            'Users.username',
+            'Users.avatarprofil',
+            'Tweet.id',
+            'Tweet.user_id',
+            'Tweet.user_timeline',
+            'Tweet.contenu_tweet',
+            'Tweet.created',
+            'Tweet.share',
+            'Tweet.nb_commentaire',
+            'Tweet.nb_partage',
+            'Tweet.nb_like',
+            'Tweet.allow_comment',
+            ])
 
        ->where([
 

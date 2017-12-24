@@ -27,15 +27,16 @@ use Cake\Routing\Router;
             {
                 ?>
                 <div id="list_tweet">
-                    <?
+                    
                 
-                 foreach ($tweet as $tweet):   
-                    ?>
+                <?php foreach ($tweet as $tweet): ?> 
+                    
                 
                  
             <div class="tweet">
                                 <!-- bouton dropdown tweet -->
                         <div class="dropdown">
+                
   <button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     ...
       </button>
@@ -67,21 +68,22 @@ use Cake\Routing\Router;
                         <li><?= $this->Html->link('Signaler ce post ', ['action' => 'view',  $tweet->id]); ?></li> <!-- un post qui ne m'appartient pas , je peut le signaler -->
 
 
-                        <?
+                        <?php
                     
                 }
-                ;
+                
                 ?>
   </ul>
 </div>
 <!-- fin bouton dropdown tweet -->
             <?php
+
             if($tweet->share == 1) // si tweet partagé
             {
                 echo '<span class="glyphicon glyphicon-share-alt"></span>&nbsp; Partagé par '.$this->request->getParam('username').'<br />';
                  echo  $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter'));
             echo  $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username?></span> - 
-            <?
+            <?php
             }
             else
             {
@@ -112,7 +114,7 @@ use Cake\Routing\Router;
 
                      ?>
                &nbsp;&nbsp;&nbsp;
-               <?
+               <?php
                                
                 if($tweet->allow_comment == 1) // si les commentaires sont désactivés
                 {
@@ -128,7 +130,7 @@ use Cake\Routing\Router;
 
                ?>
                &nbsp;&nbsp;&nbsp;
-               <?
+               <?php
 
                
            }
@@ -145,11 +147,9 @@ use Cake\Routing\Router;
         </span>
     </div>
 
-        <?php  endforeach; 
+        <?php  endforeach; ?>
         
-echo '</div>';
-
-?>
+</div>
 
 
             <div id="pagination">

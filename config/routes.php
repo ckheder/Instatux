@@ -106,7 +106,7 @@ Router::connect('/search/index/-:string',['controller' => 'Search', 'action' => 
 //fin route recherche
 
     // route abonnement index
-Router::connect('/abonnement',['controller' => 'Abonnement', 'action' => 'index']);
+Router::connect('/abonnement/:username',['controller' => 'Abonnement', 'action' => 'index']);
     // fin route abonnement/index
 
     // route abonnement add

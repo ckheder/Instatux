@@ -2,6 +2,7 @@
 namespace App\View\Cell;
 
 use Cake\View\Cell;
+use Cake\ORM\TableRegistry;
 
 
 /**
@@ -64,6 +65,14 @@ $nb_abonnement = $this->Abonnement->find()->where(['user_id' => $this->request->
 
 $this->set('nb_abonnement',$nb_abonnement);
 
+// on récupère l'état du blocage 
+
+$this->loadModel('Blocage');
+
+$blocage = $this->Blocage->find()->where(['bloqueur' => $authname])->where(['bloquer' => $this->request->getParam('username')])->count();
+
+$this->set('etat_blocage', $blocage);
+
 }
 
 
@@ -86,16 +95,6 @@ $nb_abonnement = $this->Abonnement->find()->where(['user_id' => $authname])->cou
 
 $this->set('nb_abonnement',$nb_abonnement);  
         
-    }
-
-    public function nbabonnes($id) // pour la cell sur la page d'abonnement, le nombre d'abonnés sur l page des abonnements
-    {
-    $this->loadModel('Abonnement');
-        
-   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $id])->count();
-
-$this->set('nb_abonnes',$nb_abonnes);
-
     }
 
          public function avatar_user($user, $share,$abonnement) // avatar de l'utilisateur abonné sur l'accueuil dans le cas d'un partage
@@ -141,6 +140,26 @@ else
 }
 
 $this->set('suivi', $suivi);
+    }
+
+    private function mesabonnes($authname)
+    {
+               $this->loadModel('Abonnement');
+        $abonnement = $this->Abonnement->find()->select(['suivi'])->where(['user_id' =>  $authname]);
+        return $abonnement;
+            
+            
+    }
+
+    public function suggestionmoi($authname)
+    {
+         $this->loadModel('Users');
+        $suggestionmoi = $this->Users->find()->select(['username','avatarprofil'])->where(['username NOT IN' =>  $this->mesabonnes($authname)])
+        ->where(['username !=' => $authname])
+    
+        ->limit(5);
+
+        $this->set('suggestionmoi', $suggestionmoi);
     }
 
 

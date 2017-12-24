@@ -1,14 +1,10 @@
 
-            <?php 
+             <!-- nombre d'abonnement et d'abonné -->
 
-                       echo '<li><span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;Abonné '.$nb_abonnes;
-                ?></li>
-
-                <li>
-                <?php
-             echo '<span class="glyphicon glyphicon-hand-left"></span>&nbsp;&nbsp;Abonnement '.$nb_abonnement;
-?>
-</li>
+                       <li><span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;<a href="/instatux/abonnement/<?= $this->request->getParam('username')?>#abonne">Abonné <?= $nb_abonnes ?></a></li>
+                      <li> <span class="glyphicon glyphicon-hand-left"></span>&nbsp;&nbsp;<a href="/instatux/abonnement/<?= $this->request->getParam('username')?>#abonnement">Abonnement <?= $nb_abonnement ?></a></li>
+              <!-- fin nombre d'abonnement et d'abonné -->
+          
 <?php
             if($this->request->getParam('username') != $authname)
 {
@@ -52,12 +48,51 @@
                 'class' => 'btn btn-danger', 
                 'role' => 'button',
                 'escape' => false]);
+                ?>
+                </li>
+                <?php  
+            }
+
+            if($etat_blocage === 1) // utilisateur bloqué
+            {
+              ?>
+              <li>
+              <?=$this->Html->link('<span class="glyphicon glyphicon-minus-sign"></span>', // lien pour supprimer ce blocage
+
+
+                '/blocage/delete/'.h($this->request->getParam('username')).'',
+                [
+                'title' => 'Debloqué '.$this->request->getParam('username').'',
+                'class' => 'btn btn-info', 
+                'role' => 'button',
+                'escape' => false]);
+                ?>
                   
+                </li>
+                <?php
+            }
+            else
+            {
+              ?>
+              <li>
+
+              <?= $this->Html->link('<span class="glyphicon glyphicon-plus-sign"></span>', // lien pour supprimer l'abonnement
+
+
+                '/blocage/add/'.h($this->request->getParam('username')).'',
+                [
+                'title' => 'Bloqué '.$this->request->getParam('username').'',
+                'class' => 'btn btn-info', 
+                'role' => 'button',
+                'escape' => false]);
+                ?>
+              </li>
+              <?php
             }
           } 
           ?>
             
-</li>
+
 </ul>
 <!-- modal envoi de message -->
 <?= $this->element('modalmessage') ?>

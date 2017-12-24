@@ -102,14 +102,13 @@ float: left;
 /* abonnement */
 .liste_abo
 {
-  list-style-type: none;
+
+margin-bottom: 12px;
+width : 84px;
+display: inline-block;
+text-align: center;
 }
-.liste_abo li
-{
-  padding: 6px;
-  display: inline-block;
-  text-align: center;
-}
+
 .alias_abo
 {
    color: #657786;
@@ -120,10 +119,7 @@ float: left;
   width : 78px;
 
 }
-.btn_abo
-{
-line-height: 5px;
-}
+
 
 textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 {
@@ -159,6 +155,48 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
     clear: both;
     display: table;
 }
+/* commentaire */
+.comm
+{
+      border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+.emoji_comm
+{
+  width: 25px ;
+  height: 25px ;
+}
+.lien_emoji_comm
+{
+  width: 15px ;
+  height: 15px ;
+}
+.textarea_comm
+{
+      border-radius: 12px;
+}
+.avatarcomm {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.emoji-button
+{
+    position: relative;
+  top : 25px;
+  right : 5px;
+  float: right;
+
+
+}
+
+/* fin commentaire */
 
 /* Style images */
 .messagemoi img {
@@ -183,21 +221,16 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 }
 
 /* notification */
-  .badge_notif{
-   background:#046380;
-  }
 
-/* span de message pour la modification des préférences de notifications */
-
-.spannotif
+sup
 {
-  float : right;
-  color : green;
-  margin-top : 5px;
+      vertical-align: super;
+    font-size: 17px;
+    font-weight: bold;
+    color: red;
 }
-
-
-
+/* fin notification*/
+/*span paramètre notification*/
 label {
     line-height:35px;
     font-weight: 200;
@@ -318,7 +351,7 @@ color: #657786;
 /* listes hashtag*/
 .hashtag
 {
-    margin-left: 19px;
+
   list-style-type: none;
 }
 
@@ -386,4 +419,33 @@ color: #657786;
   color : #484C4B;
 font-weight: bold;
 }
+
 /* fin barre du nombre de commentaire, de like  et de partage */
+/* mise en page settings */
+.ui-tabs
+{
+  background-color: #DCDCDC !important;
+}
+.ui-tabs-nav {
+    background-color: #DCDCDC !important; /*To overwrite jquery-ui.css*/                      /*To stop nav block scaling of tab size*/
+}
+/* fin mise en page settings */
+
+/* liset suggestion cell */
+
+.liste_suggestion
+{
+  padding : 5px;
+  margin-bottom: 5px;
+  margin-left: 40px;
+}
+
+.liste_suggestion img
+{
+/* max-width: 100%;
+  height: auto;*/
+  height : 48px;
+  width : 48px;
+}
+
+/* fin liste suggestion cell */

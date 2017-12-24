@@ -18,7 +18,7 @@
 
 echo $this->Html->Link("Tout marquer comme lue", ['controller' => 'Notifications','action' => 'allNotiflue']);
 
-echo $this->Html->Link("Paramètres", ['controller' => 'Notifications','action' => 'allNotiflue'],['class' => 'pull-right']);
+echo $this->Html->Link("Paramètres", '/settings#setup_profil',['class' => 'pull-right']);
 
 ?>
 
@@ -26,10 +26,10 @@ echo $this->Html->Link("Paramètres", ['controller' => 'Notifications','action' 
 
 <br />
 <br />
-
+<div id="list_tweet">
 <?php
 
-echo '<div id="list_tweet">';
+
 
  foreach ($notification as $notification): 
 
