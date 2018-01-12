@@ -162,8 +162,12 @@ Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => '
     //fin route conversation
 
     // route accueil
-Router::connect('/actualités',['controller' => 'Tweet', 'action' => 'accueuil']);
+Router::connect('/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);
     // fin route accueil
+
+    // route actualités offline
+Router::connect('/actualites',['controller' => 'Tweet', 'action' => 'actualites']);
+    // fin route actualités offline
 
     // route partage add
 Router::connect('/partage/add/:id/:id_auteur',['controller' => 'Tweet', 'action' => 'share'],['id' => '\d+', 'pass' =>['id']]);

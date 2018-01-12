@@ -38,27 +38,6 @@ class UsersController extends AppController
         $this->Auth->allow(['add', 'logout']);
     }
 
-// fonction de redirection après connexion
-    public function redirection()
-    {
-    
-        return $this->redirect(array("controller" => "Tweet", 
-                          "action" => "index",
-                         $username)
-);
-
-
-    }
-        public function profil($id = null)
-    {
-    
-        return $this->redirect(array("controller" => "Tweet", 
-                          "action" => "index",
-                          $id)
-);
-
-
-    }
     /**
      * View method
      *
@@ -127,7 +106,7 @@ class UsersController extends AppController
                     $this->Flash->error(
                         __("<ul><li>".implode("</li><li>", $error_msg)."</li></ul>"), ['escape' => false])
                     ;
-                    return $this->redirect('/');;
+                    return $this->redirect('/');
                 }
             }
             }
@@ -249,12 +228,32 @@ $user->website = $this->request->data('website');
     //connexion
         public function login()
     {
+      $this->viewBuilder()->layout('profil');
+      $this->set('title' ,'Connexion requise');
         if ($this->request->is('post')) {
+          // URL de provenance si on n'est pas connecté, provenance login.ctp
+
+          $from_url = $this->request->data('from_url');
+
+          // fin URL de provenance si on n'est pas connecté, provenance login.ctp
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
                 $this->Flash->success('Bonjour '.$this->Auth->user('username').' !');
+
+                if($this->referer() == 'http://localhost/instatux/') // si on vient de la page d'accueil du site
+                {
+
                 return $this->redirect('/'.$this->Auth->user('username').'');
+              }
+              elseif (isset($from_url)) // si on vient de login.ctp
+              {
+               return $this->redirect($this->request->data('from_url'));
+              }
+              else
+              {
+                return $this->redirect($this->referer());// si on a visité une page publique et que l'on s'est connecté
+              }
             }
             $this->Flash->error(__('Nom d\' utilisateur ou mot de passe incorrect'));
             return $this->redirect($this->Auth->logout());

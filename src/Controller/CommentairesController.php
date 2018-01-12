@@ -54,11 +54,15 @@ class CommentairesController extends AppController
     public function add()
     {
 
-      
         $commentaire = $this->Commentaires->newEntity();
         if ($this->request->is('post')) {
+
+// suppression des balises éventuelles
+
+          $comm = strip_tags($this->request->data('comm'));
+
             $data = array(
-            'comm' =>  $this->linkify_tweet($this->request->data('comm')),
+            'comm' =>  $this->linkify_tweet($comm),
             'tweet_id' => $this->request->data('id'), // id du tweet
             'user_id' => $this->Auth->user('id'),
             

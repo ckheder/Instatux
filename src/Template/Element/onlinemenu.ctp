@@ -10,7 +10,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="/instatux/actualités"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Actualités</a></li>
+        <li><a href="/instatux/accueuil"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Actualités</a></li>
      
         <li><a href="/instatux/settings" title="Paramètres"><span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;Configuration</a></li>
           <li><a href="/instatux/<?= $authName ;?>"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Moi</a></li>

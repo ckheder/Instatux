@@ -24,6 +24,12 @@ class TweetController extends AppController
         $this->loadComponent('Paginator');
     }
 
+        public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['actualites']); // on autorise les gens non identifiés à accéder au moteur de recherche
+    }
+
     /**
      * Index method
      *
@@ -427,7 +433,7 @@ class TweetController extends AppController
             return $this->redirect($this->referer());
 
     }
-    // tweet sur l'accueuil
+    // tweet actualités connectés
 
     public function accueuil()
     {
@@ -469,6 +475,41 @@ class TweetController extends AppController
      $this->set('abonnement', $this->Paginator->paginate($abonnement, ['limit' => 8]));
 
     }
+
+    // fin tweet actualités connectés
+
+        // tweet actualités offline => tous les tweets publics
+
+    public function actualites()
+    {
+                $this->viewBuilder()->layout('offlinenews');
+                $actu = $this->Tweet->find()
+                ->select([
+            'Users.username',
+            'Users.avatarprofil',
+            'Tweet.id',
+            'Tweet.user_id',
+            'Tweet.user_timeline',
+            'Tweet.contenu_tweet',
+            'Tweet.created',
+            'Tweet.share',
+            'Tweet.nb_commentaire',
+            'Tweet.nb_partage',
+            'Tweet.nb_like',
+            'Tweet.allow_comment',
+            ])
+
+        ->where(['Tweet.private' =>  0])
+        ->where(['Tweet.share' =>  0])
+        ->order(['Tweet.created' => 'DESC'])
+        ->contain(['Users']);
+
+
+     $this->set('actu', $this->Paginator->paginate($actu, ['limit' => 8]));
+
+    }
+
+    // fin tweet actualités offline
 
 
     public function allowComment() // activer/désactiver les commentaires

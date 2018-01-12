@@ -21,9 +21,9 @@ use Cake\Routing\Router;
 <br />
 <br />
 
- <?= $this->Form->create('Messagerie', array('class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'add'))); ?>
+ <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'))); ?>
                 
-<?= $this->Form->Textarea ('message' ,['cols' => 45, 'rows' => 3, 'placeholder'=> 'Répondre à '.$destinataire.' ...']); ?>
+<?= $this->Form->Textarea ('message' ,['placeholder'=> 'Répondre à '.$destinataire.' ...']); ?>
 <br />
 <?= $this->Form->hidden('conversation', ['value' => $this->request->getParam('id')]) // id de la conv ?>  
 <?= $this->Form->hidden('destinataire', ['value' => $destinataire]) // id du destinataire?>

@@ -24,8 +24,63 @@ use Cake\Network\Request;
 
  foreach ($tweet as $tweet): ?>
 
-<div class="tweet"> <!-- partie info sur le tweet -->
-            <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle left')) ?>
+<div class="tweet"> 
+     <?php
+// dropdown bloquer les commenaires
+
+                if($tweet->user_id == $authName) // si je suis l'auteur du tweet 
+                {
+                  ?>
+                        <div class="dropdown">
+                
+  <button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    ...
+      </button>
+  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+    <?php
+
+
+    if($tweet->allow_comment == 0) // commautorisés
+                
+            {
+
+                      echo $this->Form->create('', array('url'=>array('controller'=>'tweet', 'action'=>'allow_comment')));
+    echo $this->Form->hidden('allow_comment', ['value' => $tweet->allow_comment]); 
+    echo $this->Form->hidden('id_tweet', ['value' => $this->request->getParam('id')]); ?>
+                
+                <li>
+                <?= $this->Form->button('Désactiver les commentaires') ?> <!-- je peut effacer mon post -->
+                <?= $this->Form->end(); ?>
+            </li>              
+
+<?php
+                }
+                elseif($tweet->allow_comment == 1)
+                {
+                  // commentaires non autorisés
+
+
+    echo $this->Form->create('', array('url'=>array('controller'=>'tweet', 'action'=>'allow_comment')));
+    echo $this->Form->hidden('allow_comment', ['value' => $tweet->allow_comment]); 
+    echo $this->Form->hidden('id_tweet', ['value' => $this->request->getParam('id')]); ?>
+
+
+
+<li><?= $this->Form->button('Activer les commentaires') ?></li>
+
+
+<?= $this->Form->end();
+
+
+                }
+                ?>
+
+              </ul>
+            </div>
+            <?php
+          }
+          ?><!-- partie info sur le tweet -->
+            <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle left avatar_view')) ?>
             <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username ?></span> - 
             
 
@@ -40,6 +95,10 @@ use Cake\Network\Request;
                 <br />
                 <br />
                 <span class="link_comm_share">
+                                                    <?php
+                                 if(isset($authName))
+              {
+                ?>
                      <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
                      <?= $this->Html->link('J\'aime', '/like-'.$tweet->id.'', array('data-value' => ''.$tweet->id.'','class' => 'link_like')); 
@@ -47,6 +106,7 @@ use Cake\Network\Request;
                             ?>
                &nbsp;&nbsp;&nbsp;
                <?php
+
 
                                     if($tweet->share != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
@@ -56,16 +116,31 @@ use Cake\Network\Request;
                 echo $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.''); 
                 
             }
+          }
             ?>
 
                      
 
-    </span>     
-</div> <!-- fin partie info sur le tweet -->
+    </span>
 
-<?php if(!$tweet->allow_comment == 1) // si les commentaires sont autorisés
+    <span class="background_comm">    
+ <!-- fin partie info sur le tweet -->
+<?php
+if($tweet->allow_comment == 1)
+{
+ echo '<div class="alert alert-danger">Les commentaires sont désactivés pour cette publication.</div>';
+}
+
+
+ else // si les commentaires sont autorisés
 {
 
+if(!isset($authName))
+{
+   echo '<div class="alert alert-warning">Vous devez vous connecter ou vous inscrire pour commenter.</div>';
+}
+else
+{
   
   echo $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
 
@@ -74,31 +149,17 @@ use Cake\Network\Request;
 <?= $this->Form->input('comm', ['placeholder' => 'Votre commentaire...', 'label'=> '','class' =>'emojis-plain textarea_comm']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
 <?= $this->Form->hidden('userosef', ['value' => $tweet->user->username]) // auteur du tweet?>
-<br />
 <div class="text-center">
 <?= $this->Form->button('Envoyer', array('class'=>'btn btn-info')) ?>
 </div>
 <?= $this->Form->end(); ?>
-<hr>
+<br />
+ <!-- fin div info tweet -->
+</span>
+
 <?php
 
-//Bloquer les commentaires 
-
-if($tweet->user_id == $authName AND $tweet->allow_comment == 0)
-{
-    echo $this->Form->create('', array('url'=>array('controller'=>'tweet', 'action'=>'allow_comment')));
-    echo $this->Form->hidden('allow_comment', ['value' => $tweet->allow_comment]); 
-    echo $this->Form->hidden('id_tweet', ['value' => $this->request->getParam('id')]); ?>
-
-<div class="text-center">
-
-<?= $this->Form->button('Désactiver les commentaires', array('class'=>'btn btn-danger')) ?>
-<hr>
-</div>
-<?= $this->Form->end();
 }
-
-// Fin bloquer les commentaires 
 
 if($tweet->nb_commentaire == 0)
 {
@@ -114,6 +175,11 @@ else
         <?php foreach ($commentaires as $commentaires): ?>
             <div class="comm">
                
+               <?php
+
+               if(isset($authName))
+{
+  ?>
               
                 <!-- bouton dropdown comm -->
                         <div class="dropdown">
@@ -144,6 +210,9 @@ else
          
   </ul>
 </div>
+<?php
+}
+?>
 <!-- fin bouton dropdown comm -->
  <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail left avatarcomm')) ?>
  <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - <span class="date_message"><?= $commentaires->created->i18nformat('dd MMMM YYYY'); ?></span>
@@ -159,34 +228,20 @@ else
         <?php endforeach; ?>
 
       </div>
-      <?php
-  
-}
-}
-else
-{
-// commentaires non autorisés
- echo '<div class="alert alert-danger">Les commentaires sont désactivés pour cette publication</div>';
- if($tweet->user_id == $authName)
-{
-    echo $this->Form->create('', array('url'=>array('controller'=>'tweet', 'action'=>'allow_comment')));
-    echo $this->Form->hidden('allow_comment', ['value' => $tweet->allow_comment]); 
-    echo $this->Form->hidden('id_tweet', ['value' => $this->request->getParam('id')]); ?>
 
-<div class="text-center">
+<?php
 
-<?= $this->Form->button('Activer les commentaires', array('class'=>'btn btn-success')) ?>
-<hr>
-</div>
-<?= $this->Form->end();
 }
 
 }
 
-   endforeach; 
 
-    }
-         ?>
+echo '</div>';
+endforeach;
+
+}
+?>
+
 
          <div id="pagination">
 

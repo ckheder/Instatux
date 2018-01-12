@@ -49,17 +49,28 @@ use Cake\Routing\Router;
 </script>
 </head>
 <body>
+   <?php if (isset($authName))
+  {
+  echo  $this->element('onlinemenu') ;
+}
+else
+{
+  echo  $this->element('offlinemenu') ;
+}
+?>
  
    <div class="container" style="border:1px solid #cecece;">
-<?= $this->element('menuco') ?>
 <?= $this->Flash->render() ?>
   <div class="row">
 <div class="col-sm-3">
 <br />
-   
-<!-- partie tweet, selin id url -->
-<?= $this->cell('Info::moi', ['authname' => $authUser]);?>
-<?= $this->cell('Abonnement::moi', ['authname' => $authName]) ;  ?>
+   <?php if (isset($authName))
+  {
+
+echo  $this->cell('Info::moi', ['authname' => $authUser]);
+echo  $this->cell('Abonnement::moi', ['authname' => $authName]) ;  
+}
+?>
 
 </div>
 <div class="col-sm-5">
@@ -69,9 +80,14 @@ use Cake\Routing\Router;
 <div class="col-sm-4">
 <br />
         <?= $this->cell('Hashtag');?>
-        <?= $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;  ?>
+        <?php if (isset($authName))
+{
+ echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
+}
+?>
 </div>
-        <?= $this->element('modaltweet') ?>
+<?= $this->element('modaltweet') ?>
+<?= $this->element('modalconnexion') ?>
 <footer>
     </footer>
           <?= $this->Html->script('countlike.js') ?>

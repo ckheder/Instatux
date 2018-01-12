@@ -30,6 +30,8 @@ body.modal-open{
   padding : 6px ;
   color : black;
 margin-bottom: 12px;
+border-radius: 15px;
+height: 100%;
 }
 
 .vcenter_left {
@@ -76,11 +78,16 @@ display: inline-block;
 float: left;
 
 }
-.tweet img
+.tweet >img
 {
 /* max-width: 100%;
   height: auto;*/
   height : 48px;
+  width : 48px;
+}
+.avatar_view
+{
+    height : 48px;
   width : 48px;
 }
 
@@ -108,6 +115,8 @@ width : 84px;
 display: inline-block;
 text-align: center;
 }
+
+
 
 .alias_abo
 {
@@ -174,10 +183,13 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
   width: 15px ;
   height: 15px ;
 }
+
 .textarea_comm
 {
+
       border-radius: 12px;
-}
+    }
+
 .avatarcomm {
     float: left;
     max-width: 60px;
@@ -186,16 +198,21 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
     border-radius: 50%;
 }
 
+
 .emoji-button
 {
     position: relative;
   top : 25px;
   right : 5px;
   float: right;
-
+}
+.background_comm
+{
+  display: inline-block;
+  width: 100%;
+  background-color: #e1e2e3;
 
 }
-
 /* fin commentaire */
 
 /* Style images */
@@ -325,8 +342,6 @@ color : green;
 
 .item-user
 {
-
-
   list-style-type: none;
 }
 .item-user li
@@ -334,7 +349,16 @@ color : green;
   padding : 12px;
   color : #657786;
 }
-
+.item-user a
+{
+  text-decoration: none;
+  color: #657786;;
+}
+.disabled_link
+{
+    pointer-events: none;
+  cursor: default;
+}
 .username
 {
   font-weight: bold;
@@ -449,3 +473,15 @@ font-weight: bold;
 }
 
 /* fin liste suggestion cell */
+/* inscription offline element */
+.inscriptionoffline
+{
+  padding: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+.inscriptionoffline h3
+{
+  text-align: center;
+}
+/* fin inscription offline element */

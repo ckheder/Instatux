@@ -1,9 +1,8 @@
-<!-- src/Template/Users/login.ctp -->
-    <div class="text-center">
-<h1>Connexion</h1>
-<br />
-</div>
-<?= $this->Form->create() ?>     
+<?php
+echo $this->Modal->create(['id' => 'ModalConnexion']) ;
+                echo $this->Modal->header('Connexion', ['close'=>false]) ;
+                echo $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'login'))) ?>
+      
  <fieldset>
         <div class="input-group">
         <div class="input-group-addon">
@@ -14,23 +13,29 @@
             ?>
             </div>
             <br />
-            <br />
              <div class="input-group">
                     <div class="input-group-addon">
   <span class="glyphicon glyphicon-lock"></span> 
    </div>
             <?php
             echo $this->Form->password('password', ['placeholder'=>'Mot de passe']);
-            
-             echo $this->Form->hidden('from_url', ['value' => $this->request->referer()]);  // URL de provenance?>
+            ?>
             </div>
             
     </fieldset>
     <br />
-    <br />
     <div class="text-center">
-    <?= $this->Form->button('Connexion', array('class'=>'btn btn-info')) ?>
+    <?= $this->Form->button('Connexion', array('class'=>'btn btn-success')) ?>
     <?= $this->Form->end() ?>
     <br />
     <br />
 </div>
+<?php
+                echo $this->Modal->footer([
+                    $this->Form->button('Fermer', ['data-dismiss' => 'modal', 'class' =>'btn btn-danger'])
+                    ]);
+                    
+                echo $this->Modal->end() ;
+
+
+?>

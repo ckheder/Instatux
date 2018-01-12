@@ -5,13 +5,8 @@ echo $this->Modal->create(['id' => 'ModalNewMessage']) ;
 
                 <?php
                 echo $this->Form->create('Messagerie', array('class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'add')));
-
                 echo $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire']) ;
-
                 //echo $this->Form->hidden('destinataire', ['id' => 'idmembre', 'placeholder' => 'id']) ;
-
-
-
 ?>
                 <br />
                 <br />
@@ -31,6 +26,4 @@ echo $this->Modal->create(['id' => 'ModalNewMessage']) ;
                     $this->Form->button('Fermer', ['data-dismiss' => 'modal', 'class' =>'btn btn-danger'])
                     ]);
                 echo $this->Modal->end() ;
-
-
 ?>

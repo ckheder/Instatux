@@ -8,6 +8,8 @@
 <?= $this->Html->link(h($resultat_users->username),'/'.h($resultat_users->username).'',['class' => 'link_username_tweet']) ;?>
 <span class="alias_tweet">@<?=$resultat_users->username ?></span>
 <?php
+              if(isset($authName))
+              {
                if($resultat_users->username != $authName) // si ce n'est pas moi, on vérifie si je suis le résultat de recherche
                {
                 
@@ -16,7 +18,7 @@
                echo $this->Text->autoParagraph($resultat_users->description);
 
               
-
+}
 ?>
                
               </div>
@@ -46,6 +48,10 @@
                 <br />
                 <br />
                 <span class="link_comm_share">
+                                  <?php
+                                 if(isset($authName))
+              {
+                ?>
                      <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
                      <?= $this->Html->link('J\'aime', '/like-'.$resultat_tweet->id.'', array('data-value' => ''.$resultat_tweet->id.'','class' => 'link_like')); 
@@ -53,6 +59,8 @@
                      ?>
                &nbsp;&nbsp;&nbsp;
                <?php
+
+                     }  
                                
                 if($resultat_tweet->allow_comment == 1) // si les commentaires sont désactivés
                 {
@@ -72,6 +80,8 @@
 
                
            }
+            if(isset($authName))
+              {
            
                if($resultat_tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
@@ -81,6 +91,7 @@
                 echo $this->Html->link('Partager', '/partage/add/'.$resultat_tweet->id.'/'.$resultat_tweet->user_id.''); 
                 
             }
+          }
             ?>
           </span>
                 </div>

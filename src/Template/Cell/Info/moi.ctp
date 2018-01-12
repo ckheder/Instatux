@@ -45,7 +45,7 @@ use Cake\I18n\Time;
                 <?php
             }
             ?>
-                <li><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Inscrit <?= $user->created->i18nformat('dd MMMM YYYY'); ?></li>
+                <li><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Inscrit le <?= $user->created->i18nformat('dd MMMM YYYY'); ?></li>
                             
             
             <?php endforeach; ?>

@@ -21,7 +21,7 @@ use Cake\Routing\Router;
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $title ?>
+       Instatux. Ce qu'il se passe.
         
     </title>
     <?= $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'))."\n"; ?>
@@ -31,62 +31,32 @@ use Cake\Routing\Router;
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
-    <?= $this->Html->script('ckeditor/ckeditor.js') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
-    <?= $this->Html->script('fix.js') ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
-
     <?= $this->fetch('meta') ?>
- <script type="text/javascript">
-    var auto_refresh = setInterval(
-  function ()
-  {
-    $('#count_nb_notif').load('<?php echo Router::url(array("controller" => "Notifications", "action" => "nbNotif")); ?>').fadeIn("slow");
-  }, 1000); // rafraichis toutes les 10000 millisecondes
 
-</script>
 </head>
 <body>
-  <?php if (isset($authName))
-  {
-  echo  $this->element('onlinemenu') ;
-}
-else
-{
-  echo  $this->element('offlinemenu') ;
-}
-?>
+  <?= $this->element('offlinemenu') ; ?>
    <div class="container" style="border:1px solid #cecece;">
 
-<?= $this->Flash->render() ?>
-  <div class="row">
-<div class="col-sm-3">
-   <br />
-<!-- partie tweet, selin id url -->
-<?= $this->cell('Info', ['authuser' => $authUser]);?>
-<?= $this->cell('Abonnement', ['authname' => $authName]) ;  
-
-?>
-
-</div>
-<div class="col-sm-5">
+ <div class="row">
+     <div class="col-sm-3">
+        <?= $this->element('encartinscriptionoffline'); ?>
+     </div>
+ <div class="col-sm-5">
 <br />
         <?= $this->fetch('content') ?>
-        </div>
-        <div class="col-sm-4">
-        <br />
-<?= $this->cell('Hashtag');?>
-<?php if (isset($authName))
-{
- echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
-}
-?>
 </div>
-<?= $this->element('modaltweet') ?>
+<div class="col-sm-4">
+<br />
+        <?= $this->cell('Hashtag');?>
+</div>
+
+
+</div>
 <?= $this->element('modalconnexion') ?>
-    <footer>
-    </footer>
-      <?= $this->Html->script('countlike.js') ?>
-      <?= $this->Html->script('settingsnotif.js') ?>
+<footer>
+    </footer>        
 </body>
 </html>

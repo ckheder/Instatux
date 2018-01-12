@@ -34,6 +34,10 @@ use Cake\Routing\Router;
                 
                  
             <div class="tweet">
+              <?php
+              if(isset($authName))
+              {
+                ?>
                                 <!-- bouton dropdown tweet -->
                         <div class="dropdown">
                 
@@ -77,6 +81,7 @@ use Cake\Routing\Router;
 </div>
 <!-- fin bouton dropdown tweet -->
             <?php
+          }
 
             if($tweet->share == 1) // si tweet partagé
             {
@@ -98,8 +103,11 @@ use Cake\Routing\Router;
 
              $contenu = str_replace('</p>', '', $tweet->contenu_tweet);
              ?>
-                <?= $this->Text->autoParagraph($contenu); ?>
+                <?= $this->Text->autoParagraph($contenu); 
 
+
+
+                ?>
 
 
                   <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-<?= $tweet->id ;?>"><?= $tweet->nb_like ;?></span></span>
@@ -108,14 +116,19 @@ use Cake\Routing\Router;
                 <br />
                 <br />
                 <span class="link_comm_share">
+                <?php
+                                 if(isset($authName))
+              {
+                ?>
+                
                      <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
                      <?= $this->Html->link('J\'aime', '/like-'.$tweet->id.'', array('data-value' => ''.$tweet->id.'','class' => 'link_like')); 
-
+                   
                      ?>
                &nbsp;&nbsp;&nbsp;
                <?php
-                               
+                     }          
                 if($tweet->allow_comment == 1) // si les commentaires sont désactivés
                 {
                     echo '<div class="alert alert-info">Les commentaires sont désactivés pour cette publication</div>';
@@ -134,6 +147,8 @@ use Cake\Routing\Router;
 
                
            }
+                                if(isset($authName))
+              {
            
                if($tweet->share != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
@@ -143,6 +158,7 @@ use Cake\Routing\Router;
                 echo $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.''); 
                 
             }
+          }
             ?>
         </span>
     </div>

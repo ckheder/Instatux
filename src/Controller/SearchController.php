@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 //use App\Controller\Component\AuthComponent;
 
 /**
@@ -24,6 +25,12 @@ var $uses = array(); // se passer d'un modèle
         $this->loadComponent('Paginator');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['index','redirectsearch']); // on autorise les gens non identifiés à accéder au moteur de recherche
+    }
+
 
     public function index($search = null)
     {
@@ -35,7 +42,7 @@ var $uses = array(); // se passer d'un modèle
       
         $keyword = $this->request->GetParam('string');
 
-        $search = str_replace('#', '%23', $keyword);
+        $search = str_replace('#', '%23', $keyword);// on remplace le dièse par le truc qui marche
 
 // recherche dans les tweets
 
