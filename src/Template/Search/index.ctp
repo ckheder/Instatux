@@ -1,5 +1,6 @@
 <?php $search = str_replace('%23', '#', $search); ?>
-<h3>Résultat pour <?= $search ?></h3>
+<div class="text-center"><h3>Résultat pour <?= $search ?></h3></span></div>
+<br />
 <?php // résultat users
                          foreach ($resultat_users as $resultat_users): ?>
                          <div class="tweet">
@@ -15,10 +16,12 @@
                 
                 echo $this->cell('Abonnement::test_abo', ['authname' => $authName, 'suivi' =>$resultat_users->username]) ;  
                }
-               echo $this->Text->autoParagraph($resultat_users->description);
+             }
+             echo '<br />';
+               echo $resultat_users->description;
 
               
-}
+
 ?>
                
               </div>

@@ -52,6 +52,7 @@ var $uses = array(); // se passer d'un modèle
 $query_tweet = $this->Tweet->find()->select([
             'Users.username',
             'Users.avatarprofil',
+            'Users.description',
             'Tweet.id',
             'Tweet.user_id',
             'Tweet.contenu_tweet',
@@ -64,6 +65,8 @@ $query_tweet = $this->Tweet->find()->select([
     ->where([
         "MATCH(Tweet.contenu_tweet) AGAINST(:search)" 
     ])
+    ->orWhere(['Tweet.user_id = :search'])
+    ->where(['Tweet.share' => 0])
     ->where(['private' => 0]) // on ne cherche que les tweets publics
     ->bind(':search',$search)
     ->order(['Tweet.created' => 'DESC'])

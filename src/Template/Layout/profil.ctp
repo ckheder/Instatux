@@ -69,6 +69,9 @@ else
 
 echo  $this->cell('Info::moi', ['authname' => $authUser]);
 echo  $this->cell('Abonnement::moi', ['authname' => $authName]) ;  
+}else
+{
+  echo $this->element('encartinscriptionoffline');
 }
 ?>
 
