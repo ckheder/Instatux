@@ -83,6 +83,15 @@ $validator = new Validator();
             'message' => 'Ce nom est déjà utilisé']
         ]
     )
+            // traitement des noms réservés
+            ->add(
+                'username',[
+        'notReserved'=>[
+        'rule'=>'notReserved',
+        'provider'=>'table',
+        'message'=>'Ce nom ne peut pas être utlisé.'
+         ]
+        ])
         
             ->notEmpty('password', "le mot de passe doit être renseigné")
             ->requirePresence('password')
@@ -114,21 +123,22 @@ $validator = new Validator();
 
     }
 
+        public function notReserved() // tableau recensant les noms réservés , utilisé dans le menuco/menuoffline
+        {
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->isUnique(['username'],'Cette adresse email est déjà utilisée'));
-        $rules->add($rules->isUnique(['email'],'Cette adresse email est déjà utilisée'));
-       
+            $arrayReserved = array(
 
-        return $rules;
-    }
+                'actualites','accueuil','search','settings','notifications','messagerie','abonnement','logout');
 
+        if(in_array('username',$arrayReserved)) 
+        {
+            return true;
+        } 
+        else 
+        {
+            return false;
+        }
+
+
+}
 }
