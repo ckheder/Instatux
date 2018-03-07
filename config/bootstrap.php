@@ -110,7 +110,7 @@ if (!Configure::read('debug')) {
  * Set server timezone to UTC. You can change it to another timezone of your
  * choice but using UTC makes time calculations / conversions easier.
  */
-date_default_timezone_set('UTC');
+//date_default_timezone_set('UTC');
 
 /*
  * Configure the mbstring extension to use the correct encoding.
@@ -232,9 +232,8 @@ if (Configure::read('debug')) {
 
 Plugin::load('Migrations');
 Plugin::load('Bootstrap');
-
-
 Plugin::load('Cake/Localized');
+
 
 /* partie de chargement des évèneemnts */
 /* évènement nouveau comm */

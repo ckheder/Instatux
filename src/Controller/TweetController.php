@@ -45,11 +45,11 @@ class TweetController extends AppController
         if($username != $this->Auth->user('username')) // si je ne suis pas sur mon profil
     {
 
-            if($this->verif_user($username) == 0) // membre ou page inexistante
-        {
-                   $this->Flash->error(__('Cette page n\'existe pas.'));
-                   return $this->redirect('/'.$this->Auth->user('username').'');
-       }
+           // if($this->verif_user($username) == 0) // membre ou page inexistante
+       // {
+                 // $this->Flash->error(__('Cette page n\'existe pas.'));
+                 // return $this->redirect('/'.$this->Auth->user('username').'');
+      //}
             if($this->allow_see_profil($username) == 0) // profil privé et non abonné
         {
             $no_follow = 0;

@@ -4,7 +4,7 @@ echo $this->Modal->create(['id' => 'ModalNewMessage']) ;
                 ?>
 
                 <?php
-                echo $this->Form->create('Messagerie', array('class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'add')));
+                echo $this->Form->create('Messagerie', array('id'=>'form_message_new','class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'add')));
                 echo $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire']) ;
                 //echo $this->Form->hidden('destinataire', ['id' => 'idmembre', 'placeholder' => 'id']) ;
 ?>
@@ -27,3 +27,38 @@ echo $this->Modal->create(['id' => 'ModalNewMessage']) ;
                     ]);
                 echo $this->Modal->end() ;
 ?>
+
+<script>
+    $(document).ready(function() {
+
+    $('#form_message_new').submit(function(e){
+
+      e.preventDefault();
+
+        $.ajax({
+                type: 'POST',
+                url: '/instatux/message/add',
+                dataType: 'json',
+                data: $('#form_message_new').serialize(),
+    success: function(data){
+
+alert(JSON.stringify(data));
+
+        var url = 'http://localhost/instatux/conversation-' + data.conv + '';
+    
+window.location.href = url;
+
+    },
+    error: function(data)
+    {
+alert(JSON.stringify(data));
+       // alert('fail');       
+    }
+                
+         });
+    });
+  
+
+
+    });
+</script>

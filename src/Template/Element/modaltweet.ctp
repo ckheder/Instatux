@@ -8,6 +8,7 @@ echo $this->Modal->create(['id' => 'ModalTweet']) ;
                 <script>
                 CKEDITOR.replace( 'editor1' );
             </script>
+                
                 <br />
 <div class="text-center">
                 <?= $this->Form->button('Tweeter', array('class'=>'btn btn-success')) ?>
@@ -24,4 +25,5 @@ echo $this->Modal->create(['id' => 'ModalTweet']) ;
 
 
 ?>
+
 

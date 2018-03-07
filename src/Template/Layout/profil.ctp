@@ -32,12 +32,13 @@ use Cake\Routing\Router;
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
-    <?= $this->Html->script('ckeditor/ckeditor.js') ?>
+  <?= $this->Html->script('ckeditor/ckeditor.js') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
-    <?= $this->Html->script('fix.js') ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
      <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
      <?= $this->Html->script('/js/emoji/emojis.js') ?>
+       <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js'); ?>
+      <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/fr.js'); ?>
     <?= $this->fetch('meta') ?>
  <script type="text/javascript">
     var auto_refresh = setInterval(
@@ -47,6 +48,7 @@ use Cake\Routing\Router;
   }, 10000); // rafraichis toutes les 10000 millisecondes
  
 </script>
+
 </head>
 <body>
    <?php if (isset($authName))
@@ -96,6 +98,8 @@ echo  $this->cell('Abonnement::moi', ['authname' => $authName]) ;
           <?= $this->Html->script('countlike.js') ?>
           <?= $this->Html->script('settingsnotif.js') ?>
           <?= $this->Html->script('settingsabojquery.js') ?>
-         
+
+              <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js') ?>
+    <?= $this->Html->script('/js/client.js') ?>
 </body>
 </html>

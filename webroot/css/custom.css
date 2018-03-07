@@ -139,31 +139,6 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 	font-weight: bold;
 }
 
-/* messagerie */
-
-/* Lien accueuil messagerie */
-
-.messagemoi {
-    border: 2px solid #dedede;
-    background-color: #f1f1f1;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-
-}
-
-.other{
-
-      border-color: #ccc;
-    background-color: #ddd;
-}
-
-/* Clear floats */
-.messagemoi::after {
-    content: "";
-    clear: both;
-    display: table;
-}
 /* commentaire */
 .comm
 {
@@ -214,7 +189,27 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 
 }
 /* fin commentaire */
+/* messagerie */
+.messagemoi {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 6px;
+   height: 100%;
+}
 
+.other{
+
+      border-color: #ccc;
+    background-color: #ddd;
+}
+
+/* Clear floats */
+.messagemoi::after {
+    content: "";
+    clear: both;
+    display: table;
+}
 /* Style images */
 .messagemoi img {
     float: left;
@@ -236,7 +231,21 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
   font-size: 12px;
   font-weight: bold;
 }
+/* div etat connection + typing */
+#etatco
+{
+  height: 15px;
+  margin-bottom : 5px;
 
+}
+#etattype
+{
+  height: 25px;
+  color : #046380;
+  margin-bottom : 5px;
+}
+/* fin div etat connection + typing*/
+/* fin messagerie */
 /* notification */
 
 sup

@@ -157,6 +157,10 @@ Router::connect('/bloques',['controller' => 'Blocage', 'action' => 'listebloques
 Router::connect('messagerie',['controller' => 'Messagerie', 'action' => 'index']);
     //fin route messagerie
 
+    // route envoi message
+Router::connect('/message/add',['controller' => 'Messagerie', 'action' => 'add']);
+    // fin route envoi message
+
     // route conversation
 Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['id' => '\d+', 'pass' =>['id']]);
     //fin route conversation
@@ -176,6 +180,8 @@ Router::connect('/partage/add/:id/:id_auteur',['controller' => 'Tweet', 'action'
     // route partage delete
 Router::connect('/partage/delete/:id',['controller' => 'Partage', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
     // fin route partage delete
+
+
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */

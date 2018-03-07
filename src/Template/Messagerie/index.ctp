@@ -3,12 +3,24 @@ use Cake\I18n\Time;
 use Cake\Routing\Router;
 ?>
 <div class="text-center">
-<?php
-                echo $this->Form->button('Nouveau message', 
-                [ 'data-toggle' => 'modal',
-                  'data-target' => '#ModalNewMessage',
-                  'class' => 'btn btn-info']) ;
+
+
+                <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'),'id'=>'form_message_new')); ?>
+                <?= $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire', 'required'=> 'required']) ;?>
+
+
+                <?=$this->Form->Textarea('message', ['placeholder' =>'Votre message...']) ;?>
+<!-- <textarea name="message" class="textarea_message" placeholder="Message..."></textarea> -->
+<br /> 
+
+                <br />
+<div class="text-center">
+                <?= $this->Form->button('Envoyer', array('class'=>'btn btn-success')) ?>
+</div>
+                <?= $this->Form->end(); 
+
 ?>
+
 <br />
 <br />
 </div>
@@ -65,10 +77,40 @@ select: function( event, ui ) {
 
 
       
-</script>                                       
+</script>  
 
-<!-- modal envoi de message -->
-<?= $this->element('modalnewmessage') ?>
-<!-- fin modal envoi de message -->
+<script>
+    $(document).ready(function() {
+
+    $('#form_message_new').submit(function(e){
+
+      e.preventDefault();
+
+        $.ajax({
+                type: 'POST',
+                url: '/instatux/message/add',
+                dataType: 'json',
+                data: $('#form_message_new').serialize(),
+    success: function(data){
+
+        var url = 'http://localhost/instatux/conversation-' + data.conv +'';
+    
+window.location.href = url;
+
+    },
+    error: function(data)
+    {
+alert(JSON.stringify(data));
+       //alert('fail');       
+    }
+                
+         });
+    });
+  
+
+
+    });
+</script>                                     
+
 
 

@@ -12,6 +12,8 @@ use Cake\Event\Event;
 class MessagerieController extends AppController
 {
 
+    public $components = array('RequestHandler');
+
     public $paginate = [
         'limit' => 8,
         'order' => [
@@ -100,6 +102,7 @@ class MessagerieController extends AppController
         $this->viewBuilder()->layout('profil');
          
 
+
          $verif_user = $this->verifconv($this->Auth->user('username'));
 
          if($verif_user == 0)
@@ -116,7 +119,13 @@ class MessagerieController extends AppController
          else
          {
 
-   $message = $this->Messagerie->find('all')
+   $message = $this->Messagerie->find()->select([ 
+  'Messagerie.user_id', 
+  'Messagerie.destinataire', 
+  'Messagerie.message', 
+  'Messagerie.created',  
+  'Users.avatarprofil', 
+            ])
         ->where(['conv' => $this->request->getParam('id')])
         ->order(['Messagerie.created' => 'DESC'])
 
@@ -129,7 +138,7 @@ class MessagerieController extends AppController
     } catch (NotFoundException $e) {
         // Faire quelque chose ici comme rediriger vers la première ou dernière page.
         // $this->request->getParam('paging') vous donnera les infos demandées.
-    }
+   }
 
 
             // fin pagination
@@ -147,8 +156,6 @@ if($message->user_id == $this->Auth->user('username'))
 
 endforeach;
 
-
-
 $this->set('title', 'Conversation avec  '.$destinataire.''); // titre de la page
 
 $this->set('destinataire', $destinataire);
@@ -160,9 +167,14 @@ $this->set('destinataire', $destinataire);
         // parsage des tweets
     private function linkify_tweet($tweet) 
     {
+        // remplacement des @ -> lien vers profil
     $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
         '$1<a href="$2">@$2</a>',
         $tweet);
+        // remplacement des liens par des liens cliquables
+    $tweet = preg_replace('#(https?://)([\w\d.&:\#@%/;$~_?\+-=]*)#','<a href="$1$2" target="_blank">$2</a>',$tweet);
+
+    // remplacement des # -> lien vers moteur de recherche
     return preg_replace('/#([^\s]+)/',
         '<a href="search-%23$1">#$1</a>',
         $tweet);
@@ -176,6 +188,11 @@ $this->set('destinataire', $destinataire);
      */
     public function add() // envoyer un message, ajout auto à une conv ou création d'une nouvelle
     {
+        //dd($this->request->data);
+
+       if ($this->request->is('ajax')) {
+
+
          if($this->test_blocage($this->request->data['destinataire'])) // si je suis bloqué
         {
 
@@ -228,6 +245,15 @@ $checkconv = $this->Conversation
 
             }
 }
+
+if(isset($this->request->data['avatar']))
+{
+  $avatar = $this->request->data['avatar'];
+}
+else
+{
+   $avatar = $this->Auth->user('avatarprofil');
+}
         
             $data = array(
             'user_id' => $this->Auth->user('username'), // expediteur
@@ -236,7 +262,7 @@ $checkconv = $this->Conversation
             'conv' => $conversation,
             //evenement abonnement
             'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' => $this->Auth->user('avatarprofil'),
+            'avatar_session' =>$avatar,
              'new_conv' => $new_conv
             );
 
@@ -252,18 +278,22 @@ $checkconv = $this->Conversation
                 $this->eventManager()->dispatch($event);
             }
                 // fin évènement
-                $this->Flash->success(__('Message envoyé.'));
+               
                 
             }
             else
             {
-                $this->Flash->error(__('Message non envoyé.'));
+                 echo 'pas ok';
             }
 
-           return $this->redirect($this->referer());
+            $this->response->body(json_encode($data));
+    return $this->response;
+
+            
         
     }
     }
+}
 
         private function test_blocage($username) // on vérifie que le destinataire ne m'a pas bloqué
     {

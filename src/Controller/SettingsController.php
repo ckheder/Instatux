@@ -180,7 +180,7 @@ public function notifpartage() // mise à jour des paramètres de notifications 
                             ->where(['user_id' => $this->Auth->user('username') ])                            
                             ->execute();
 
-                             $this->response->body($notifcite);
+                             $this->response->body($notifpartage);
        return $this->response;
             }
         }
