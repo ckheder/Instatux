@@ -34,7 +34,7 @@ class MessagerieController extends AppController
      */
     public function index()
     {
-        $this->viewBuilder()->layout('profil');
+        $this->viewBuilder()->layout('general');
         $this->set('title', 'Messagerie'); // titre de la page
 
         // on recherche toutes les conversations non masquées, statut = 1 de l'utilisateur courant
@@ -99,7 +99,7 @@ class MessagerieController extends AppController
      */
     public function view($id = null) // voir une conversation
     {
-        $this->viewBuilder()->layout('profil');
+        $this->viewBuilder()->layout('general');
          
 
 
@@ -196,10 +196,8 @@ $this->set('destinataire', $destinataire);
          if($this->test_blocage($this->request->data['destinataire'])) // si je suis bloqué
         {
 
-        $this->Flash->error(__('Message non envoyé, cet utilisateur vous à bloqué.'));
-
-        return $this->redirect($this->referer());
-        
+        $reponse = 'blocage';
+         $this->response->body($reponse);
 
         }
         else
@@ -278,20 +276,23 @@ else
                 $this->eventManager()->dispatch($event);
             }
                 // fin évènement
-               
-                
-            }
-            else
+
+            if(isset($this->request->data['indexmess'])) // je suis sur la page des messages
             {
-                 echo 'pas ok';
+               
+              $reponse = $data['conv']; 
+               $this->response->body($reponse); 
+             }
             }
 
-            $this->response->body(json_encode($data));
-    return $this->response;
+
+            //$this->response->body(json_encode($data));
+   
 
             
         
     }
+     return $this->response;
     }
 }
 

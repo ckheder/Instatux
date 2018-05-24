@@ -24,7 +24,7 @@ class AbonnementListener implements EventListenerInterface {
 
     if($abonnement->etat == 0)
     {
-            $notif = '<img src="/instatux/img/'.$abonnement->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$abonnement->nom_session.'">'.$abonnement->nom_session.'</a><span class="alias_tweet">@'.$abonnement->nom_session.'</span> souhaite s\'abonné
+            $notif = '<img src="/instatux/img/'.$abonnement->avatar_session.'" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/'.$abonnement->nom_session.'">'.$abonnement->nom_session.'</a><span class="alias_tweet">@'.$abonnement->nom_session.'</span> souhaite s\'abonné
             <a href="/instatux/abonnement#tabs-3">Gérer mes abonnements</a>';
 
     $notif_abo = $entity->newEntity();
@@ -42,7 +42,7 @@ class AbonnementListener implements EventListenerInterface {
 
     else
     {
-    $notif = '<img src="/instatux/img/'.$abonnement->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$abonnement->nom_session.'">'.$abonnement->nom_session.'</a><span class="alias_tweet">@'.$abonnement->nom_session.'</span> s\'est abonné';
+    $notif = '<img src="/instatux/img/'.$abonnement->avatar_session.'" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/'.$abonnement->nom_session.'">'.$abonnement->nom_session.'</a><span class="alias_tweet">@'.$abonnement->nom_session.'</span> s\'est abonné';
 
     $notif_abo = $entity->newEntity();
 
@@ -64,7 +64,7 @@ public function notif_abo_valide($event, $data_event)
 {
     $entity = TableRegistry::get('Notifications');
 
-                $notif = '<img src="/instatux/img/'.$data_event['avatar_session'].'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$data_event['nom_session'].'">'.$data_event['nom_session'].'</a> à accepté votre demande d\'abonnement';
+                $notif = '<img src="/instatux/img/'.$data_event['avatar_session'].'" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/'.$data_event['nom_session'].'">'.$data_event['nom_session'].'</a> à accepté votre demande d\'abonnement';
 
     $notif_abo_valide = $entity->newEntity();
 

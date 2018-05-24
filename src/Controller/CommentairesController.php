@@ -53,10 +53,9 @@ class CommentairesController extends AppController
      */
     public function add()
     {
+         if ($this->request->is('ajax')) {
 
         $commentaire = $this->Commentaires->newEntity();
-        if ($this->request->is('post')) {
-
 // suppression des balises éventuelles
 
           $comm = strip_tags($this->request->data('comm'));
@@ -89,23 +88,26 @@ class CommentairesController extends AppController
                 //fin évènement
               }
 
-                $this->Flash->success(__('Commentaire posté avec succès.'));
+                
 
             } else {
                 $this->Flash->error(__('Impossible de commenter.'));
 
             }
-        }
-
-                        return $this->redirect([
-    'controller' => 'tweet',
-    'action' => 'view',
-$this->request->data['id']
         
-]);
+
+                        //return $this->redirect([
+   // 'controller' => 'tweet',
+   // 'action' => 'view',
+//$this->request->data['id']
+        
+//]);
+            $this->response->body(json_encode($data));
+    return $this->response;
 
 
     }
+  }
 
     /**
      * Edit method
@@ -116,7 +118,7 @@ $this->request->data['id']
      */
     public function edit($id = null, $tweet = null)
     {
-        $this->viewBuilder()->layout('profil');
+        $this->viewBuilder()->layout('general');
 
 
         $commentaire = $this->Commentaires->get($id, [
@@ -179,54 +181,32 @@ $this->request->data['id']
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null, $tweet = null)
+    public function delete($id = null) // id-> id du commentaire, 
+
     {
 
-        // vérif auteur
+      if ($this->request->is('ajax')) {
+        $commentaire = $this->Commentaires->get($this->request->getParam('id'));
 
-        $auteur_verif = $this->Commentaires->find();
-        $auteur_verif->where([
-
-'user_id' =>  $this->Auth->user('id')
-
-            ])
-        ->where(['id'=>$id]);
-
-        // vérif si c'est l'auteur du tweet
-
-        $auteur_tweet = $this->Commentaires->Tweet->find();
-
-        $auteur_tweet->where([
-
-'id' =>  $tweet
-
-            ])
-         ->where(['user_id'=>$this->Auth->user('id')]);
-       
-        
-        if (!$auteur_verif->isEmpty() or !$auteur_tweet->isEmpty()) // si résultat on supprime
-        {
-       //$this->request->allowMethod(['post', 'delete']);
-        $commentaire = $this->Commentaires->get($id);
         if ($this->Commentaires->delete($commentaire)) 
         {
-            $this->Flash->success(__('Commentaire supprimé.'));
-        } 
-
-        return $this->redirect([
-    'controller' => 'tweet',
-    'action' => 'view',
+            
+$reponse = 'suppcommok';
     
-        $tweet
-        
-]);
-    }
-
+}
     else 
     {
-            $this->Flash->error(__('Impossible de supprimé ce commentaire.'));
+            $reponse = 'suppcommfail';
         }
-}
+
+                        $this->response->body($reponse);
+    return $this->response;
+
+ }
+
+
+
+    }
 
     private function testnotifcomm($username) // on vérifie si l'auteur du tweet accepte les notifications de commentaire'
     {

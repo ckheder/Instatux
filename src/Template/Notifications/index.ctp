@@ -1,5 +1,5 @@
 <?php
-
+use Cake\Routing\Router;
 
             if(isset($nb_notif))
             {
@@ -12,11 +12,19 @@
 
 ?>
 
+<p id="etatnotif"></p>
+
+
+
+
+
  <span class="link_comm_share">
 
   <?php
 
-echo $this->Html->Link("Tout marquer comme lue", ['controller' => 'Notifications','action' => 'allNotiflue']);
+echo $this->Html->Link("Tout marquer comme lue",'#',array(
+        'id' => 'allnotiflue','onclick' => 'return false' 
+    ));
 
 echo $this->Html->Link("Paramètres", '/settings#setup_profil',['class' => 'pull-right']);
 
@@ -29,31 +37,23 @@ echo $this->Html->Link("Paramètres", '/settings#setup_profil',['class' => 'pull
 <div id="list_tweet">
 <?php
 
-
-
  foreach ($notification as $notification): 
 
 if($notification->statut == 0) // notif non lu
 {
-    ?>
-    <div class="notif_non_lu"> <!-- div non lu -->
-<?= $this->element('menu_notif', [
-    "notif_user" => $notification->user_name,
-    "id_notif" => $notification->id_notif
-]);
+    
+    echo '<div class="notif_non_lu">';
 
-}
+ }
+
 else // notif lue
 {
-    ?>
-<div class="tweet">
-<?= $this->element('menu_notif', [
-    "notif_user" => $notification->user_name,
-    "id_notif" => $notification->id_notif
-]);
   
-  }
-?>
+echo '<div class="notif_lu">';
+
+}
+     ?>
+
             <span class="date_notif">
 
             <?= $notification->created->i18nformat('dd MMMM YYYY'); ?>
@@ -61,22 +61,19 @@ else // notif lue
              </span>
        
 
-            <?= $this->Text->autoParagraph($notification->notification); ?>
+            <?= $this->Text->autoParagraph($notification->notification);
+
+echo '</div>';
+
+
+endforeach; ?>
 
 </div>
-<?php endforeach; 
-            echo '</div>';
-
-?>
 
 
             <div id="pagination">
 
             <?= $this->Paginator->next('Next page'); ?>
-
-
-
-
 
           </div>
 
@@ -84,25 +81,4 @@ else // notif lue
 
         } ?>
 
-
-
-           
-
-            <script>
-
-              var ias = jQuery.ias({
-  container:  '#list_tweet',
-  item:       '.tweet',
-  pagination: '#pagination',
-  next:       '.next'
-});
-
-
-  ias.extension(new IASSpinnerExtension());
-  ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "Fin des notifications"}));
-  ias.extension(new IASPagingExtension());
-
-</script>
-
-
+ <?= $this->Html->script('indexnotification.js') ?>

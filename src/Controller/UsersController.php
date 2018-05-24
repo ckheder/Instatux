@@ -69,7 +69,7 @@ class UsersController extends AppController
             'username' => $this->request->data['username'], 
             'password' => $this->request->data['password'],
             'email' =>  $this->request->data['email'],
-            'avatarprofil' =>  "avatars/default.png"
+            'avatarprofil' =>  "avatars/default/default.png"
             );
 
             $user = $this->Users->patchEntity($user, $data);
@@ -125,19 +125,21 @@ class UsersController extends AppController
     public function editdescription()
     {
 
+      if ($this->request->is('ajax')) {
+
 $usersTable = TableRegistry::get('Users');
 $user = $usersTable->get($this->Auth->user('id'));
 $user->description = $this->request->data('description');
 
-            if ($usersTable->save($user)) {
-                $this->Flash->success(__('Modification effectuée.'));
+$data = array('description' => $user->description);
 
-           return $this->redirect('/settings');
-            } else {
-                $this->Flash->error(__('Modification non effectuée.'));
-                return $this->redirect('/settings');
-            }
+$usersTable->save($user);
+
+
+                        $this->response->body(json_encode($data));
+    return $this->response;
         }
+      }
 
         /**
      * Edit method for location
@@ -149,36 +151,40 @@ $user->description = $this->request->data('description');
     public function editlieu()
     {
 
+      if ($this->request->is('ajax')) {
+
 $usersTable = TableRegistry::get('Users');
 $user = $usersTable->get($this->Auth->user('id'));
-$user->lieu = $this->request->data('lieu');
+$user->lieu = ucfirst($this->request->data('lieu'));
 
-            if ($usersTable->save($user)) {
-                $this->Flash->success(__('Mise à jour du lieu effectué.'));
+$data = array('lieu' => $user->lieu);
 
-           return $this->redirect('/settings');
-            } else {
-                $this->Flash->error(__('Modification non effectuée.'));
-                return $this->redirect('/settings');
-            }
+            $usersTable->save($user);
+
+             $this->response->body(json_encode($data));
+    return $this->response;
         }
 
-    public function editwebsite()
+        }
+
+    public function editwebsite() // mise à jour du site web d'un utilisateur
     {
+
+      if ($this->request->is('ajax')) {
 
 $usersTable = TableRegistry::get('Users');
 $user = $usersTable->get($this->Auth->user('id'));
 $user->website = $this->request->data('website');
 
-            if ($usersTable->save($user)) {
-                $this->Flash->success(__('Mise à jour du site effectué.'));
+$usersTable->save($user);
 
-           return $this->redirect('/settings');
-            } else {
-                $this->Flash->error(__('Modification non effectuée.'));
-                return $this->redirect('/settings');
-            }
+$data = array('website' => $user->website);
+
+
+        $this->response->body(json_encode($data));
+    return $this->response;
         }
+      }
 
 
     
@@ -228,7 +234,7 @@ $user->website = $this->request->data('website');
     //connexion
         public function login()
     {
-      $this->viewBuilder()->layout('profil');
+      $this->viewBuilder()->layout('general');
       $this->set('title' ,'Connexion requise');
         if ($this->request->is('post')) {
           // URL de provenance si on n'est pas connecté, provenance login.ctp
@@ -272,6 +278,9 @@ $user->website = $this->request->data('website');
     public function avatar()
         {
 
+          if ($this->request->is('ajax')) {
+
+
   if(!empty($this->request->data['file']['name'])) 
             {
 
@@ -290,8 +299,8 @@ $user->website = $this->request->data('website');
                 $uploadPath = 'img/avatars/';
                 $uploadFile = $uploadPath.$fileName;
         
-                $query_avatar = $this->Users->find('all'); // on récupère l'avatar actuel
-                $query_avatar->where([
+                $query_avatar = $this->Users->find()->select(['avatarprofil']) // on récupère l'avatar actuel
+               ->where([
 
                 'id' =>  $this->Auth->user('id')
 
@@ -301,15 +310,17 @@ $user->website = $this->request->data('website');
                 {
 
                 // destruction de l'ancien
-                $avatar = WWW_ROOT.'img/'.$row->avatarprofil;
+                $avatars =WWW_ROOT.'img/'.$row->avatarprofil;
+
+               
                 }
                 
                 if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile))
                 {
                     $uploadFile = str_replace('img/', '', $uploadFile);
-                    if(!is_null($avatar))
+                    if(!is_null($avatars)) // ici pour pas delete  le default
                     {
-                        unlink($avatar);
+                        unlink($avatars);
                     }       
                         // mise à jour avatar
                         $query = $this->Users->query();
@@ -319,34 +330,50 @@ $user->website = $this->request->data('website');
                         ->execute();
 
                         // fin maj database
-                    
-                        $this->Flash->success(__('Nouvel avatar défini.'));
-                        return $this->redirect('/settings');
+                    $reponse = $uploadFile;
+
+                        $this->response->body($reponse);
+              
+    
                 }
                     else
                     {
-                        $this->Flash->error(__('Impossible d\'envoyer ce fichier.'));
-                        return $this->redirect('/settings');
+
+                      $reponse = 'Impossible d\'envoyer ce fichier';
+
+                        $this->response->body($reponse);
+                        
+                        
                     }
            }
                     else
                     {
-                      $this->Flash->error(__('extension de fichier incorrect.'));
-                        return $this->redirect('/settings');
+                      $reponse = 'extension de fichier incorrect';
+
+                        $this->response->body($reponse);
+                       
+                      
+                        
                     }
       }
                     else
                     {
-                      $this->Flash->error(__('fichier trop volumineux.'));
-                        return $this->redirect('/settings');
+                      $reponse = 'fichier trop volumineux.';
+                      $this->response->body($reponse);
+                        
+                        
                     }
                 
               }
             else
             {
-                $this->Flash->error(__('Choisissez un fichier à envoyer.'));
-                return $this->redirect('/settings');
+                $reponse = 'Choisissez un fichier à envoyer.';
+                      $this->response->body($reponse);
+                        
             }
+
+return $this->response;
+        }
             
         }
 

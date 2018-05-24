@@ -78,20 +78,7 @@ use Cake\Routing\Router;
 
 
           </div>
-           
-
-            <script>
-              var ias = jQuery.ias({
-  container:  '#list_conv',
-  item:       '.messagemoi',
-  pagination: '#pagination',
-  next:       '.next'
-});
-  ias.extension(new IASSpinnerExtension());
-  ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "Fin de la conversation"}));
-  ias.extension(new IASPagingExtension());
-</script>
+    <?= $this->Html->script('/js/iasmessage.js') ?>    
 
 <script type="text/javascript">
 
@@ -100,46 +87,7 @@ use Cake\Routing\Router;
 
 </script>
 
-<script>
-    $(document).ready(function() {
-      $("#message").keypress(function(e) {
-        if (e.which == 13) {
-             
-    $('#form_message').submit();
-  }
-   });
-    $('#form_message').submit(function(e){
 
-      e.preventDefault();
-      
-          moment.locale('fr'); // date en français
-
-    var date_format = moment(); // date actuelle
-    
-var date_msg = date_format.format('LLL'); // mise en forme
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/message/add',
-                dataType: 'json',
-                data: $('#form_message').serialize(),
-    success: function(data){
-    
-     $('#list_conv').prepend('<div class="messagemoi"><img src="img/' + data.avatar_session + '"alt="image utilisateur" class="img-thumbail"/><p>' + data.message +'</p><span class="date_message">' + date_msg + '</span></div>');
-
-$('#message').val('');
-
-    },
-    error: function(data)
-    {
-        alert('fail');       
-    }
-                
-         });
-    });
-  
-
-
-    });
-</script>
+<?= $this->Html->script('/js/clientmessagerie.js') ?>
 
 

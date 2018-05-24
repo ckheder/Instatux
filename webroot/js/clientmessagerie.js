@@ -70,10 +70,51 @@ socket.on('update-typing', function (data) {
 
   
 
-             // retour du server
+             // retour du server, message pour mon destinataire
                socket.on('messagerepondu', function(data) {
 
                  $('#list_conv').prepend('<div class="messagemoi other"><img src="' + data.avatar + '"alt="image utilisateur" class="img-thumbail right"/><p>' + data.message +'</p><span class="date_message">' + data.date + '</span></div>');
 
             })
 
+    $(document).ready(function() {
+      $("#message").keypress(function(e) {
+        if (e.which == 13) {
+             
+    $('#form_message').submit();
+
+
+  }
+   });
+    $('#form_message').submit(function(e){
+
+      e.preventDefault();
+      
+          moment.locale('fr'); // date en français
+
+    var date_format = moment(); // date actuelle
+    
+var date_msg = date_format.format('LLL'); // mise en forme
+        $.ajax({
+                type: 'POST',
+                url: '/instatux/message/add',
+                dataType: 'json',
+                data: $('#form_message').serialize(),
+    success: function(data){
+    
+     $('#list_conv').prepend('<div class="messagemoi"><img src="img/' + data.avatar_session + '"alt="image utilisateur" class="img-thumbail"/><p>' + data.message +'</p><span class="date_message">' + date_msg + '</span></div>');
+
+$('#message').val('');
+
+    },
+    error: function(data)
+    {
+        alert('Message vide');       
+    }
+                
+         });
+    });
+  
+
+
+    });

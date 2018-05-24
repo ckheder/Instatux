@@ -24,16 +24,16 @@ class BlocageController extends AppController
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add($bloquer) // bloquer un utilisateur
+    public function add() // bloquer un utilisateur
     {
+
+        if ($this->request->is('ajax')) {
 
         // on vérifie si il y'a déjà un blocage
 
-        if($this->check_blocage($bloquer) == 1)
+        if($this->check_blocage($this->request->getParam('username')) == 1)
         {
-            $this->Flash->error(__('Cet utlisateur est déjà bloqué'));
-
-             return $this->redirect($this->referer());
+           $reponse = 'alreadyblock';
         }
         else // création d'un nouveau blocage
         {
@@ -41,7 +41,7 @@ class BlocageController extends AppController
             $data = array(
 
                 'bloqueur' => $this->Auth->user('username'),
-                'bloquer' => $bloquer,
+                'bloquer' => $this->request->getParam('username'),
             );
         $blocage = $this->Blocage->newEntity();
 
@@ -49,29 +49,36 @@ class BlocageController extends AppController
 
         if ($this->Blocage->save($blocage)) {
             
-                $this->Flash->success(__(''.$bloquer.' est désormais bloqué'));
+                $reponse = 'addblockok';
 
                 
             }else{
-            $this->Flash->error(__('Impossible de bloquer cet utilisateur.'));
+            $reponse = 'probleme';
         }
-        return $this->redirect($this->referer());
         }
+
+ $this->response->body($reponse);
+    return $this->response;
+
+
+    }
     }
 
-    public function delete($bloquer)
+    public function delete()
     {
      
+         if ($this->request->is('ajax')) {
 
             $query = $this->Blocage->query();
             $query->delete()
     ->where(['bloqueur' => $this->Auth->user('username')])
-    ->where(['bloquer' => $bloquer])
+    ->where(['bloquer' => $this->request->getParam('username')])
     ->execute();
+
  
             if ($query) 
             {
-                $this->Flash->success(__(''.$bloquer.' est débloqué.')); 
+                $reponse = 'deleteblockok'; 
             }
 
 
@@ -79,11 +86,15 @@ class BlocageController extends AppController
   else 
             {
 
-                $this->Flash->error(__('Impossible de débloquer cet utilisateur.'));
+                $reponse = 'probleme';
             }
 
 
-return $this->redirect($this->referer());
+ $this->response->body($reponse);
+    return $this->response;
+
+
+    }
     }
 
 

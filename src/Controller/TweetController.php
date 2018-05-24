@@ -37,7 +37,7 @@ class TweetController extends AppController
      */
     public function index()
     {
-        $this->viewBuilder()->layout('tweet');
+        $this->viewBuilder()->layout('general');
         $this->set('title', ''.$this->request->getParam('username').' | Instatux'); // titre de la page
 
         $username = $this->request->getParam('username'); // nom en paramètre
@@ -45,11 +45,7 @@ class TweetController extends AppController
         if($username != $this->Auth->user('username')) // si je ne suis pas sur mon profil
     {
 
-           // if($this->verif_user($username) == 0) // membre ou page inexistante
-       // {
-                 // $this->Flash->error(__('Cette page n\'existe pas.'));
-                 // return $this->redirect('/'.$this->Auth->user('username').'');
-      //}
+
             if($this->allow_see_profil($username) == 0) // profil privé et non abonné
         {
             $no_follow = 0;
@@ -120,7 +116,7 @@ class TweetController extends AppController
 
             $type_profil = $type_profil->type_profil;
 
-            if($type_profil == 1) // profil privé
+            if($type_profil === 1) // profil privé
             {
 
         // on vérifie si je suis abonné
@@ -163,7 +159,7 @@ class TweetController extends AppController
      */
     public function view($id = null)
     {
-        $this->viewBuilder()->layout('profil');
+        $this->viewBuilder()->layout('general');
         $this->set('title', 'Commentaires'); // titre de la page
 
         // vérification si on peut
@@ -360,6 +356,8 @@ class TweetController extends AppController
     public function delete($id = null)
     {
 
+        if ($this->request->is('ajax')) {
+
  $tweet_verif = $this->Tweet->find();
         $tweet_verif->where([
 
@@ -375,19 +373,33 @@ class TweetController extends AppController
             $result = $this->Tweet->delete($entity);
             if($result)
             {
-            $this->Flash->success(__('Tweet supprimé.'));
+            $reponse = 'tweetsupprime';
+        }
+        else {
+            $reponse = 'echectweetsupprime';
         }
         }
-         else {
-            $this->Flash->error(__('Impossible de supprimer ce tweet.'));
-        }
+         
 
-        return $this->redirect(['controller'=> 'tweet', 'action' => 'index', $this->Auth->user('username')]);
+        
+
+        $this->response->body($reponse);
+    return $this->response;
+
+
+    }
+    else
+    {
+        $this->Flash->error(__('Impossible de supprimé.'));
+        return $this->redirect($this->referer());
+    }
     }
 
     // partage d'un tweet
     public function share($id = null)
     {
+
+        if ($this->request->is('ajax')) {
         $tweet = $this->Tweet->newEntity();
 
         $info_tweet = $this->Tweet->find() // on récupère les infos du tweet pour le recrée
@@ -424,20 +436,26 @@ class TweetController extends AppController
                 $this->eventManager()->dispatch($event);
 
             }
-                $this->Flash->success(__('Tweet partagé'));
+                 $reponse = 'shareok'; 
 
 
             } else {
-                $this->Flash->error(__('Impossible de partager ce tweet'));
+               $reponse = 'probleme';
             }
-            return $this->redirect($this->referer());
+      
+
+                                   $this->response->body($reponse);
+    return $this->response;
+
+
+    }
 
     }
     // tweet actualités connectés
 
     public function accueuil()
     {
-                $this->viewBuilder()->layout('profil');
+                $this->viewBuilder()->layout('general');
                 $this->set('title', 'Actualités'); // titre de la page
                 $abonnement = $this->Tweet->find()
                 ->select([
@@ -512,42 +530,46 @@ class TweetController extends AppController
     // fin tweet actualités offline
 
 
-    public function allowComment() // activer/désactiver les commentaires
+    public function allowComment() // activer/désactiver les commentaires  1 -> désactiver, 0 -> activer
     {
-        if($this->request->data('allow_comment') == 1) // si les commentaires sont déjà désactivés
-        {
-            $allow_comment = 0;
-        }
-        else
-        {
-            $allow_comment = 1;
-        }
+
+        if ($this->request->is('ajax')) {
 
           $query = $this->Tweet->query()
                             ->update()
-                            ->set(['allow_comment' => $allow_comment])
-                            ->where(['id' => $this->request->data('id_tweet')])
+                            ->set(['allow_comment' => $this->request->getParam('etat')])
+                            ->where(['id' => $this->request->getParam('idtweet')])
                             ->where(['user_timeline' => $this->Auth->user('username')]) // on vérifie que ce tweet est le tweet courant et que j'en suis le timeline
                             ->execute();
 
-        if($query AND $allow_comment == 0)
+        if($query AND $this->request->getParam('etat') == 0)
         {
-              $this->Flash->success(__('Les commentaires sont désormais activés pour ce post.'));
+              $reponse = 'commac';
             
             
         }
-        elseif($query AND $allow_comment == 1)
+        elseif($query AND $this->request->getParam('etat') == 1)
         {
-              $this->Flash->success(__('Les commentaires sont désormais désactivés pour ce post.'));
+              $reponse = 'commdesac';
             
             
         }
         else
         {
-                $this->Flash->error(__('Impossible de désactivés les commentaires pour ce post.'));
+                $reponse = 'probleme';
         }
 
+
+        $this->response->body($reponse);
+    return $this->response;
+
+
+    }
+    else
+    {
+        $this->Flash->error(__('Impossible de faire cette action.'));
         return $this->redirect($this->referer());
+    }
     }
 
     

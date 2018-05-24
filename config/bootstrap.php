@@ -70,7 +70,6 @@ use Cake\Event\EventManager;
 use App\Event\CommentaireListener; // listener personnel pour lévènement model.commentaire.add
 use App\Event\AbonnementListener; // listener personnel pour lévènement model.abonnement.add
 use App\Event\MessageListener; // listener personnel pour lévènement model.abonnement.add
-use App\Event\NotificationupdateListener; // listener personnel pour l'update de notif
 use App\Event\PartageListener; // listener personnel pour l'ajout d'un partage
 use App\Event\HashtagListener; // listener personnel pour la création de hashtag
 use App\Event\SettingsListener; // listener personnel pour la création de la ligne settings à l'inscription
@@ -245,9 +244,6 @@ EventManager::instance()->attach($AbonnementListener);
 /* évènement message */
 $MessageListener = new MessageListener();
 EventManager::instance()->attach($MessageListener);
-/* évènement upadte notif */
-$NotificationupdateListener = new NotificationupdateListener();
-EventManager::instance()->attach($NotificationupdateListener);
 /* évènement partage */
 $PartageListener = new PartageListener();
 EventManager::instance()->attach($PartageListener);

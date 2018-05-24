@@ -1,4 +1,4 @@
-
+<p id="etatnotif"></p>
 <div id="tabs">
   <ul>
     <li><a href="#abonnement">Abonnements</a></li>
@@ -55,6 +55,8 @@
           <div class="liste_abo">
                 
             <?= $this->Html->link($this->Html->image(''.$abonne_valide->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>' img-thumbnail vcenter', 'title' => ''.h($abonne_valide->Users['username']).'')),'/'.h($abonne_valide->Users['username']).'',['class' => 'link_username_tweet','escape' => false]) ?>
+            <br />
+            <?= $abonne_valide->Users['username'] ;?>
            
  </div>
             <?php endforeach; ?>
@@ -78,16 +80,19 @@
         }
         else
         {
-           echo '<div class="alert alert-warning"><span class="glyphicon glyphicon-user"></span>&nbsp;'.$nb_attente.' demande(s) en attente.</div>';
+           ?><div class="alert alert-warning" id="nbattente"><span class="glyphicon glyphicon-user"></span>&nbsp;<script> var nbattente = <?= $nb_attente ;?> 
+           document.getElementById('nbattente').innerHTML = nbattente;
+         </script> demande(s) en attente.</div>
+           <?php
             // abonnement attente //
  foreach ($abonnement_attente as $abonnement_attente):?>
-        <div class="tweet">
+        <div class="tweet" data-username="<?= $abonnement_attente->Users['username'] ;?>">
                           <?= $this->Html->image(''.$abonnement_attente->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter')) ?>
                          
 <?= $this->Html->link(h($abonnement_attente->Users['username']),'/'.h($abonnement_attente->Users['username']).'');
                
  echo '<span class="link_abo pull-right">';
-               echo '<a href="/instatux/abonnement/accept/'.$abonnement_attente->Users['username'].'" class="accept-link">Accepter</a> - <a href="/instatux/abonnement/refuse/'.$abonnement_attente->Users['username'].'" class="refuse-link">Refuser</a>'; ?>
+               echo '<a href="#" data-username="'.$abonnement_attente->Users['username'].'"  data-action="accept" id="accept" class="accept-link">Accepter</a> - <a href="#" data-username="'.$abonnement_attente->Users['username'].'"  data-action="refuse" id="refuse" class="refuse-link">Refuser</a>'; ?>
                </span>
               </div>
                <?php  endforeach;
@@ -103,3 +108,4 @@
 
 
 </div>
+ <?= $this->Html->script('settingsabo.js') ?>

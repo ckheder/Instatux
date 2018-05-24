@@ -24,7 +24,7 @@ use Cake\Routing\Router;
         <?= $title ?>
         
     </title>
-    <?= $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'))."\n"; ?>
+    <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
     <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
@@ -32,22 +32,16 @@ use Cake\Routing\Router;
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
-  <?= $this->Html->script('ckeditor/ckeditor.js') ?>
+    <?= $this->Html->script('ckeditor/ckeditor.js') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
-     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
-     <?= $this->Html->script('/js/emoji/emojis.js') ?>
-       <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js'); ?>
-      <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/fr.js'); ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js'); ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/fr.js'); ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js') ?>
+    <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
+    <?= $this->Html->script('/js/emoji/emojis.js') ?>
+     <?= $this->Html->script('/js/nbnotif.js') ?>
     <?= $this->fetch('meta') ?>
- <script type="text/javascript">
-    var auto_refresh = setInterval(
-  function ()
-  {
-    $('#count_nb_notif').load('<?php echo Router::url(array("controller" => "Notifications", "action" => "nbNotif")); ?>').fadeIn("slow");
-  }, 10000); // rafraichis toutes les 10000 millisecondes
- 
-</script>
 
 </head>
 <body>
@@ -62,16 +56,29 @@ else
 ?>
  
    <div class="container" style="border:1px solid #cecece;">
+    <p id="etatnotif"></p>
 <?= $this->Flash->render() ?>
   <div class="row">
 <div class="col-sm-3">
 <br />
-   <?php if (isset($authName))
+   <?php if (isset($authName)) // je suis authentifié
   {
 
-echo  $this->cell('Info::moi', ['authname' => $authUser]);
-echo  $this->cell('Abonnement::moi', ['authname' => $authName]) ;  
-}else
+    if($this->request->getParam('username')) // si je suis le profil d'une autre personne ou le mien
+
+    {
+    
+     echo $this->cell('Info'); // info sur le profil que je visite
+     echo $this->cell('Abonnement', ['authname' => $authName]) ; // test de l'abonnement, blocage vis a vis du profil que je visite
+    }
+
+    else // info sur moi pour les autres pages que le profil
+    {
+    echo  $this->cell('Info::moi', ['authname' => $authUser]); 
+    echo  $this->cell('Abonnement::moi', ['authname' => $authName]) ;
+    }  
+  }
+else // je ne suis pas authentifié
 {
   echo $this->element('encartinscriptionoffline');
 }
@@ -79,7 +86,7 @@ echo  $this->cell('Abonnement::moi', ['authname' => $authName]) ;
 
 </div>
 <div class="col-sm-5">
-<br />
+
         <?= $this->fetch('content') ?>
 </div>
 <div class="col-sm-4">
@@ -95,11 +102,9 @@ echo  $this->cell('Abonnement::moi', ['authname' => $authName]) ;
 <?= $this->element('modalconnexion') ?>
 <footer>
     </footer>
-          <?= $this->Html->script('countlike.js') ?>
-          <?= $this->Html->script('settingsnotif.js') ?>
-          <?= $this->Html->script('settingsabojquery.js') ?>
-
-              <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js') ?>
-    <?= $this->Html->script('/js/client.js') ?>
+          <?= $this->Html->script('countlike.js') ?> <!-- script d'ajoput/suppression de like : utlisé sur l'accueil, profil, moteur de recherche -->
+          <?= $this->Html->script('actionabo.js') ?> <!-- script d'ajout/suppression d'un abo : utlisé sur profil, moteur de recherche -->
+          <?= $this->Html->script('sharetweet.js') ?> <!-- script de partage d'un twee : utlisé sur l'accueil, profil, moteur de recherche -->
+          <?= $this->Html->script('blocage.js') ?> <!-- script de blocage d'un utlisateur : utlisé sur l'accueil, profil, moteur de recherche,viewtweet,chat -->
 </body>
 </html>

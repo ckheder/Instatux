@@ -36,7 +36,7 @@ var $uses = array(); // se passer d'un modèle
     {
 
 
-        $this->viewBuilder()->layout('profil');
+        $this->viewBuilder()->layout('general');
 
         $this->set('title', 'Résultat de recherche'); // titre de la page
       

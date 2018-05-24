@@ -4,7 +4,7 @@
                        <li><span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;<a href="/instatux/abonnement/<?= $this->request->getParam('username')?>#abonne" <?php if (!isset($authname)){ echo 'class="disabled_link"';}?>>Abonné <?= $nb_abonnes ?></a></li>
                       <li> <span class="glyphicon glyphicon-hand-left"></span>&nbsp;&nbsp;<a href="/instatux/abonnement/<?= $this->request->getParam('username')?>#abonnement" <?php if (!isset($authname)){ echo 'class="disabled_link"';}?>>Abonnement <?= $nb_abonnement ?></a></li>
               <!-- fin nombre d'abonnement et d'abonné -->
-          
+
 <?php
 
 if(isset($authname))
@@ -16,26 +16,19 @@ if(isset($authname))
              {
               ?>
               
-              <li>
-                <?= $this->Html->link('<span class="glyphicon glyphicon-plus"></span>', 
-
-
-                '/abonnement/add/'.h($this->request->getParam('username')).'',
-                [
-                'title' => 'Suivre '.$this->request->getParam('username').'',
-                'class' => 'btn btn-success', 
-                'role' => 'button',
-                'escape' => false]);
-                  ?> 
+              <li id="actionabo"> <!-- lien nouvel abonnement : public ou privé -->
+                  <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="add" title="Suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
             </li>
-            
+             
+               
+               
             <?php
           }
             elseif($abonnement === 1) // je suis abonné
             {
                 
 ?>
-                <li>
+                <li id="actionabo">
                 <?= $this->Form->button('<span class="glyphicon glyphicon-envelope"></span>', // lien pour envoyer un message
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#modalmessage',
@@ -43,16 +36,7 @@ if(isset($authname))
                   'title' => 'Envoyer un message à '.$this->request->getParam('username').'',
                   'type' => 'button']);
                   ?> - 
-                              <?= $this->Html->link('<span class="glyphicon glyphicon-minus"></span>', // lien pour supprimer l'abonnement
-
-
-                '/abonnement/delete/'.h($this->request->getParam('username')).'',
-                [
-                'title' => 'Ne plus suivre '.$this->request->getParam('username').'',
-                'class' => 'btn btn-danger', 
-                'role' => 'button',
-                'escape' => false]);
-                ?>
+                              <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="delete" title="Ne plus suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-minus"></span></a>
                 </li>
                 <?php  
             }
@@ -60,36 +44,16 @@ if(isset($authname))
             if($etat_blocage === 1) // utilisateur bloqué
             {
               ?>
-              <li>
-              <?=$this->Html->link('<span class="glyphicon glyphicon-minus-sign"></span>', // lien pour supprimer ce blocage
-
-
-                '/blocage/delete/'.h($this->request->getParam('username')).'',
-                [
-                'title' => 'Debloqué '.$this->request->getParam('username').'',
-                'class' => 'btn btn-info', 
-                'role' => 'button',
-                'escape' => false]);
-                ?>
-                  
+              <li id="block">
+                  <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="delete" title="Débloquer <?= $this->request->getParam('username') ;?>"  id="addblock" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span></a>
                 </li>
                 <?php
             }
             else
             {
               ?>
-              <li>
-
-              <?= $this->Html->link('<span class="glyphicon glyphicon-plus-sign"></span>', // lien pour supprimer l'abonnement
-
-
-                '/blocage/add/'.h($this->request->getParam('username')).'',
-                [
-                'title' => 'Bloqué '.$this->request->getParam('username').'',
-                'class' => 'btn btn-info', 
-                'role' => 'button',
-                'escape' => false]);
-                ?>
+              <li id="block">
+                <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="add" title="Bloquer <?= $this->request->getParam('username') ;?>"  id="addblock" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-ban-circle"></span></a>
               </li>
               <?php
             }
@@ -100,6 +64,6 @@ if(isset($authname))
 
 </ul>
 <!-- modal envoi de message -->
-<?= $this->element('modalmessage') ?>
+<?= $this->element('modalmessage',["destinataire" => $this->request->getParam('username')]) ?>
 <!-- fin modal envoi de message -->
 

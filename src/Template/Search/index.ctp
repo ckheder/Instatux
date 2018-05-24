@@ -1,5 +1,5 @@
 <?php $search = str_replace('%23', '#', $search); ?>
-<div class="text-center"><h3>Résultat pour <?= $search ?></h3></span></div>
+<div class="text-center"><h3>Résultat pour <?= $search ?></h3></div>
 <br />
 <?php // résultat users
                          foreach ($resultat_users as $resultat_users): ?>
@@ -89,9 +89,14 @@
                if($resultat_tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
                  ?>
+              <span class="sharelink" data-idtweet="<?= $resultat_tweet->id ;?>">
               <span class="glyphicon glyphicon-share" style="vertical-align:center"></span>
-              <?php
-                echo $this->Html->link('Partager', '/partage/add/'.$resultat_tweet->id.'/'.$resultat_tweet->user_id.''); 
+              
+                
+
+                <a href="#" data-idtweet="<?= $resultat_tweet->id ;?>" data-auteurtweet="<?= $resultat_tweet->user_id ;?>" title="Partager"  class="addshare" onclick="return false;">Partager</a>
+              </span>
+                <?php
                 
             }
           }
@@ -115,24 +120,6 @@
 
           </div>
 
-
+<?= $this->Html->script('/js/iassearch.js') ?>
           
 
-   <script>
-
-              var ias = jQuery.ias({
-  container:  '#list_tweet',
-  item:       '.tweet',
-  pagination: '#pagination',
-  next:       '.next'
-});
-
-
-  ias.extension(new IASSpinnerExtension());
-  ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "Fin des résultats"}));
-  ias.extension(new IASPagingExtension());
-
-</script>
-
-      

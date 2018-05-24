@@ -6,10 +6,9 @@
   </ul>
   <div id="setup_information">
 
-<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editdescription' )));?>
+<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editdescription'),'id'=>'form_desc'));?>
 
-<?= $this->Form->Textarea('description', ['label'=>'','placeholder' => 'Parler de moi...']) ?>
-
+<?= $this->Form->Textarea('description', ['id' => 'description','label'=>'','placeholder' => 'Parler de moi...']) ?>
 
 <br />
 <div class="text-center">
@@ -18,12 +17,12 @@
 <?= $this->Form->end() ?>
 <!-- fin modifier ma descritpion -->
 <!-- modifier mon lieu -->
-<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editlieu' )));?>
+<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editlieu'),'id'=>'form_lieu'));?>
 <p class="text-muted">
     <br />
 Partager ma localisation
 </p>
-<?= $this->Form->input('lieu', ['prepend' => ' <span class="glyphicon glyphicon-map-marker"></span> ','label'=>'','placeholder' => 'Ex: Paris, New York, Montréal,...'],array('class'=>'form-controle')) ?>
+<?= $this->Form->input('lieu', ['id' =>'lieu','prepend' => ' <span class="glyphicon glyphicon-map-marker"></span> ','label'=>'','placeholder' => 'Ex: Paris, New York, Montréal,...'],array('class'=>'form-controle')) ?>
 <br />
 <div class="text-center">
 <?= $this->Form->button('Enregistrer', array('class'=>'btn btn-info')) ?>
@@ -33,12 +32,12 @@ Partager ma localisation
 <!-- modifier mon site web -->
 
 
-<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editwebsite' )));?>
+<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editwebsite' ),'id' =>'form_website'));?>
 <p class="text-muted">
   <br />
 Partager mon site web ou un site que j'apprécie.
 </p>
-<?= $this->Form->input('website', ['type' => 'url','prepend' => ' <span class="glyphicon glyphicon-globe"></span> ','label'=>'','placeholder' => 'http://www.monsite.com'],array('class'=>'form-controle')) ?>
+<?= $this->Form->input('website', ['id' => 'website', 'type' => 'url','prepend' => ' <span class="glyphicon glyphicon-globe"></span> ','label'=>'','placeholder' => 'http://www.monsite.com'],array('class'=>'form-controle')) ?>
 
 
 <br />
@@ -55,9 +54,9 @@ Partager mon site web ou un site que j'apprécie.
 <h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;Changer ma photo</h4>
 </div>
 <br />
-<?= $this->Form->create('',array('url'=>array('controller'=>'users', 'action'=>'avatar' ),'type' => 'file')) ?>
+<?= $this->Form->create('',array('id' => 'form_avatar','type' => 'file')) ?>
 <p class="text-muted">Nouvel avatar (jpg/jpeg/png) 1mo maximum </p>
-<?= $this->Form->input('', array('type' => 'file')); ?>
+<?= $this->Form->input('', array('name' => 'file','type' => 'file')); ?>
 <br />
 <div class="text-center">
 <?= $this->Form->button('Enregistrer', array('class'=>'btn btn-info')) ?>
@@ -77,9 +76,10 @@ Partager mon site web ou un site que j'apprécie.
 <h4> <span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Mon profil</h4>
 </div>
 <?php 
-if($setup_profil == 0)
+if($setup_profil == 0) // profil public
 {
 ?>
+<span id="etatprofil">
 <p class="text-success">
   <br />
 Tous le monde peut voir vos publications.
@@ -87,34 +87,27 @@ Tous le monde peut voir vos publications.
 <br />
   Les demandes d 'abonnement seront acceptés automatiquement.
 </p>
-
-<?= $this->Form->create('', array('url'=>array('controller'=>'settings', 'action'=>'setup_profil_prive' )));?>
-<br />
-
 <div class="text-center">
-
-<?= $this->Form->button('Passer mon profil à privé', array('class'=>'btn btn-danger')) ?>
+<a href="#"  data-action="prive" title="Rendre mon profil privé"  id="setupprofil" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Rendre mon profil privé</a>
 </div>
-<?= $this->Form->end();
+</span>
+<?php
 }
-else
+else // profil privé
 {
  ?>
+ <span id="etatprofil">
 <p class="text-danger">
   <br />
 Seules vos abonnés voient vos publications.<br />
 <br />
 Vous pouvez choisir d'accepter ou non une demande d'abonnement.
 </p>
-
-<?= $this->Form->create('', array('url'=>array('controller'=>'settings', 'action'=>'setup_profil_public' )));?>
-<br />
 <div class="text-center">
-
-<?= $this->Form->button('Passer mon profil à public', array('class'=>'btn btn-success')) ?>
+<a href="#"  data-action="public" title="Rendre mon profil public"  id="setupprofil" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Rendre mon profil public</a>
 </div>
-<?= $this->Form->end();
-
+</span>
+<?php
  }
 
  ?>
@@ -214,7 +207,7 @@ Les notifications de commentaires vous informent si vos abonnés , dans le cas d
        
             foreach ($listebloques as $listebloques): ?>
 
-            <div class="tweet">
+            <div class="tweet" data-username="<?= $listebloques->user->username ?>">
           
             
                             <?= $this->Html->image(''.$listebloques->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>' img-thumbail vcenter')) ?>
@@ -222,30 +215,15 @@ Les notifications de commentaires vous informent si vos abonnés , dans le cas d
             <?= $this->Html->link(h($listebloques->user->username),'/'.h($listebloques->user->username).'',['class' => 'link_username_tweet']) ?>
             
             <span class="alias_abo">@<?=$listebloques->user->username ?></span> 
-                
-            
-            
 
-                <?=  $this->Html->link(
-                'Débloquer',
-                array(
+            <span id = "abosearch">
                 
-                'controller'=>'blocage',
-                'action'=>'delete',
-                
-                
-                  $listebloques->user->username
-                
+ <a href="#" data-username="<?= $listebloques->user->username ;?>" data-action="delete" title="Débloquer <?= $listebloques->user->username ;?>"  id="addblock" class="btn btn-success navbar-btn" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span></a>
 
-
-                ),
-                ["class" => "btn btn-info btn_abo"]
-                );
+</span>
                 
-                ?>
-
               </div>
-              <hr>
+            
                 
             <?php endforeach; ?>
 
@@ -253,3 +231,8 @@ Les notifications de commentaires vous informent si vos abonnés , dans le cas d
 <?php } ?>
   </div>
 </div>
+
+          <?= $this->Html->script('settings.js') ?>
+
+
+

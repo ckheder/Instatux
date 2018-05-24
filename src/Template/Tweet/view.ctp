@@ -43,34 +43,25 @@ use Cake\Network\Request;
     if($tweet->allow_comment == 0) // commautorisés
                 
             {
-
-                      echo $this->Form->create('', array('url'=>array('controller'=>'tweet', 'action'=>'allow_comment')));
-    echo $this->Form->hidden('allow_comment', ['value' => $tweet->allow_comment]); 
-    echo $this->Form->hidden('id_tweet', ['value' => $this->request->getParam('id')]); ?>
+?>
                 
-                <li>
-                <?= $this->Form->button('Désactiver les commentaires') ?> <!-- je peut effacer mon post -->
-                <?= $this->Form->end(); ?>
+                <li id="actioncomment">
+                  <a href="#" data-etat="1" data-idtweet = "<?= $this->request->getParam('id') ;?>"   title="Désactiver les commentaires"  class="allowcomm" onclick="return false;">Désactiver les commentaires</a>
             </li>              
 
 <?php
                 }
-                elseif($tweet->allow_comment == 1)
+                elseif($tweet->allow_comment == 1) 
                 {
                   // commentaires non autorisés
 
+                  ?>
 
-    echo $this->Form->create('', array('url'=>array('controller'=>'tweet', 'action'=>'allow_comment')));
-    echo $this->Form->hidden('allow_comment', ['value' => $tweet->allow_comment]); 
-    echo $this->Form->hidden('id_tweet', ['value' => $this->request->getParam('id')]); ?>
+<li id="actioncomment">
+  <a href="#" data-etat="0" data-idtweet = "<?= $this->request->getParam('id') ;?>"   title="Activer les commentaires"  class="allowcomm" onclick="return false;">Activer les commentaires</a>
+</li> <!-- activer les commentaires -->
 
-
-
-<li><?= $this->Form->button('Activer les commentaires') ?></li>
-
-
-<?= $this->Form->end();
-
+<?php
 
                 }
                 ?>
@@ -142,18 +133,17 @@ if(!isset($authName))
 else
 {
   
-  echo $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'))) ?>
+  echo $this->Form->create('Commentaires', array('url'=>array('controller'=>'commentaires', 'action'=>'add'),'id'=>'form_comm')) ?> <!-- formulaire de comm -->
 
   
 
-<?= $this->Form->input('comm', ['placeholder' => 'Votre commentaire...', 'label'=> '','class' =>'emojis-plain textarea_comm']) ?>
+<?= $this->Form->input('comm', ['placeholder' => 'Votre commentaire...', 'label'=> '','class' =>'emojis-plain textarea_comm','id' => 'comm']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
 <?= $this->Form->hidden('userosef', ['value' => $tweet->user->username]) // auteur du tweet?>
-<div class="text-center">
-<?= $this->Form->button('Envoyer', array('class'=>'btn btn-info')) ?>
-</div>
+<?= $this->Form->hidden('avatar', ['id'=> 'avatar','value' => $authAvatar]) // id du destinataire?>
+<?= $this->Form->hidden('auteurcomm', ['id'=> 'auteurcomm','value' => $authName]) // id du destinataire?>
 <?= $this->Form->end(); ?>
-<br />
+
  <!-- fin div info tweet -->
 </span>
 
@@ -168,16 +158,15 @@ if($tweet->nb_commentaire == 0)
 else
 {
     ?>
-<div class="text-center"><h3><?= $tweet->nb_commentaire ;?>&nbsp commentaire(s)</h3></div>
 
 <div id="list_comm">
 
         <?php foreach ($commentaires as $commentaires): ?>
-            <div class="comm">
+            <div class="comm" data-idcomm="<?= $commentaires->id ;?>">
                
                <?php
 
-               if(isset($authName))
+               if(isset($authName)) // si ej suis identifié
 {
   ?>
               
@@ -187,21 +176,22 @@ else
     ...
       </button>
   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-    <?php if($tweet->user_timeline == $authName or $commentaires->user_id == $authUser)
+    <?php if($tweet->user_timeline == $authName or $commentaires->user_id == $authUser) // si je suis l'auteur du tweet ou du commentaire
     {
         ?>
         <li>
-        <?= $this->Html->link("Effacer ce commentaire", ['controller' => 'Commentaires','action' => 'delete', $commentaires->id, $tweet->id]);
+        <a href="#" data-idcomm="<?= $commentaires->id ;?>"  title="Effacer ce commentaire"  class="deletecomm" onclick="return false;">Effacer ce commentaire</a>
+        <?php
          } 
          ?>
              
          </li>
     
-        <?php if($commentaires->user_id != $authUser)
+        <?php if($commentaires->user_id != $authUser) // je ne peut pas me bloquer ni signaler ce commentaire
     {
 
         ?>
-        <li><?= $this->Html->link('Bloquer '.$commentaires->user->username.'', ['controller' => 'Blocage','action' => 'add', $commentaires->user->username]); ?></li> <!-- bloquer les commentaires -->
+        <li><a href="#" data-username="<?= $commentaires->user->username ;?>" data-action="add" title="Bloquer <?= $commentaires->user->username ;?>"  id="addblock"  onclick="return false;">Bloquer cet utlisateur</a></li> <!-- bloquer les commentaires -->
             <li><a href="#">Signaler ce commentaire</a></li>
             <?php
          } 
@@ -247,50 +237,17 @@ endforeach;
 
             <?= $this->Paginator->next('Next page'); ?>
 
-
-
-
-
           </div>
 
-
-                <script>
-    $('.emojis-plain').emojiarea({wysiwyg: false});
-
-    
-    var $wysiwyg = $('.emojis-wysiwyg').emojiarea({wysiwyg: false});
-    var $wysiwyg_value = $('#emojis-wysiwyg-value');
-    
-    $wysiwyg.on('change', function() {
-      $wysiwyg_value.text($(this).val());
-    });
-    $wysiwyg.trigger('change');
+<?= $this->Html->script('/js/viewtweet.js') ?> <!-- IAS, effacer un commentaire + emoji -->
 
 
+<script type="text/javascript">
 
-    </script>
-            <script>
-
-
-
-              var ias = jQuery.ias({
-  container:  '#list_comm',
-  item:       '.comm',
-  pagination: '#pagination',
-  next:       '.next'
-});
-
-
-  ias.extension(new IASSpinnerExtension());
-  ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "Fin des commentaires"}));
-  ias.extension(new IASPagingExtension());
+  var authname = "<?= $authName ?>"; // auteur du comm
 
 </script>
 
 
-
-           
-
-
+<?= $this->Html->script('/js/clientcommentaires.js') ?>
 

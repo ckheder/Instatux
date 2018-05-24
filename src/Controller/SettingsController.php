@@ -17,10 +17,11 @@ public $components = array('RequestHandler');
 
     public function index()
     {
-            $this->viewBuilder()->layout('profil');
+            $this->viewBuilder()->layout('general');
         
     	$this->set('title', 'Paramètre de compte'); // titre de la page
-    
+
+        $this->set('test', 'test'); 
 
         // récupération des paramètres de mon profil
 
@@ -80,6 +81,8 @@ endforeach;
 
     public function setupProfilPrive() // définition du profil à privé
     {
+
+        if ($this->request->is('ajax')) {
     	        $query = $this->Settings->query()
                             ->update()
                             ->set(['type_profil' => 1])
@@ -88,7 +91,7 @@ endforeach;
 
                  if($query)
                  {
-                 	$this->Flash->success(__('Votre profil est désormais privé.'));
+                 	$reponse = 'profilpriveok';
 
                 $event = new Event('Model.Settings.afterPrivate', $this, ['authname' => $this->Auth->user('username')]);
 
@@ -96,16 +99,21 @@ endforeach;
 
                 
             } else {
-                $this->Flash->error(__('Impossible de mettre à jour votre profil.'));
+                $reponse = 'probleme';
             }
         
 
-        return $this->redirect($this->referer());
+                                $this->response->body($reponse);
+    return $this->response;
+
+ }
                  
     }
 
         public function setupProfilPublic() // définition du profil à public
     {
+
+        if ($this->request->is('ajax')) {
     	        $query = $this->Settings->query()
                             ->update()
                             ->set(['type_profil' => 0])
@@ -114,7 +122,7 @@ endforeach;
 
                              if($query)
                  {
-                 	$this->Flash->success(__('Votre profil est désormais public.'));
+                 	$reponse = 'profilpublicok';
 
                 $event = new Event('Model.Settings.afterPublic', $this, ['authname' => $this->Auth->user('username')]);
 
@@ -122,11 +130,14 @@ endforeach;
 
                 
             } else {
-                $this->Flash->error(__('Impossible de mettre à jour votre profil.'));
+                $reponse = 'probleme';
             }
         
 
-        return $this->redirect($this->referer());
+                                $this->response->body($reponse);
+    return $this->response;
+
+ }
     }
 
     public function notifmessage() // mise à jour des paramètres de notifications de message 0  = non, 1 = oui

@@ -31,7 +31,7 @@ class NotificationsController extends AppController
      */
     public function index() // mes notifications
     {
-      $this->viewBuilder()->layout('profil');
+      $this->viewBuilder()->layout('general');
        $this->set('title', 'Notifications'); // titre de la page
                 $notification = $this->Notifications->find();
                 
@@ -55,50 +55,35 @@ class NotificationsController extends AppController
              
     }
 
-public function singleNotifLue($id_notif)
-{
-                    $query = $this->Notifications->query()
-                            ->update()
-                            ->set(['statut' => 1])
-                            ->where(['id_notif' => $id_notif])
-                            ->where(['user_name' => $this->Auth->user('username') ])                            
-                            ->execute();
-
-                 if($query)
-                 {
-                    $this->Flash->success(__('Notification marquée comme lue.'));
-                
-            } else {
-                $this->Flash->error(__('Impossible de marquée cette notification comme lue.'));
-            }
-        
-
-        return $this->redirect($this->referer());
-}
-
 public function allNotiflue()
 {
+
+    if ($this->request->is('ajax')) {
    $query = $this->Notifications->updateAll(
         ['statut' => 1], // champs
         ['statut' => 0, 'user_name' => $this->Auth->user('username') ]); // conditions 
 
                  if($query)
                  {
-                    $this->Flash->success(__('Toutes les notifications sont marquées comme lue.'));
+                    $reponse = 'ok';
                 
             } else {
-                $this->Flash->error(__('Impossible de marquée toute les notifications comme lue.'));
+                 $reponse = 'erreur';
             }
         
 
-        return $this->redirect($this->referer());
+                    $this->response->body($reponse);
+    return $this->response;
+
+
+    }
 }
 
 
 
 public function nbnotif()
 {
-        //$this->viewBuilder()->setLayout() = false;
+
         $nb_notif = $this->Notifications->find()->where(['user_name' => $this->Auth->user('username')])->where(['statut' => 0])->count();
         
 
@@ -111,28 +96,6 @@ public function nbnotif()
         $this->set('nb_notif', $nb_notif);
     }
        
-}
-
-
-public function delete($id) // suppression d'une notification
-
-{
-    $query = $this->Notifications->query()
-                                ->delete()
-                                ->where(['id_notif' => $id])
-                                ->where(['user_name' => $this->Auth->user('username')])
-                                ->execute();
-
-    if($query)
-    {
-         $this->Flash->success(__('Notification supprimée'));
-    }
-    else
-    {
-        $this->Flash->error(__('Impossible de supprimée cette notifications.'));
-    }
-
-return $this->redirect($this->referer());
 }
 
 }

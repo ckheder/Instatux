@@ -85,18 +85,23 @@ if(isset($nb_tweet_accueuil))
               <?php
                     echo $this->Html->link('Commenter ', ['action' => 'view',  $abonnement->id]); 
 
-               ?> - 
-               
-               <?php }
-           
+             }
+               ?>
+               &nbsp;&nbsp;&nbsp;
+               <?php
            
                if($abonnement->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
               ?>
+                                <span class="sharelink" data-idtweet="<?= $abonnement->id ;?>">
               <span class="glyphicon glyphicon-share" style="vertical-align:center"></span>
-              <?php
-                echo $this->Html->link('Partager', '/partage/add/'.$abonnement->id.'/'.$abonnement->user_id.'');
+              
                 
+
+                <a href="#" data-idtweet="<?= $abonnement->id ;?>" data-auteurtweet="<?= $abonnement->user_id ;?>" title="Partager"  class="addshare" onclick="return false;">Partager</a>
+              </span>
+
+                <?php
             }
     
 ?>
@@ -123,25 +128,8 @@ if(isset($nb_tweet_accueuil))
         } ?>
 
 
+<?= $this->Html->script('onlinenews.js') ?>
 
-           
-
-            <script>
-
-              var ias = jQuery.ias({
-  container:  '#list_tweet',
-  item:       '.tweet',
-  pagination: '#pagination',
-  next:       '.next'
-});
-
-
-  ias.extension(new IASSpinnerExtension());
-  ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "Fin de l'actualité"}));
-  ias.extension(new IASPagingExtension());
-
-</script>
 
 
 

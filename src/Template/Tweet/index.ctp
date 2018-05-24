@@ -33,7 +33,7 @@ use Cake\Routing\Router;
                     
                 
                  
-            <div class="tweet">
+            <div class="tweet" data-idtweet="<?= $tweet->id ;?>">
               <?php
               if(isset($authName))
               {
@@ -52,7 +52,8 @@ use Cake\Routing\Router;
                 {
                 ?>
                 <li>
-                <?= $this->Html->Link("Effacer ce tweet", ['controller' => 'Tweet','action' => 'delete',$tweet->id ]) ?> <!-- je peut effacer mon post -->
+                  <a href="#" data-idtweet="<?= $tweet->id ;?>"  title="Effacer ce tweet"  class="deletetweet" onclick="return false;">Effacer ce tweet</a>
+                 <!-- je peut effacer mon post -->
             </li>
                 <?php
                  if($tweet->allow_comment == 1) // si les comms sont bloqués, j'ai accès à la publication pour les réactiver ou faire le ménage
@@ -150,13 +151,18 @@ use Cake\Routing\Router;
                                 if(isset($authName))
               {
            
-               if($tweet->share != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
+               if($tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
                  ?>
+
+                  <span class="sharelink" data-idtweet="<?= $tweet->id ;?>">
               <span class="glyphicon glyphicon-share" style="vertical-align:center"></span>
-              <?php
-                echo $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.''); 
+              
                 
+
+                <a href="#" data-idtweet="<?= $tweet->id ;?>" data-auteurtweet="<?= $tweet->user_id ;?>" title="Partager"  class="addshare" onclick="return false;">Partager</a>
+              </span>
+                <?php
             }
           }
             ?>
@@ -180,31 +186,17 @@ use Cake\Routing\Router;
 
  <?php         
 
-        } ?>
+        } 
+
+        ?>
+
+<?= $this->Html->script('/js/iasdeletetweet.js') ?> <!-- suppression d'un tweet + scroll ajax liste des tweets -->
 
 
 
            
 
-            <script>
-
-              var ias = jQuery.ias({
-  container:  '#list_tweet',
-  item:       '.tweet',
-  pagination: '#pagination',
-  next:       '.next'
-});
-
-
-  ias.extension(new IASSpinnerExtension());
-  ias.extension(new IASTriggerExtension({offset: 2}));
-  ias.extension(new IASNoneLeftExtension({text: "Fin des tweets"}));
-  ias.extension(new IASPagingExtension());
-
-</script>
-
-
-
+           
 
 
 

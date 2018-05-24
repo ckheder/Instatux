@@ -98,7 +98,7 @@ $array_username = getUsernames($tweet->contenu_tweet);
                 {
     
 
-         $notif = '<img src="/instatux/img/'.$tweet->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$tweet->user_id.'">'.$tweet->user_id.'</a> à vous à cité dans un <a href="/instatux/post/'.$tweet->id.'">tweet</a>';
+         $notif = '<img src="/instatux/img/'.$tweet->avatar_session.'" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/'.$tweet->user_id.'">'.$tweet->user_id.'</a> à vous à cité dans un <a href="/instatux/post/'.$tweet->id.'">tweet</a>';
    
 
     $article = $entity->newEntity();

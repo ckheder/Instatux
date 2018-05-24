@@ -19,7 +19,7 @@ class MessageListener implements EventListenerInterface {
         
     // création d'une notification de nouveau message
  
-    $notif = '<img src="/instatux/img/'.$message->avatar_session.'" alt="image utilisateur" class="img-thumbail vcenter"/><a href="/instatux/'.$message->nom_session.'">'.$message->nom_session.'</a> vous à envoyé un <a href="/instatux/conversation-'.$message->conv.'">message</a> !';
+    $notif = '<img src="/instatux/img/'.$message->avatar_session.'" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/'.$message->nom_session.'">'.$message->nom_session.'</a> vous à envoyé un <a href="/instatux/conversation-'.$message->conv.'">message</a> !';
    
     $entity = TableRegistry::get('Notifications');
 

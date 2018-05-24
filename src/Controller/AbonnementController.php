@@ -21,7 +21,7 @@ class AbonnementController extends AppController
      */
     public function index() // liste de mes abonnements
     {
-        $this->viewBuilder()->layout('profil');
+        $this->viewBuilder()->layout('general');
 
         $this->set('title', 'Abonnements');
 
@@ -143,7 +143,7 @@ class AbonnementController extends AppController
      */
     public function add() // suiveur : session en cours, suivi $_GET
     {
-
+if ($this->request->is('ajax')) {
         // vérifie si c'est un profil privé
 
         $check_profil = $this->check_type_profil($this->request->getParam('username'));
@@ -177,14 +177,13 @@ class AbonnementController extends AppController
 
                 //fin évènement
 
-
-                $this->Flash->success(__('Demande d\'abonnement envoyé !'));              
+                $reponse = 'demandeok';             
             }
 
              else 
             {
 
-                $this->Flash->error(__('Impossible de s\'abonner.'));
+                $reponse = 'probleme';
             }
         }
     }
@@ -222,18 +221,22 @@ class AbonnementController extends AppController
                 //fin évènement
             }
 
-                $this->Flash->success(__('Abonnement ajouté !'));              
+                $reponse = 'abook';              
             }
 
              else 
             {
 
-                $this->Flash->error(__('Impossible de s\'abonner.'));
+                $reponse = 'probleme';
             }
         }
 
         }
-  return $this->redirect($this->referer());
+                       $this->response->body($reponse);
+    return $this->response;
+
+
+    }
 // fin vérif
 
     }
@@ -247,6 +250,7 @@ class AbonnementController extends AppController
      */
     public function delete($id = null)
     {
+        if ($this->request->is('ajax')) {
         // vérif 
         $abonnement_verif = $this->Abonnement->find();
         $abonnement_verif->where([
@@ -269,22 +273,25 @@ class AbonnementController extends AppController
  
             if ($query) 
             {
-                $this->Flash->success(__('Abonnement supprimé.')); 
+               $reponse = 'suppok';
+            }
+            else 
+            {
+
+                $reponse = 'problème';
             }
 
 }
 
-  else 
-            {
+  
+                       $this->response->body($reponse);
+    return $this->response;
 
-                $this->Flash->error(__('Impossible de supprimer cet abonnement.'));
-            }
-        $this->set(compact('abonnement'));
-        $this->set('_serialize', ['abonnement']);
-return $this->redirect($this->referer());
+
+    }
     }
 
-    public function indexmessagerie() // liste de mes abonnements pour la messagerie
+    public function indexmessagerie() // liste de mes abonnements pour la messagerie, personne que je suis
     {
 
 
@@ -292,28 +299,19 @@ return $this->redirect($this->referer());
            
             $this->autoRender = false;            
             $name = $this->request->query('term');            
-                $abonnement = $this->Abonnement->find('all')->contain(['Users']);
+                $abonnement = $this->Abonnement->find()->select(['suivi'])
                 
-        $abonnement->where([
-
-'user_id' =>  $this->Auth->user('username')
-
-            ])
-        ->where(['Users.username LIKE '  => '%'.$name.'%']);
-        
-
-    
+        ->where(['user_id' =>  $this->Auth->user('username')])
+        ->where(['suivi LIKE '  => '%'.$name.'%'])
+        ->where(['etat' => 1]);
 
 $resultArr = [];
 
-
-
             foreach($abonnement as $result) 
             {
-              //$resultArr[] =  $result->user->username;
 
 
-               $resultArr[] =  array('label' => $result->user->username, 'value' => $result->user->username , 'username' => $result->user->username);
+               $resultArr[] =  array('label' => $result->suivi, 'value' => $result->suivi);
                 
                
             }
@@ -324,6 +322,7 @@ $resultArr = [];
 
 public function validate() // valider ou non une demande d'abonnement
 {
+    if ($this->request->is('ajax')) {
    
     if ($this->request->getParam('act') === 'accept') // valider l'abonnement
     {
@@ -345,7 +344,11 @@ public function validate() // valider ou non une demande d'abonnement
                     $event = new Event('Model.Abonnement.abovalide', $this, ['data_event' => $data_event]);
                      $this->eventManager()->dispatch($event);
 
-                    $this->Flash->success(__(''.$this->request->getParam('username').' fais désormais parti de vos abonnés'));
+                    $reponse = 'aboaccept';
+                }
+                else
+                {
+                    $reponse = 'probleme';
                 }
     }
     else // refuser l'abonnement
@@ -359,11 +362,19 @@ public function validate() // valider ou non une demande d'abonnement
                  if($query)
                 {
                     
-                    $this->Flash->error(__('Abonnement refusé avec succès !'));
+                    $reponse = 'aborefuse';
+                }
+                else
+                {
+                    $reponse = 'probleme';
                 }
     }
 
-    return $this->redirect($this->referer());
+                       $this->response->body($reponse);
+    return $this->response;
+
+
+    }
 
 }
 
@@ -411,10 +422,6 @@ private function check_abo($username) // vérifie si on est déjà abonné
 
              return $settings_notif;
     }
-
-    
-
-
 
 
 }

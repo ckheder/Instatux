@@ -91,11 +91,17 @@ Router::connect('/notifications',['controller' => 'Notifications', 'action' => '
 
 //fin route  notif
 
-// route delete notif
+// route  toutes notif lue
 
-Router::connect('/notifications/delete/:id',['controller' => 'Notifications', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+Router::connect('/notifications/all',['controller' => 'Notifications', 'action' => 'allnotiflue']);
 
-//fin route delete notif
+//fin route  toute notif lue
+
+// route  nb_notif
+
+Router::connect('/notifications/count',['controller' => 'Notifications', 'action' => 'nbNotif']);
+
+//fin route nb_notif
 
 // route recherche
 
@@ -125,6 +131,10 @@ Router::connect('/abonnement/delete/:username',['controller' => 'Abonnement', 'a
 Router::connect('/abonnement/:act/:username',['controller' => 'Abonnement', 'action' => 'validate']);
     // fin route abonnement/delete
 
+    // route accepter abonnement
+Router::connect('/abonnement/indexmessagerie',['controller' => 'Abonnement', 'action' => 'indexmessagerie']);
+    // fin route abonnement/delete
+
     // route settings
 Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
     // fin route settings
@@ -149,6 +159,30 @@ Router::connect('/settings-notif_abo',['controller' => 'Settings', 'action' => '
 Router::connect('/settings-notif_comm',['controller' => 'Settings', 'action' => 'notifcomm']);
 // fin route notif_abo
 
+ // route configurer profil public
+Router::connect('/settings/public',['controller' => 'Settings', 'action' => 'setup_profil_public']);
+// fin route configurer profil public
+
+ // route configurer profil privé
+Router::connect('/settings/prive',['controller' => 'Settings', 'action' => 'setup_profil_prive']);
+// fin route configurer profil privé
+
+ // route editer description
+Router::connect('/settings/description',['controller' => 'Users', 'action' => 'editdescription']);
+// fin route editer description
+
+ // route editer lieu
+Router::connect('/settings/lieu',['controller' => 'Users', 'action' => 'editlieu']);
+// fin route editer lieu
+
+ // route editer website
+Router::connect('/settings/website',['controller' => 'Users', 'action' => 'editwebsite']);
+// fin route editer website
+
+ // route editer avatar
+Router::connect('/settings/avatar',['controller' => 'Users', 'action' => 'avatar']);
+// fin route editeravatar
+
     // route liste bloques
 Router::connect('/bloques',['controller' => 'Blocage', 'action' => 'listebloques']);
     // fin route listebloques
@@ -160,6 +194,26 @@ Router::connect('messagerie',['controller' => 'Messagerie', 'action' => 'index']
     // route envoi message
 Router::connect('/message/add',['controller' => 'Messagerie', 'action' => 'add']);
     // fin route envoi message
+
+    // route autoriser commentaire
+Router::connect('/allowcomment/:etat/:idtweet',['controller' => 'Tweet', 'action' => 'allowComment'],['etat' => '\d+', 'pass' =>['etat']]);
+    // fin route autoriser commentaire
+
+    // route envoi nouveau commentaire
+Router::connect('/commentaire/add',['controller' => 'Commentaires', 'action' => 'add']);
+    // fin route nouveau commentaire
+
+    // route delete comentaire
+Router::connect('/commentaire/delete/:id',['controller' => 'Commentaires', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+    // fin route delete commentaire
+
+    // route envoi nouveau commentaire
+Router::connect('/blocage/add/:username',['controller' => 'Blocage', 'action' => 'add']);
+    // fin route nouveau commentaire
+
+    // route delete comentaire
+Router::connect('/blocage/delete/:username',['controller' => 'Blocage', 'action' => 'delete']);
+    // fin route delete commentaire
 
     // route conversation
 Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['id' => '\d+', 'pass' =>['id']]);

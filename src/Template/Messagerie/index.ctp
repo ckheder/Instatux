@@ -5,9 +5,9 @@ use Cake\Routing\Router;
 <div class="text-center">
 
 
-                <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'),'id'=>'form_message_new')); ?>
+                <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'),'id'=>'new_message')); ?>
                 <?= $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire', 'required'=> 'required']) ;?>
-
+                <?=$this->Form->hidden('indexmess', ['value' => 1]) ; // signal au controller que je suis sur la page d'accueil des messages?> 
 
                 <?=$this->Form->Textarea('message', ['placeholder' =>'Votre message...']) ;?>
 <!-- <textarea name="message" class="textarea_message" placeholder="Message..."></textarea> -->
@@ -56,61 +56,7 @@ use Cake\Routing\Router;
             </div>
             <?php endforeach; ?>
 
-
-    <script type="text/javascript">
-      $(function() 
-      {
-
-    $( "#autocomplete").autocomplete({
-
-source:'<?php echo Router::url(array("controller" => "Abonnement", "action" => "indexmessagerie")); ?>',
-
-select: function( event, ui ) {
-
-
-             
-            $("#destinataire").val(ui.item.username);
-            
-
-
-     }})});
-
-
-      
-</script>  
-
-<script>
-    $(document).ready(function() {
-
-    $('#form_message_new').submit(function(e){
-
-      e.preventDefault();
-
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/message/add',
-                dataType: 'json',
-                data: $('#form_message_new').serialize(),
-    success: function(data){
-
-        var url = 'http://localhost/instatux/conversation-' + data.conv +'';
-    
-window.location.href = url;
-
-    },
-    error: function(data)
-    {
-alert(JSON.stringify(data));
-       //alert('fail');       
-    }
-                
-         });
-    });
-  
-
-
-    });
-</script>                                     
+<?= $this->Html->script('messagerie.js') ?> <!-- message depuis les fenetres modals , la page d'accueil de la messagerie et l'auto completion des abonnements                  
 
 
 

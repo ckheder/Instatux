@@ -1,3 +1,6 @@
+<span id = "abosearch">
+<span id="actionabo">
+
 <?php
 
 
@@ -6,17 +9,7 @@
               ?>
               
               
-                <?= $this->Html->link('Suivre', 
-
-
-                '/abonnement/add/'.h($suivi).'',
-                [
-                'title' => 'Suivre '.$suivi.'',
-                'class' => 'btn btn-success bouton_abo_search', 
-                'role' => 'button',
-                'escape' => false]);
-                  ?> 
-            
+             <a href="#" data-username="<?= $suivi ;?>" data-action="add" title="Suivre <?= $suivi ;?>"  id="aboact" class="btn btn-success navbar-btn" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
             
             <?php
           }
@@ -25,16 +18,15 @@
                 
 ?>
 
-                              <?= $this->Html->link('Ne plus suivre', // lien pour supprimer l'abonnement
+            <button data-toggle="modal" data-target="#modalmessage" class="btn btn-primary navbar-btn" title="Envoyer un message à <?= $suivi ;?>" type="button"><span class="glyphicon glyphicon-envelope"></span></button> - <a href="#" data-username="<?= $suivi ;?>" data-action="delete" title="Ne plus suivre <?= $suivi ;?>"  id="aboact" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-minus"></span></a>
 
-
-                '/abonnement/delete/'.h($suivi).'',
-                [
-                'title' => 'Ne plus suivre '.$suivi.'',
-                'class' => 'btn btn-danger bouton_abo_search', 
-                'role' => 'button',
-                'escape' => false]);
+  <?php
                   
             }
           
           ?>
+</span>
+</span>
+<!-- modal envoi de message -->
+<?= $this->element('modalmessage',['destinataire' => $suivi]) ?>
+<!-- fin modal envoi de message -->

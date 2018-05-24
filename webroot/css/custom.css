@@ -255,7 +255,7 @@ sup
     font-weight: bold;
     color: red;
 }
-/* fin notification*/
+
 /*span paramètre notification*/
 label {
     line-height:35px;
@@ -278,6 +278,17 @@ select
     float : right;
     margin-right : 10px;
   }
+/* paragraphe de la notification ajax */
+
+#etatnotif
+{
+  width : 100%;
+  line-height : 50px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* fin paragraphe */
 
 /* div notif non lu */
 
@@ -287,6 +298,7 @@ select
   padding : 6px ;
   color : black;
 margin-bottom: 12px;
+border-radius: 15px;
 }
 
 .notif_non_lu a /* enlève le soulignement des liens */
@@ -308,6 +320,32 @@ text-decoration: none;
   float: right;
 }
 
+/*div notif lu */
+
+.notif_lu
+{
+  background-color: white;
+  padding : 6px ;
+  color : black;
+margin-bottom: 12px;
+border-radius: 15px;
+}
+
+.notif_lu a /* enlève le soulignement des liens */
+{
+text-decoration: none;
+}
+
+.notif_lu img
+{
+/* max-width: 100%;
+  height: auto;*/
+  height : 48px;
+  width : 48px;
+}
+
+/* fin div notif lu */
+
   /* fin notification
 
 /* lien cell abonnement */
@@ -316,23 +354,14 @@ text-decoration: none;
   text-decoration: none;
 color : green;
 }
-.message_delete_abo
-{
-    text-decoration: none;
-color : red;
-}
-.message_add_abo
-{
-    text-decoration: none;
-color : green;
-}
-.bouton_abo_search
+
+
+#abosearch /* lien d'abonnement sur le moteur de recherche */
 {
 
     float: right;
-    margin-top: 20px;
+    margin-right: 3px;
 }
-
 /* couleur abonnes, page abonnement*/
 
 .abonnes
