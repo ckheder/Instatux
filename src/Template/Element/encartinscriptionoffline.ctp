@@ -1,6 +1,6 @@
 <div class="inscriptionoffline">
-<h3>Nouveau sur Instatux ?</h3>
-Inscrivez-vous maintenant pour obtenir votre fil d'actualités personnalisé ! 
+<h3>Rejoignez Instatux aujourd'hui.</h3>
+Découvrez ce qui se passe dans le monde en temps réel
 <br />
 
  <?= $this->Html->link('Inscription', // lien pour supprimer l'abonnement
