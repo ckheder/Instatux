@@ -237,29 +237,17 @@ $data = array('website' => $user->website);
       $this->viewBuilder()->layout('general');
       $this->set('title' ,'Connexion requise');
         if ($this->request->is('post')) {
-          // URL de provenance si on n'est pas connecté, provenance login.ctp
 
-          $from_url = $this->request->data('from_url');
-
-          // fin URL de provenance si on n'est pas connecté, provenance login.ctp
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
                 $this->Flash->success('Bonjour '.$this->Auth->user('username').' !');
 
-                if($this->referer() == 'http://localhost/instatux/') // si on vient de la page d'accueil du site
-                {
+
 
                 return $this->redirect('/'.$this->Auth->user('username').'');
-              }
-              elseif (isset($from_url)) // si on vient de login.ctp
-              {
-               return $this->redirect($this->request->data('from_url'));
-              }
-              else
-              {
-                return $this->redirect($this->referer());// si on a visité une page publique et que l'on s'est connecté
-              }
+              
+
             }
             $this->Flash->error(__('Nom d\' utilisateur ou mot de passe incorrect'));
             return $this->redirect($this->Auth->logout());
@@ -376,42 +364,5 @@ return $this->response;
         }
             
         }
-
-public function indexmessagerie() // liste de mes abonnements pour la messagerie
-    {
-
-
-                if ($this->request->is('ajax')) {
-           
-            $this->autoRender = false;            
-            $name = $this->request->query('term');            
-                $abonnement = $this->Users->find()->contain(['Abonnement']);
-                
-        $abonnement->where([
-
-'Abonnement.user_id' =>  $this->Auth->user('id')
-
-            ])
-        ->where(['username LIKE '  => '%'.$name.'%']);
-        
-
-    
-
-$resultArr = [];
-
-            foreach($abonnement as $result) 
-            {
-              $resultArr[] = array('label' =>$result['username'] , 'value' => $result['username'] );
-            
-               
-            }
-            echo json_encode($resultArr); 
-
-}
-}
-        
-        
-
-
 
 }

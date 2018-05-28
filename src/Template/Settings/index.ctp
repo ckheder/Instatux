@@ -234,5 +234,3 @@ Les notifications de commentaires vous informent si vos abonnés , dans le cas d
 
           <?= $this->Html->script('settings.js') ?>
 
-
-

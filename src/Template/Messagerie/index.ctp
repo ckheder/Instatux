@@ -2,9 +2,8 @@
 use Cake\I18n\Time;
 use Cake\Routing\Router;
 
-if (isset($authName))
-{
-  ?>
+?>
+
 <div class="text-center">
 
 
@@ -60,6 +59,5 @@ if (isset($authName))
             <?php endforeach; ?>
 
 <?= $this->Html->script('messagerie.js') ?> <!-- message depuis les fenetres modals , la page d'accueil de la messagerie et l'auto completion des abonnements -->                 
-<?php } ?>
 
 

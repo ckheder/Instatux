@@ -14,6 +14,12 @@ class AbonnementController extends AppController
 {
     public $components = array('RequestHandler');
 
+            public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->deny(['index']); // on empeche l'accès a l'index si je ne suis pas auth
+    }
+
     /**
      * Index method
      *

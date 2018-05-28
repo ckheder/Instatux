@@ -15,13 +15,19 @@ class SettingsController extends AppController
 
 public $components = array('RequestHandler');
 
+        public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->deny(['index']); // on empeche l'accès a l'index si je ne suis pas auth
+    }
+
     public function index()
     {
             $this->viewBuilder()->layout('general');
         
     	$this->set('title', 'Paramètre de compte'); // titre de la page
 
-        $this->set('test', 'test'); 
+
 
         // récupération des paramètres de mon profil
 
@@ -75,7 +81,9 @@ endforeach;
 
     // fin récupération utilisateurs bloqués
 
-    }
+    
+
+}
 
     // paramètre de profil : 0 -> profil public par défaut, 1 -> profil privé
 

@@ -20,9 +20,9 @@
   <span class="glyphicon glyphicon-lock"></span> 
    </div>
             <?php
-            echo $this->Form->password('password', ['placeholder'=>'Mot de passe']);
+            echo $this->Form->password('password', ['placeholder'=>'Mot de passe']);?>
             
-             echo $this->Form->hidden('from_url', ['value' => $this->request->referer()]);  // URL de provenance?>
+             
             </div>
             
     </fieldset>

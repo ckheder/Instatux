@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'Instatux';
+$cakeDescription = ' Instatux. Ce qu\'il se passe.';
 
 ?>
 <!DOCTYPE html>

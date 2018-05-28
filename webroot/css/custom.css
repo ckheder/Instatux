@@ -14,14 +14,11 @@ body.modal-open{
     overflow-y:scroll!important;
    
 }
-
-/*.modal-open {
-  overflow: inherit;
-  padding-right: 0 !important;
+a /* soulgnement lien */
+{
+  text-decoration:none; 
 }
 
-/* tweet, comm, message */
-/* image */
 
 /* mise en forme tweet */
 .tweet
@@ -111,7 +108,7 @@ float: left;
 {
 
 margin-bottom: 12px;
-width : 84px;
+width : 81px;
 display: inline-block;
 text-align: center;
 }

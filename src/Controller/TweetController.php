@@ -18,16 +18,19 @@ class TweetController extends AppController
         
     ];
 
-            public function initialize()
-    {
-        parent::initialize();
-        $this->loadComponent('Paginator');
-    }
+
 
         public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['actualites']); // on autorise les gens non identifiés à accéder au moteur de recherche
+        $this->Auth->allow(['actualites']); // on autorise les gens non identifiés au controller de leur actu
+        $this->Auth->deny(['accueuil']); // on bloque l'accès a l'actu des gens connectes
+    }
+
+                public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
     }
 
     /**

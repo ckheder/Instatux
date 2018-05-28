@@ -34,18 +34,8 @@
                   'data-target' => '#ModalConnexion',
                   'class' => 'btn btn-primary navbar-btn',
                   'type' => 'button']);
-                  ?>
+                  ?>&nbsp;&nbsp;
       
- <?= $this->Html->link('Inscription', // lien pour supprimer l'abonnement
-
-
-                '/',
-                [
-                'title' => 'Inscription',
-                'class' => 'btn btn-info navbar-btn', 
-                'role' => 'button',
-                'escape' => false]);
-                ?>&nbsp;&nbsp;
       </div>
 
     </div>

@@ -23,6 +23,12 @@ class NotificationsController extends AppController
         $this->loadComponent('Paginator');
     }
 
+            public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->deny(['index']); // on empeche l'accès a l'index si je ne suis pas auth
+    }
+
 
     /**
      * Index method
