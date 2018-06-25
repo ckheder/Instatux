@@ -25,21 +25,25 @@ $cakeDescription = ' Instatux. Ce qu\'il se passe.';
         <?= $cakeDescription ?>
         
     </title>
-    <?= $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'))."\n"; ?>
+    <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
     <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'); ?>
+    <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
-    <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'); ?>
+    <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
+    <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
+        <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
     <?= $this->fetch('meta') ?>
 
 </head>
 <body>
+<?= $this->element('accueilmenu')?>
 
-    <?= $this->Flash->render() ?>
    
         <?= $this->fetch('content') ?>
 
-    <footer>
+
+<footer>
     </footer>
 </body>
 </html>

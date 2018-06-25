@@ -75,7 +75,7 @@ use Cake\Network\Request;
             <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username ?></span> - 
             
 
-             <span class="date_message"><?= $tweet->created->i18nformat('dd MMMM YYYY'); ?></span>
+             <span class="date_message"><?= $tweet->created->i18nformat('d MMMM YYYY'); ?></span>
 
 <p><?= $tweet->contenu_tweet; ?></p>
 
@@ -140,8 +140,6 @@ else
 <?= $this->Form->input('comm', ['placeholder' => 'Votre commentaire...', 'label'=> '','class' =>'emojis-plain textarea_comm','id' => 'comm']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
 <?= $this->Form->hidden('userosef', ['value' => $tweet->user->username]) // auteur du tweet?>
-<?= $this->Form->hidden('avatar', ['id'=> 'avatar','value' => $authAvatar]) // id du destinataire?>
-<?= $this->Form->hidden('auteurcomm', ['id'=> 'auteurcomm','value' => $authName]) // id du destinataire?>
 <?= $this->Form->end(); ?>
 
  <!-- fin div info tweet -->
@@ -176,18 +174,24 @@ else
     ...
       </button>
   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-    <?php if($tweet->user_timeline == $authName or $commentaires->user_id == $authUser) // si je suis l'auteur du tweet ou du commentaire
+    <?php if($tweet->user_timeline == $authName or $commentaires->user_id == $authUser) // si je suis l'auteur du tweet ou du commentaire, je peut supprimer
     {
         ?>
         <li>
         <a href="#" data-idcomm="<?= $commentaires->id ;?>"  title="Effacer ce commentaire"  class="deletecomm" onclick="return false;">Effacer ce commentaire</a>
+        </li>
+
         <?php
-         } 
-         ?>
-             
-         </li>
-    
-        <?php if($commentaires->user_id != $authUser) // je ne peut pas me bloquer ni signaler ce commentaire
+         }
+         if($commentaires->user_id == $authUser) // seul l'auteur d'un commentaire peut en modifier le contenu
+              {
+        ?>
+                    <li>
+          <a href="#" title="Modifier ce commentaire" class="updatecomm" data-idcom="<?= $commentaires->id ;?>"  onclick="return false;">Modifier</a>
+        </li> 
+        <?php  
+        }         
+         if($commentaires->user_id != $authUser) // je ne peut pas me bloquer ni signaler mes commentaires
     {
 
         ?>
@@ -195,9 +199,7 @@ else
             <li><a href="#">Signaler ce commentaire</a></li>
             <?php
          } 
-         ?>
-             
-         
+         ?>        
   </ul>
 </div>
 <?php
@@ -205,12 +207,19 @@ else
 ?>
 <!-- fin bouton dropdown comm -->
  <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail left avatarcomm')) ?>
- <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - <span class="date_message"><?= $commentaires->created->i18nformat('dd MMMM YYYY'); ?></span>
-
-<p><?= $this->Text->autoParagraph($commentaires->comm) ; ?></p>
-
-
-      
+ <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - <span class="date_message"><?= $commentaires->created->i18nformat('dd MMMM YYYY');
+ ?>
+ <span class="updatecomm<?= $commentaires->id ;?>">
+  <?php
+   if($commentaires->edit == 1) // affichage de la mention modifié si le comm à été modifié
+{
+  echo ' - Modifié';
+}
+?>
+ </span>
+</span>
+<p></p>
+<p class="contenucomm<?= $commentaires->id ;?>"><?= $commentaires->comm ; ?></p> 
 </div>
 
 
@@ -218,6 +227,7 @@ else
         <?php endforeach; ?>
 
       </div>
+
 
 <?php
 
@@ -239,15 +249,8 @@ endforeach;
 
           </div>
 
-<?= $this->Html->script('/js/viewtweet.js') ?> <!-- IAS, effacer un commentaire + emoji -->
-
-
-<script type="text/javascript">
-
-  var authname = "<?= $authName ?>"; // auteur du comm
-
-</script>
-
+          <script>
+var idtweet = "<?= $this->request->getParam('id') ;?>";
+          </script>
 
 <?= $this->Html->script('/js/clientcommentaires.js') ?>
-

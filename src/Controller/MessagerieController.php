@@ -62,6 +62,7 @@ class MessagerieController extends AppController
     ->where(['destinataire' => $this->Auth->user('username')])
     ->orwhere(['user_id'=>$this->Auth->user('username')])
     ->where(['Messagerie.conv IN' => $conv])
+    ->order(['Messagerie.created' => 'DESC'])
     ->group('conv');
     
         // requête des messages, on affiche tous ces messages

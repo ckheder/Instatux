@@ -185,6 +185,7 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
   background-color: #e1e2e3;
 
 }
+
 /* fin commentaire */
 /* messagerie */
 .messagemoi {
@@ -454,15 +455,7 @@ color: #657786;
 
 
 }
-.accept-link
-{
-  color : green;
 
-}
-.refuse-link
-{
-  color : red;
-}
 /* fin couleur lien accepter abo */
 /* barre du nombre de commentaire ,de like et de partage */
 .nb_comm_share
@@ -517,8 +510,5 @@ font-weight: bold;
   text-align: center;
   font-weight: bold;
 }
-.inscriptionoffline h3
-{
-  text-align: center;
-}
+
 /* fin inscription offline element */

@@ -20,47 +20,19 @@ use Cake\Error\Debugger;
 use Cake\Network\Exception\NotFoundException;
 
 ?>
-<div class="container">
+   <div class="container" style="border:1px solid #cecece;">
+        <?= $this->Flash->render() ?>
   <div class="row">
-  <h1 class="text-muted text-center">Bienvenue sur Instatux </h1>
-  <div class="col-sm-6">
-
-<?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'login'))) ?>
-      
- <fieldset>
-        <legend><?= __('Connexion') ?></legend>
-        <div class="input-group">
-        <div class="input-group-addon">
-  <span class="glyphicon glyphicon-user"></span> 
-   </div>
-        <?php
-            echo $this->Form->text('username', ['placeholder'=>'Nom d\'utilisateur']);
-            ?>
-            </div>
-            <br />
-             <div class="input-group">
-                    <div class="input-group-addon">
-  <span class="glyphicon glyphicon-lock"></span> 
-   </div>
-            <?php
-            echo $this->Form->password('password', ['placeholder'=>'Mot de passe']);
-            ?>
-            </div>
-            <br />
-    </fieldset>
-    <br />
-    <div class="text-center">
-    <?= $this->Form->button('Connexion', array('class'=>'btn btn-success')) ?>
-    <?= $this->Form->end() ?>
+         <div class="col-sm-6">
+carousel
 </div>
-  </div>
-  <div class="col-sm-6">
+<div class="col-sm-6">
+
 
     <?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'add')));?>
 
     
-    <fieldset>
-        <legend><?= __('Inscription') ?></legend>
+        <div class="text-center"><legend><?= __('Inscription') ?></legend></div>
         <div class="input-group">
         <div class="input-group-addon">
   <span class="glyphicon glyphicon-user"></span> 
@@ -96,7 +68,6 @@ use Cake\Network\Exception\NotFoundException;
     <?= $this->Form->end() ?>
 </div>
   </div>
-
 </div>
 </div>
         

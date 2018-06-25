@@ -36,7 +36,7 @@
     <?= $this->Html->script('jquery-ias.min.js') ?>
     <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js'); ?>
     <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/fr.js'); ?>
-    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js') ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js') ?>
     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
      <?= $this->Html->script('/js/nbnotif.js') ?>

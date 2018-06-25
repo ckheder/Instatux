@@ -203,6 +203,10 @@ Router::connect('/allowcomment/:etat/:idtweet',['controller' => 'Tweet', 'action
 Router::connect('/commentaire/add',['controller' => 'Commentaires', 'action' => 'add']);
     // fin route nouveau commentaire
 
+    // route edit comentaire
+Router::connect('/commentaire/edit/:id',['controller' => 'Commentaires', 'action' => 'edit'],['id' => '\d+', 'pass' =>['id']]);
+    // fin route edit commentaire
+
     // route delete comentaire
 Router::connect('/commentaire/delete/:id',['controller' => 'Commentaires', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
     // fin route delete commentaire

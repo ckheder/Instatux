@@ -315,7 +315,6 @@ class TweetController extends AppController
         if ($this->request->is('post')) {
             // fin vérification
                    $data = array(
-            'id' => rand(5, 15),
             'user_id' => $this->Auth->user('username'),
             'user_timeline' => $this->Auth->user('username'),
             'contenu_tweet' => $this->linkify_tweet($this->request->data('contenu_tweet')),

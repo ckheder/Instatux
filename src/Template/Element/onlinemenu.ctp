@@ -12,7 +12,7 @@
       <ul class="nav navbar-nav">
         <li><a href="/instatux/accueuil"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Actualités</a></li>
      
-        <li><a href="/instatux/settings" title="Paramètres"><span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;Configuration</a></li>
+        
           <li><a href="/instatux/<?= $authName ;?>"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Moi</a></li>
 
       </ul>
@@ -39,6 +39,7 @@
 
       <ul class="nav navbar-nav navbar-right">
      <li><a href="/instatux/notifications" title="Notifications"><span class="glyphicon glyphicon-bell"></span><span id="count_nb_notif"></span></a></li>
+     <li><a href="/instatux/settings" title="Paramètres"><span class="glyphicon glyphicon-wrench"></span></a></li>
        <li><a href="/instatux/messagerie" title="Messagerie"><span class="glyphicon glyphicon-envelope"></span></a></li>
       
        <li><a href="/instatux/abonnement/<?= $authName ;?>" title="Abonnement"><span class="glyphicon glyphicon-eye-open"></span></a></li>
