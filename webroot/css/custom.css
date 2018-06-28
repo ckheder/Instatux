@@ -209,7 +209,7 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
     display: table;
 }
 /* Style images */
-.messagemoi img {
+.messagemoi img[alt="image utilisateur"] {
     float: left;
     max-width: 60px;
     width: 100%;
@@ -240,7 +240,7 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 {
   height: 25px;
   color : #046380;
-  margin-bottom : 5px;
+
 }
 /* fin div etat connection + typing*/
 /* fin messagerie */
@@ -282,6 +282,14 @@ select
 {
   width: inherit;
   position: fixed;
+  line-height : 50px;
+  font-weight: bold;
+  text-align: center;
+z-index : 999;
+}
+#etatmessage
+{
+  width: inherit;
   line-height : 50px;
   font-weight: bold;
   text-align: center;

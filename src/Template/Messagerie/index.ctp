@@ -9,7 +9,6 @@ use Cake\Routing\Router;
 
                 <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'),'id'=>'new_message')); ?>
                 <?= $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire', 'required'=> 'required']) ;?>
-                <?=$this->Form->hidden('indexmess', ['value' => 1]) ; // signal au controller que je suis sur la page d'accueil des messages?> 
 
                 <?=$this->Form->Textarea('message', ['placeholder' =>'Votre message...']) ;?>
 <!-- <textarea name="message" class="textarea_message" placeholder="Message..."></textarea> -->
@@ -58,6 +57,6 @@ use Cake\Routing\Router;
             </div>
             <?php endforeach; ?>
 
-<?= $this->Html->script('messagerie.js') ?> <!-- message depuis les fenetres modals , la page d'accueil de la messagerie et l'auto completion des abonnements -->                 
+                 
 
 

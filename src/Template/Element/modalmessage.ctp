@@ -15,6 +15,10 @@
                 <?= $this->Form->end(); 
                  echo $this->Modal->footer([
                     $this->Form->button('Fermer', ['data-dismiss' => 'modal', 'class' =>'btn btn-danger'])
-                    ]);
+                    ]); ?>
+                 <p id="etatmessage"></p>
+                 <?php
                 echo $this->Modal->end() ;
                 ?>
+
+

@@ -26,7 +26,7 @@ use Cake\Routing\Router;
 
 <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'),'id'=>'form_message')); ?>
                 
-<?= $this->Form->Textarea ('message' ,['id'=> 'message','placeholder'=> 'Répondre à '.$destinataire.' ...']); ?>
+<?= $this->Form->Textarea('message' ,['id'=> 'message','placeholder'=> 'Répondre à '.$destinataire.' ...','label'=> '','class' =>'emojis-plain textarea_comm']); ?>
 <br />
 <?= $this->Form->hidden('conversation', ['id'=>'conversation','value' => $this->request->getParam('id')]) // id de la conv ?>  
 <?= $this->Form->hidden('destinataire', ['id'=> 'destinataire','value' => $destinataire]) // id du destinataire?>
@@ -55,7 +55,7 @@ use Cake\Routing\Router;
                 }
                 ?>           
 
-               <?= $this->Text->autoParagraph(strip_tags($message->message, '<a>'))  ?>
+               <?= $message->message;  ?>
 
                   <span class="date_message"> <?=  $message->created->i18nformat('d MMMM YYYY HH:mm') ?></span>
                 
@@ -84,6 +84,7 @@ use Cake\Routing\Router;
 
   var authname = "<?= $authName ?>"; // expediteur
   var destinataire  = "<?= $destinataire ?>"; // destinataire
+  var room = "<?= $this->request->getParam('id') ?>"; // id de conversation
 
 </script>
 

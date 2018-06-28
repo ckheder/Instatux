@@ -17,12 +17,16 @@ var users = [];// tableau contenant les users connecté
 var destinataireco;
 
 var etattype;
+
+
   
 
 // connexion / déconnexion
 io.sockets.on('connection', function (socket) {
 
     socket.on('connexion', function(data) {
+
+      socket.join(data.room);
 
         var destinataire = data.destinataire;
 
@@ -32,7 +36,6 @@ io.sockets.on('connection', function (socket) {
 
        // test si l'autre est connecté
 
-       setInterval(function(){
 
         var destinataireIndex = users.indexOf(data.destinataire);
 
@@ -46,9 +49,8 @@ io.sockets.on('connection', function (socket) {
     
       }
       
-        socket.emit('destinataireco', {destinataireco: destinataireco}); // renvoi aux autres et pas à moi
+        io.sockets.in(data.room).emit('destinataireco', {destinataireco: destinataireco}); // renvoi aux autres et à moi
     
-},1000)
        // déconnexion
 
         socket.on('disconnect', function(){ 
@@ -58,8 +60,8 @@ io.sockets.on('connection', function (socket) {
       if (userIndex !== -1) //  -1 => pas de résultat 
       {
         users.splice(userIndex, 1); // je me supprime de la liste des connectés
-
-              
+        destinataireco = 0; //destinataire deconnecté
+             io.sockets.in(data.room).emit('destinataireco', {destinataireco: destinataireco}); 
       }
 
        
@@ -70,18 +72,18 @@ io.sockets.on('connection', function (socket) {
 
 // reception evenement ecriture en cours
 
-  socket.on('start-typing', function () {
+  socket.on('start-typing', function (data) {
 
     etattype = 1; // en train d'ecrire
 
-    socket.broadcast.emit('update-typing', {etattype: etattype});
+    socket.broadcast.in(data.room).emit('update-typing', {etattype: etattype});
   });
 
-    socket.on('stop-typing', function () {
+    socket.on('stop-typing', function (data) {
 
          etattype = 0; // en train d'ecrire
 
-    socket.broadcast.emit('update-typing', {etattype: etattype});
+    socket.broadcast.in(data.room).emit('update-typing', {etattype: etattype});
   });
 
 
@@ -91,7 +93,7 @@ io.sockets.on('connection', function (socket) {
 
     var avatar = '/instatux/img/' + data.avatar;
 
-        socket.broadcast.emit('messagerepondu', {message: data.message, avatar: avatar,date: date_msg}); // renvoi aux autres et pas à moi
+        socket.broadcast.in(data.room).emit('messagerepondu', {message: data.message, avatar: avatar,date: date_msg}); // renvoi aux autres et pas à moi
     }); 
 
 

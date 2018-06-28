@@ -1,18 +1,18 @@
+    $('.emojis-plain').emojiarea({wysiwyg: false});
+
+    
+    var $wysiwyg = $('.emojis-wysiwyg').emojiarea({wysiwyg: false});
+    var $wysiwyg_value = $('#emojis-wysiwyg-value');
+    
+    $wysiwyg.on('change', function() {
+      $wysiwyg_value.text($(this).val());
+    });
+    $wysiwyg.trigger('change');
+
 var socket = io.connect('http://localhost:8082'); //create connection
 
- socket.emit('connexion', {authname, destinataire});
+ socket.emit('connexion', {authname, destinataire,room});
 
-// Quand on reçoit un message, on l'insère dans la page
-
-            $('#form_message').submit(function () {
-
-                var message = $('#message').val();
-
-                var avatar = $('#avatar').val(); // champs caché contenant l'avatar
-
-                socket.emit('message', {message: message, avatar: avatar}); // Transmet le message aux autres
-                 
-            });
             // etat connexion destinataire
 
                  socket.on('destinataireco', function(data) {
@@ -38,7 +38,7 @@ var socket = io.connect('http://localhost:8082'); //create connection
 
             $('#message').keypress(function () {
 
-    socket.emit('start-typing');
+    socket.emit('start-typing', {room: room});
 
 });
 
@@ -46,7 +46,7 @@ $('#message').keyup(function () {
 
   setTimeout(function () {
 
-      socket.emit('stop-typing');
+      socket.emit('stop-typing', {room: room});
 }, 3500);
 
   });
@@ -77,15 +77,13 @@ socket.on('update-typing', function (data) {
 
             })
 
-    $(document).ready(function() {
-      $("#message").keypress(function(e) {
-        if (e.which == 13) {
-             
-    $('#form_message').submit();
+$("#message").keypress(function(e) {
+if (e.which == 13) {
 
-
+  $('#form_message').submit();
   }
-   });
+});
+
     $('#form_message').submit(function(e){
 
       e.preventDefault();
@@ -101,6 +99,13 @@ var date_msg = date_format.format('LLL'); // mise en forme
                 dataType: 'json',
                 data: $('#form_message').serialize(),
     success: function(data){
+
+                $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;&nbsp;Message envoyé</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+
+        socket.emit('message', {message: data.message, avatar: data.avatar_session,room: room}); // Transmet le message aux autres
     
      $('#list_conv').prepend('<div class="messagemoi"><img src="img/' + data.avatar_session + '"alt="image utilisateur" class="img-thumbail"/><p>' + data.message +'</p><span class="date_message">' + date_msg + '</span></div>');
 
@@ -109,12 +114,12 @@ $('#message').val('');
     },
     error: function(data)
     {
-        alert('Message vide');       
+                                 $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible d\'envoyer votre message.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
     }
                 
          });
     });
   
-
-
-    });

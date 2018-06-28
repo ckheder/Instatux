@@ -1,32 +1,19 @@
      // message envoyé depuis la modal sur cell, moteur de recherche et page d'accueild e la messagerie
 
-    $(document).ready(function() {
+
 
     $('#new_message').submit(function(e){
 
       e.preventDefault();
 
-      var reg = new RegExp("[0-9]");
-
         $.ajax({
                 type: 'POST',
                 url: '/instatux/message/add',
-                //dataType: 'json',
+                dataType: 'json',
                 data: $('#new_message').serialize(),
     success: function(data){
 
-             var resultat = reg.test(data);
-
-      if(resultat) // si j'envoi une conversation
-      {
-        var url = 'http://localhost/instatux/conversation-' + data +'';
-    
-        window.location.href = url;
-
-      }
-      
-
-    else if(data == 'blocage'){ // message non envoyé car je suis bloqué
+          if(data == 'blocage'){ // message non envoyé car je suis bloqué
 
 
      $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Message non envoyé, cet utilisateur vous à bloqué.</span></p>');
@@ -34,8 +21,17 @@
           $('.notif').fadeOut("slow");
         }, 2000 );
     }
+
     else  // message envoyé avec succès
     {
+
+
+        var url = 'http://localhost/instatux/conversation-' + data.conv +'';
+    
+        window.location.href = url;
+
+
+      
 
      $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;&nbsp;Message envoyé</span></p>');
         setTimeout(function() {
@@ -69,6 +65,4 @@ source:'/instatux/abonnement/indexmessagerie',
 
 
 })});
-
-});
 
