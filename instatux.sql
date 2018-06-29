@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 12 Juin 2018 à 14:30
--- Version du serveur :  10.2.15-MariaDB-10.2.15+maria~xenial
+-- Généré le :  Jeu 28 Juin 2018 à 15:38
+-- Version du serveur :  10.2.16-MariaDB-10.2.16+maria~xenial
 -- Version de PHP :  7.1.18-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -33,6 +33,14 @@ CREATE TABLE `abonnement` (
   `etat` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Contenu de la table `abonnement`
+--
+
+INSERT INTO `abonnement` (`id`, `user_id`, `suivi`, `etat`) VALUES
+(307, 'osefman', 'test', 1),
+(308, 'essai', 'test', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -57,11 +65,9 @@ INSERT INTO `aime` (`id`, `username`, `tweet_aime`) VALUES
 (243, 'test', 248),
 (256, 'test', 252),
 (268, 'test', 250),
-(275, 'essai', 324),
-(276, 'test', 324),
 (279, 'test', 242),
-(287, 'test', 325),
-(289, 'essai', 325);
+(289, 'essai', 325),
+(290, 'test', 325);
 
 -- --------------------------------------------------------
 
@@ -95,8 +101,8 @@ CREATE TABLE `commentaires` (
 --
 
 INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`, `edit`) VALUES
-(831, 'test', '325', '17', '2018-06-11 10:16:26', 0),
-(830, 'gg', '325', '17', '2018-06-11 10:14:10', 0),
+(831, 'test <img src="/instatux/img/emoji/trollface.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:16:26', 1),
+(830, 'gg <img src="/instatux/img/emoji/stuck_out_tongue_winking_eye.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:14:10', 1),
 (829, 'et là', '325', '17', '2018-06-11 10:13:01', 0),
 (828, 'test', '325', '17', '2018-06-11 10:12:20', 0),
 (827, 'osefman', '325', '17', '2018-06-11 10:12:07', 0),
@@ -158,15 +164,71 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`, `edi
 (363, 'teret', '336', '17', '2018-03-12 21:15:52', 0),
 (364, 'beuhihan', '336', '17', '2018-03-12 21:16:39', 0),
 (365, 'wtf ?', '336', '18', '2018-03-12 21:16:44', 0),
-(832, 'test', '325', '17', '2018-06-11 10:45:19', 0),
-(833, 'gt', '325', '17', '2018-06-11 10:45:24', 0),
-(834, 'osef', '325', '17', '2018-06-11 10:45:42', 0),
-(835, 'xcwc', '325', '17', '2018-06-11 10:46:32', 0),
-(836, 'mon comm', '325', '17', '2018-06-11 10:46:54', 0),
-(396623746, 'test', '325', '17', '2018-06-12 09:29:43', 0),
-(2018752444, 'ghj', '325', '17', '2018-06-12 10:32:51', 0),
+(832, 'test <img src="/instatux/img/emoji/rage.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:45:19', 1),
+(833, 'gt <img src="/instatux/img/emoji/dizzy_face.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:45:24', 1),
+(834, 'osef <img src="/instatux/img/emoji/laughing.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:45:42', 1),
+(835, 'xcwc <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:46:32', 1),
+(836, 'mon comm <img src="/instatux/img/emoji/confused.png" alt="" class="emoji_comm"/>:', '325', '17', '2018-06-11 10:46:54', 1),
+(396623746, 'test <img src="/instatux/img/emoji/bowtie.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-12 09:29:43', 1),
+(2018752444, 'ghj <img src="/instatux/img/emoji/dizzy_face.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-12 10:32:51', 1),
 (1637704706, 'test', '325', '17', '2018-06-12 10:34:03', 1),
-(960322260, 'test update', '325', '17', '2018-06-12 14:29:24', 0);
+(1789336374, 'gg', '325', '17', '2018-06-19 14:32:26', 0),
+(1284104919, 'test', '325', '17', '2018-06-19 14:33:00', 0),
+(1126997285, 'rebug ?', '325', '17', '2018-06-19 14:33:26', 0),
+(43903217, 'test', '390', '17', '2018-06-14 10:43:14', 0),
+(1150172858, 'french', '390', '18', '2018-06-14 10:43:42', 0),
+(1027986348, 'test', '390', '17', '2018-06-14 10:44:18', 0),
+(1692103555, 'alors ?', '390', '18', '2018-06-14 10:46:45', 0),
+(1343230564, 'arggg', '390', '18', '2018-06-14 10:49:57', 0),
+(295569070, 'tin', '325', '18', '2018-06-19 17:32:59', 0),
+(1360565439, 'lol', '325', '17', '2018-06-19 14:31:39', 0),
+(1916399052, 'lol', '325', '17', '2018-06-19 14:31:35', 0),
+(771569778, 'test', '325', '17', '2018-06-19 17:33:18', 0),
+(1055510937, 'felkon', '325', '17', '2018-06-19 17:34:10', 1),
+(1976844812, 'ah ben ça marche, modif wtf', '325', '18', '2018-06-19 17:34:19', 1),
+(1351168884, 'hen', '325', '17', '2018-06-19 17:34:32', 1),
+(1441466898, 'bug', '325', '18', '2018-06-19 17:37:57', 0),
+(263120729, 'comm ?', '325', '17', '2018-06-19 19:50:36', 0),
+(1386374175, 'comm ok ?', '325', '17', '2018-06-20 10:12:53', 0),
+(498473387, 'test', '325', '18', '2018-06-20 10:13:18', 0),
+(658387918, 'oui ben comm ok <img src="/instatux/img/emoji/heart_eyes.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 10:13:24', 1),
+(1370837179, 'new comm', '325', '17', '2018-06-20 10:14:26', 0),
+(1335190183, 'yo vivaldi on ets nul ?', '325', '17', '2018-06-20 10:20:14', 1),
+(1977003712, 'bug vivaldi', '325', '18', '2018-06-20 10:20:44', 0),
+(918496256, 'hein ? 2', '325', '17', '2018-06-20 10:21:02', 1),
+(564640525, 'new', '325', '17', '2018-06-20 14:35:28', 0),
+(240989083, 'test 6', '325', '17', '2018-06-20 10:21:52', 1),
+(1708241529, 'erf 5', '325', '17', '2018-06-20 10:22:28', 1),
+(272504557, 'erf 3', '325', '17', '2018-06-20 10:22:35', 1),
+(458474222, 'osef <img src="/instatux/img/emoji/fearful.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 14:35:32', 1),
+(316078881, 'test bh', '325', '17', '2018-06-20 14:31:27', 1),
+(414880554, 'ta race vivaldi <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 14:42:12', 1),
+(601490146, 'comm', '325', '17', '2018-06-20 11:03:21', 0),
+(2087830383, 'va chier  <img src="/instatux/img/emoji/bowtie.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 11:04:36', 1),
+(1851223844, 'hein 4', '325', '17', '2018-06-20 11:05:26', 1),
+(1192168119, 'node de merde', '325', '17', '2018-06-20 14:25:25', 1),
+(254672366, 'add 2', '325', '17', '2018-06-25 14:41:37', 0),
+(414248952, 'erreur ? bgh', '325', '17', '2018-06-20 14:59:43', 1),
+(882934463, 'buggué', '325', '18', '2018-06-20 15:00:17', 0),
+(189746303, 'erreur ? <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 15:02:16', 1),
+(121858191, 'test', '325', '17', '2018-06-20 14:36:43', 0),
+(393289133, 'lol', '325', '17', '2018-06-20 14:36:49', 0),
+(958543512, 'comprend rien <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 14:37:42', 1),
+(842495140, 'rah$', '325', '17', '2018-06-20 14:38:10', 0),
+(1933014971, 'xsd osef', '325', '17', '2018-06-20 14:38:17', 1),
+(746665536, 'pff <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '18', '2018-06-20 15:05:08', 1),
+(1741614609, 'ah ', '325', '17', '2018-06-20 15:05:19', 0),
+(634984492, 'test', '325', '17', '2018-06-20 16:40:57', 0),
+(1661270938, 'hein <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 16:41:04', 1),
+(1167160060, 'osef <img src="/instatux/img/emoji/bowtie.png" alt="" class="emoji_comm"/>', '325', '18', '2018-06-20 16:41:46', 1),
+(500878733, 'add <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '325', '17', '2018-06-25 14:41:24', 1),
+(1115873060, 'pff', '390', '63', '2018-06-21 10:20:17', 0),
+(272897399, 'erf', '325', '63', '2018-06-25 14:43:29', 0),
+(598981740, 'erf', '390', '63', '2018-06-21 10:37:02', 0),
+(1285147589, 'test 3   <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/>', '325', '17', '2018-06-21 15:04:59', 1),
+(1187476270, 'tes 4    <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/><img src="/instatux/img/emoji/blush.png" alt=":blush:" class="emoji_comm"/>', '325', '17', '2018-06-22 11:18:51', 1),
+(1142576330, 'test', '325', '17', '2018-06-24 14:43:58', 0),
+(195952293, 'https://stackoverflow.com/questions/46349478/socket-emit-to-specific-rooms', '325', '17', '2018-06-28 11:11:54', 0);
 
 -- --------------------------------------------------------
 
@@ -240,7 +302,7 @@ CREATE TABLE `messagerie` (
   `id` int(11) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `destinataire` varchar(255) NOT NULL,
-  `message` text NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `created` datetime NOT NULL,
   `conv` int(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -254,7 +316,66 @@ INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`,
 (675, 'test', 'essai', 'bon g', '2018-05-23 14:49:49', 1768986576),
 (676, 'test', 'essai', 'test', '2018-05-24 10:36:36', 1768986576),
 (677, 'test', 'essai', 'test', '2018-05-24 10:37:16', 1768986576),
-(678, 'test', 'essai', 'test', '2018-06-04 10:07:16', 1768986576);
+(678, 'test', 'essai', 'test', '2018-06-04 10:07:16', 1768986576),
+(679, 'osefman', 'test', 'test', '2018-06-14 14:45:27', 401727966),
+(680, 'essai', 'test', 'osef', '2018-06-26 09:58:36', 1768986576),
+(681, 'test', 'essai', 'erreur ?', '2018-06-26 10:01:33', 1768986576),
+(682, 'test', 'essai', 'test', '2018-06-26 10:05:13', 1768986576),
+(683, 'test', 'essai', 'french', '2018-06-26 10:14:39', 1768986576),
+(684, 'test', 'essai', 'test', '2018-06-26 10:16:20', 1768986576),
+(685, 'essai', 'test', 'c\'est bon', '2018-06-26 10:16:28', 1768986576),
+(686, 'test', 'essai', 'yes', '2018-06-26 10:16:34', 1768986576),
+(687, 'essai', 'test', 'test', '2018-06-26 10:31:37', 1768986576),
+(688, 'essai', 'test', 'test 2', '2018-06-26 10:31:58', 1768986576),
+(689, 'essai', 'test', 'message', '2018-06-26 10:32:05', 1768986576),
+(690, 'essai', 'test', 'test', '2018-06-26 10:34:43', 1768986576),
+(691, 'essai', 'test', 'osef', '2018-06-26 10:35:31', 1768986576),
+(692, 'test', 'essai', 'osefman ?', '2018-06-26 10:38:18', 1768986576),
+(693, 'test', 'essai', 'osefman 2 ?', '2018-06-26 10:43:14', 1768986576),
+(694, 'test', 'essai', 'osefman 3 ?', '2018-06-26 10:46:06', 1768986576),
+(695, 'test', 'essai', 'french osefman', '2018-06-26 10:51:26', 1768986576),
+(696, 'essai', 'test', 'private room', '2018-06-26 10:51:45', 1768986576),
+(697, 'essai', 'test', 'tesr', '2018-06-26 10:52:08', 1768986576),
+(698, 'test', 'essai', 'test smiley  <img src="/instatux/img/emoji/satisfied.png" alt=":satisfied:" class="emoji_comm"/>', '2018-06-26 18:05:04', 1768986576),
+(699, 'test', 'essai', 'wtf  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 18:05:42', 1768986576),
+(700, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:38:39', 1768986576),
+(701, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:41:26', 1768986576),
+(702, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:41:54', 1768986576),
+(703, 'test', 'essai', 'test', '2018-06-26 19:42:31', 1768986576),
+(704, 'test', 'essai', 'french', '2018-06-26 19:44:09', 1768986576),
+(705, 'test', 'essai', 'test  <img src="/instatux/img/emoji/bowtie.png" alt=":bowtie:" class="emoji_comm"/>', '2018-06-26 19:44:19', 1768986576),
+(706, 'test', 'essai', 're test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:46:03', 1768986576),
+(707, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:47:32', 1768986576),
+(708, 'test', 'essai', 'vnf', '2018-06-26 19:47:40', 1768986576),
+(709, 'test', 'essai', 'osef', '2018-06-26 19:51:57', 1768986576),
+(710, 'test', 'essai', ' addd <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/> test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:52:17', 1768986576),
+(711, 'test', 'essai', 'test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-27 10:09:27', 1768986576),
+(712, 'test', 'essai', ' <img src="/instatux/img/emoji/blush.png" alt=":blush:" class="emoji_comm"/> osefman <img src="/instatux/img/emoji/wink.png" alt=":wink:" class="emoji_comm"/>', '2018-06-27 10:09:45', 1768986576),
+(713, 'essai', 'test', 'smiley  <img src="/instatux/img/emoji/trollface.png" alt=":trollface:" class="emoji_comm"/>', '2018-06-27 10:11:37', 1768986576),
+(714, 'test', 'essai', 'test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-27 10:12:58', 1768986576),
+(715, 'test', 'essai', 'smiley vue ?  <img src="/instatux/img/emoji/tired_face.png" alt=":tired_face:" class="emoji_comm"/>', '2018-06-27 10:15:57', 1768986576),
+(716, 'essai', 'test', 'eh bien non  <img src="/instatux/img/emoji/stuck_out_tongue_closed_eyes.png" alt=":stuck_out_tongue_closed_eyes:" class="emoji_comm"/>', '2018-06-27 10:16:15', 1768986576),
+(717, 'test', 'essai', 'test', '2018-06-27 10:27:01', 1768986576),
+(718, 'essai', 'test', 'avatar +  <img src="/instatux/img/emoji/heart_eyes.png" alt=":heart_eyes:" class="emoji_comm"/>', '2018-06-27 10:27:50', 1768986576),
+(719, 'test', 'essai', 'ça marche  <img src="/instatux/img/emoji/sunglasses.png" alt=":sunglasses:" class="emoji_comm"/>', '2018-06-27 10:28:05', 1768986576),
+(720, 'test', 'essai', 'vcn', '2018-06-27 14:32:30', 1768986576),
+(721, 'test', 'essai', 'test', '2018-06-27 14:34:50', 1768986576),
+(722, 'test', 'essai', 'test', '2018-06-27 14:35:20', 1768986576),
+(723, 'test', 'essai', 'chro', '2018-06-27 14:37:11', 1768986576),
+(724, 'essai', 'test', 'essai', '2018-06-27 14:38:59', 1768986576),
+(725, 'essai', 'test', 'osef', '2018-06-27 14:39:16', 1768986576),
+(726, 'essai', 'test', 'essai', '2018-06-27 14:41:01', 1768986576),
+(727, 'essai', 'test', 'lol', '2018-06-27 14:42:01', 1768986576),
+(728, 'test', 'essai', 'test', '2018-06-27 19:18:29', 1768986576),
+(729, 'test', 'essai', 'lol', '2018-06-27 19:19:20', 1768986576),
+(730, 'test', 'essai', 'vcb', '2018-06-27 19:19:37', 1768986576),
+(731, 'test', 'essai', 'v,', '2018-06-27 19:22:00', 1768986576),
+(732, 'test', 'essai', 'bgt', '2018-06-28 10:40:28', 1768986576),
+(733, 'test', 'essai', 'test', '2018-06-28 10:47:03', 1768986576),
+(734, 'test', 'essai', 'lol', '2018-06-28 10:47:38', 1768986576),
+(735, 'essai', 'test', 'yo', '2018-06-28 10:48:02', 1768986576),
+(736, 'essai', 'test', 'yo 2', '2018-06-28 10:48:20', 1768986576),
+(737, 'test', 'essai', 'https://stackoverflow.com/questions/46349478/socket-emit-to-specific-rooms', '2018-06-28 11:12:04', 1768986576);
 
 -- --------------------------------------------------------
 
@@ -292,7 +413,12 @@ INSERT INTO `notifications` (`id_notif`, `user_name`, `notification`, `created`,
 (31, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 13:42:20', 1),
 (32, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/354">post</a> !', '2018-05-01 13:42:21', 1),
 (86, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> souhaite s\'abonné\n            <a href="/instatux/abonnement/essai#demande">Gérer mes abonnements</a>', '2018-05-28 10:26:09', 1),
-(87, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/292">post</a> !', '2018-06-07 10:21:10', 1);
+(87, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/292">post</a> !', '2018-06-07 10:21:10', 1),
+(88, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/390">publication</a><br />test', '2018-06-14 10:43:14', 1),
+(89, 'osefman', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/390">publication</a><br />french', '2018-06-14 10:43:42', 1),
+(90, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/390">publication</a><br />test', '2018-06-14 10:44:18', 1),
+(91, 'osefman', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/390">publication</a><br />alors ?', '2018-06-14 10:46:45', 1),
+(92, 'osefman', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/390">publication</a><br />hey osefman', '2018-06-14 10:47:23', 1);
 
 -- --------------------------------------------------------
 
@@ -399,7 +525,7 @@ CREATE TABLE `settings` (
 INSERT INTO `settings` (`id`, `user_id`, `type_profil`, `notif_cite`, `notif_partage`, `notif_abo`, `notif_comm`, `notif_message`) VALUES
 (3, 'test', 0, 'non', 'non', 'non', 'non', 'non'),
 (5, 'essai', 1, 'oui', 'oui', 'oui', 'oui', 'non'),
-(6, 'osefman', 0, 'oui', 'oui', 'non', 'oui', 'oui');
+(6, 'osefman', 0, 'oui', 'oui', 'non', 'non', 'oui');
 
 -- --------------------------------------------------------
 
@@ -440,8 +566,8 @@ INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created
 (317, 'test', 'essai', '<div data-oembed-url="https://out.reddit.com/t3_7achq2?url=https%3A%2F%2Fi.imgur.com%2FmyWL1rv.jpg&amp;token=AQAAjFT8WbJ1XM5CjQwefLOmj6P5jaJhoJQt11wdrMz4_K1vhq1Y&amp;app_name=reddit.com"><blockquote class="imgur-embed-pub" data-id="myWL1rv" lang="en"><a href="https://imgur.com/myWL1rv">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-28 16:19:14', 1, 0, 0, 0, 0, 0),
 (320, 'test', 'essai', '<div data-oembed-url="https://out.reddit.com/t3_7achq2?url=https%3A%2F%2Fi.imgur.com%2FmyWL1rv.jpg&amp;token=AQAAjFT8WbJ1XM5CjQwefLOmj6P5jaJhoJQt11wdrMz4_K1vhq1Y&amp;app_name=reddit.com"><blockquote class="imgur-embed-pub" data-id="myWL1rv" lang="en"><a href="https://imgur.com/myWL1rv">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-30 10:11:13', 1, 0, 0, 0, 0, 0),
 (321, 'test', 'essai', '<div data-oembed-url="http://www.20minutes.fr/"><a href="http://www.20minutes.fr/" data-iframely-url="https://cdn.iframe.ly/cqIqWR5">20 Minutes, information en continu. Actualit&eacute;s, Politique, Football,...</a><script async="" src="https://cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-30 10:11:46', 1, 0, 0, 0, 0, 0),
-(324, 'essai', 'essai', '<p><a href="test">@test</a> <a href="osefman">@osefman</a></p>', '2017-11-30 10:15:38', 0, 0, 0, 2, 1, 0),
-(325, 'test', 'test', '<div data-oembed-url="https://scontent-dft4-3.cdninstagram.com/t51.2885-15/e35/25013083_251948242004274_6743671715026436096_n.jpg"><div style="max-width: 1296px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/91HD3mZ" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-12-23 09:37:11', 0, 56, 0, 2, 0, 0);
+(325, 'test', 'test', '<div data-oembed-url="https://scontent-dft4-3.cdninstagram.com/t51.2885-15/e35/25013083_251948242004274_6743671715026436096_n.jpg"><div style="max-width: 1296px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/91HD3mZ" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-12-23 09:37:11', 0, 105, 0, 2, 0, 0),
+(390, 'osefman', 'osefman', '<p>test comm</p>', '2018-06-14 10:42:20', 0, 7, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -564,17 +690,17 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=307;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309;
 --
 -- AUTO_INCREMENT pour la table `aime`
 --
 ALTER TABLE `aime`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=290;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
 --
 -- AUTO_INCREMENT pour la table `blocage`
 --
 ALTER TABLE `blocage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT pour la table `conversation`
 --
@@ -589,12 +715,12 @@ ALTER TABLE `hashtag`
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=679;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=738;
 --
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
@@ -609,7 +735,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=392;
 --
 -- AUTO_INCREMENT pour la table `users`
 --

@@ -16,6 +16,9 @@ class MessageListener implements EventListenerInterface {
 
     public function addnotifmsg($event, $message) {
 
+        if($message->notif == "oui")
+        {
+
         
     // création d'une notification de nouveau message
  
@@ -25,7 +28,7 @@ class MessageListener implements EventListenerInterface {
 
     $notif_msg = $entity->newEntity();
 
-    $notif_msg->user_name = $message->destinataire; // auteur du tweet
+    $notif_msg->user_name = $message->destinataire;
 
     $notif_msg->notification = $notif;
 
@@ -34,8 +37,9 @@ class MessageListener implements EventListenerInterface {
     $notif_msg->statut = 0;
 
     $entity->save($notif_msg);
+}
 
-    // mise à jour si conv masqué, réaffichage
+    // mise à jour si conv masqué, réaffichage des messages
 
     $table_conv = TableRegistry::get('Conversation');
 
@@ -47,7 +51,7 @@ class MessageListener implements EventListenerInterface {
                             ->execute();
     
 
-     // création d'une nouvelle entité conversation si besoin
+     // création d'une nouvelle entité conversation si besoin pour les deux participants
 
     if($message->new_conv === 0)
     {     

@@ -212,7 +212,7 @@ $this->set('destinataire', $destinataire);
 
 $message = $this->Messagerie->newEntity();
 
-if(isset($this->request->data['conversation'])) // on vérifie si j'envoi une conversation
+if(isset($this->request->data['conversation'])) // on vérifie si j'envoi une conversation -> view.ctp
 {
     $conversation = $this->request->data['conversation'];
     $new_conv = 1; // conversation existante
@@ -259,6 +259,20 @@ else
    $avatar = $this->Auth->user('avatarprofil');
 }
 
+// notification de message pour mon destinataire
+
+if($this->testnotifmessage($this->request->data['destinataire']) === "oui")
+                {
+
+                  $notif = "oui";
+                }
+                else
+                {
+                  $notif = "non";
+                }
+// fin notification de message pour mon destinataire
+
+
 $messages = strip_tags($this->request->data('message')); // echappement des caractères dans le message envoyé
         
             $data = array(
@@ -269,20 +283,20 @@ $messages = strip_tags($this->request->data('message')); // echappement des cara
             //evenement abonnement
             'nom_session' => $this->Auth->user('username'),//nom de session
             'avatar_session' =>$avatar,
-             'new_conv' => $new_conv
+             'new_conv' => $new_conv,
+             'notif' =>$notif
             );
 
             $message = $this->Messagerie->patchEntity($message, $data);
             
             if ($this->Messagerie->save($message)) 
             {
-                if($this->testnotifmessage($this->request->data['destinataire']) == "oui")
-                {
+
                     //évènenement
 
                  $event = new Event('Model.Messagerie.afterAdd', $this, ['message' => $message]);
                 $this->eventManager()->dispatch($event);
-            }
+            
                 // fin évènement
 
         
