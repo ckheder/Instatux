@@ -49,30 +49,22 @@ class MessagerieController extends AppController
 
         $conv = $this->Conversation->find()
 
-        ->select(['conv'])
-        //->select(['conv' => $conv->func()->count('conv')])
+        ->select([
+          'conv',
+          'Users.avatarprofil',
+          'participant2',
+        ])
+        ->leftjoin(
+            ['Users'=>'users'],
+
+            ['Users.username = (Conversation.participant2)']
+    )
         ->where(['participant1' => $this->Auth->user('username')])
-        ->where(['statut' => 1]);
-
-        // requête des conversations, on recherche tous les id de derniers messages reçu ou envoyés par moi et on les regroupe par conv
-        // $conv regroupe toutes les conversations non masquées 
-
-    $matchingComment = $this->Messagerie->find();
-    $matchingComment->select(['Messagerie_id' => $matchingComment->func()->max('Messagerie.id')])
-    ->where(['destinataire' => $this->Auth->user('username')])
-    ->orwhere(['user_id'=>$this->Auth->user('username')])
-    ->where(['Messagerie.conv IN' => $conv])
-    ->order(['Messagerie.created' => 'DESC'])
-    ->group('conv');
+        ->where(['statut' => 1])
+        ->contain(['Users']);
     
-        // requête des messages, on affiche tous ces messages
+        $this->set(compact('conv'));
 
-        $message = $this->Messagerie->find()
-
-       ->where(['Messagerie.id IN' =>   $matchingComment]);
-    
-        $this->set(compact('message'));
-        
 
 }
 
@@ -336,58 +328,17 @@ $messages = strip_tags($this->request->data('message')); // echappement des cara
                 // parsage des tweets et des emoticones
     private function linkify_message($message) 
     {
-    $message = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
-        '$1<a href="../$2">@$2</a>',
+    $message = preg_replace('/(^|[^@\w])@(\w{1,15})\b/', // @username
+        '$1<a href="./$2">@$2</a>',
         $message);
+  $message = preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt="$1" class="emoji_comm"/>', $message); // emoji
+    $message = preg_replace('/#([^\s]+)/', '<a href="./search-%23$1">#$1</a>', $message); // #something
 
-        $smilies = array(   
-":smile:" => '<img src="/instatux/img/emoji/smile.png" alt=":smile:" class="emoji_comm" />',
-":laughing:" => '<img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>',
-":blush:" => '<img src="/instatux/img/emoji/blush.png" alt=":blush:" class="emoji_comm"/>',
-":smiley:" => '<img src="/instatux/img/emoji/smiley.png" alt=":smiley:" class="emoji_comm"/>',
-":relaxed:" => '<img src="/instatux/img/emoji/relaxed.png" alt=":relaxed:" class="emoji_comm"/>',
-":smirk:" => '<img src="/instatux/img/emoji/smirk.png" alt=":smirk:" class="emoji_comm"/>',
-":heart_eyes:" => '<img src="/instatux/img/emoji/heart_eyes.png" alt=":heart_eyes:" class="emoji_comm"/>',
-":kissing_heart:" => '<img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/>',
-":kissing_closed_eyes:" => '<img src="/instatux/img/emoji/kissing_closed_eyes.png" alt=":kissing_closed_eyes:" class="emoji_comm"/>',
-":flushed:" => '<img src="/instatux/img/emoji/flushed.png" alt=":flushed:" class="emoji_comm"/>',
-":relieved:" => '<img src="/instatux/img/emoji/relieved.png" alt=":relieved:" class="emoji_comm"/>',
-":satisfied:" => '<img src="/instatux/img/emoji/satisfied.png" alt=":satisfied:" class="emoji_comm"/>',
-":grin:" => '<img src="/instatux/img/emoji/grin.png" alt=":grin:" class="emoji_comm"/>',
-":wink:" => '<img src="/instatux/img/emoji/wink.png" alt=":wink:" class="emoji_comm"/>',
-":anguished:" => '<img src="/instatux/img/emoji/anguished.png" alt=":anguished:" class="emoji_comm"/>',
-":astonished:" => '<img src="/instatux/img/emoji/astonished.png" alt=":astonished:" class="emoji_comm"/>',
-":bowtie:" => '<img src="/instatux/img/emoji/bowtie.png" alt=":bowtie:" class="emoji_comm"/>',
-":broken_heart:" => '<img src="/instatux/img/emoji/broken_heart.png" alt=":broken_heart:" class="emoji_comm"/>',
-":clap:" => '<img src="/instatux/img/emoji/clap.png" alt=":clap:" class="emoji_comm"/>',
-":confused" => '<img src="/instatux/img/emoji/confused.png" alt=":confused:" class="emoji_comm"/>',
-":disappointed:" => '<img src="/instatux/img/emoji/disappointed.png" alt=":disappointed:" class="emoji_comm"/>',
-":dizzy_face:" => '<img src="/instatux/img/emoji/dizzy_face.png" alt=":dizzy_face:" class="emoji_comm"/>',
-":fearful:" => '<img src="/instatux/img/emoji/fearful.png" alt=":fearful:" class="emoji_comm"/>',
-":grinning:" => '<img src="/instatux/img/emoji/grinning.png" alt=":grinning:" class="emoji_comm"/>',
-":hushed:" => '<img src="/instatux/img/emoji/hushed.png" alt=":hushed:" class="emoji_comm" />',
-":neutral_face:" => '<img src="/instatux/img/emoji/neutral_face.png" alt=":neutral_face:" class="emoji_comm"/>',
-":open_mouth:" => '<img src="/instatux/img/emoji/open_mouth.png" alt=":open_mouth:" class="emoji_comm"/>',
-":rage:" => '<img src="/instatux/img/emoji/rage.png" alt=":rage:" class="emoji_comm"/>',
-":scream:" => '<img src="/instatux/img/emoji/scream.png" alt=":scream:" class="emoji_comm"/>',
-":sleeping:" => '<img src="/instatux/img/emoji/sleeping.png" alt=":sleeping:" class="emoji_comm"/>',
-":stuck_out_tongue_winking_eye:" => '<img src="/instatux/img/emoji/stuck_out_tongue_winking_eye.png" alt=":stuck_out_tongue_winking_eye:" class="emoji_comm"/>',
-":stuck_out_tongue_closed_eyes:" => '<img src="/instatux/img/emoji/stuck_out_tongue_closed_eyes.png" alt=":stuck_out_tongue_closed_eyes:" class="emoji_comm"/>',
-":stuck_out_tongue:" => '<img src="/instatux/img/emoji/stuck_out_tongue.png" alt=":stuck_out_tongue:" class="emoji_comm"/>',
-":sunglasses:" => '<img src="/instatux/img/emoji/sunglasses.png" alt=":sunglasses:" class="emoji_comm"/>',
-":tired_face:" => '<img src="/instatux/img/emoji/tired_face.png" alt=":tired_face:" class="emoji_comm"/>',
-":trollface:" => '<img src="/instatux/img/emoji/trollface.png" alt=":trollface:" class="emoji_comm"/>',
-":unamused:" => '<img src="/instatux/img/emoji/unamused.png" alt=":unamused:" class="emoji_comm"/>',
-":worried:" => '<img src="/instatux/img/emoji/worried.png" alt=":worried:" class="emoji_comm"/>'
-);
-
-$message = str_replace( array_keys( $smilies ), array_values( $smilies ), $message );
-    return preg_replace('/#([^\s]+)/',
-        '<a href="../search-%23$1">#$1</a>',
-        $message);
+       $message = preg_replace("/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/",
+        '<a href="$0">$0</a>',$message); // url
+       
+      return $message; 
 }
 
-
-
-
 }
+

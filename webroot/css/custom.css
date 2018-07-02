@@ -196,6 +196,12 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
    height: 100%;
 }
 
+.link_conv /* couleur de lien pour voir une conversation */
+{
+  color : #465150;
+  display: block;
+}
+
 .other{
 
       border-color: #ccc;

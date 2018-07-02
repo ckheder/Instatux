@@ -6,9 +6,11 @@ use Cake\Routing\Router;
 
 <div class="text-center">
 
+  <h3>Nouveau Message </h3>
+
 
                 <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'),'id'=>'new_message')); ?>
-                <?= $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire', 'required'=> 'required']) ;?>
+                <?= $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire','prepend' => ' <span class="glyphicon glyphicon-user"></span> ','label'=>'', 'required'=> 'required']) ;?>
 
                 <?=$this->Form->Textarea('message', ['placeholder' =>'Votre message...']) ;?>
 <!-- <textarea name="message" class="textarea_message" placeholder="Message..."></textarea> -->
@@ -23,10 +25,13 @@ use Cake\Routing\Router;
 ?>
 
 <br />
-<br />
 </div>
+<div class="text-center">
+ <h4>Mes conversations </h4>
+ <br />
+ </div>
 
-            <?php foreach ($message as $message): ?>
+            <?php foreach ($conv as $conv): ?>
             <div class="tweet">
 
                                       <div class="dropdown">
@@ -36,7 +41,7 @@ use Cake\Routing\Router;
   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 
                 <li>
-                <?= $this->Html->Link("Effacer cette conversation", ['controller' => 'Conversation','action' => 'edit',$message->conv ]) ?> <!-- je peut effacer mon post -->
+                <?= $this->Html->Link("Effacer cette conversation", ['controller' => 'Conversation','action' => 'edit',$conv->conv ]) ?> <!-- je peut effacer mon post -->
             </li>
 
              </li>
@@ -44,14 +49,12 @@ use Cake\Routing\Router;
                         <li><?= $this->Html->link('Signaler ', ['action' => 'view']); ?></li> <!-- un post qui ne m'appartient pas , je peut le signaler -->
   </ul>
 </div>
-                <?= $this->cell('Avatarmessage', ['user_id' => $message->user_id , 'destinataire' => $message->destinataire, 'authname' => $authName]) ;  ?>
-                              - <span class="date_message"> <?=  $message->created->i18nformat('dd MMMM YYYY') ?></span>
+               <?= $this->Html->image(''.$conv->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
+<?= $this->Html->link(h($conv->participant2),'/'.h($conv->participant2).'',['class' => 'link_username_tweet']) ?>
+                              
 
-            <?php 
-            $last_message = strip_tags($message->message,'<a>');
-            ?>
                    
-                <?= $this->Text->autoParagraph($this->Html->link($last_message,'/conversation-'.$message->conv.'')); ?>
+                <?= $this->Html->link('Voir la conversation','/conversation-'.$conv->conv.'',['class' => 'link_conv']); ?>
 
                 
             </div>

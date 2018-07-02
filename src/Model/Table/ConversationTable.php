@@ -35,6 +35,8 @@ class ConversationTable extends Table
         $this->primaryKey('id');
 
         $this->hasMany('Messagerie');
+
+        $this->belongsToMany('Users');
     }
 
     /**

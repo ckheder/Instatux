@@ -179,7 +179,7 @@
 			$button = $('<a href="javascript:void(0)">');
 			$button.html(this.options.buttonLabel);
 			$button.addClass('emoji-button');
-			$button.attr({title: this.options.buttonLabel});
+			$button.attr({title: 'Insérez un emoji'});
 			this.$editor[this.options.buttonPosition]($button);
 		} else {
 			$button = $('');

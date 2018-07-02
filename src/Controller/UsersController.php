@@ -174,6 +174,9 @@ $data = array('lieu' => $user->lieu);
 
 $usersTable = TableRegistry::get('Users');
 $user = $usersTable->get($this->Auth->user('id'));
+
+
+
 $user->website = $this->request->data('website');
 
 $usersTable->save($user);
