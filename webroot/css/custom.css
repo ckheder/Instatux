@@ -19,6 +19,27 @@ a /* soulgnement lien */
   text-decoration:none; 
 }
 
+/* page d'accueil */
+.home
+{
+  height : 100%;
+  font-size : 25px;
+  text-align: center;
+}
+
+.list_accueil
+{
+  list-style-type: none;
+}
+.list_accueil li
+{
+  padding : 10px;
+  color : #657786;
+    font-size : 15px;
+}
+
+
+
 
 /* mise en forme tweet */
 .tweet
@@ -308,11 +329,10 @@ z-index : 999;
 
 .notif_non_lu
 {
-  background-color: #EFECCA;
-  padding : 6px ;
+  background-color: #F7BEB0;
+
   color : black;
 margin-bottom: 12px;
-border-radius: 15px;
 }
 
 .notif_non_lu a /* enlève le soulignement des liens */
@@ -322,10 +342,12 @@ text-decoration: none;
 
 .notif_non_lu img
 {
-/* max-width: 100%;
-  height: auto;*/
-  height : 48px;
-  width : 48px;
+
+    max-width: 60px;
+    width: 100%;
+    margin: 5px;
+    border-radius: 50%;
+
 }
 
 .notif_non_lu:hover .deletetweet
@@ -339,10 +361,10 @@ text-decoration: none;
 .notif_lu
 {
   background-color: white;
-  padding : 6px ;
+
+
   color : black;
 margin-bottom: 12px;
-border-radius: 15px;
 }
 
 .notif_lu a /* enlève le soulignement des liens */
@@ -352,10 +374,10 @@ text-decoration: none;
 
 .notif_lu img
 {
-/* max-width: 100%;
-  height: auto;*/
-  height : 48px;
-  width : 48px;
+   max-width: 60px;
+    width: 100%;
+    margin: 5px;
+    border-radius: 50%;
 }
 
 /* fin div notif lu */

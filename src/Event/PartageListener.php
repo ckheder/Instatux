@@ -21,7 +21,7 @@ class PartageListener implements EventListenerInterface {
         
     // création d'une notification de nouveau message
  
-    $notif = '<img src="/instatux/img/'.$tweet->avatar_session.'" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/'.$tweet->nom_session.'">'.$tweet->nom_session.'</a> à partagé votre <a href="/instatux/post/'.$tweet->id_tweet.'">post</a> !';
+    $notif = '<img src="/instatux/img/'.$tweet->avatar_session.'" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/'.$tweet->nom_session.'">'.$tweet->nom_session.'</a> à partagé votre <a href="/instatux/post/'.$tweet->id_tweet.'">post</a> !';
    
     $entity = TableRegistry::get('Notifications');
 

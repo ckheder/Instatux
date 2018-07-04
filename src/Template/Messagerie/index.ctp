@@ -50,11 +50,12 @@ use Cake\Routing\Router;
   </ul>
 </div>
                <?= $this->Html->image(''.$conv->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
+
 <?= $this->Html->link(h($conv->participant2),'/'.h($conv->participant2).'',['class' => 'link_username_tweet']) ?>
                               
-
+<span class="date_message">- Dernier message :  <?=  $conv->created->i18nformat('dd MMMM YYYY HH:mm:ss') ?></span>
                    
-                <?= $this->Html->link('Voir la conversation','/conversation-'.$conv->conv.'',['class' => 'link_conv']); ?>
+                <?= $this->Html->link('Voir la conversation','/conversation-'.$conv->Messagerie['conv'].'',['class' => 'link_conv']); ?>
 
                 
             </div>
