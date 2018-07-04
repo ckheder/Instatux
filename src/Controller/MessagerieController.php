@@ -43,25 +43,32 @@ class MessagerieController extends AppController
         $this->viewBuilder()->layout('general');
         $this->set('title', 'Messagerie'); // titre de la page
 
-        // on recherche toutes les conversations non masquées, statut = 1 de l'utilisateur courant
+        // on recherche toutes les conversations non masquées, statut = 1 de l'utilisateur courant, on récupère le destinataire et la date de dernier message
 
         $this->loadModel('Conversation');
 
-        $conv = $this->Conversation->find()
+        $conv = $this->Conversation->find();
 
-        ->select([
-          'conv',
+        $conv->select([
+          'Messagerie.conv',
           'Users.avatarprofil',
           'participant2',
+          'created' => $conv->func()->max('Messagerie.created'),
         ])
         ->leftjoin(
             ['Users'=>'users'],
 
             ['Users.username = (Conversation.participant2)']
     )
+                ->leftjoin(
+            ['Messagerie'=>'messagerie'],
+
+            ['Messagerie.conv = (Conversation.conv)']
+    )
         ->where(['participant1' => $this->Auth->user('username')])
         ->where(['statut' => 1])
-        ->contain(['Users']);
+        ->contain(['Users'])
+        ->group('Messagerie.conv');
     
         $this->set(compact('conv'));
 
