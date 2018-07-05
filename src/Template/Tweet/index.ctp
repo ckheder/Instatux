@@ -151,7 +151,7 @@ use Cake\Routing\Router;
                                 if(isset($authName))
               {
            
-               if($tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
+               if($tweet->user_id != $authName AND $tweet->share == 0) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
                  ?>
 

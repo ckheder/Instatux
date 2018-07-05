@@ -102,10 +102,12 @@ use Cake\Network\Request;
                                     if($tweet->share != 1 AND $tweet->user_id != $authName) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
             {
                  ?>
+                 <span class="sharelink" data-idtweet="<?= $tweet->id ;?>">
               <span class="glyphicon glyphicon-share" style="vertical-align:center"></span>
-              <?php
-                echo $this->Html->link('Partager', '/partage/add/'.$tweet->id.'/'.$tweet->user_id.''); 
-                
+              
+                 <a href="#" data-idtweet="<?= $tweet->id ;?>" data-auteurtweet="<?= $tweet->user_id ;?>" title="Partager"  class="addshare" onclick="return false;">Partager</a>
+               </span>
+               <?php 
             }
           }
             ?>

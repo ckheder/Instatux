@@ -78,7 +78,7 @@ class TweetTable extends Table
             ->requirePresence('contenu_tweet');
 
         $validator
-            ->allowEmpty('partage');
+            ->allowEmpty('share');
 
         $validator
             ->allowEmpty('nb_commentaire');

@@ -402,6 +402,18 @@ class TweetController extends AppController
     {
 
         if ($this->request->is('ajax')) {
+
+// on vérifie si je n'ais pas déjà partagé
+
+            if($this->testshare($this->request->getParam('id')) == 1) // j'ai déjà partager
+            {
+                $reponse = 'deja';
+            }
+            else
+            {
+
+// fin vérification si j'ai déjà partagé un tweet
+
         $tweet = $this->Tweet->newEntity();
 
         $info_tweet = $this->Tweet->find() // on récupère les infos du tweet pour le recrée
@@ -417,6 +429,15 @@ class TweetController extends AppController
             $contenu_tweet = $info_tweet->contenu_tweet;
         }
 
+          if($this->testnotifshare($user_tweet) === "oui") // on vérifie si l'auteur du tweet veut une notification de partage
+                {
+                    $notif = 'oui';
+                }
+                else
+                {
+                    $notif = 'non';
+                }
+
         $data = array(
             'tweet_id' => $this->request->getParam('id'),
             'user_id' => $user_tweet,
@@ -426,18 +447,17 @@ class TweetController extends AppController
             // évènement
             'nom_session' => $this->Auth->user('username'),//nom de session
             'avatar_session' => $this->Auth->user('avatarprofil'),
-            'id_tweet' => $this->request->getParam('id')
+            'id_tweet' => $this->request->getParam('id'),
+             'notif' =>$notif
             );
             $tweet = $this->Tweet->patchEntity($tweet, $data);
             if ($this->Tweet->save($tweet)) {
 
-                 if($this->testnotifshare($user_tweet) == "oui")
-                {
 
                  $event = new Event('Model.Partage.afterAdd', $this, ['tweet' => $tweet]);
                 $this->eventManager()->dispatch($event);
 
-            }
+            
                  $reponse = 'shareok'; 
 
 
@@ -445,7 +465,7 @@ class TweetController extends AppController
                $reponse = 'probleme';
             }
       
-
+}
                                    $this->response->body($reponse);
     return $this->response;
 
@@ -608,6 +628,17 @@ class TweetController extends AppController
                 }
 
              return $settings_notif;
+    }
+
+        private function testshare($idtweet) // on vérifie si j'ai déjà partager ce tweet
+    {
+                $this->loadModel('Partage');
+
+        $verif_share = $this->Partage->find()->where(['tweet_partage' => $idtweet])->where(['sharer' => $this->Auth->user('username')])->count();
+
+
+
+             return $verif_share;
     }
 
 

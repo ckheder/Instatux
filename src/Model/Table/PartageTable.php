@@ -67,6 +67,10 @@ class PartageTable extends Table
             ->allowEmpty('id_partage', 'create');
 
         $validator
+            ->requirePresence('sharer', 'create')
+            ->notEmpty('sharer');
+
+        $validator
             ->integer('tweet_partage')
             ->requirePresence('tweet_partage', 'create')
             ->notEmpty('tweet_partage');

@@ -18,6 +18,9 @@ class PartageListener implements EventListenerInterface {
 
     public function addnotifpartage($event, $tweet) {
 
+                if($tweet->notif == "oui")
+        {
+
         
     // création d'une notification de nouveau message
  
@@ -36,12 +39,15 @@ class PartageListener implements EventListenerInterface {
     $notif_partage->statut = 0;
 
     $entity->save($notif_partage);
+}
 
     // mise à jour de la table partage
 
     $entity_partage = TableRegistry::get('Partage');
 
     $new_partage = $entity_partage->newEntity();
+
+    $new_partage->sharer = $tweet->nom_session; // nom partageur
 
     $new_partage->tweet_partage = $tweet->id_tweet;
 
