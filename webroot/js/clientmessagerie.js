@@ -73,7 +73,7 @@ socket.on('update-typing', function (data) {
              // retour du server, message pour mon destinataire
                socket.on('messagerepondu', function(data) {
 
-                 $('#list_conv').prepend('<div class="messagemoi other"><img src="' + data.avatar + '"alt="image utilisateur" class="img-thumbail right"/><p>' + data.message +'</p><span class="date_message">' + data.date + '</span></div>');
+                 $('#list_conv').prepend('<div class="messagemoi other"><img src="' + data.avatar + '"alt="image utilisateur" class="img-thumbail right"/>' + data.message +'<span class="datemessage">' + data.date + '</span></div>');
 
             })
 
@@ -107,7 +107,7 @@ var date_msg = date_format.format('LLL'); // mise en forme
 
         socket.emit('message', {message: data.message, avatar: data.avatar_session,room: room}); // Transmet le message aux autres
     
-     $('#list_conv').prepend('<div class="messagemoi"><img src="img/' + data.avatar_session + '"alt="image utilisateur" class="img-thumbail"/><p>' + data.message +'</p><span class="date_message">' + date_msg + '</span></div>');
+     $('#list_conv').prepend('<div class="messagemoi"><img src="img/' + data.avatar_session + '"alt="image utilisateur" class="img-thumbail"/>' + data.message +'<span class="datemessage">' + date_msg + '</span></div>');
 
 $('#message').val('');
 

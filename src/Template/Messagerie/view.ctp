@@ -51,13 +51,13 @@ use Cake\Routing\Router;
             else
                 { 
                   echo '<div class="messagemoi other">'; // destinataire
-                    echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail right'));
+                    echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail'));
                 }
                 ?>           
 
                <?= $message->message;  ?>
 
-                  <span class="date_message"> <?=  $message->created->i18nformat('d MMMM YYYY HH:mm') ?></span>
+                  <span class="datemessage"> <?=  $message->created->i18nformat('d MMMM YYYY HH:mm') ?></span>
                 
             </div>
             
