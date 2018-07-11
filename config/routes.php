@@ -63,10 +63,6 @@ Router::scope('/', function (RouteBuilder $routes) {
 Router::connect('/logout',['controller' => 'Users', 'action' => 'logout']);
     // fin route logout
 
-    // route profil
-//Router::connect('/profil',['controller' => 'Users', 'action' => 'redirection']);
-    // fin route profil
-
 //essai route profil
 
 Router::connect('/:username',['controller' => 'Tweet', 'action' => 'index'],['pass' =>['username']],['_name' => 'profil']);
@@ -107,13 +103,18 @@ Router::connect('/notifications/count',['controller' => 'Notifications', 'action
 
 Router::connect('/search-:string',['controller' => 'Search', 'action' => 'index']);
 
-Router::connect('/search/index/-:string',['controller' => 'Search', 'action' => 'index']); // utliser dans la pagination
-
 //fin route recherche
 
-    // route abonnement index
-Router::connect('/abonnement/:username',['controller' => 'Abonnement', 'action' => 'index']);
-    // fin route abonnement/index
+    // route de mes abonnements
+Router::connect('/abonnement/:username',['controller' => 'Abonnement', 'action' => 'abonnement']);
+   // fin route de mes abonnements
+   // route de mes abonne
+Router::connect('/abonne/:username',['controller' => 'Abonnement', 'action' => 'abonnes']);
+    // fin route abonne
+
+    // route demande
+Router::connect('/demande',['controller' => 'Abonnement', 'action' => 'demande']);
+   // fin route demande
 
     // route abonnement add
 Router::connect('/abonnement/add/:username',['controller' => 'Abonnement', 'action' => 'add']);

@@ -109,17 +109,18 @@
 
             <div id="pagination">
 
-              <?= $this->Paginator->options([
-    'url' => ['-'.$search.'']
+                                          <?= $this->Paginator->options([
+    'url' => array('controller' => '/search-'.$search.'')
         
-    ]);
+    ]);?>
 
-           echo $this->Paginator->next('Next page'); ?>
+           <?= $this->Paginator->next('Next page'); ?>
 
            
 
           </div>
 
-<?= $this->Html->script('/js/iassearch.js') ?>
+<?= $this->Html->script('iassearch.js') ?>
+
           
 

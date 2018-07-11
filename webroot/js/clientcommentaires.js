@@ -35,7 +35,6 @@
 
 
   ias.extension(new IASSpinnerExtension());
-  ias.extension(new IASTriggerExtension({offset: 2}));
   ias.extension(new IASNoneLeftExtension({text: "Fin des commentaires"}));
   ias.extension(new IASPagingExtension());
 

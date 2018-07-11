@@ -23,12 +23,7 @@ use Cake\Network\Exception\NotFoundException;
    <div class="container" style="border:1px solid #cecece;">
         <?= $this->Flash->render() ?>
   <div class="row">
-         <div class="col-sm-6">
-carousel
-</div>
-<div class="col-sm-6">
-
-
+         <div class="col-sm-3">
     <?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'add')));?>
 
     
@@ -67,9 +62,42 @@ carousel
     <?= $this->Form->button('Inscription', array('class'=>'btn btn-info')) ?>
     <?= $this->Form->end() ?>
 </div>
+<br />
+</div>
+<div class="col-sm-5">
+
+<p class="home">Découvrez ce qui se passe dans le monde en temps réel.
+  <br />
+Rejoignez Instatux aujourd'hui.
+<hr>
+<ul class="list_accueil">
+  <li><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Crée votre profil.</li>
+  <li><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Connectez-vous à vos amis ou aux personnes partageant les mêmes centres d'intérêt.</li>
+  <li><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Discussion en temps réel.</li>
+  <li><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Réagissez au sujet qui vous intéressent.</li>
+</ul>
+</p>
+<hr>
+      </div>
+<div class="col-sm-4">
+<br />
+        <?= $this->cell('Hashtag');?>
+      </div>
+
   </div>
+    <footer>
+<ul class="list-inline">
+  <li>Cras justo odio</li>
+  <li>Dapibus ac facilisis in</li>
+  <li>Morbi leo risus</li>
+  <li>Porta ac consectetur ac</li>
+  <li>Vestibulum at eros</li>
+  <li>Vestibulum at eros</li>
+</ul>
+    </footer>
 </div>
 </div>
+
         
           
             

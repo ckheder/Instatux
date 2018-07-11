@@ -12,12 +12,23 @@ use Cake\Event\Event;
  */
 class AbonnementController extends AppController
 {
+
+            public $paginate = [
+        'limit' => 30,
+        
+    ];
     public $components = array('RequestHandler');
 
             public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->deny(['index']); // on empeche l'accès a l'index si je ne suis pas auth
+        $this->Auth->deny(['abonnement','abonnes','demande']); // on empeche l'accès a l'index si je ne suis pas auth
+    }
+
+                    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
     }
 
     /**
@@ -25,11 +36,11 @@ class AbonnementController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index() // liste de mes abonnements
+    public function abonnement() // liste de mes abonnements
     {
         $this->viewBuilder()->layout('general');
 
-        $this->set('title', 'Abonnements');
+        $this->set('title', 'Mes abonnements');
 
         // abonnement valide, personne que je suis
 
@@ -52,33 +63,31 @@ class AbonnementController extends AppController
         else
         {
             $this->set('count_abonnement', $nb_abonnement);
-            $this->set(compact('abonnement_valide'));
+            $this->set('abonnement_valide', $this->Paginator->paginate($abonnement_valide, ['limit' => 30]));
+            
         }
+    
+}
 
+public function abonnes()
+{
+            $this->viewBuilder()->layout('general');
 
-// fin abonnement valide
-
-        // abonné valide, personne qui me suive
-
-
+        $this->set('title', 'Mes abonnés');
+            // abonné valide, personne qui me suive
         $abonne_valide = $this->Abonnement->find()
-
         ->select(['Users.username','Users.avatarprofil'])
-
         ->leftjoin(
             ['Users'=>'users'],
-
             ['Users.username = (Abonnement.user_id)']
     )
                 
         ->where(['suivi' =>  $this->request->getParam('username') ])
      
         ->where(['etat' => 1])
-
         ->order((['Users.username' => 'ASC']));
         
         $nb_abonnes = $abonne_valide->count();
-
         if ($nb_abonnes === 0) // aucun résultat
         {
             $this->set('nbabonne_valide',0);
@@ -86,14 +95,18 @@ class AbonnementController extends AppController
         else
         {
             $this->set('count_abonnes', $nb_abonnes);
-            $this->set(compact('abonne_valide', $abonne_valide));
+            $this->set('abonne_valide', $this->Paginator->paginate($abonne_valide, ['limit' => 30]));
         }
-
 // fin abonné valide
+}
 
-// abonnement en attente
+public function demande()
+{
+            $this->viewBuilder()->layout('general');
 
-        $abonnement_attente = $this->Abonnement->find()
+        $this->set('title', 'Mes demandes');
+            // abonné valide, personne qui me suive
+         $abonnement_attente = $this->Abonnement->find()
        
         ->select([
             'Users.username',
@@ -101,18 +114,14 @@ class AbonnementController extends AppController
             ])
         ->leftjoin(
             ['Users'=>'users'],
-
             ['Users.username = (Abonnement.user_id)']
     )
                 
         ->where(['suivi' =>  $this->Auth->user('username') ])
      
         ->where(['etat' => 0])
-
         ->order((['Users.username' => 'ASC']));
-
         $nb_attente = $abonnement_attente->count(); // nombre de demande en attente
-
         if ($nb_attente === 0) // aucun résultat
         {
             $this->set('nbabonnement_attente',0);
@@ -122,8 +131,7 @@ class AbonnementController extends AppController
             $this->set('nb_attente', $nb_attente);
             $this->set(compact('abonnement_attente', $abonnement_attente));
         }
-// fin abonnement en attente        
-
+// fin abonné valide
 }
     /**
      * View method

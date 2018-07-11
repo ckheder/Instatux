@@ -1,11 +1,3 @@
-// gestion des abonnements
-  $( function() {
-    $( "#tabs" ).tabs();
-  } );
-
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover();   
-});
 
 // accepter ou refuser une demande d'abonnement
     $("#accept, #refuse").each(function(){

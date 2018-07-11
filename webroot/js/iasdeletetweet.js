@@ -8,16 +8,16 @@
 
 
   ias.extension(new IASSpinnerExtension());
-  ias.extension(new IASTriggerExtension({offset: 2}));
   ias.extension(new IASNoneLeftExtension({text: "Fin des tweets"}));
   ias.extension(new IASPagingExtension());
 
 
-    $(document).ready(function(){
+
 
   // nouvel abonnement ou demande
 
-      $(".deletetweet").click(function() {
+  $(document).on('click','.deletetweet',function() {
+
 
       var id = $(this).data("idtweet");
     
@@ -55,4 +55,4 @@
          });
 });
 
-    }); 
+

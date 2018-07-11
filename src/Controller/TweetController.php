@@ -197,8 +197,6 @@ class TweetController extends AppController
         $this->set('commentaires', $this->Paginator->paginate($comm_tweet, ['limit' => 8]));
     }
 
-        //$this->set('tweet', $tweet);
-        
 
     }
 

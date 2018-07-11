@@ -73,12 +73,8 @@ use Cake\Routing\Router;
 
             <?= $this->Paginator->next('Next page'); ?>
 
-
-
-
-
           </div>
-    <?= $this->Html->script('/js/iasmessage.js') ?>    
+    
 
 <script type="text/javascript">
 

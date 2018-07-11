@@ -125,6 +125,21 @@ float: left;
   margin-left: 6px;
 }
 /* abonnement */
+
+
+.link_delete_abo
+{
+
+color : red!important;
+
+}
+
+
+.alias_abo
+{
+   color: #657786;
+}
+
 .liste_abo
 {
 
@@ -132,13 +147,6 @@ margin-bottom: 12px;
 width : 81px;
 display: inline-block;
 text-align: center;
-}
-
-
-
-.alias_abo
-{
-   color: #657786;
 }
 .liste_abo img
 {

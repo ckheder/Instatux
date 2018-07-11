@@ -139,14 +139,6 @@ class MessagerieController extends AppController
    $this->set('message', $this->Paginator->paginate($message, ['limit' => 8]));
 
 
-             try {
-        $this->paginate();
-    } catch (NotFoundException $e) {
-        // Faire quelque chose ici comme rediriger vers la première ou dernière page.
-        // $this->request->getParam('paging') vous donnera les infos demandées.
-   }
-
-
             // fin pagination
 
 foreach ($message as $message): 

@@ -1,8 +1,8 @@
 
              <!-- nombre d'abonnement et d'abonné -->
 
-                       <li><span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;<a href="/instatux/abonnement/<?= $this->request->getParam('username')?>#abonne" <?php if (!isset($authname)){ echo 'class="disabled_link"';}?>>Abonné <?= $nb_abonnes ?></a></li>
-                      <li> <span class="glyphicon glyphicon-hand-left"></span>&nbsp;&nbsp;<a href="/instatux/abonnement/<?= $this->request->getParam('username')?>#abonnement" <?php if (!isset($authname)){ echo 'class="disabled_link"';}?>>Abonnement <?= $nb_abonnement ?></a></li>
+                       <li><span class="glyphicon glyphicon-hand-right"></span>&nbsp;&nbsp;<a href="/instatux/abonne/<?= $this->request->getParam('username')?>"<?php if (!isset($authname)){ echo 'class="disabled_link"';}?>>Abonné <?= $nb_abonnes ?></a></li>
+                      <li> <span class="glyphicon glyphicon-hand-left"></span>&nbsp;&nbsp;<a href="/instatux/abonnement/<?= $this->request->getParam('username')?>" <?php if (!isset($authname)){ echo 'class="disabled_link"';}?>>Abonnement <?= $nb_abonnement ?></a></li>
               <!-- fin nombre d'abonnement et d'abonné -->
 
 <?php

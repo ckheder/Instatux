@@ -1,4 +1,4 @@
-  // nouvel abonnement ou demande
+// nouvel abonnement ou demande
 
       $(document).on('click','#aboact',function() {
 
@@ -73,7 +73,26 @@
           $('.notif').fadeOut("slow");
         }, 2000 );
 
+        if ($('#actionabo').length > 0) {
+
         document.getElementById('actionabo').innerHTML = '<a href="#" data-username="' + username +'" data-action ="add" title="Suivre ' + username +'"  id="aboact" class="btn btn-success navbar-btn" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>'; // bouton signifiant l'envoi d'une demande
+        }
+        else
+        {
+        nbabonnement--; // on diminue le nombre de demande d'abonnement
+
+        if(nbabonnement != 0)
+        {
+
+document.getElementById('nbabonnement').innerHTML = nbabonnement + ' abonnement(s).'; // mise à jour du champs
+}
+else
+{
+  document.getElementById('nbabonnement').innerHTML = 'Aucun abonnement actif à afficher.'; // mise à jour du champs
+}
+
+$( '.liste_abo[data-username="' + username + '"]' ).remove();
+}
 
 }
 
@@ -99,5 +118,3 @@
 }
 
 });
-
-

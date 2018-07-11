@@ -1,8 +1,9 @@
-  $(document).ready(function(){
+
 
   // nouvel abonnement ou demande
 
-      $(".addshare").click(function() {
+  $(document).on('click','.addshare',function() {
+
 
       var id = $(this).data("idtweet");
       var auteurtweet = $(this).data("auteurtweet");
@@ -46,5 +47,3 @@
                 
          });
 });
-
-    }); 
