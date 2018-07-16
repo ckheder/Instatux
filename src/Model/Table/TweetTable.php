@@ -50,7 +50,11 @@ class TweetTable extends Table
              
         ]);
 
-          $this->hasMany('Commentaires');
+          $this->hasMany('Commentaires',
+            [
+                'dependent' => true
+            ]
+      );
 
           $this->hasMany('Aime');
 

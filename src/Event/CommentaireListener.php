@@ -25,7 +25,7 @@ class CommentaireListener implements EventListenerInterface {
 
     $article = $entity->newEntity();
 
-    $article->user_name = $commentaire->userosef; // auteur du tweet
+    $article->user_name = $commentaire->auttweet; // auteur du tweet
 
     $article->notification = $notif;
 

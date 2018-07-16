@@ -22,6 +22,15 @@ class CommentairesController extends AppController
         
          if ($this->request->is('ajax')) {
 
+            if ($this->allowcomment($this->request->data('id')) == 1) // commentaire désactivé
+            {
+                                $reponse = 'commdesac';
+                $this->response->body($reponse);
+            }
+
+            else
+            {
+
         $commentaire = $this->Commentaires->newEntity();
 // suppression des balises éventuelles
 
@@ -36,7 +45,7 @@ class CommentairesController extends AppController
             'user_id' => $this->Auth->user('id'),
             
             // pour évènement
-            'userosef' => $this->request->data('userosef'), // auteur du tweet, pas du comm
+            'auttweet' => $this->request->data('auttweet'), // auteur du tweet, pas du comm
             'user_session' => $this->Auth->user('id'), // id de session
             'nom_session' => $this->Auth->user('username'),//nom de session
             'avatar_session' => $this->Auth->user('avatarprofil')
@@ -47,9 +56,9 @@ class CommentairesController extends AppController
           
             if ($this->Commentaires->save($commentaire)) {
 
-              if( $this->request->data['userosef'] != $this->Auth->user('username')) // si je ne suis pas l'auteur du tweet, on vérifie si j'accepte les notifs de comm
+              if( $this->request->data['auttweet'] != $this->Auth->user('username')) // si je ne suis pas l'auteur du tweet, on vérifie si j'accepte les notifs de comm
                   {
-                     if($this->testnotifcomm($this->request->data['userosef']) == "oui")
+                     if($this->testnotifcomm($this->request->data['auttweet']) == "oui")
                 {
               // évènement
               $event = new Event('Model.Commentaires.afterAdd', $this, ['commentaire' => $commentaire]);
@@ -68,8 +77,9 @@ class CommentairesController extends AppController
 
             }
 
-   return $this->response;
-
+   
+}
+return $this->response;
     }
   }
 
@@ -205,6 +215,20 @@ private function idcomm() // calcul d'un id de comm aléatoire
         idcomm();
     }
 
+}
+
+private function allowcomm($idtweet) // test de l'activation des commentaires
+{
+    $this->loadModel('Tweet');
+
+    $allowcomment = $this->Tweet->find()->select(['allow_comment'])->where(['id' => $idtweet]);
+
+        foreach ($allowcomment as $$allowcomment) // recupération du résultat
+                {
+                $allowcomm = $allowcomment['allow_comment'];
+                }
+
+             return $allowcomm;
 }
 
 }

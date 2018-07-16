@@ -82,7 +82,9 @@ use Cake\Network\Request;
 
 
                  <span class="nb_like"><span id="compteur_like-<?= $tweet->id ;?>"><?= $tweet->nb_like ;?></span> like(s)</span>
-                <span class="nb_comm_share"><?= $tweet->nb_commentaire ?> commentaire(s) - <?= $tweet->nb_partage ?> partage(s)</span>
+                <span class="nb_comm_share"><span id="nbcomm"><script> var nbcomm = <?= $tweet->nb_commentaire ;?> 
+           document.getElementById('nbcomm').innerHTML = nbcomm;
+         </script> commentaire(s) </span> - <?= $tweet->nb_partage ?> partage(s)</span>
                 <br />
                 <br />
                 <span class="link_comm_share">
@@ -115,9 +117,8 @@ use Cake\Network\Request;
                      
 
     </span>
-
-    <span class="background_comm">    
  <!-- fin partie info sur le tweet -->
+    <span class="background_comm">    
 <?php
 if($tweet->allow_comment == 1)
 {
@@ -141,25 +142,29 @@ else
 
 <?= $this->Form->input('comm', ['placeholder' => 'Votre commentaire...', 'label'=> '','class' =>'emojis-plain textarea_comm','id' => 'comm']) ?>
 <?= $this->Form->hidden('id', ['value' => $this->request->getParam('id')]) // id du tweet?>
-<?= $this->Form->hidden('userosef', ['value' => $tweet->user->username]) // auteur du tweet?>
+<?= $this->Form->hidden('auttweet', ['value' => $tweet->user->username]) // auteur du tweet?>
 <?= $this->Form->end(); ?>
 
  <!-- fin div info tweet -->
-</span>
 
+</span>
 <?php
 
 }
+?>
+ <p id="allowcomment"></p>
 
+<div id="list_comm">
+  <?php
 if($tweet->nb_commentaire == 0)
 {
-    echo '<div class="alert alert-info">Aucun commentaire pour cette publication</div>';
+    echo '<span id="nocomment"><div class="alert alert-info">Aucun commentaire pour cette publication</div></span>';
 }
 else
 {
     ?>
 
-<div id="list_comm">
+
 
         <?php foreach ($commentaires as $commentaires): ?>
             <div class="comm" data-idcomm="<?= $commentaires->id ;?>">
@@ -228,17 +233,18 @@ else
 
         <?php endforeach; ?>
 
-      </div>
+     
 
 
 <?php
 
 }
-
+echo ' </div>';
 }
 
 
-echo '</div>';
+?></div>
+<?php
 endforeach;
 
 }
@@ -252,7 +258,8 @@ endforeach;
           </div>
 
           <script>
-var idtweet = "<?= $this->request->getParam('id') ;?>";
+var idtweet = "<?= $this->request->getParam('id') ;?>"; // id du tweet
+var authname = "<?= $authName ;?>";
           </script>
 
 <?= $this->Html->script('/js/clientcommentaires.js') ?>

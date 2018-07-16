@@ -88,7 +88,7 @@ document.getElementById('nbabonnement').innerHTML = nbabonnement + ' abonnement(
 }
 else
 {
-  document.getElementById('nbabonnement').innerHTML = 'Aucun abonnement actif à afficher.'; // mise à jour du champs
+  document.getElementById('nbabonnement').innerHTML = 'Aucun abonnement actif à afficher.'; // mise à jour du champs, plus d'abonnements
 }
 
 $( '.liste_abo[data-username="' + username + '"]' ).remove();

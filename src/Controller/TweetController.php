@@ -165,9 +165,21 @@ class TweetController extends AppController
         $this->viewBuilder()->layout('general');
         $this->set('title', 'Commentaires'); // titre de la page
 
-        // vérification si on peut
 
-        $info_tweet = $this->Tweet->find() // récupération des infos du tweet
+        $info_tweet = $this->Tweet->find()->select([
+            'Users.username',
+            'Users.avatarprofil',
+            'Tweet.id',
+            'Tweet.user_id',
+            'Tweet.user_timeline',
+            'Tweet.contenu_tweet',
+            'Tweet.created',
+            'Tweet.share',
+            'Tweet.nb_commentaire',
+            'Tweet.nb_partage',
+            'Tweet.nb_like',
+            'Tweet.allow_comment',
+            ]) // récupération des infos du tweet
 
         ->where(['Tweet.id' => $this->request->getParam('id')])
 
@@ -180,8 +192,18 @@ class TweetController extends AppController
 
         $this->loadModel('Commentaires');
 
-        $comm_tweet = $this->Commentaires->find()->where(['Commentaires.tweet_id' => $this->request->getParam('id')])
-       ->order(['Commentaires.created' => 'DESC'])
+        $comm_tweet = $this->Commentaires->find()->select([
+          'Commentaires.id', 
+  'Commentaires.comm',
+  'Commentaires.user_id', 
+  'Commentaires.created', 
+  'Commentaires.edit', 
+  'Users.username',  
+  'Users.avatarprofil', 
+        ])
+
+        ->where(['Commentaires.tweet_id' => $this->request->getParam('id')])
+        ->order(['Commentaires.created' => 'DESC'])
         ->contain(['Users']);
 
 
