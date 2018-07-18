@@ -4,16 +4,16 @@
 <?php
 
 
-            if($abonnement === 0) // je ne suis pas abonné
+            if($abonnement == 0) // je ne suis pas abonné
              {
               ?>
+              <button type="button" class="btn btn-warning navbar-btn">Demande envoyé</button>
               
-              
-             <a href="#" data-username="<?= $suivi ;?>" data-action="add" title="Suivre <?= $suivi ;?>"  id="aboact" class="btn btn-success navbar-btn" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
+             
             
             <?php
           }
-            elseif($abonnement === 1) // je suis abonné
+            elseif($abonnement == 1) // je suis abonné
             {
                 
 ?>
@@ -22,6 +22,11 @@
 
   <?php
                   
+            }
+            elseif ($abonnement == 2) {
+              ?>
+              <a href="#" data-username="<?= $suivi ;?>" data-action="add" title="Suivre <?= $suivi ;?>"  id="aboact" class="btn btn-success navbar-btn" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
+              <?php
             }
           
           ?>

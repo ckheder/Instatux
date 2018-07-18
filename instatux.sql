@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Jeu 28 Juin 2018 à 15:38
+-- Généré le :  Lun 16 Juillet 2018 à 11:10
 -- Version du serveur :  10.2.16-MariaDB-10.2.16+maria~xenial
--- Version de PHP :  7.1.18-1+ubuntu16.04.1+deb.sury.org+1
+-- Version de PHP :  7.1.19-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -33,14 +33,6 @@ CREATE TABLE `abonnement` (
   `etat` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Contenu de la table `abonnement`
---
-
-INSERT INTO `abonnement` (`id`, `user_id`, `suivi`, `etat`) VALUES
-(307, 'osefman', 'test', 1),
-(308, 'essai', 'test', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -67,7 +59,8 @@ INSERT INTO `aime` (`id`, `username`, `tweet_aime`) VALUES
 (268, 'test', 250),
 (279, 'test', 242),
 (289, 'essai', 325),
-(290, 'test', 325);
+(290, 'test', 325),
+(291, 'test', 390);
 
 -- --------------------------------------------------------
 
@@ -142,10 +135,9 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`, `edi
 (720, 'cdf', '325', '17', '2018-06-08 09:53:16', 0),
 (721, 'test', '325', '17', '2018-06-08 14:39:02', 0),
 (677, 'test', '325', '17', '2018-06-05 17:02:40', 0),
-(676, 'fais chier', '252', '18', '2018-06-05 15:31:53', 0),
-(675, 'fais chier', '252', '18', '2018-06-05 15:31:53', 0),
-(674, 'site de merde', '252', '18', '2018-06-05 15:31:49', 0),
-(673, 'site de merde', '252', '18', '2018-06-05 15:30:44', 0),
+(67965497, 'fre', '325', '17', '2018-07-14 15:00:34', 0),
+(290939056, 'osef', '325', '18', '2018-07-14 14:56:46', 0),
+(1334880537, 'moi', '325', '63', '2018-07-14 14:59:33', 0),
 (716, 'fr', '325', '17', '2018-06-08 09:15:19', 0),
 (717, 'test', '325', '17', '2018-06-08 09:51:47', 0),
 (670, 'cv', '325', '17', '2018-06-05 15:26:55', 0),
@@ -226,9 +218,37 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`, `edi
 (272897399, 'erf', '325', '63', '2018-06-25 14:43:29', 0),
 (598981740, 'erf', '390', '63', '2018-06-21 10:37:02', 0),
 (1285147589, 'test 3   <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/>', '325', '17', '2018-06-21 15:04:59', 1),
-(1187476270, 'tes 4    <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/><img src="/instatux/img/emoji/blush.png" alt=":blush:" class="emoji_comm"/>', '325', '17', '2018-06-22 11:18:51', 1),
 (1142576330, 'test', '325', '17', '2018-06-24 14:43:58', 0),
-(195952293, 'https://stackoverflow.com/questions/46349478/socket-emit-to-specific-rooms', '325', '17', '2018-06-28 11:11:54', 0);
+(195952293, 'https://stackoverflow.com/questions/46349478/socket-emit-to-specific-rooms', '325', '17', '2018-06-28 11:11:54', 0),
+(321858438, '<a href="../essai">@essai</a> lol  <img src="/instatux/img/emoji/laughing.png" alt="laughing" class="emoji_comm"/> #facebook', '325', '17', '2018-06-30 18:51:03', 0),
+(1162050751, '<a href="../essai">@essai</a> osef <a href="../search-%23facebook">#facebook</a>  <img src="/instatux/img/emoji/kissing_heart.png" alt="kissing_heart" class="emoji_comm"/> <img src="/instatux/img/emoji/blush.png" alt="blush" class="emoji_comm"/>', '325', '17', '2018-06-30 18:55:03', 0),
+(1915498756, 'osefman ?', '325', '63', '2018-07-14 14:56:20', 0),
+(1296962333, 'moi', '325', '17', '2018-07-14 14:56:30', 0),
+(825724234, 'dfgh', '325', '18', '2018-07-14 14:22:12', 0),
+(694580492, 'test', '321', '18', '2018-07-14 10:53:04', 0),
+(642223717, 'ghkl', '325', '18', '2018-07-14 14:22:16', 0),
+(1013530438, 'xcv', '325', '18', '2018-07-14 14:26:03', 0),
+(1930367681, 'rte', '325', '17', '2018-07-14 14:27:28', 0),
+(733471708, 'test', '325', '17', '2018-07-14 14:29:08', 0),
+(988472199, 'tester', '325', '17', '2018-07-14 14:51:36', 0),
+(1294495213, 'osef', '325', '63', '2018-07-14 14:52:42', 0),
+(1721224420, 'test', '325', '17', '2018-07-14 14:55:32', 0),
+(1347539550, 'test', '325', '17', '2018-07-14 10:54:29', 0),
+(760570809, 'sf', '325', '17', '2018-07-14 10:57:57', 0),
+(1002771262, 'sdfp', '325', '63', '2018-07-14 10:58:44', 0),
+(1401118478, 'test', '325', '17', '2018-07-14 10:58:52', 0),
+(1199199233, 'test', '325', '18', '2018-07-14 14:18:06', 0),
+(1464260963, 'fre', '325', '17', '2018-07-14 14:19:53', 0),
+(1378052583, 'test', '325', '17', '2018-07-14 14:20:24', 0),
+(469034435, 'dfgh', '325', '18', '2018-07-14 14:21:29', 0),
+(1362338445, 'd', '325', '17', '2018-07-14 14:22:10', 0),
+(369701159, 'test', '325', '18', '2018-07-15 14:14:47', 0),
+(1655700237, 'test', '325', '63', '2018-07-15 14:18:53', 0),
+(735968386, 'test', '325', '17', '2018-07-15 14:19:17', 0),
+(18604357, 'french', '325', '18', '2018-07-15 14:20:26', 0),
+(1045537601, 'test', '325', '18', '2018-07-15 14:24:38', 0),
+(1719972422, 'essai  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '325', '18', '2018-07-15 14:27:05', 0),
+(2101359747, 'loll  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '325', '18', '2018-07-16 10:43:41', 0);
 
 -- --------------------------------------------------------
 
@@ -249,12 +269,10 @@ CREATE TABLE `conversation` (
 --
 
 INSERT INTO `conversation` (`id`, `conv`, `participant1`, `participant2`, `statut`) VALUES
-(43, 1768986576, 'test', 'essai', 1),
-(44, 1768986576, 'essai', 'test', 1),
-(49, 2078660550, 'test', 'test2', 0),
-(50, 2078660550, 'test2', 'test', 1),
-(51, 401727966, 'test', 'osefman', 1),
-(52, 401727966, 'osefman', 'test', 1);
+(61, 986523447, 'test', 'essai', 1),
+(62, 986523447, 'essai', 'test', 1),
+(65, 328523323, 'test', 'osefman', 1),
+(66, 328523323, 'osefman', 'test', 1);
 
 -- --------------------------------------------------------
 
@@ -312,70 +330,52 @@ CREATE TABLE `messagerie` (
 --
 
 INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`, `conv`) VALUES
-(674, 'test', 'essai', 'bon', '2018-05-23 10:21:53', 1768986576),
-(675, 'test', 'essai', 'bon g', '2018-05-23 14:49:49', 1768986576),
-(676, 'test', 'essai', 'test', '2018-05-24 10:36:36', 1768986576),
-(677, 'test', 'essai', 'test', '2018-05-24 10:37:16', 1768986576),
-(678, 'test', 'essai', 'test', '2018-06-04 10:07:16', 1768986576),
-(679, 'osefman', 'test', 'test', '2018-06-14 14:45:27', 401727966),
-(680, 'essai', 'test', 'osef', '2018-06-26 09:58:36', 1768986576),
-(681, 'test', 'essai', 'erreur ?', '2018-06-26 10:01:33', 1768986576),
-(682, 'test', 'essai', 'test', '2018-06-26 10:05:13', 1768986576),
-(683, 'test', 'essai', 'french', '2018-06-26 10:14:39', 1768986576),
-(684, 'test', 'essai', 'test', '2018-06-26 10:16:20', 1768986576),
-(685, 'essai', 'test', 'c\'est bon', '2018-06-26 10:16:28', 1768986576),
-(686, 'test', 'essai', 'yes', '2018-06-26 10:16:34', 1768986576),
-(687, 'essai', 'test', 'test', '2018-06-26 10:31:37', 1768986576),
-(688, 'essai', 'test', 'test 2', '2018-06-26 10:31:58', 1768986576),
-(689, 'essai', 'test', 'message', '2018-06-26 10:32:05', 1768986576),
-(690, 'essai', 'test', 'test', '2018-06-26 10:34:43', 1768986576),
-(691, 'essai', 'test', 'osef', '2018-06-26 10:35:31', 1768986576),
-(692, 'test', 'essai', 'osefman ?', '2018-06-26 10:38:18', 1768986576),
-(693, 'test', 'essai', 'osefman 2 ?', '2018-06-26 10:43:14', 1768986576),
-(694, 'test', 'essai', 'osefman 3 ?', '2018-06-26 10:46:06', 1768986576),
-(695, 'test', 'essai', 'french osefman', '2018-06-26 10:51:26', 1768986576),
-(696, 'essai', 'test', 'private room', '2018-06-26 10:51:45', 1768986576),
-(697, 'essai', 'test', 'tesr', '2018-06-26 10:52:08', 1768986576),
-(698, 'test', 'essai', 'test smiley  <img src="/instatux/img/emoji/satisfied.png" alt=":satisfied:" class="emoji_comm"/>', '2018-06-26 18:05:04', 1768986576),
-(699, 'test', 'essai', 'wtf  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 18:05:42', 1768986576),
-(700, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:38:39', 1768986576),
-(701, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:41:26', 1768986576),
-(702, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:41:54', 1768986576),
-(703, 'test', 'essai', 'test', '2018-06-26 19:42:31', 1768986576),
-(704, 'test', 'essai', 'french', '2018-06-26 19:44:09', 1768986576),
-(705, 'test', 'essai', 'test  <img src="/instatux/img/emoji/bowtie.png" alt=":bowtie:" class="emoji_comm"/>', '2018-06-26 19:44:19', 1768986576),
-(706, 'test', 'essai', 're test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:46:03', 1768986576),
-(707, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:47:32', 1768986576),
-(708, 'test', 'essai', 'vnf', '2018-06-26 19:47:40', 1768986576),
-(709, 'test', 'essai', 'osef', '2018-06-26 19:51:57', 1768986576),
-(710, 'test', 'essai', ' addd <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/> test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-26 19:52:17', 1768986576),
-(711, 'test', 'essai', 'test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-27 10:09:27', 1768986576),
-(712, 'test', 'essai', ' <img src="/instatux/img/emoji/blush.png" alt=":blush:" class="emoji_comm"/> osefman <img src="/instatux/img/emoji/wink.png" alt=":wink:" class="emoji_comm"/>', '2018-06-27 10:09:45', 1768986576),
-(713, 'essai', 'test', 'smiley  <img src="/instatux/img/emoji/trollface.png" alt=":trollface:" class="emoji_comm"/>', '2018-06-27 10:11:37', 1768986576),
-(714, 'test', 'essai', 'test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '2018-06-27 10:12:58', 1768986576),
-(715, 'test', 'essai', 'smiley vue ?  <img src="/instatux/img/emoji/tired_face.png" alt=":tired_face:" class="emoji_comm"/>', '2018-06-27 10:15:57', 1768986576),
-(716, 'essai', 'test', 'eh bien non  <img src="/instatux/img/emoji/stuck_out_tongue_closed_eyes.png" alt=":stuck_out_tongue_closed_eyes:" class="emoji_comm"/>', '2018-06-27 10:16:15', 1768986576),
-(717, 'test', 'essai', 'test', '2018-06-27 10:27:01', 1768986576),
-(718, 'essai', 'test', 'avatar +  <img src="/instatux/img/emoji/heart_eyes.png" alt=":heart_eyes:" class="emoji_comm"/>', '2018-06-27 10:27:50', 1768986576),
-(719, 'test', 'essai', 'ça marche  <img src="/instatux/img/emoji/sunglasses.png" alt=":sunglasses:" class="emoji_comm"/>', '2018-06-27 10:28:05', 1768986576),
-(720, 'test', 'essai', 'vcn', '2018-06-27 14:32:30', 1768986576),
-(721, 'test', 'essai', 'test', '2018-06-27 14:34:50', 1768986576),
-(722, 'test', 'essai', 'test', '2018-06-27 14:35:20', 1768986576),
-(723, 'test', 'essai', 'chro', '2018-06-27 14:37:11', 1768986576),
-(724, 'essai', 'test', 'essai', '2018-06-27 14:38:59', 1768986576),
-(725, 'essai', 'test', 'osef', '2018-06-27 14:39:16', 1768986576),
-(726, 'essai', 'test', 'essai', '2018-06-27 14:41:01', 1768986576),
-(727, 'essai', 'test', 'lol', '2018-06-27 14:42:01', 1768986576),
-(728, 'test', 'essai', 'test', '2018-06-27 19:18:29', 1768986576),
-(729, 'test', 'essai', 'lol', '2018-06-27 19:19:20', 1768986576),
-(730, 'test', 'essai', 'vcb', '2018-06-27 19:19:37', 1768986576),
-(731, 'test', 'essai', 'v,', '2018-06-27 19:22:00', 1768986576),
-(732, 'test', 'essai', 'bgt', '2018-06-28 10:40:28', 1768986576),
-(733, 'test', 'essai', 'test', '2018-06-28 10:47:03', 1768986576),
-(734, 'test', 'essai', 'lol', '2018-06-28 10:47:38', 1768986576),
-(735, 'essai', 'test', 'yo', '2018-06-28 10:48:02', 1768986576),
-(736, 'essai', 'test', 'yo 2', '2018-06-28 10:48:20', 1768986576),
-(737, 'test', 'essai', 'https://stackoverflow.com/questions/46349478/socket-emit-to-specific-rooms', '2018-06-28 11:12:04', 1768986576);
+(759, 'test', 'essai', ' <img src="/instatux/img/emoji/relieved.png" alt="relieved" class="emoji_comm"/> <img src="/instatux/img/emoji/satisfied.png" alt="satisfied" class="emoji_comm"/> <img src="/instatux/img/emoji/grin.png" alt="grin" class="emoji_comm"/> <img src="/instatux/img/emoji/wink.png" alt="wink" class="emoji_comm"/> <img src="/instatux/img/emoji/anguished.png" alt="anguished" class="emoji_comm"/>', '2018-06-30 18:41:31', 986523447),
+(758, 'test', 'essai', ' <img src="/instatux/img/emoji/astonished.png" alt="astonished" class="emoji_comm"/> <img src="/instatux/img/emoji/bowtie.png" alt="bowtie" class="emoji_comm"/> <img src="/instatux/img/emoji/broken_heart.png" alt="broken_heart" class="emoji_comm"/> <img src="/instatux/img/emoji/clap.png" alt="clap" class="emoji_comm"/> <img src="/instatux/img/emoji/confused.png" alt="confused" class="emoji_comm"/>', '2018-06-30 18:41:06', 986523447),
+(757, 'test', 'essai', ' <img src="/instatux/img/emoji/disappointed.png" alt="disappointed" class="emoji_comm"/> <img src="/instatux/img/emoji/dizzy_face.png" alt="dizzy_face" class="emoji_comm"/> <img src="/instatux/img/emoji/fearful.png" alt="fearful" class="emoji_comm"/> <img src="/instatux/img/emoji/grinning.png" alt="grinning" class="emoji_comm"/> <img src="/instatux/img/emoji/hushed.png" alt="hushed" class="emoji_comm"/>', '2018-06-30 18:40:35', 986523447),
+(756, 'test', 'essai', ' <img src="/instatux/img/emoji/neutral_face.png" alt="neutral_face" class="emoji_comm"/> <img src="/instatux/img/emoji/open_mouth.png" alt="open_mouth" class="emoji_comm"/> <img src="/instatux/img/emoji/rage.png" alt="rage" class="emoji_comm"/> <img src="/instatux/img/emoji/scream.png" alt="scream" class="emoji_comm"/> <img src="/instatux/img/emoji/sleeping.png" alt="sleeping" class="emoji_comm"/>', '2018-06-30 18:40:23', 986523447),
+(755, 'test', 'essai', ' <img src="/instatux/img/emoji/stuck_out_tongue_winking_eye.png" alt="stuck_out_tongue_winking_eye" class="emoji_comm"/> <img src="/instatux/img/emoji/stuck_out_tongue_closed_eyes.png" alt="stuck_out_tongue_closed_eyes" class="emoji_comm"/> <img src="/instatux/img/emoji/stuck_out_tongue.png" alt="stuck_out_tongue" class="emoji_comm"/> <img src="/instatux/img/emoji/sunglasses.png" alt="sunglasses" class="emoji_comm"/> <img src="/instatux/img/emoji/tired_face.png" alt="tired_face" class="emoji_comm"/>', '2018-06-30 18:40:10', 986523447),
+(754, 'test', 'essai', ' <img src="/instatux/img/emoji/unamused.png" alt="unamused" class="emoji_comm"/> <img src="/instatux/img/emoji/worried.png" alt="worried" class="emoji_comm"/>', '2018-06-30 18:39:55', 986523447),
+(753, 'test', 'essai', ' <img src="/instatux/img/emoji/trollface.png" alt="trollface" class="emoji_comm"/>', '2018-06-30 18:39:48', 986523447),
+(752, 'test', 'essai', ' <img src="/instatux/img/emoji/smile.png" alt="smile" class="emoji_comm"/> <img src="/instatux/img/emoji/laughing.png" alt="laughing" class="emoji_comm"/> <img src="/instatux/img/emoji/blush.png" alt="blush" class="emoji_comm"/> <img src="/instatux/img/emoji/smiley.png" alt="smiley" class="emoji_comm"/> <img src="/instatux/img/emoji/relaxed.png" alt="relaxed" class="emoji_comm"/> <img src="/instatux/img/emoji/smirk.png" alt="smirk" class="emoji_comm"/> <img src="/instatux/img/emoji/heart_eyes.png" alt="heart_eyes" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt="kissing_heart" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_closed_eyes.png" alt="kissing_closed_eyes" class="emoji_comm"/> <img src="/instatux/img/emoji/flushed.png" alt="flushed" class="emoji_comm"/>', '2018-06-30 18:39:39', 986523447),
+(751, 'test', 'essai', 'premier coup  <img src="/instatux/img/emoji/laughing.png" alt="laughing" class="emoji_comm"/> test  <img src="/instatux/img/emoji/kissing_heart.png" alt="kissing_heart" class="emoji_comm"/>', '2018-06-30 18:38:43', 986523447),
+(749, 'test', 'essai', 'essai', '2018-06-29 10:26:48', 986523447),
+(750, 'test', 'essai', 'test  <img src="/instatux/img/emoji/smile.png" alt="smile" class="emoji_comm"/>', '2018-06-30 18:38:08', 986523447),
+(760, 'test', 'essai', 'test', '2018-06-30 18:43:23', 986523447),
+(761, 'test', 'essai', '<a href="../essai">@essai</a> #facebook test  :laughing:', '2018-06-30 18:44:22', 986523447),
+(762, 'test', 'essai', '<a href="../essai">@essai</a> #facebook  <img src="/instatux/img/emoji/blush.png" alt="blush" class="emoji_comm"/>', '2018-06-30 18:44:57', 986523447),
+(763, 'test', 'essai', '<a href="../essai">@essai</a>', '2018-06-30 18:52:38', 986523447),
+(764, 'test', 'essai', '<a href="../essai">@essai</a> <a href="../search-%23facebook">#facebook</a> lo o  <img src="/instatux/img/emoji/satisfied.png" alt="satisfied" class="emoji_comm"/>', '2018-06-30 18:54:03', 986523447),
+(765, 'test', 'essai', ' <img src="/instatux/img/emoji/laughing.png" alt="laughing" class="emoji_comm"/> <a href="https://www.youtube.com/watch?v=Hiro44tZn64">https://www.youtube.com/watch?v=Hiro44tZn64</a>', '2018-07-02 10:27:26', 986523447),
+(766, 'test', 'essai', '<a href="https://www.youtube.com/watch?v=Hiro44tZn64">https://www.youtube.com/watch?v=Hiro44tZn64</a>  <img src="/instatux/img/emoji/kissing_heart.png" alt="kissing_heart" class="emoji_comm"/>', '2018-07-02 10:28:41', 986523447),
+(767, 'test', 'essai', '<a href="./essai">@essai</a>', '2018-07-02 10:31:04', 986523447),
+(768, 'test', 'essai', '<a href="../search-%23facebook">#facebook</a>', '2018-07-02 10:31:17', 986523447),
+(769, 'test', 'essai', '<a href="./search-%23facebook">#facebook</a>', '2018-07-02 10:31:41', 986523447),
+(770, 'test', 'essai', '<a href="https://www.youtube">https://www.youtube</a>.', '2018-07-02 10:41:05', 986523447),
+(771, 'test', 'essai', '<a href="https://www.youtube.com/watch?v=Hiro44tZn64">https://www.youtube.com/watch?v=Hiro44tZn64</a>', '2018-07-02 10:45:58', 986523447),
+(772, 'test', 'essai', 'https://www.youtube.com/watch?v=Hiro44tZn64', '2018-07-02 10:48:24', 986523447),
+(773, 'test', 'essai', 'https://www.youtube.com/watch?v=Hiro44tZn64', '2018-07-02 10:48:51', 986523447),
+(774, 'test', 'essai', 'http://www.youtube.com/watch?v=Hiro44tZn64', '2018-07-02 10:49:13', 986523447),
+(775, 'test', 'essai', 'http://www.youtube.com/watch?v=Hiro44tZn64', '2018-07-02 10:49:27', 986523447),
+(776, 'test', 'essai', '<a href="https://www.youtube.com/watch?v=Hiro44tZn64">https://www.youtube.com/watch?v=Hiro44tZn64</a>', '2018-07-02 10:50:50', 986523447),
+(777, 'test', 'osefman', 'test', '2018-07-02 15:05:37', 328523323),
+(778, 'essai', 'test', 'salut', '2018-07-03 10:19:20', 986523447),
+(779, 'test', 'essai', 'salut ça va ?  <img src="/instatux/img/emoji/smile.png" alt="smile" class="emoji_comm"/>', '2018-07-03 10:19:34', 986523447),
+(780, 'essai', 'test', 'bien et toi ?  <img src="/instatux/img/emoji/satisfied.png" alt="satisfied" class="emoji_comm"/>', '2018-07-03 10:19:45', 986523447),
+(781, 'test', 'essai', 'tu as vu les nouveautés de CakePHP 3.6 ?', '2018-07-03 10:20:02', 986523447),
+(782, 'essai', 'test', 'oui  <img src="/instatux/img/emoji/clap.png" alt="clap" class="emoji_comm"/> meilleur framework', '2018-07-03 10:20:16', 986523447),
+(783, 'osefman', 'test', 'dernier message', '2018-07-03 08:00:00', 328523323),
+(784, 'test', 'osefman', 'là dernier', '2018-07-04 06:00:00', 328523323),
+(785, 'test', 'osefman', 'test', '2018-07-04 10:38:30', 328523323),
+(786, 'osefman', 'test', 'message aussi', '2018-07-04 15:11:57', 328523323),
+(789, 'test', 'essai', 'CakePHP makes building web applications simpler, faster, while requiring less code. A modern PHP 7 framework offering a flexible database access layer and a powerful scaffolding system that makes building both small and complex systems simpler, easier and, of course, tastier. Build fast, grow solid with CakePHP.', '2018-07-05 15:29:22', 986523447),
+(790, 'test', 'essai', 'CakePHP makes building web applications simpler, faster, while requiring less code. A modern PHP 7 framework offering a flexible database access layer and a powerful scaffolding system that makes building both small and complex systems simpler, easier and, of course, tastier. Build fast, grow solid with CakePHP.', '2018-07-05 15:31:00', 986523447),
+(791, 'test', 'essai', ' CakePHP makes building web applications simpler, faster, while requiring less code. A modern PHP 7 framework offering a flexible database access layer and a powerful scaffolding system that makes building both small and complex systems simpler, easier and, of course, tastier. Build fast, grow solid with CakePHP. ', '2018-07-05 20:39:34', 986523447),
+(788, 'test', 'essai', '<a href="https://www.youtube.com/watch?v=Hiro44tZn64">https://www.youtube.com/watch?v=Hiro44tZn64</a>', '2018-07-05 15:27:58', 986523447),
+(792, 'test', 'essai', ' CakePHP makes building web applications simpler, faster, while requiring less code. A modern PHP 7 framework offering a flexible database access layer and a powerful scaffolding system that makes building both small and complex systems simpler, easier and, of course, tastier. Build fast, grow solid with CakePHP. ', '2018-07-05 20:40:56', 986523447),
+(793, 'test', 'essai', ' CakePHP makes building web applications simpler, faster, while requiring less code. A modern PHP 7 framework offering a flexible database access layer and a powerful scaffolding system that makes building both small and complex systems simpler, easier and, of course, tastier. Build fast, grow solid with CakePHP. ', '2018-07-05 20:41:19', 986523447),
+(794, 'essai', 'test', 'CakePHP makes building web applications simpler, faster, while requiring less code. A modern PHP 7 framework offering a flexible database access layer and a powerful scaffolding system that makes building both small and complex systems simpler, easier and, of course, tastier. Build fast, grow solid with CakePHP.', '2018-07-06 10:17:12', 986523447),
+(795, 'essai', 'test', 'CakePHP makes building web applications simpler, faster, while requiring less code. A modern PHP 7 framework offering a flexible database access layer and a powerful scaffolding system that makes building both small and complex systems simpler, easier and, of course, tastier. Build fast, grow solid with CakePHP.', '2018-07-06 10:18:01', 986523447);
 
 -- --------------------------------------------------------
 
@@ -396,29 +396,35 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id_notif`, `user_name`, `notification`, `created`, `statut`) VALUES
-(15, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 10:18:26', 1),
-(16, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 10:19:02', 1),
-(17, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 10:21:33', 1),
-(18, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 10:22:03', 1),
-(19, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 10:22:21', 1),
-(20, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 11:22:00', 1),
-(21, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 11:24:31', 1),
-(22, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 11:26:56', 1),
-(23, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 11:27:59', 1),
-(24, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 11:28:13', 1),
-(25, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 13:40:55', 1),
-(26, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/354">post</a> !', '2018-05-01 13:41:00', 1),
-(28, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 13:41:37', 1),
-(29, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/354">post</a> !', '2018-05-01 13:41:41', 1),
-(31, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/355">post</a> !', '2018-05-01 13:42:20', 1),
-(32, 'osefman', '<img src="/instatux/img/avatars/1480966833_183.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/354">post</a> !', '2018-05-01 13:42:21', 1),
-(86, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> souhaite s\'abonné\n            <a href="/instatux/abonnement/essai#demande">Gérer mes abonnements</a>', '2018-05-28 10:26:09', 1),
-(87, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/292">post</a> !', '2018-06-07 10:21:10', 1),
-(88, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/390">publication</a><br />test', '2018-06-14 10:43:14', 1),
-(89, 'osefman', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/390">publication</a><br />french', '2018-06-14 10:43:42', 1),
-(90, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/test">test</a> à commenté votre <a href="/instatux/post/390">publication</a><br />test', '2018-06-14 10:44:18', 1),
-(91, 'osefman', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/390">publication</a><br />alors ?', '2018-06-14 10:46:45', 1),
-(92, 'osefman', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/390">publication</a><br />hey osefman', '2018-06-14 10:47:23', 1);
+(102, 'test', '<img src="/instatux/img/avatars/default/default.png" alt="image utilisateur" class="img-thumbai"/><a href="/instatux/osefman">osefman</a> à partagé votre <a href="/instatux/post/325">post</a> !', '2018-07-04 15:11:29', 1),
+(103, 'test', '<img src="/instatux/img/avatars/default/default.png" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/osefman">osefman</a> à commenté votre <a href="/instatux/post/325">publication</a>', '2018-07-04 15:11:38', 1),
+(104, 'test', '<img src="/instatux/img/avatars/default/default.png" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/osefman">osefman</a> vous à envoyé un <a href="/instatux/conversation-328523323">message</a> !', '2018-07-04 15:11:57', 1),
+(105, 'test', '<img src="/instatux/img/avatars/default/default.png" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/osefman">osefman</a> à commenté votre <a href="/instatux/post/325">publication</a>', '2018-07-04 15:25:16', 1),
+(106, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 09:53:22', 1),
+(107, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 09:53:34', 1),
+(108, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 09:55:42', 1),
+(109, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 09:56:01', 1),
+(110, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 09:57:06', 1),
+(111, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 10:29:33', 1),
+(112, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/292">post</a> !', '2018-07-05 10:31:00', 1),
+(113, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 10:39:48', 1),
+(114, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/400">post</a> !', '2018-07-05 10:40:08', 1),
+(115, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/401">post</a> !', '2018-07-05 10:40:25', 1),
+(116, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 10:43:23', 1),
+(117, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/403">post</a> !', '2018-07-05 10:43:27', 1),
+(118, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/404">post</a> !', '2018-07-05 10:43:30', 1),
+(119, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-05 10:45:47', 1),
+(120, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/406">post</a> !', '2018-07-05 10:47:27', 1),
+(121, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/408">post</a> !', '2018-07-05 10:49:39', 1),
+(122, 'osefman', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/390">post</a> !', '2018-07-06 10:11:55', 1),
+(123, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/292">post</a> !', '2018-07-06 10:11:58', 1),
+(124, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> souhaite s\'abonné\n            <a href="/instatux/abonnement/essai#demande">Gérer mes abonnements</a>', '2018-07-09 20:58:30', 0),
+(125, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à accepté votre demande d\'abonnement', '2018-07-09 20:59:06', 0),
+(126, 'essai', '<img src="/instatux/img/avatars/1526647771_877.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> souhaite s\'abonné\n            <a href="/instatux/abonnement/essai#demande">Gérer mes abonnements</a>', '2018-07-10 15:16:43', 0),
+(127, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/325">publication.</a>', '2018-07-15 14:24:38', 1),
+(128, 'test', '<img src="/instatux/img/avatars/default/default.png" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/osefman">osefman</a> à commenté votre <a href="/instatux/post/325">publication.</a>', '2018-07-15 14:25:14', 1),
+(129, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/325">publication.</a>', '2018-07-15 14:27:05', 1),
+(130, 'test', '<img src="/instatux/img/avatars/warcraft.png" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/essai">essai</a> à commenté votre <a href="/instatux/post/325">publication.</a>', '2018-07-16 10:43:41', 0);
 
 -- --------------------------------------------------------
 
@@ -428,6 +434,7 @@ INSERT INTO `notifications` (`id_notif`, `user_name`, `notification`, `created`,
 
 CREATE TABLE `partage` (
   `id_partage` int(11) NOT NULL,
+  `sharer` varchar(50) NOT NULL,
   `tweet_partage` int(11) NOT NULL,
   `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -436,49 +443,11 @@ CREATE TABLE `partage` (
 -- Contenu de la table `partage`
 --
 
-INSERT INTO `partage` (`id_partage`, `tweet_partage`, `created`) VALUES
-(1, 8, '2017-06-19 19:34:03'),
-(4, 8, '2017-06-21 09:16:55'),
-(5, 8, '2017-06-21 09:18:33'),
-(6, 8, '2017-06-21 12:22:47'),
-(7, 8, '2017-06-21 12:23:49'),
-(8, 8, '2017-06-21 12:25:58'),
-(9, 8, '2017-06-22 12:04:30'),
-(14, 8, '2017-07-14 15:00:36'),
-(16, 8, '2017-07-17 08:05:48'),
-(17, 8, '2017-07-17 08:10:31'),
-(18, 8, '2017-07-17 08:10:52'),
-(19, 8, '2017-07-17 08:12:35'),
-(34, 8, '2017-09-11 19:08:09'),
-(35, 8, '2017-09-11 19:13:25'),
-(36, 8, '2017-09-11 19:14:41'),
-(37, 8, '2017-09-11 19:29:41'),
-(38, 8, '2017-09-12 08:11:07'),
-(39, 8, '2017-09-12 08:13:30'),
-(40, 242, '2017-10-05 09:02:23'),
-(46, 8, '2017-11-09 10:38:48'),
-(47, 241, '2017-11-09 10:38:55'),
-(48, 8, '2017-11-09 10:38:59'),
-(49, 8, '2017-11-09 13:20:04'),
-(50, 241, '2017-11-09 13:23:42'),
-(51, 241, '2017-11-09 13:24:04'),
-(52, 303, '2017-11-20 12:52:04'),
-(54, 252, '2017-11-28 13:09:31'),
-(57, 292, '2018-04-30 10:12:31'),
-(58, 292, '2018-04-30 10:12:46'),
-(59, 292, '2018-04-30 10:12:48'),
-(60, 292, '2018-04-30 10:12:49'),
-(61, 292, '2018-04-30 15:10:32'),
-(63, 292, '2018-04-30 15:11:44'),
-(64, 292, '2018-04-30 15:11:57'),
-(65, 292, '2018-04-30 15:12:50'),
-(66, 292, '2018-05-01 10:10:01'),
-(67, 292, '2018-05-01 10:10:10'),
-(68, 292, '2018-05-01 10:14:22'),
-(69, 292, '2018-05-01 10:15:19'),
-(82, 292, '2018-05-01 13:41:03'),
-(85, 292, '2018-05-01 13:41:44'),
-(91, 292, '2018-06-07 10:21:10');
+INSERT INTO `partage` (`id_partage`, `sharer`, `tweet_partage`, `created`) VALUES
+(108, 'test', 408, '2018-07-05 10:49:39'),
+(109, 'test', 390, '2018-07-06 10:11:55'),
+(110, 'test', 292, '2018-07-06 10:11:58'),
+(112, 'osefman', 252, '2018-07-07 11:03:35');
 
 -- --------------------------------------------------------
 
@@ -539,7 +508,7 @@ CREATE TABLE `tweet` (
   `user_timeline` varchar(255) NOT NULL,
   `contenu_tweet` text NOT NULL,
   `created` datetime DEFAULT NULL,
-  `share` int(111) DEFAULT 0,
+  `share` int(11) NOT NULL DEFAULT 0,
   `nb_commentaire` int(111) DEFAULT 0,
   `nb_partage` int(111) NOT NULL DEFAULT 0,
   `nb_like` int(111) NOT NULL DEFAULT 0,
@@ -555,19 +524,23 @@ INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created
 (8, 'essai', 'essai', '<p>accueil moi</p>', '2016-09-06 19:35:36', 0, 5, 21, 0, 0, 0),
 (241, 'essai', 'essai', '<p>pas voir</p>', '2017-09-12 08:16:45', 0, 0, 3, 0, 1, 0),
 (242, 'essai', 'essai', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-09-14 12:34:31', 0, 0, 1, 2, 1, 1),
-(248, 'test', 'essai', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-10-27 15:25:52', 1, 1, 0, 2, 0, 0),
-(249, 'test', 'essai', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-10-27 15:30:17', 1, 0, 0, 1, 0, 0),
-(250, 'test', 'essai', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-10-27 15:30:24', 1, 0, 0, 2, 0, 0),
-(252, 'test', 'test', '<div data-oembed-url="https://i.redd.it/07gyjkopm2vz.png"><div style="max-width: 1728px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 177.7778%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/G45pTO1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-11-03 10:30:39', 0, 4, 1, 1, 0, 0),
-(292, 'essai', 'osefman', '<p>pas voir</p>', '2017-11-09 13:24:04', 1, 0, 15, 0, 0, 0),
-(310, 'test', 'essai', '<div data-oembed-url="http://www.20minutes.fr/"><a href="http://www.20minutes.fr/" data-iframely-url="https://cdn.iframe.ly/cqIqWR5">20 Minutes, information en continu. Actualit&eacute;s, Politique, Football,...</a><script async="" src="https://cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-23 15:31:17', 1, 1, 0, 0, 0, 0),
+(248, 'test', 'essai', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-10-27 15:25:52', 0, 1, 0, 2, 0, 0),
+(249, 'test', 'essai', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-10-27 15:30:17', 0, 0, 0, 1, 0, 0),
+(250, 'test', 'essai', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-10-27 15:30:24', 0, 0, 0, 2, 0, 0),
+(252, 'test', 'test', '<div data-oembed-url="https://i.redd.it/07gyjkopm2vz.png"><div style="max-width: 1728px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 177.7778%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/G45pTO1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-11-03 10:30:39', 0, 0, 1, 1, 0, 0),
+(292, 'essai', 'osefman', '<p>pas voir</p>', '2017-11-09 13:24:04', 0, 0, 1, 0, 0, 0),
+(310, 'test', 'essai', '<div data-oembed-url="http://www.20minutes.fr/"><a href="http://www.20minutes.fr/" data-iframely-url="https://cdn.iframe.ly/cqIqWR5">20 Minutes, information en continu. Actualit&eacute;s, Politique, Football,...</a><script async="" src="https://cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-23 15:31:17', 0, 1, 0, 0, 0, 0),
 (311, 'essai', 'essai', '<p><a href="test">@test</a> yo !</p>', '2017-11-23 15:31:55', 0, 0, 0, 0, 1, 0),
 (312, 'essai', 'essai', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-11-23 15:34:32', 0, 0, 0, 0, 1, 0),
-(317, 'test', 'essai', '<div data-oembed-url="https://out.reddit.com/t3_7achq2?url=https%3A%2F%2Fi.imgur.com%2FmyWL1rv.jpg&amp;token=AQAAjFT8WbJ1XM5CjQwefLOmj6P5jaJhoJQt11wdrMz4_K1vhq1Y&amp;app_name=reddit.com"><blockquote class="imgur-embed-pub" data-id="myWL1rv" lang="en"><a href="https://imgur.com/myWL1rv">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-28 16:19:14', 1, 0, 0, 0, 0, 0),
-(320, 'test', 'essai', '<div data-oembed-url="https://out.reddit.com/t3_7achq2?url=https%3A%2F%2Fi.imgur.com%2FmyWL1rv.jpg&amp;token=AQAAjFT8WbJ1XM5CjQwefLOmj6P5jaJhoJQt11wdrMz4_K1vhq1Y&amp;app_name=reddit.com"><blockquote class="imgur-embed-pub" data-id="myWL1rv" lang="en"><a href="https://imgur.com/myWL1rv">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-30 10:11:13', 1, 0, 0, 0, 0, 0),
-(321, 'test', 'essai', '<div data-oembed-url="http://www.20minutes.fr/"><a href="http://www.20minutes.fr/" data-iframely-url="https://cdn.iframe.ly/cqIqWR5">20 Minutes, information en continu. Actualit&eacute;s, Politique, Football,...</a><script async="" src="https://cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-30 10:11:46', 1, 0, 0, 0, 0, 0),
-(325, 'test', 'test', '<div data-oembed-url="https://scontent-dft4-3.cdninstagram.com/t51.2885-15/e35/25013083_251948242004274_6743671715026436096_n.jpg"><div style="max-width: 1296px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/91HD3mZ" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-12-23 09:37:11', 0, 105, 0, 2, 0, 0),
-(390, 'osefman', 'osefman', '<p>test comm</p>', '2018-06-14 10:42:20', 0, 7, 0, 0, 0, 0);
+(317, 'test', 'essai', '<div data-oembed-url="https://out.reddit.com/t3_7achq2?url=https%3A%2F%2Fi.imgur.com%2FmyWL1rv.jpg&amp;token=AQAAjFT8WbJ1XM5CjQwefLOmj6P5jaJhoJQt11wdrMz4_K1vhq1Y&amp;app_name=reddit.com"><blockquote class="imgur-embed-pub" data-id="myWL1rv" lang="en"><a href="https://imgur.com/myWL1rv">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-28 16:19:14', 0, 0, 0, 0, 0, 0),
+(320, 'test', 'essai', '<div data-oembed-url="https://out.reddit.com/t3_7achq2?url=https%3A%2F%2Fi.imgur.com%2FmyWL1rv.jpg&amp;token=AQAAjFT8WbJ1XM5CjQwefLOmj6P5jaJhoJQt11wdrMz4_K1vhq1Y&amp;app_name=reddit.com"><blockquote class="imgur-embed-pub" data-id="myWL1rv" lang="en"><a href="https://imgur.com/myWL1rv">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-30 10:11:13', 0, 0, 0, 0, 0, 0),
+(321, 'test', 'essai', '<div data-oembed-url="http://www.20minutes.fr/"><a href="http://www.20minutes.fr/" data-iframely-url="https://cdn.iframe.ly/cqIqWR5">20 Minutes, information en continu. Actualit&eacute;s, Politique, Football,...</a><script async="" src="https://cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-30 10:11:46', 0, 1, 0, 0, 0, 0),
+(325, 'test', 'test', '<div data-oembed-url="https://scontent-dft4-3.cdninstagram.com/t51.2885-15/e35/25013083_251948242004274_6743671715026436096_n.jpg"><div style="max-width: 1296px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/91HD3mZ" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-12-23 09:37:11', 0, 135, 1, 2, 0, 0),
+(390, 'osefman', 'osefman', '<p>test comm</p>', '2018-06-14 10:42:20', 0, 7, 1, 1, 0, 0),
+(392, 'test', 'osefman', '<div data-oembed-url="https://scontent-dft4-3.cdninstagram.com/t51.2885-15/e35/25013083_251948242004274_6743671715026436096_n.jpg"><div style="max-width: 1296px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/91HD3mZ" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2018-07-04 15:11:29', 1, 0, 0, 0, 0, 0),
+(408, 'osefman', 'osefman', '<p>partage</p>', '2018-07-05 10:48:55', 0, 0, 1, 0, 0, 0),
+(422, 'test', 'osefman', '<p>2</p>', '2018-07-07 11:03:28', 1, 0, 0, 0, 0, 0),
+(423, 'test', 'osefman', '<div data-oembed-url="https://i.redd.it/07gyjkopm2vz.png"><div style="max-width: 1728px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 177.7778%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/G45pTO1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2018-07-07 11:03:35', 1, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -593,7 +566,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`, `modified`, `description`, `avatarprofil`, `lieu`, `website`) VALUES
-(17, 'test', '$2y$10$UIQ9op5aAipqz8pDVruLU.pvOIj1kWtiYDxejEP9J40xE439wn1W6', 'alexa@gmail.com', '2016-09-02 12:08:17', '2018-05-24 10:22:27', 'cakephp 3 <3', 'avatars/1526647771_877.jpg', 'Metz', 'https://cakephp.org/'),
+(17, 'test', '$2y$10$UIQ9op5aAipqz8pDVruLU.pvOIj1kWtiYDxejEP9J40xE439wn1W6', 'alexa@gmail.com', '2016-09-02 12:08:17', '2018-07-03 10:16:11', 'cakephp 3 <3', 'avatars/1526647771_877.jpg', 'Metz', 'https://cakephp.org/'),
 (18, 'essai', '$2y$10$iXLVGo6eGEB2cTKBpg/nieN5xr/VfBLiKl9LFBcQ1nVAfW00I3JOG', 'osef@gmail.com', '2016-09-06 19:03:25', '2018-05-23 10:24:40', 'essai cakephp 3', 'avatars/warcraft.png', 'Metz', ''),
 (63, 'osefman', '$2y$10$ogM/Rds30RYxjktgdyRRLeQzaD7w8Egon7iysEDFOrz1SNH3D4tMi', 'testred@gmail.com', '2017-11-09 13:23:25', '2018-05-16 17:09:50', 'test', 'avatars/default/default.png', 'Metz', NULL);
 
@@ -690,22 +663,22 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=517;
 --
 -- AUTO_INCREMENT pour la table `aime`
 --
 ALTER TABLE `aime`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=291;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
 --
 -- AUTO_INCREMENT pour la table `blocage`
 --
 ALTER TABLE `blocage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 --
 -- AUTO_INCREMENT pour la table `conversation`
 --
 ALTER TABLE `conversation`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 --
 -- AUTO_INCREMENT pour la table `hashtag`
 --
@@ -715,17 +688,17 @@ ALTER TABLE `hashtag`
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=738;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=796;
 --
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
 ALTER TABLE `partage`
-  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 --
 -- AUTO_INCREMENT pour la table `settings`
 --
@@ -735,7 +708,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=392;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=428;
 --
 -- AUTO_INCREMENT pour la table `users`
 --

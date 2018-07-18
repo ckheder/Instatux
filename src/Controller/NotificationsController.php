@@ -39,14 +39,13 @@ class NotificationsController extends AppController
     {
       $this->viewBuilder()->layout('general');
        $this->set('title', 'Notifications'); // titre de la page
-                $notification = $this->Notifications->find();
-                
-        $notification->where([
+                $notification = $this->Notifications->find()->where([
 
 'user_name' =>  $this->Auth->user('username')
 
-            ]);
-        $notification->order(['created'=> 'DESC']);
+            ])
+                
+                ->order(['created'=> 'DESC']);
 
         $nb_notif =  $notification->count(); // calcul du nombre de tweet
 

@@ -32,22 +32,26 @@ class AbonnementCell extends Cell
 //test de l'abonnement, si je le suis
 
         $this->loadModel('Abonnement');
-        $abonnement = $this->Abonnement->find();
-        $abonnement->where([
+        $abonnement = $this->Abonnement->find()->select(['etat'])
+->where([
 
 'user_id' =>  $authname
 
             ])
-        ->where(['suivi'=> $this->request->getParam('username')])
-        ->where(['etat' => 1]);
+        ->where(['suivi'=> $this->request->getParam('username')]);
+
         
-        if ($abonnement->isEmpty()) 
+        if ($abonnement->isEmpty()) // aucun abonnement
         {
-   $this->set('abonnement',0);
+   $this->set('abonnement',2);
 }
 else
 {
-     $this->set('abonnement',1);
+                    foreach ($abonnement as $abonnement) // 0 -> demande, 1 -> abonnement validé
+                {
+                $etat_abo = $abonnement['etat'];
+                }
+     $this->set('abonnement',$etat_abo);
 
 }
 
@@ -120,27 +124,35 @@ $this->set('nb_abonnement',$nb_abonnement);
     {
 
         $this->loadModel('Abonnement');
-        $abonnement = $this->Abonnement->find();
-        $abonnement->where([
+        $abonnement = $this->Abonnement->find()->select(['etat'])
+->where([
 
 'user_id' =>  $authname
 
             ])
-        ->where(['suivi'=> $suivi])
-        ->where(['etat' => 1]);
+        ->where(['suivi'=> $suivi]);
         
         if ($abonnement->isEmpty()) 
         {
-   $this->set('abonnement',0);
+   $this->set('abonnement',2);
 }
 else
 {
-     $this->set('abonnement',1);
+    
+                    foreach ($abonnement as $abonnement) // 0 -> demande, 1 -> abonnement validé
+                {
+                $etat_abo = $abonnement['etat'];
+                }
+     $this->set('abonnement',$etat_abo);
 
 }
 
 $this->set('suivi', $suivi);
     }
+
+
+
+
 
     private function mesabonnes($authname)
     {

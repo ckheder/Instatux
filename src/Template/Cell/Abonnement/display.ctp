@@ -12,19 +12,20 @@ if(isset($authname))
 
             if($this->request->getParam('username') != $authname) // si c'est pas moi
 {
-            if($abonnement === 0) // je ne suis pas abonné
+
+            if($abonnement == 0) // demande d'abonnement en cours
              {
               ?>
               
               <li id="actionabo"> <!-- lien nouvel abonnement : public ou privé -->
-                  <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="add" title="Suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
+                  <button type="button" class="btn btn-warning">Demande envoyé</button>
             </li>
              
                
                
             <?php
           }
-            elseif($abonnement === 1) // je suis abonné
+            elseif($abonnement == 1) // je suis abonné
             {
                 
 ?>
@@ -36,9 +37,17 @@ if(isset($authname))
                   'title' => 'Envoyer un message à '.$this->request->getParam('username').'',
                   'type' => 'button']);
                   ?> - 
-                              <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="delete" title="Ne plus suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-minus"></span></a>
+                              <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="delete" title="Ne plus suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-minus"></a>
                 </li>
                 <?php  
+            }
+            elseif($abonnement == 2) // nouvel abonnement
+            {
+              ?>
+              <li id="actionabo">
+                <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="add" title="Suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
+              </li>
+              <?php
             }
 
             if($etat_blocage === 1) // utilisateur bloqué
