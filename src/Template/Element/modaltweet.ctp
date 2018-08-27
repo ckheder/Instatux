@@ -5,9 +5,8 @@ echo $this->Modal->create(['id' => 'ModalTweet']) ;
 
                 ?>
                 <textarea id="editor1" name="contenu_tweet"></textarea>
-                <script>
-                CKEDITOR.replace( 'editor1' );
-            </script>
+              
+
                 
                 <br />
 <div class="text-center">

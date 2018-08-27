@@ -29,7 +29,11 @@ echo $this->Modal->create(['id' => 'ModalConnexion']) ;
     <?= $this->Form->end() ?>
     <br />
     <br />
+     <a href="#">Mot de passe oublié ? </a>
+         <br />
+             <br />
 </div>
+
 <?php
                 echo $this->Modal->footer([
                     $this->Form->button('Fermer', ['data-dismiss' => 'modal', 'class' =>'btn btn-danger'])

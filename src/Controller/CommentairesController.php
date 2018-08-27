@@ -22,10 +22,11 @@ class CommentairesController extends AppController
         
          if ($this->request->is('ajax')) {
 
-            if ($this->allowcomment($this->request->data('id')) == 1) // commentaire désactivé
+            if ($this->allowcomm($this->request->data('id')) == 1) // test commentaire désactivé sur l'id du tweet
             {
                                 $reponse = 'commdesac';
                 $this->response->body($reponse);
+
             }
 
             else
@@ -56,7 +57,7 @@ class CommentairesController extends AppController
           
             if ($this->Commentaires->save($commentaire)) {
 
-              if( $this->request->data['auttweet'] != $this->Auth->user('username')) // si je ne suis pas l'auteur du tweet, on vérifie si j'accepte les notifs de comm
+              if($this->request->data['auttweet'] != $this->Auth->user('username')) // si je ne suis pas l'auteur du tweet, on vérifie si j'accepte les notifs de comm
                   {
                      if($this->testnotifcomm($this->request->data['auttweet']) == "oui")
                 {
@@ -144,25 +145,26 @@ $this->response->body(json_encode($data));
     {
 
       if ($this->request->is('ajax')) {
-        $commentaire = $this->Commentaires->get($this->request->getParam('id'));
 
-        if ($this->Commentaires->delete($commentaire)) 
-        {
-            
-$reponse = 'suppcommok';
-    
-}
-    else 
-    {
-            $reponse = 'suppcommfail';
-        }
+                            $query = $this->Commentaires->query();
+            $query->delete()
+    ->where(['user_id' => $this->Auth->user('id')])
+    ->where(['id' => $this->request->getParam('id')])
+    ->execute();
+ 
+            if ($query) 
+            {
+               $reponse = 'suppcommok';
+            }
+            else 
+            {
 
+                $reponse = 'suppcommfail';
+            }
                         $this->response->body($reponse);
     return $this->response;
-
- }
-
-
+        
+}
 
     }
 
@@ -223,12 +225,22 @@ private function allowcomm($idtweet) // test de l'activation des commentaires
 
     $allowcomment = $this->Tweet->find()->select(['allow_comment'])->where(['id' => $idtweet]);
 
-        foreach ($allowcomment as $$allowcomment) // recupération du résultat
+        foreach ($allowcomment as $allowcomment) // recupération du résultat
                 {
                 $allowcomm = $allowcomment['allow_comment'];
                 }
 
-             return $allowcomm;
+                if($allowcomm == 0)
+                {
+                  return $allowcomm = 0;
+                }
+                else
+                {
+
+             return $allowcomm = 1;
+           }
+
+
 }
 
 }

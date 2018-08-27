@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-left">
  <li>
-  <a href="/instatux/actualites" title="Actualités"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Accueil</a></li>
+  <a href="/instatux/actualites" title="Actualités"><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;Accueil</a></li>
 
         <li>
       <?= $this->Form->create('', array('class'=>'navbar-form','url'=>array('controller'=>'search', 'action'=>'redirectsearch')));?>
@@ -36,6 +36,9 @@
 
 <?= $this->Form->button('Connexion', array('class'=>'btn btn-primary')) ?>
     <?= $this->Form->end() ?>
+        </li>
+        <li>
+          <a href="#">Mot de passe oublié ? </a>
         </li>
        </ul>
 

@@ -295,6 +295,51 @@ $('#website').val('');
 
 // fin mise à jour site web
 
+// mise à jour mot de passe
+
+    $('#form_password').submit(function(e){
+
+      e.preventDefault();
+
+        $.ajax({
+                type: 'POST',
+                url: '/instatux/settings/resetpassword',
+                data: $('#form_password').serialize(),
+    success: function(data){
+
+      if(data == 'ok')
+      {
+    
+ $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;Mot de passe mis à jour.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+      }
+      else if(data == 'pasmeme')
+      {
+          $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Les deux mots de passe ne correspondent pas.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+      }
+
+      $('#pwd').val('');
+       $('#confirmpwd').val('');
+    },
+    error: function(data)
+    {
+
+      $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Problème lors de la mise à jour de votre mot de passe ajax.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );     
+    }          
+         });
+    });
+
+
+// fin mise à jour mot de passe
+
 // mise à jour avatar
 
     $('#form_avatar').submit(function(e){
@@ -317,14 +362,8 @@ $('#website').val('');
 
       if(resultat)
       {
-    
 
- $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;Avatar mis à jour.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );
-
-        document.getElementById('user_avatar').innerHTML = '<img src="http://localhost/instatux/img/' +data+ '" alt="image utilisateur" class="img-circle" max-width="100%" width="128" height="auto">'  ; // mise à jour  : ajout du lien désactivé comm
+location.reload();
 
 }
 else

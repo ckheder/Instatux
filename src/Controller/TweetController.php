@@ -91,7 +91,7 @@ class TweetController extends AppController
 
 
 }
-
+// VÉRIFIER SI JE PEUT VOIR UN PROFIL
     private function allow_see_profil($username) // $username = $this->request->getPram('username')
     {
 

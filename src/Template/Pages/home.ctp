@@ -24,10 +24,11 @@ use Cake\Network\Exception\NotFoundException;
         <?= $this->Flash->render() ?>
   <div class="row">
          <div class="col-sm-3">
-    <?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'add')));?>
+    <?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'add'), 'id'=>'form_insc'));?>
 
     
-        <div class="text-center"><legend><?= __('Inscription') ?></legend></div>
+        <div class="text-center"><h4><span class="glyphicon glyphicon-check"></span>&nbsp;Inscription</h4></div>
+        <br />
         <div class="input-group">
         <div class="input-group-addon">
   <span class="glyphicon glyphicon-user"></span> 
@@ -57,6 +58,9 @@ use Cake\Network\Exception\NotFoundException;
             <br />
         
     </fieldset>
+    <p>
+      En cliquant sur Inscription, vous acceptez nos <a href="#">Conditions générales</a>.
+    </p>
     <br />
     <div class="text-center">
     <?= $this->Form->button('Inscription', array('class'=>'btn btn-info')) ?>
@@ -74,10 +78,9 @@ Rejoignez Instatux aujourd'hui.
   <li><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Crée votre profil.</li>
   <li><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Connectez-vous à vos amis ou aux personnes partageant les mêmes centres d'intérêt.</li>
   <li><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Discussion en temps réel.</li>
-  <li><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Réagissez au sujet qui vous intéressent.</li>
+  <li><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Réagissez aux sujets qui vous intéressent.</li>
 </ul>
 </p>
-<hr>
       </div>
 <div class="col-sm-4">
 <br />
@@ -85,21 +88,14 @@ Rejoignez Instatux aujourd'hui.
       </div>
 
   </div>
-    <footer>
-<ul class="list-inline">
-  <li>Cras justo odio</li>
-  <li>Dapibus ac facilisis in</li>
-  <li>Morbi leo risus</li>
-  <li>Porta ac consectetur ac</li>
-  <li>Vestibulum at eros</li>
-  <li>Vestibulum at eros</li>
-</ul>
+    <footer class="footer">
+  <div class="container">
+   <a href="#">Conditions d'utilisation - </a><a  href="https://github.com/ckheder/Instatux">Contribuer - </a><a href="#">Contact</a>
+  </div>
     </footer>
 </div>
 </div>
 
-        
-          
             
         
 

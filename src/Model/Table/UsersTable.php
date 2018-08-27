@@ -89,9 +89,9 @@ $validator = new Validator();
             ->add(
                 'username',[
         'notReserved'=>[
-        'rule'=>'notReserved',
-        'provider'=>'table',
-        'message'=>'Ce nom ne peut pas être utlisé.'
+            'rule'=>'notReserved',
+            'provider'=>'table',
+            'message'=>'Ce nom ne peut pas être utlisé.'
          ]
         ])
         
@@ -125,22 +125,9 @@ $validator = new Validator();
 
     }
 
-        public function notReserved() // tableau recensant les noms réservés , utilisé dans le menuco/menuoffline
+        public function notReserved($value, array $context) // tableau recensant les noms réservés , utilisé dans le menuco/menuoffline
         {
 
-            $arrayReserved = array(
-
-                'actualites','accueuil','search','settings','notifications','messagerie','abonnement','logout');
-
-        if(in_array('username',$arrayReserved)) 
-        {
-            return true;
-        } 
-        else 
-        {
-            return false;
-        }
-
-
+            return !in_array($value, ['actualites','accueuil','search','settings','notifications','messagerie','abonnement','logout'], false);
 }
 }

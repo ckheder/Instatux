@@ -15,24 +15,19 @@ use Cake\Routing\Router;
 <p id="etatnotif"></p>
 
 
-
-
-
- <span class="link_comm_share">
-
-  <?php
-
-echo $this->Html->Link("Tout marquer comme lue",'#',array(
+ <div class="dropdown">
+  <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Options
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><?= $this->Html->Link("Tout marquer comme lue",'#',array(
         'id' => 'allnotiflue','onclick' => 'return false' 
-    ));
-
-echo $this->Html->Link("Paramètres", '/settings#setup_profil',['class' => 'pull-right']);
-
-?>
-
-</span>
-
-<br />
+    ));?></li>
+    <li><?= $this->Html->Link("Tout effacer",'#',array(
+        'id' => 'alldeletenotif','onclick' => 'return false' 
+    ));?> </li>
+    <li><?=$this->Html->Link("Paramètres", '/settings#setup_profil'); ?> </li>
+  </ul>
+</div> 
 <br />
 <div id="list_tweet">
 <?php
@@ -42,14 +37,14 @@ echo $this->Html->Link("Paramètres", '/settings#setup_profil',['class' => 'pull
 if($notification->statut == 0) // notif non lu
 {
     
-    echo '<div class="notif_non_lu">';
+    echo '<div class="notif_non_lu" data-idnotif="'.$notification->id_notif.'">';
 
  }
 
 else // notif lue
 {
   
-echo '<div class="notif_lu">';
+echo '<div class="notif_lu" data-idnotif="'.$notification->id_notif.'">';
 
 }
      ?>
@@ -57,14 +52,20 @@ echo '<div class="notif_lu">';
             <span class="date_notif">
 
             <?= $notification->created->i18nformat('dd MMMM YYYY'); ?>
-                 
+
+             <a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Supprimer"  class="deletenotif" onclick="return false;"><span class="glyphicon glyphicon-remove red"></span></a> 
+
+                             
              </span>
        
 
-            <?= $this->Text->autoParagraph($notification->notification);
+            <?= $this->Text->autoParagraph($notification->notification); ?>
 
-echo '</div>';
 
+
+</div>
+
+<?php
 
 endforeach; ?>
 
@@ -80,5 +81,8 @@ endforeach; ?>
  <?php         
 
         } ?>
+
+
+
 
  <?= $this->Html->script('indexnotification.js') ?>

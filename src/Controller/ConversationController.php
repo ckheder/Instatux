@@ -22,28 +22,31 @@ class ConversationController extends AppController
      * @return \Cake\Network\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null) // $id -> id de la conversation / 0-> conversation masqué
+    public function edit() // $id -> id de la conversation / 0-> conversation masqué
     {
 
+        if ($this->request->is('ajax')) {
         $query = $this->Conversation->query();
         $query->update()
     ->set(['statut' => 0])
     ->where(['participant1' => $this->Auth->user('username')])
-    ->where(['conv' => $id ])
+    ->where(['conv' => $this->request->getParam('id') ])
     ->execute();
  
             if ($query) 
             {
                 
-                $this->Flash->success(__('Conversation supprimée.'));
-
-                return $this->redirect(['controller' => 'Messagerie', 'action' => 'index']);
+             $reponse = 'suppconvok';
             }
-            $this->Flash->error(__('Impossible de supprimer cette conversation.'));
+            else
+            {
+                $reponse = 'suppconvfail';
+            }
+            
         
-        $this->set(compact('conversation'));
-        $this->set('_serialize', ['conversation']);
+$this->response->body($reponse);
+    return $this->response;
     }
 
-   
+   }
 }

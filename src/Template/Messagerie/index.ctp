@@ -32,7 +32,7 @@ use Cake\Routing\Router;
  </div>
 
             <?php foreach ($conv as $conv): ?>
-            <div class="tweet">
+            <div class="tweet" data-conv ="<?= $conv->Messagerie['conv'] ;?>">
 
                                       <div class="dropdown">
   <button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -41,7 +41,7 @@ use Cake\Routing\Router;
   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
 
                 <li>
-                <?= $this->Html->Link("Effacer cette conversation", ['controller' => 'Conversation','action' => 'edit',$conv->conv ]) ?> <!-- je peut effacer mon post -->
+                 <a href="#" data-conv="<?= $conv->Messagerie['conv'] ;?>"  title="Effacer ce commentaire"  class="deleteconv" onclick="return false;">Effacer cette conversation</a>
             </li>
 
              </li>
@@ -62,5 +62,5 @@ use Cake\Routing\Router;
             <?php endforeach; ?>
 
                  
-
+<?= $this->Html->script('deleteconv.js') ?>
 

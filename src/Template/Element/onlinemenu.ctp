@@ -10,7 +10,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="/instatux/accueuil"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Actualités</a></li>
+        <li><a href="/instatux/accueuil"><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;Actualités</a></li>
 
              <li><a href="/instatux/notifications" title="Notifications"><span class="glyphicon glyphicon-bell"></span><span id="count_nb_notif"></span>&nbsp;Notifications</a></li>
      <li><a href="/instatux/messagerie" title="Messagerie"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;Messagerie</a></li>
@@ -35,18 +35,17 @@
        </div>
 </form>
 </li>
-<li><a href="/instatux/<?= $authName ;?>"><?= $this->Html->image(''.$authAvatar.'', array('alt' => 'image utilisateur', 'class'=>'img-circle', 'width'=>'15','height'=>'15')); ?></a></li>
+<li><a href="/instatux/<?= $authName ;?>"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Moi</a></li>
 <li><?= $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', 
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#ModalTweet',
                   'class' => 'btn btn-info navbar-btn',
                   'type' => 'button']);
                   ?>    </li>
- <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
+ <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cog"></span></a>
 
 
         <ul class="dropdown-menu">
-          <li><a href="/instatux/settings" title="Paramètres">Paramètres</a></li>
           <li><a href="/instatux/abonnement/<?= $authName ;?>">Mes abonnements</a></li>
           <li> <a href="/instatux/abonne/<?= $authName ;?>">Mes abonnés</a></li>
           <li><a href="/instatux/demande">Mes demandes</a></li>

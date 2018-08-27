@@ -1,3 +1,4 @@
+
 <div id="tabs">
   <ul>
     <li><a href="#setup_information">Mes informations</a></li>
@@ -6,7 +7,7 @@
   </ul>
   <div id="setup_information">
 
-<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editdescription'),'id'=>'form_desc'));?>
+<?= $this->Form->create('', array('id'=>'form_desc'));?>
 
 <?= $this->Form->Textarea('description', ['id' => 'description','label'=>'','placeholder' => 'Parler de moi...']) ?>
 
@@ -17,7 +18,7 @@
 <?= $this->Form->end() ?>
 <!-- fin modifier ma descritpion -->
 <!-- modifier mon lieu -->
-<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editlieu'),'id'=>'form_lieu'));?>
+<?= $this->Form->create('', array('id'=>'form_lieu'));?>
 <p class="text-muted">
     <br />
 Partager ma localisation
@@ -32,7 +33,7 @@ Partager ma localisation
 <!-- modifier mon site web -->
 
 
-<?= $this->Form->create('', array('url'=>array('controller'=>'users', 'action'=>'editwebsite' ),'id' =>'form_website'));?>
+<?= $this->Form->create('', array('id' =>'form_website'));?>
 <p class="text-muted">
   <br />
 Partager mon site web ou un site que j'apprécie.
@@ -49,14 +50,13 @@ Partager mon site web ou un site que j'apprécie.
 <?= $this->Form->end() ?>
 <!-- fin modifier mon site web -->
 <!-- modifier mon avatar -->
-
 <div class="text-center">
 <h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;Changer ma photo</h4>
 </div>
 <br />
 <?= $this->Form->create('',array('id' => 'form_avatar','type' => 'file')) ?>
-<p class="text-muted">Nouvel avatar (jpg/jpeg/png) 1mo maximum </p>
-<?= $this->Form->input('', array('name' => 'file','type' => 'file')); ?>
+<p class="text-muted">Nouvel avatar (jpg/jpeg) 1mo maximum </p>
+<?= $this->Form->input('', array('id' => 'inputfile','name' => 'file','type' => 'file')); ?>
 <br />
 <div class="text-center">
 <?= $this->Form->button('Enregistrer', array('class'=>'btn btn-info')) ?>
@@ -64,11 +64,21 @@ Partager mon site web ou un site que j'apprécie.
 <br />
 <br />
 </div>
+<div class="text-center">
+<h4><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Supprimer mon compte</h4>
+</div>
 <p class="text-warning">
-<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;La suppresion de votre compte entraînera l'effacement complet de tous vos posts mais ceux qui auront été partagés par les personnes qui vous suivent.
+<span class="glyphicon glyphicon-alert"></span>&nbsp;&nbsp;La suppresion de votre compte entraînera l'effacement complet de tous vos posts mais pas ceux qui auront été partagés par les personnes qui vous suivent.
 </p>
 <div class="text-center">
-<?= $this->Form->button(__('<i class="glyphicon glyphicon-trash"></i>&nbsp;Supprimer mon compte'), ['controller'=>'users', 'action' => 'delete', 'class' => 'btn btn-danger', $authUser], ['confirm' => __('Are you sure you want to delete # {0}?', $authUser)]) ?>
+<?=$this->Html->link(
+    'Supprimer mon compte',
+    ['controller' => 'users', 'action' => 'delete', $authUser],
+    [ 'class' => 'btn btn-danger navbar-btn']
+);
+
+?>
+
 </div>
   </div>
   <div id="setup_profil">
@@ -184,7 +194,27 @@ Les notifications de commentaires vous informent si vos abonnés , dans le cas d
     <!-- fin notification de commentaire -->
 <hr>
 <!-- fin notifications -->
+<!-- changer mot de passe -->
+<div class="text-center">
+<h4> <span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;Changer de mot de passe</h4>
+</div>
+<?= $this->Form->create('', array('id' =>'form_password'));?>
+<p class="text-muted">
+  <br />
+Votre nouveau de passe devrait contenir des chiffres, des lettres et des symboles alphanumérique(#,@,$,...) pour plus de sécurité.
+</p>
+<?= $this->Form->input('password', ['id' => 'pwd', 'type'=>'password','prepend' => ' <span class="glyphicon glyphicon-lock"></span> ','label'=>'','placeholder' => 'nouveau mot de passe'],array('class'=>'form-controle')) ?>
+<!-- confirmer nouveau mot de passe -->
+<?= $this->Form->input('confirmpassword', ['id' => 'confirmpwd','type'=>'password', 'prepend' => ' <span class="glyphicon glyphicon-lock"></span> ','label'=>'','placeholder' => 'confirmer nouveau mot de passe'],array('class'=>'form-controle')) ?>
 
+<br />
+<div class="text-center">
+<?= $this->Form->button('Enregistrer', array('class'=>'btn btn-info')) ?>
+<br />
+<br />
+</div>
+<?= $this->Form->end() ?>
+<!-- fin changer mot de passe -->
 </div>
   <div id="users_blocks">
     <p class="text-warning">

@@ -6,6 +6,7 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Filesystem\Folder;
 use Cake\Filesystem\File;
+use Cake\Mailer\MailerAwareTrait;
 /**
  * Users Controller
  *
@@ -14,7 +15,8 @@ use Cake\Filesystem\File;
 class UsersController extends AppController
 {
 
-  
+
+  use MailerAwareTrait;
 
     /**
      * Index method
@@ -35,7 +37,7 @@ class UsersController extends AppController
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['add', 'logout']);
+        $this->Auth->allow(['add', 'logout', 'delete']);
     }
 
     /**
@@ -69,7 +71,7 @@ class UsersController extends AppController
             'username' => $this->request->data['username'], 
             'password' => $this->request->data['password'],
             'email' =>  $this->request->data['email'],
-            'avatarprofil' =>  "avatars/default/default.png"
+            'avatarprofil' =>  "avatars/".$this->request->data['username'].".jpg"
             );
 
             $user = $this->Users->patchEntity($user, $data);
@@ -78,9 +80,11 @@ class UsersController extends AppController
 
                  // évènement de création de la ligne settings 
 
-                $event = new Event('Model.Settings.afteradd', $this, ['user' => $user]);
+                $event = new Event('Model.User.afteradd', $this, ['user' => $user]);
 
                 $this->eventManager()->dispatch($event);
+
+                $this->getMailer('User')->send('welcome', [$user]);
 
                 $this->Flash->success(__('Inscription réussie, bienvenue '.h($this->request->data('username')).' sur Instatux.'));
                 return $this->redirect('/'.$this->Auth->user('username').'');
@@ -116,7 +120,7 @@ class UsersController extends AppController
     }
 
     /**
-     * Edit methodfor description
+     * Edit method for description
      *
      * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
@@ -189,9 +193,38 @@ $data = array('website' => $user->website);
         }
       }
 
+          public function editpassword()
+    {
 
-    
+      if ($this->request->is('ajax')) {
 
+        if($this->request->data('password') == $this->request->data('confirmpassword'))
+        {
+
+$usersTable = TableRegistry::get('Users');
+$user = $usersTable->get($this->Auth->user('id'));
+$user->password = $this->request->data('password');
+
+            if ($usersTable->save($user))
+            {
+$reponse = 'ok';
+}
+else
+{
+  $reponse = 'probleme';
+}                     
+  }
+  else
+  {
+    $reponse = 'pasmeme';
+
+  }
+  
+      $this->response->body($reponse);
+ return $this->response;
+        }
+
+        }
 
     /**
      * Delete method
@@ -202,26 +235,57 @@ $data = array('website' => $user->website);
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
-        // effacer avatar
-        $query_avatar = $this->Users->find('all'); // on récupère l'avatar actuel
-                $query_avatar->where([
 
-                'id' =>  $this->Auth->user('id')
+// suppression avatar
 
-                ]);
-
-                foreach ($query_avatar as $row) 
-                {
-                  if(!is_null($row->avatarprofil))
-                {
-                $avatar = WWW_ROOT.'img/'.$row->avatarprofil;
+                $avatar = WWW_ROOT.'img/avatars/'.$this->Auth->user('username'). '.jpg';
                 unlink($avatar);
-              }
-                }
-        // fin effacer avatar
+              
+
+              // suppression de la ligne settings
+
+              $this->loadModel('Settings');
+
+              $query = $this->Settings->query();
+            $query->delete()
+    ->where(['user_id' => $this->Auth->user('username')])
+    ->execute();
+
+    // suppression des abonnements
+
+              $this->loadModel('Abonnement');
+
+              $query = $this->Abonnement->query();
+            $query->delete()
+    ->where(['user_id' => $this->Auth->user('username')])
+    ->orWhere(['suivi' => $this->Auth->user('username')])
+    ->execute();
+
+    // suppression notification
+
+                  $this->loadModel('Notifications');
+
+              $query = $this->Notifications->query();
+            $query->delete()
+    ->where(['user_name' => $this->Auth->user('username')])
+    ->execute();
+
+    // suppression conversation
+
+                  $this->loadModel('Conversation');
+
+              $query = $this->Conversation->query();
+            $query->delete()
+    ->where(['participant1' => $this->Auth->user('username')])
+    ->orWhere(['participant2' => $this->Auth->user('username')])
+    ->execute();
+
+    // suppression user
+                
+
         if ($this->Users->delete($user)) {
+          $this->getMailer('User')->send('deleteaccount', [$user]);
             $this->Flash->success(__('Compte supprimé.'));
             return $this->redirect('/');
         } else {
@@ -280,39 +344,29 @@ $data = array('website' => $user->website);
   // taille du fichier
       if($this->request->data['file']['size'] <= 125000)
       { 
-        $extensions_autorisees = array('jpg','jpeg','png');// vérification extension
+        $extensions_autorisees = array('jpg','jpeg');// vérification extension
         if(in_array($extension_upload,$extensions_autorisees))
             {
 
-                //$fileName = $this->request->data['file']['name'];
-                $avatarexploded = explode(".",$this->request->data['file']['name']);
-                $fileName = time() . '_' . rand(100, 999) . '.' . end($avatarexploded);
+                //$avatarexploded = explode(".",$this->request->data['file']['name']);
+                $fileName = $this->Auth->user('username') . '.jpg'; // renommer le fichier envoyé en suite de chiffre
+
+                //$fileName = time() . '_' . rand(100, 999) . '.' . end($avatarexploded);
+
+
                 $uploadPath = 'img/avatars/';
-                $uploadFile = $uploadPath.$fileName;
-        
-                $query_avatar = $this->Users->find()->select(['avatarprofil']) // on récupère l'avatar actuel
-               ->where([
 
-                'id' =>  $this->Auth->user('id')
-
-                ]);
-
-                foreach ($query_avatar as $row) 
-                {
-
-                // destruction de l'ancien
-                $avatars =WWW_ROOT.'img/'.$row->avatarprofil;
-
-               
-                }
+                $uploadFile = $uploadPath.$fileName; 
                 
+                // destruction de l'ancien
+                       
+   
                 if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile))
                 {
                     $uploadFile = str_replace('img/', '', $uploadFile);
-                    if(!is_null($avatars)) // ici pour pas delete  le default
-                    {
-                        unlink($avatars);
-                    }       
+
+                      //$dir = new Folder(WWW_ROOT . 'img/avatars');
+
                         // mise à jour avatar
                         $query = $this->Users->query();
                         $query->update()
@@ -320,20 +374,17 @@ $data = array('website' => $user->website);
                         ->where(['id' => $this->Auth->user('id')])
                         ->execute();
 
+                        $this->request->session()->write('Auth.avatarprofil', $uploadFile);
                         // fin maj database
                     $reponse = $uploadFile;
-
-                        $this->response->body($reponse);
-              
-    
+         
                 }
+              
                     else
                     {
 
                       $reponse = 'Impossible d\'envoyer ce fichier';
 
-                        $this->response->body($reponse);
-                        
                         
                     }
            }
@@ -341,16 +392,13 @@ $data = array('website' => $user->website);
                     {
                       $reponse = 'extension de fichier incorrect';
 
-                        $this->response->body($reponse);
-                       
-                      
-                        
+
                     }
       }
                     else
                     {
                       $reponse = 'fichier trop volumineux.';
-                      $this->response->body($reponse);
+
                         
                         
                     }
@@ -359,10 +407,10 @@ $data = array('website' => $user->website);
             else
             {
                 $reponse = 'Choisissez un fichier à envoyer.';
-                      $this->response->body($reponse);
+                     
                         
             }
-
+ $this->response->body($reponse);
 return $this->response;
         }
             

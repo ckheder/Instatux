@@ -10,6 +10,23 @@
 if(isset($authname))
 {
 
+   if($this->request->getParam('username') == $authname)
+            {
+             ?>
+            <div class="text-center">
+            
+<?= $this->Html->link(
+    'Modifier mon profil',
+    '/settings',
+    [ 'class' => 'btn btn-default']
+);
+
+?>
+
+</div>
+<?php
+}
+
             if($this->request->getParam('username') != $authname) // si c'est pas moi
 {
 
@@ -25,7 +42,7 @@ if(isset($authname))
                
             <?php
           }
-            elseif($abonnement == 1) // je suis abonné
+           elseif($abonnement == 1) // je suis abonné
             {
                 
 ?>
@@ -49,7 +66,6 @@ if(isset($authname))
               </li>
               <?php
             }
-
             if($etat_blocage === 1) // utilisateur bloqué
             {
               ?>
@@ -75,4 +91,3 @@ if(isset($authname))
 <!-- modal envoi de message -->
 <?= $this->element('modalmessage',["destinataire" => $this->request->getParam('username')]) ?>
 <!-- fin modal envoi de message -->
-

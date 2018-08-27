@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-left">
  <li>
-  <a href="/instatux/actualites" title="Actualités"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Accueil</a></li>
+  <a href="/instatux/actualites" title="Actualités"><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;Accueil</a></li>
 </ul>
        <ul class="nav navbar-nav navbar-center">
         <li>

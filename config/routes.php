@@ -93,11 +93,23 @@ Router::connect('/notifications/all',['controller' => 'Notifications', 'action' 
 
 //fin route  toute notif lue
 
+// route  toutes notif delete
+
+Router::connect('/notifications/deleteall',['controller' => 'Notifications', 'action' => 'alldeletenotif']);
+
+//fin route  toute notif delete
+
 // route  nb_notif
 
 Router::connect('/notifications/count',['controller' => 'Notifications', 'action' => 'nbNotif']);
 
 //fin route nb_notif
+
+// route  effacer notif
+
+Router::connect('/notification/delete/:id',['controller' => 'Notifications', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+
+//fin route effacer notif
 
 // route recherche
 
@@ -180,6 +192,10 @@ Router::connect('/settings/lieu',['controller' => 'Users', 'action' => 'editlieu
 Router::connect('/settings/website',['controller' => 'Users', 'action' => 'editwebsite']);
 // fin route editer website
 
+ // route editer password
+Router::connect('/settings/resetpassword',['controller' => 'Users', 'action' => 'editpassword']);
+// fin route editer password
+
  // route editer avatar
 Router::connect('/settings/avatar',['controller' => 'Users', 'action' => 'avatar']);
 // fin route editeravatar
@@ -223,6 +239,10 @@ Router::connect('/blocage/delete/:username',['controller' => 'Blocage', 'action'
     // route conversation
 Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['id' => '\d+', 'pass' =>['id']]);
     //fin route conversation
+
+    // route delete conversation
+Router::connect('/conversation/delete/:id',['controller' => 'Conversation', 'action' => 'edit'],['id' => '\d+', 'pass' =>['id']]);
+    // fin route delete conversation
 
     // route accueil
 Router::connect('/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);

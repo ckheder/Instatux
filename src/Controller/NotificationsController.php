@@ -60,7 +60,36 @@ class NotificationsController extends AppController
              
     }
 
-public function allNotiflue()
+        public function delete($id = null) // id-> id de la notification, 
+
+    {
+
+      if ($this->request->is('ajax')) {
+                    $query = $this->Notifications->query();
+            $query->delete()
+    ->where(['user_name' => $this->Auth->user('username')])
+    ->where(['id_notif' => $this->request->getParam('id')])
+    ->execute();
+ 
+            if ($query) 
+            {
+               $reponse = 'suppok';
+            }
+            else 
+            {
+
+                $reponse = 'problème';
+            }
+                        $this->response->body($reponse);
+    return $this->response;
+
+ }
+
+
+
+    }
+
+public function allNotiflue() // indiquer que toutes les notifications sont lues
 {
 
     if ($this->request->is('ajax')) {
@@ -84,9 +113,32 @@ public function allNotiflue()
     }
 }
 
+public function allDeletenotif() // indiquer que toutes les notifications sont lues
+{
+
+    if ($this->request->is('ajax')) {
+   $query = $this->Notifications->deleteAll(
+        ['user_name' => $this->Auth->user('username') ]); // conditions 
+
+                 if($query)
+                 {
+                    $reponse = 'ok';
+                
+            } else {
+                 $reponse = 'erreur';
+            }
+        
+
+                    $this->response->body($reponse);
+    return $this->response;
 
 
-public function nbnotif()
+    }
+}
+
+
+
+public function nbnotif()// calcul du nombre de notif non lues
 {
 
         $nb_notif = $this->Notifications->find()->where(['user_name' => $this->Auth->user('username')])->where(['statut' => 0])->count();

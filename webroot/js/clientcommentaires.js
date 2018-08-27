@@ -203,7 +203,7 @@ var date_msg = date_format.format('LL'); // mise en form
           $('.notif').fadeOut("slow");
         }, 2000 );
     }
-      else if(data == 'problème'){
+      else if(data == 'probleme'){
 
      $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible de commenter.</span></p>');
         setTimeout(function() {
@@ -223,13 +223,13 @@ var date_msg = date_format.format('LL'); // mise en form
 
         // affichage spécifique pour l'auteur du comm
 
-        $('#list_comm').prepend('<div class="comm" data-idcomm="' + data.id + '"><div class="dropdown"><button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">    ...</button><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="#" data-idcomm="' + data.id +'"  title="Effacer ce commentaire"  class="deletecomm" onclick="return false;">Effacer ce commentaire</a></li><li> <a href="#" title="Modifier ce commentaire" class="updatecomm" data-idcom="' + data.id +'"  onclick="return false;">Modifier</a></li></ul></div><img src="' + avatarcomm + '"alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/' + data.nom_session +'" class="link_username_tweet">' + data.nom_session + '</a><span class="alias_tweet">@' + data.nom_session +'</span> - <span class="date_message">' + date_msg + '</span><p></p><p class="contenucomm' + data.id +'">' + data.comm +'</p></div>');
+        $('#list_comm').prepend('<div class="comm" data-idcomm="' + data.id + '"><div class="dropdown"><button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">    ...</button><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="#" data-idcomm="' + data.id +'"  title="Effacer ce commentaire"  class="deletecomm" onclick="return false;">Effacer ce commentaire</a></li><li> <a href="#" title="Modifier ce commentaire" class="updatecomm" data-idcom="' + data.id +'"  onclick="return false;">Modifier</a></li></ul></div><img src="' + avatarcomm + '"alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/' + data.nom_session +'" class="link_username_tweet">' + data.nom_session + '</a><span class="alias_tweet">@' + data.nom_session +'</span> - <span class="date_message">' + date_msg + '<span class="updatecomm' + data.id +'"></span></span><p></p><p class="contenucomm' + data.id +'">' + data.comm +'</p></div>');
 
         $('#comm').val('');// on vide l'input
       }
     },
 
-    error: function(data)
+    error: function()
     {
                     $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;erreur ajax.</span></p>');
         setTimeout(function() {
@@ -294,23 +294,23 @@ else if(update == 1) // mise à jour de comm
         }
 if(data.auteurtweet == authname) // le propriétaire du tweet reçoit les droits de gérer le comm posté
 {
-  $('#list_comm').prepend('<div class="comm" data-idcomm="' + data.idcomm +'"><div class="dropdown"><button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">    ...</button><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="#" data-idcomm="' + data.idcomm +'"  title="Effacer ce commentaire"  class="deletecomm" onclick="return false;">Effacer ce commentaire</a></li><li><a href="#" data-username="' + data.auteurcomm +'" data-action="add" title="Bloquer ' + data.auteurcomm +'"  id="addblock"  onclick="return false;">Bloquer cet utlisateur</a></li><li><a href="#">Signaler ce commentaire</a></li></ul></div><img src="' + data.avatar + '"alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/' + data.auteurcomm +'" class="link_username_tweet">' + data.auteurcomm + '</a><span class="alias_tweet">@' + data.auteurcomm +'</span> - <span class="date_message">' + data.date_comm + '</span><p></p><p>' + data.comm +'</p></div>');
+  $('#list_comm').prepend('<div class="comm" data-idcomm="' + data.idcomm +'"><div class="dropdown"><button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">    ...</button><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="#" data-idcomm="' + data.idcomm +'"  title="Effacer ce commentaire"  class="deletecomm" onclick="return false;">Effacer ce commentaire</a></li><li><a href="#" data-username="' + data.auteurcomm +'" data-action="add" title="Bloquer ' + data.auteurcomm +'"  id="addblock"  onclick="return false;">Bloquer cet utlisateur</a></li><li><a href="#">Signaler ce commentaire</a></li></ul></div><img src="' + data.avatar + '"alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/' + data.auteurcomm +'" class="link_username_tweet">' + data.auteurcomm + '</a><span class="alias_tweet">@' + data.auteurcomm +'</span> - <span class="date_message">' + data.date_comm + '<span class="updatecomm' + data.idcomm +'"></span></span><p></p><p class="contenucomm'+ data.idcomm+'">' + data.comm +'</p></div>');
 }
 else // les autres connectés à la page
 {
 
-$('#list_comm').prepend('<div class="comm" data-idcomm="' + data.idcomm +'"><div class="dropdown"><button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">    ...</button><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="#" data-username="' + data.auteurcomm +'" data-action="add" title="Bloquer ' + data.auteurcomm +'"  id="addblock"  onclick="return false;">Bloquer cet utlisateur</a></li><li><a href="#">Signaler ce commentaire</a></li></ul></div><img src="' + data.avatar + '"alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/' + data.auteurcomm +'" class="link_username_tweet">' + data.auteurcomm + '</a><span class="alias_tweet">@' + data.auteurcomm +'</span> - <span class="date_message">' + data.date_comm + '</span><p></p><p>' + data.comm +'</p></div>');
+$('#list_comm').prepend('<div class="comm" data-idcomm="' + data.idcomm +'"><div class="dropdown"><button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">    ...</button><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="#" data-username="' + data.auteurcomm +'" data-action="add" title="Bloquer ' + data.auteurcomm +'"  id="addblock"  onclick="return false;">Bloquer cet utlisateur</a></li><li><a href="#">Signaler ce commentaire</a></li></ul></div><img src="' + data.avatar + '"alt="image utilisateur" class="img-thumbail left avatarcomm"/><a href="/instatux/' + data.auteurcomm +'" class="link_username_tweet">' + data.auteurcomm + '</a><span class="alias_tweet">@' + data.auteurcomm +'</span> - <span class="date_message">' + data.date_comm + '<span class="updatecomm' + data.idcomm +'"></span></span><p></p><p class="contenucomm'+ data.idcomm+'">' + data.comm +'</p></div>');
   }         
             });    
 // mise à jour commentaire
 
           socket.on('update', function(data) {
 
- $('.contenucomm'+ data.idcomm+'').html('' + data.comm +''); // insertion du nouveau comm
+ $('.contenucomm'+ data.idcomm +'').html('' + data.comm +''); // insertion du nouveau comm
 
- $('.updatecomm'+ data.idcomm+'').empty(); // on supprime la mention modifié si existante
+ $('.updatecomm'+ data.idcomm +'').empty(); // on supprime la mention modifié si existante
 
- $('.updatecomm'+ data.idcomm+'').append(' - Modifié'); // mention modifié
+ $('.updatecomm'+ data.idcomm +'').prepend(' - Modifié'); // mention modifié
            
             });
 
