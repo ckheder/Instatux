@@ -16,7 +16,7 @@ body.modal-open{
 
 a /* soulgnement lien */
 {
-  text-decoration:none; 
+  text-decoration:none;
 }
 
 .footer {
@@ -114,7 +114,7 @@ height: 100%;
 text-decoration: none;
 
 }
-.link_username_tweet 
+.link_username_tweet
 {
 text-decoration: none;
 font-weight: bold;
@@ -267,7 +267,7 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 
       border-color: #ccc;
     background-color: #ddd;
-  
+
 
 }
 
@@ -333,7 +333,7 @@ label {
     line-height:35px;
     font-weight: 200;
 }
-select
+#notifmessage, #notifcite, #notifpartage, #notifabo, #notifcomm
 {
   float: right;
 }
@@ -569,13 +569,9 @@ font-weight: bold;
 
 /* fin barre du nombre de commentaire, de like  et de partage */
 /* mise en page settings */
-.ui-tabs
-{
-  background-color: #DCDCDC !important;
-}
-.ui-tabs-nav {
-    background-color: #DCDCDC !important; /*To overwrite jquery-ui.css*/                      /*To stop nav block scaling of tab size*/
-}
+
+
+
 /* fin mise en page settings */
 
 /* liset suggestion cell */

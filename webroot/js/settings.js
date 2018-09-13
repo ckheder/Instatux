@@ -1,134 +1,61 @@
-  $( function() {
-    $( "#tabs" ).tabs();
-  } );
+// désactivation du copier coller pour les champs mail et mot de passe de confirmation
 
 $(document).ready(function(){
-    $('[data-toggle="popover"]').popover();   
+  $('#confirmmail, #confirmpwd').on("cut copy paste",function(e) {
+    e.preventDefault();
+  });
 });
-	$(document).ready(function() {
+
+
+// popover infoi bulle
+
+    $('[data-toggle="popover"]').popover();
+
 // gestion des notifications
+
+var action; // sera utilisé pour déterminer quelle notification sera modifié
+
+var choix; // sera utilisé pour déterminer le choix de notification : oui ou non
+
         // notif de message
-    $('#notifmess').change(function(){
-    	var notifmessage = $('#notifmess').val();
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/settings-notif_message',
-                data: {'notifmessage' : notifmessage},
-    success: function(data){
-    
-     $('#result_message').fadeIn().html('<span class="glyphicon glyphicon-ok"></span>&nbsp;');
-				setTimeout(function() {
-					$('#result_message').fadeOut("slow");
-				}, 2000 );
-    },
-    error: function(data)
-    {
-        alert('fail');
-    }
-                
-         });
-    });
-});
+    $( "button" ).click(function(e){
 
-// notif cite
-	$(document).ready(function() {
-    $('#notifcite').change(function(){
-    	var notifcite = $('#notifcite').val();
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/settings-notif_cite',
-                data: {'notifcite' : notifcite},
-    success: function(data){
-    
-     $('#result_cite').fadeIn().html('<span class="glyphicon glyphicon-ok"></span>&nbsp;');
-				setTimeout(function() {
-					$('#result_cite').fadeOut("slow");
-				}, 2000 );
-    },
-    error: function(data)
-    {
-        alert('fail');
-    }
-                
-         });
-    });
-});
-// fin notif_cite
+      action = $(this).parent().data("action"); // on récupère l'action du parent : message, abo, comm
 
-// notif partage
-	$(document).ready(function() {
-    $('#notifpartage').change(function(){
-    	var notifpartage = $('#notifpartage').val();
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/settings-notif_partage',
-                data: {'notifpartage' : notifpartage},
-    success: function(data){
-    
-     $('#result_partage').fadeIn().html('<span class="glyphicon glyphicon-ok"></span>&nbsp;');
-				setTimeout(function() {
-					$('#result_partage').fadeOut("slow");
-				}, 2000 );
-    },
-    error: function(data)
-    {
-        alert('fail');
-    }
-                
-         });
-    });
-});
-// fin notif_partage
+      choix  = $(this).val(); // valeur du bouton cliqué : oui ou non
 
-// notif abo
-	$(document).ready(function() {
-    $('#notifabo').change(function(){
-    	var notifabo = $('#notifabo').val();
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/settings-notif_abo',
-                data: {'notifabo' : notifabo},
-    success: function(data){
-    
-     $('#result_abo').fadeIn().html('<span class="glyphicon glyphicon-ok"></span>&nbsp;');
-				setTimeout(function() {
-					$('#result_abo').fadeOut("slow");
-				}, 2000 );
-    },
-    error: function(data)
-    {
-        alert('fail');
-    }
-                
-         });
-    });
-});
-// fin notif_abo
+      update_preference_notif(action, choix) // on apelle la fonction de mise à jour
+      });
 
-// notif comm
-	$(document).ready(function() {
-    $('#notifcomm').change(function(){
-    	var notifcomm = $('#notifcomm').val();
+    function update_preference_notif(action, choix) // action : message,comm,abo,... choix : oui/non
+    {
         $.ajax({
                 type: 'POST',
-                url: '/instatux/settings-notif_comm',
-                data: {'notifcomm' : notifcomm},
+                url: '/instatux/settings-notif_'+ action +'',
+                data: {'choix' : choix},
+
     success: function(data){
-    
-     $('#result_comm').fadeIn().html('<span class="glyphicon glyphicon-ok"></span>&nbsp;');
-				setTimeout(function() {
-					$('#result_comm').fadeOut("slow");
-				}, 2000 );
+
+     $('#result_'+ action +'').fadeIn().html('<span class="glyphicon glyphicon-ok"></span>&nbsp;');
+        setTimeout(function() {
+          $('#result_'+ action +'').fadeOut("slow");
+        }, 2000 );
     },
     error: function(data)
     {
-        alert('fail');
+         $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible de modifier vos préférences de notifications.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
     }
-                
+
          });
-    });
-});
-// fin notif_comm
+  $('#notif'+ action +' button').eq(0).toggleClass('locked_inactive locked_active btn-default btn-danger');
+  $('#notif'+ action +' button').eq(1).toggleClass('unlocked_inactive unlocked_active btn-success btn-default')
+
+
+     }
+
 // fin gestion des notifications
 
 
@@ -145,7 +72,7 @@ $(document).on('click','#setupprofil',function() {
 
       if(data == 'profilpublicok'){ // profil devenu public avec succès
 
-  
+
 
      $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;&nbsp;Votre profil est désormais public.</span></p>');
         setTimeout(function() {
@@ -164,7 +91,7 @@ $(document).on('click','#setupprofil',function() {
         }, 2000 );
 
         document.getElementById('etatprofil').innerHTML = '<p class="text-danger"><br />Seules vos abonnés voient vos publications.<br /><br />Vous pouvez choisir d\'accepter ou non une demande d\'abonnement.</p><div class="text-center"><a href="#"  data-action="public" title="Rendre mon profil public"  id="setupprofil" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Rendre mon profil public</a></div>'  ;
-    
+
 }
     else if(data == 'problème'){
 
@@ -184,207 +111,160 @@ $(document).on('click','#setupprofil',function() {
           $('.notif').fadeOut("slow");
         }, 2000 );
     }
-                
+
          });
 });
 
 // fin mise à jour du profil -> public/privé
 
-// mise à jour description
+// mise à jour informations
 
-    $('#form_desc').submit(function(e){
+$("#inputfile").on('change', function (event) {
 
-      e.preventDefault();
 
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/settings/description',
-                dataType: 'json',
-                data: $('#form_desc').serialize(),
-    success: function(data){ // data.avatar_session
-    
- $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;Description mise à jour.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );
+     var imgPath = $(this)[0].value;
+     var size = $(this)[0].files[0].size;
+     var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
 
-        document.getElementById('user_description').innerHTML = '<br />' + data.description + ''  ; // mise à jour  : ajout du lien désactivé comm
-$('#description').val('');
+     if (extn == "jpg" || extn == "jpeg") { // fichier jpg/jpeg
+       if(size <= 3047171) // taille inférieur ou égale à 3mo
+       {
+         if (typeof (FileReader) != "undefined") { // si vieux navigateur
 
-    },
-    error: function(data)
-    {
-                    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Problème lors de la mise à jour de votre description.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );     
-    }
-                
-         });
-    });
+             var reader = new FileReader();
+             reader.onload = function()
+             {
+              var output = document.getElementById('previewHolder');
+              output.src = reader.result;
+             }
+             reader.readAsDataURL(event.target.files[0]);
 
-// fin mise à jour description
+         } else {
+           $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Votre navigateur ne permet pas de lire ce fichier.</span></p>');
+setTimeout(function() {
+ $('.notif').fadeOut("slow");
+}, 2000 );
+         }
+       }else {
+         $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Ce fichier est trop gros.</span></p>');
+setTimeout(function() {
+$('.notif').fadeOut("slow");
+}, 2000 );
+       }
+     } else {
+       $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Seules les images jpg sont autorisées.</span></p>');
+setTimeout(function() {
+$('.notif').fadeOut("slow");
+}, 2000 );
+     }
+ });
 
-// mise à jour localisation
-
-    $('#form_lieu').submit(function(e){
-
-      e.preventDefault();
-
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/settings/lieu',
-                dataType: 'json',
-                data: $('#form_lieu').serialize(),
-    success: function(data){ // data.avatar_session
-    
- $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;Lieu mis à jour.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );
-
-        document.getElementById('user_lieu').innerHTML = '<li><span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp; ' + data.lieu +'</li>'  ; // mise à jour  : ajout du lien désactivé comm
-$('#lieu').val('');
-
-    },
-    error: function(data)
-    {
-                    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Problème lors de la mise à jour de votre localisation.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );     
-    }
-                
-         });
-    });
-
-// fin mise à jour localisation
-
-// mise à jour site web
-
-    $('#form_website').submit(function(e){
+    $('#form_infos').submit(function(e){
 
       e.preventDefault();
 
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/settings/website',
-                dataType: 'json',
-                data: $('#form_website').serialize(),
-    success: function(data){ // data.avatar_session
-    
- $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;Site web mis à jour.</span></p>');
+
+      // vérif password si envoyé
+
+       if ($.trim($('#pwd').val()).length != 0){
+
+        if($('#pwd').val() != $('#confirmpwd').val())
+        {
+                    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Les deux mots de passe ne correspondent.</span></p>');
         setTimeout(function() {
           $('.notif').fadeOut("slow");
         }, 2000 );
-
-        document.getElementById('user_website').innerHTML = '<li><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;<a href=" ' + data.website +'" target="_blank"> ' + data.website +'</a></li>'  ; // mise à jour  : ajout du lien désactivé comm
-$('#website').val('');
-
-    },
-    error: function(data)
-    {
-                    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Problème lors de la mise à jour de votre site web.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );     
-    }          
-         });
-    });
-
-
-// fin mise à jour site web
-
-// mise à jour mot de passe
-
-    $('#form_password').submit(function(e){
-
-      e.preventDefault();
-
-        $.ajax({
-                type: 'POST',
-                url: '/instatux/settings/resetpassword',
-                data: $('#form_password').serialize(),
-    success: function(data){
-
-      if(data == 'ok')
-      {
-    
- $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;Mot de passe mis à jour.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );
-      }
-      else if(data == 'pasmeme')
-      {
-          $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Les deux mots de passe ne correspondent pas.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );
-      }
-
-      $('#pwd').val('');
+        $('#pwd').val('');
        $('#confirmpwd').val('');
-    },
-    error: function(data)
-    {
+       return false;
+        }
+       }
+  // fin vérif password si envoyé
 
-      $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Problème lors de la mise à jour de votre mot de passe ajax.</span></p>');
+
+      // vérif mail si envoyé
+       if ($.trim($('#mail').val()).length != 0){
+         // vérification du format de l'adresse mail
+         var mail = $('#mail').val();
+         var filter = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i; // regex mail
+
+         if (!filter.test(mail)) { // format invalide
+           $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Adresse mail de format invalide.</span></p>');
+         setTimeout(function() {
+           $('.notif').fadeOut("slow");
+         }, 2000 );
+       $('#mail').val('');
+        $('#confirmmail').val('');
+        return false;
+         }
+
+        if($('#mail').val() != $('#confirmmail').val()) // les dux adresses mail ne correspondent pas
+        {
+          $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Les deux adresses mails ne correspondent.</span></p>');
         setTimeout(function() {
           $('.notif').fadeOut("slow");
-        }, 2000 );     
-    }          
-         });
-    });
+        }, 2000 );
+      $('#mail').val('');
+       $('#confirmmail').val('');
+       return false;
+        }
+       }
 
-
-// fin mise à jour mot de passe
-
-// mise à jour avatar
-
-    $('#form_avatar').submit(function(e){
-
-      e.preventDefault();
-
-      var formdatas = new FormData($('#form_avatar')[0]);
-
-      var reg = new RegExp("avatars"); // regex utlisé pour voir si la réponse contient le mot avatar
+      // fin vérif mail si envoyé
 
         $.ajax({
                 type: 'POST',
                 contentType: false,
-                url: '/instatux/settings/avatar',
-                data: formdatas,
+                url: '/instatux/editinfos',
+                dataType: 'json',
+                data: new FormData(this),
                 processData: false,
-    success: function(data){ // data.avatar_session
+    success: function(data){
 
-      var resultat = reg.test(data);
-
-      if(resultat)
+      if(data == "ok")
       {
 
-location.reload();
-
-}
-else
-{
-       $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;&nbsp;' + data + '</span></p>');
+ $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;Vos informations ont bien été mise à jours.</span></p>');
         setTimeout(function() {
           $('.notif').fadeOut("slow");
         }, 2000 );
 
+$('#form_infos')[0].reset();
+}
+else if(data == "utilise")
+{
+                      $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Cette adresse mail est déjà utilisé.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+        $('#mail').val('');
+         $('#confirmmail').val('');
+}
+else if(data == "probleme")
+{
+                      $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Problème lors de la mise à jour de vos informations.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+}
+else {
+  {
+    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp; ' + data +'.</span></p>');
+setTimeout(function() {
+$('.notif').fadeOut("slow");
+}, 2000 );
+  }
 }
 
     },
     error: function(data)
     {
-                    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Problème lors de la mise à jour de votre avatar.</span></p>');
-        setTimeout(function() {
-          $('.notif').fadeOut("slow");
-        }, 2000 );     
-    }          
+
+      $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Problème lors de la mise à jour de votre description ajax.</span></p>');
+      setTimeout(function() {
+      $('.notif').fadeOut("slow");
+        }, 2000 );
+    }
+
          });
     });
-
-// fin mise à jour avatar
-//fin gestion infos utlisateurs

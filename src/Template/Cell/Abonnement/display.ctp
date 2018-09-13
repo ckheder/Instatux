@@ -13,17 +13,7 @@ if(isset($authname))
    if($this->request->getParam('username') == $authname)
             {
              ?>
-            <div class="text-center">
-            
-<?= $this->Html->link(
-    'Modifier mon profil',
-    '/settings',
-    [ 'class' => 'btn btn-default']
-);
 
-?>
-
-</div>
 <?php
 }
 

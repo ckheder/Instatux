@@ -29,7 +29,7 @@ class UsersController extends AppController
         $users =  $this->User->find();
         //$tweet->where(['user_id' => $this->Auth->user("id")]);
         $users->where(['user_id' => $this->request->query('id')]);
-        
+
     }
  public function beforeFilter(Event $event)
     {
@@ -68,7 +68,7 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
 
           $data = array(
-            'username' => $this->request->data['username'], 
+            'username' => $this->request->data['username'],
             'password' => $this->request->data['password'],
             'email' =>  $this->request->data['email'],
             'avatarprofil' =>  "avatars/".$this->request->data['username'].".jpg"
@@ -78,7 +78,7 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
                  $this->Auth->setUser($user);
 
-                 // évènement de création de la ligne settings 
+                 // évènement de création de la ligne settings
 
                 $event = new Event('Model.User.afteradd', $this, ['user' => $user]);
 
@@ -88,9 +88,9 @@ class UsersController extends AppController
 
                 $this->Flash->success(__('Inscription réussie, bienvenue '.h($this->request->data('username')).' sur Instatux.'));
                 return $this->redirect('/'.$this->Auth->user('username').'');
-                
+
             } else {
-              
+
                 //$this->Flash->error(__('The user could not be saved. Please, try again.', $errors));
                 //return $this->redirect('/');
 
@@ -126,24 +126,104 @@ class UsersController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function editdescription()
+    public function editinfos()
     {
 
       if ($this->request->is('ajax')) {
 
-$usersTable = TableRegistry::get('Users');
-$user = $usersTable->get($this->Auth->user('id'));
+        $reponse = 'probleme';
+
+        $allowedit = 0; // modification non autorisée
+
+$user = $this->Users->get($this->Auth->user('id'));
+
+// partie input simple
+
+if(!empty($this->request->data('description')))
+{
 $user->description = $this->request->data('description');
+$allowedit = 1;
+}
+if(!empty($this->request->data('lieu')))
+{
+$user->lieu = $this->request->data('lieu');
+$allowedit = 1;
+}
+if(!empty($this->request->data('website')))
+{
+$user->website = $this->request->data('website');
+$allowedit = 1;
+}
 
-$data = array('description' => $user->description);
+// partie mail
 
-$usersTable->save($user);
+if(!empty($this->request->data('mail'))) // si le champ mail n'est pas vide
+        {
+          if($this->request->data('mail') == $this->request->data('confirmmail')) // on vérifie que les deux adresse correspondent
+          {
+          // on vérifie que l'adresse mail n'est pas déjà utilisé
 
+                  $verif = $this->Users->find()->select(['email'])
 
-                        $this->response->body(json_encode($data));
+        ->where(['email' => $this->request->data('mail')]);
+
+        if ($verif->isEmpty())
+        {
+
+$user->email = $this->request->data('mail');
+  }
+  else
+  {
+    $reponse = 'utilise'; // adresse mail déjà utlisée
+    $allowedit = 0;
+  }
+}
+
+  else
+  {
+    $reponse = 'pasmeme'; // les deux adresses ne correspondent pas
+    $allowedit = 0;
+
+  }
+}
+
+  // mot de passe égaux
+
+  if(!empty($this->request->data('password')))
+  {
+
+         if($this->request->data('password') == $this->request->data('confirmpassword'))
+        {
+
+          $user->password = $this->request->data('password');
+          $allowedit = 1;
+
+        }
+      }
+
+      // avatars
+      if(!empty($this->request->data['file']['name']))
+                {
+
+                  $file = $this->request->data['file'];
+
+                    $reponse = $this->avatar($file);
+                }
+      // modification autorisée
+if($allowedit == 1)
+{
+   if ($this->Users->save($user))
+            {
+              $reponse = 'ok';
+            }
+}
+
+      $this->response->body(json_encode($reponse));
     return $this->response;
         }
       }
+
+
 
         /**
      * Edit method for location
@@ -152,46 +232,8 @@ $usersTable->save($user);
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function editlieu()
-    {
-
-      if ($this->request->is('ajax')) {
-
-$usersTable = TableRegistry::get('Users');
-$user = $usersTable->get($this->Auth->user('id'));
-$user->lieu = ucfirst($this->request->data('lieu'));
-
-$data = array('lieu' => $user->lieu);
-
-            $usersTable->save($user);
-
-             $this->response->body(json_encode($data));
-    return $this->response;
-        }
-
-        }
-
-    public function editwebsite() // mise à jour du site web d'un utilisateur
-    {
-
-      if ($this->request->is('ajax')) {
-
-$usersTable = TableRegistry::get('Users');
-$user = $usersTable->get($this->Auth->user('id'));
 
 
-
-$user->website = $this->request->data('website');
-
-$usersTable->save($user);
-
-$data = array('website' => $user->website);
-
-
-        $this->response->body(json_encode($data));
-    return $this->response;
-        }
-      }
 
           public function editpassword()
     {
@@ -201,25 +243,24 @@ $data = array('website' => $user->website);
         if($this->request->data('password') == $this->request->data('confirmpassword'))
         {
 
-$usersTable = TableRegistry::get('Users');
-$user = $usersTable->get($this->Auth->user('id'));
+$user = $this->Users->get($this->Auth->user('id'));
 $user->password = $this->request->data('password');
 
-            if ($usersTable->save($user))
+            if ($this->Users->save($user))
             {
 $reponse = 'ok';
 }
 else
 {
   $reponse = 'probleme';
-}                     
+}
   }
   else
   {
     $reponse = 'pasmeme';
 
   }
-  
+
       $this->response->body($reponse);
  return $this->response;
         }
@@ -241,7 +282,7 @@ else
 
                 $avatar = WWW_ROOT.'img/avatars/'.$this->Auth->user('username'). '.jpg';
                 unlink($avatar);
-              
+
 
               // suppression de la ligne settings
 
@@ -282,7 +323,7 @@ else
     ->execute();
 
     // suppression user
-                
+
 
         if ($this->Users->delete($user)) {
           $this->getMailer('User')->send('deleteaccount', [$user]);
@@ -293,7 +334,7 @@ else
             return $this->redirect('/settings');
         }
 
-        
+
     }
 
 
@@ -313,12 +354,12 @@ else
 
 
                 return $this->redirect('/'.$this->Auth->user('username').'');
-              
+
 
             }
             $this->Flash->error(__('Nom d\' utilisateur ou mot de passe incorrect'));
             return $this->redirect($this->Auth->logout());
-            
+
         }
     }
     // déconnexion
@@ -330,90 +371,58 @@ else
     /** changer l'avatar
     ** mise à jour de l'avatar
     **/
-    public function avatar()
+    private function avatar($file)
         {
 
-          if ($this->request->is('ajax')) {
 
+if($file['error'] != 0)
+{
+  return $erreur = 'Problème lors de l\'envoi de votre fichier.Veuillez réessayer.';
+}
+$taillemax = 3047171; // taille max soit 3 mo
 
-  if(!empty($this->request->data['file']['name'])) 
-            {
-
-  $infosfichier = pathinfo($this->request->data['file']['name']);
-  $extension_upload = $infosfichier['extension'];
+$taille = filesize($file['tmp_name']); // taille du fichier
   // taille du fichier
-      if($this->request->data['file']['size'] <= 125000)
-      { 
-        $extensions_autorisees = array('jpg','jpeg');// vérification extension
-        if(in_array($extension_upload,$extensions_autorisees))
+      if($taille > $taillemax) // vérification taille + envoi
+      {
+        $erreur = 'Ce fichier est trop volumineux.';
+      }
+      $imageMimeTypes = array( // type MIME autorisé
+      'image/jpg',
+      'image/jpeg');
+
+      $fileMimeType = mime_content_type($file['tmp_name']); // récupération du type MIME
+      if (!in_array($fileMimeType, $imageMimeTypes)) // test de l'extension du fichier
             {
+                     $erreur = 'Seules les images jpg sont autorisées';
+            }
 
-                //$avatarexploded = explode(".",$this->request->data['file']['name']);
-                $fileName = $this->Auth->user('username') . '.jpg'; // renommer le fichier envoyé en suite de chiffre
+      if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
+                      {
 
-                //$fileName = time() . '_' . rand(100, 999) . '.' . end($avatarexploded);
-
+                $fileName = $this->Auth->user('username') . '.jpg';
 
                 $uploadPath = 'img/avatars/';
 
-                $uploadFile = $uploadPath.$fileName; 
-                
-                // destruction de l'ancien
-                       
-   
-                if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile))
+                $uploadFile = $uploadPath.$fileName;
+
+                if(move_uploaded_file($file['tmp_name'],$uploadFile))
                 {
-                    $uploadFile = str_replace('img/', '', $uploadFile);
-
-                      //$dir = new Folder(WWW_ROOT . 'img/avatars');
-
-                        // mise à jour avatar
-                        $query = $this->Users->query();
-                        $query->update()
-                        ->set(['avatarprofil' => $uploadFile])
-                        ->where(['id' => $this->Auth->user('id')])
-                        ->execute();
-
-                        $this->request->session()->write('Auth.avatarprofil', $uploadFile);
-                        // fin maj database
-                    $reponse = $uploadFile;
-         
+                    return $reponse = 'ok';
                 }
-              
+
                     else
                     {
 
-                      $reponse = 'Impossible d\'envoyer ce fichier';
-
-                        
-                    }
-           }
-                    else
-                    {
-                      $reponse = 'extension de fichier incorrect';
-
+                      return $reponse = 'Impossible d\'envoyer ce fichier';
 
                     }
-      }
-                    else
-                    {
-                      $reponse = 'fichier trop volumineux.';
 
-                        
-                        
-                    }
-                
-              }
-            else
-            {
-                $reponse = 'Choisissez un fichier à envoyer.';
-                     
-                        
-            }
- $this->response->body($reponse);
-return $this->response;
+}
+else {
+  return $erreur;
+}
+
+
         }
-            
-        }
-
 }

@@ -181,7 +181,7 @@ Router::connect('/settings/prive',['controller' => 'Settings', 'action' => 'setu
 // fin route configurer profil privé
 
  // route editer description
-Router::connect('/settings/description',['controller' => 'Users', 'action' => 'editdescription']);
+Router::connect('/editinfos',['controller' => 'Users', 'action' => 'editinfos']);
 // fin route editer description
 
  // route editer lieu
@@ -199,6 +199,10 @@ Router::connect('/settings/resetpassword',['controller' => 'Users', 'action' => 
  // route editer avatar
 Router::connect('/settings/avatar',['controller' => 'Users', 'action' => 'avatar']);
 // fin route editeravatar
+
+ // route editer adresse mail
+Router::connect('/settings/newmail',['controller' => 'Users', 'action' => 'editmail']);
+// fin route editer adresse mail
 
     // route liste bloques
 Router::connect('/bloques',['controller' => 'Blocage', 'action' => 'listebloques']);

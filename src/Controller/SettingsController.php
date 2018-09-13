@@ -23,7 +23,7 @@ public $components = array('RequestHandler');
 
     public function index()
     {
-            $this->viewBuilder()->layout('general');
+            $this->viewBuilder()->layout('settings');
         
     	$this->set('title', 'Paramètre de compte'); // titre de la page
 
@@ -153,11 +153,9 @@ endforeach;
 
         if ($this->request->is('ajax')) {
 
-            $notifmessage = $this->request->data['notifmessage'];
-
         $query = $this->Settings->query()
                             ->update()
-                            ->set(['notif_message' => $notifmessage])
+                            ->set(['notif_message' => $this->request->data('choix')])
                             ->where(['user_id' => $this->Auth->user('username') ])                            
                             ->execute();
 
@@ -172,13 +170,12 @@ endforeach;
             public function notifcite() // mise à jour des paramètres de notifications de citation 0  = non, 1 = oui
             {
 
-                $notifcite = $this->request->data('notifcite');
 
                 if ($this->request->is('ajax')) {
 
         $query_cite = $this->Settings->query()
                             ->update()
-                            ->set(['notif_cite' => $notifcite])
+                            ->set(['notif_cite' => $this->request->data('choix')])
                             ->where(['user_id' => $this->Auth->user('username') ])                            
                             ->execute();
 
@@ -189,13 +186,13 @@ endforeach;
 
 public function notifpartage() // mise à jour des paramètres de notifications de partage 0  = non, 1 = oui
             {
-                $notifpartage = $this->request->data('notifpartage');
+
 
                 if ($this->request->is('ajax')) {
 
         $query_partage = $this->Settings->query()
                             ->update()
-                            ->set(['notif_partage' => $notifpartage])
+                            ->set(['notif_partage' => $this->request->data('choix')])
                             ->where(['user_id' => $this->Auth->user('username') ])                            
                             ->execute();
 
@@ -207,14 +204,14 @@ public function notifpartage() // mise à jour des paramètres de notifications 
                         public function notifabo() // mise à jour des paramètres de notifications d'abonnement  0  = non, 1 = oui
             {
 
-$notifabo = $this->request->data('notifabo');
+;
 
 if ($this->request->is('ajax')) {
 
 
         $query_abo = $this->Settings->query()
                             ->update()
-                            ->set(['notif_abo' => $notifabo])
+                            ->set(['notif_abo' => $this->request->data('choix')])
                             ->where(['user_id' => $this->Auth->user('username') ])                            
                             ->execute();
 
@@ -227,14 +224,12 @@ if ($this->request->is('ajax')) {
 public function notifcomm()
             {
 
-$notifcomm = $this->request->data('notifcomm');
-
 if ($this->request->is('ajax')) {
 
 
         $query_comm = $this->Settings->query()
                             ->update()
-                            ->set(['notif_comm' => $notifcomm])
+                            ->set(['notif_comm' => $this->request->data('choix')])
                             ->where(['user_id' => $this->Auth->user('username') ])                            
                             ->execute();
 
