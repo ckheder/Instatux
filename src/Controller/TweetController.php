@@ -15,7 +15,7 @@ class TweetController extends AppController
 
         public $paginate = [
         'limit' => 8,
-        
+
     ];
 
 
@@ -107,7 +107,7 @@ class TweetController extends AppController
         {
             return $voir = 0; // interdiction de voir le profil
         }
-        else 
+        else
         {
         // récupération du profil courant 1) profil prive 0/ profil public
 
@@ -119,7 +119,7 @@ class TweetController extends AppController
 
             $type_profil = $type_profil->type_profil;
 
-            if($type_profil === 1) // profil privé
+            if($type_profil == 1) // profil privé
             {
 
         // on vérifie si je suis abonné
@@ -147,7 +147,7 @@ class TweetController extends AppController
         {
             $voir = 1;
         }
-            } 
+            }
 
             return $voir;
     }
@@ -193,13 +193,13 @@ class TweetController extends AppController
         $this->loadModel('Commentaires');
 
         $comm_tweet = $this->Commentaires->find()->select([
-          'Commentaires.id', 
+          'Commentaires.id',
   'Commentaires.comm',
-  'Commentaires.user_id', 
-  'Commentaires.created', 
-  'Commentaires.edit', 
-  'Users.username',  
-  'Users.avatarprofil', 
+  'Commentaires.user_id',
+  'Commentaires.created',
+  'Commentaires.edit',
+  'Users.username',
+  'Users.avatarprofil',
         ])
 
         ->where(['Commentaires.tweet_id' => $this->request->getParam('id')])
@@ -211,7 +211,7 @@ class TweetController extends AppController
         {
             $no_follow = 0;
             $this->set('no_follow', $no_follow);
-            
+
 
         }
         else
@@ -299,7 +299,7 @@ class TweetController extends AppController
             {
                 $voir = 1;
             }
-            
+
     }
 }
 
@@ -401,9 +401,9 @@ class TweetController extends AppController
             $reponse = 'echectweetsupprime';
         }
         }
-         
 
-        
+
+
 
         $this->response->body($reponse);
     return $this->response;
@@ -477,14 +477,14 @@ class TweetController extends AppController
                  $event = new Event('Model.Partage.afterAdd', $this, ['tweet' => $tweet]);
                 $this->eventManager()->dispatch($event);
 
-            
-                 $reponse = 'shareok'; 
+
+                 $reponse = 'shareok';
 
 
             } else {
                $reponse = 'probleme';
             }
-      
+
 }
                                    $this->response->body($reponse);
     return $this->response;
@@ -587,14 +587,14 @@ class TweetController extends AppController
         if($query AND $this->request->getParam('etat') == 0)
         {
               $reponse = 'commac';
-            
-            
+
+
         }
         elseif($query AND $this->request->getParam('etat') == 1)
         {
               $reponse = 'commdesac';
-            
-            
+
+
         }
         else
         {
@@ -614,7 +614,7 @@ class TweetController extends AppController
     }
     }
 
-    
+
         private function verif_user($username) // on vérifie si l'utilisateur existe
     {
         $this->loadModel('Users');

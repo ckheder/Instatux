@@ -450,9 +450,9 @@ color : green;
 
 #abosearch /* lien d'abonnement sur le moteur de recherche */
 {
-
     float: right;
     margin-right: 3px;
+    margin-top: 10px;
 }
 /* couleur abonnes, page abonnement*/
 
