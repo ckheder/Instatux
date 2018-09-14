@@ -7,6 +7,7 @@ This is a training project with Cakephp 3 who cannot be install with composer fo
 ## Built With
 
 * [CakePHP3](https://cakephp.org/) - CakePHP makes building web applications simpler, faster, while requiring less code ,a modern PHP 7 framework.
+* [MariaDB](https://mariadb.org/) - One of the most popular database servers. Made by the original developers of MySQL. Guaranteed to stay open source.
 * [Bootstrap 3](http://getbootstrap.com/) - Web framework for layout and responsive display.
 * [Jquery](http://jquery.com/) - Query is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers.
 * [Node JS](https://nodejs.org/en/) - Node is designed to build scalable network applications.
