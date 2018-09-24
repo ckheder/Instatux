@@ -1,8 +1,24 @@
-<!-- personne qui me suive -->
-        <?php
-        if(isset($nbabonne_valide)) 
+<?php
+if($this->request->getParam('username') == $authName) // si je suis sur mon compte
+{
+  ?>
+<div class="alert alert-success">
+<strong>Info!</strong> Vous trouverez ici la liste de toutes les personnes qui vous suivent.
+<br />
+<br />
+N'hésitez pas à bloquer depuis cette page ceux dont vous ne voulez pas qu'ils voient vos publications ou vous contactent.
+
+    </div>
+     <?php
+  }
+        
+        if(isset($nbabonne_valide) AND $this->request->getParam('username') == $authName) 
         {
             echo '<div class="alert alert-info">Aucun abonné pour le moment.</div>';
+        }
+         else if(isset($nbabonne_valide) AND $this->request->getParam('username') != $authName) // si je ne suis pas sur mon compte et que la personne ne suit personne
+          {
+            echo '<div class="alert alert-info">Personne ne suit '.$this->request->getParam('username').' pour le moment.</div>';
         }
         else
         {
@@ -20,10 +36,16 @@
             <?= $this->Html->link(''.h($abonne_valide->Users['username']).'','/'.h($abonne_valide->Users['username']).'',['class' => 'link_username_tweet','escape' => false]) ?>
 
             <span class="alias_tweet">@<?= $abonne_valide->Users['username'] ;?></span>
+             <?php
+                        if($this->request->getParam('username') == $authName) // si je suis sur mon compte
+{
+?>
 
              <a href="#" data-username="<?= $abonne_valide->Users['username'] ;?>" data-action="add" title="Bloquer <?= $abonne_valide->Users['username'] ;?>"  id="addblock" class="link_delete_abo" onclick="return false;">Bloquer</a>
 
-           
+     <?php
+     }
+     ?>         
  </div>
             <?php endforeach; ?>
 
@@ -43,7 +65,6 @@
             <?= $this->Paginator->next('Next page'); ?>
 
             <!--http://localhost/instatux/abonnement/abonnement/test?page=2 avec
-
               http://localhost/instatux/abonnement/test?page=2
  -->
 
@@ -56,8 +77,6 @@
   pagination: '#pagination',
   next:       '.next'
 });
-
-
   ias.extension(new IASSpinnerExtension());
   ias.extension(new IASNoneLeftExtension({text: "Fin des abonnés"}));
   ias.extension(new IASTriggerExtension({offset: 2}));

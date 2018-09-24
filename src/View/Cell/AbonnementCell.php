@@ -59,13 +59,13 @@ $this->set('authname', $authname);
 
 // partie nombre d'abonnes
 
-   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $this->request->getParam('username')])->count();
+   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $this->request->getParam('username')])->Where(['etat'=> 1])->count();
 
 $this->set('nb_abonnes',$nb_abonnes);
       
     // partie nombre d'abonnement  
 
-$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $this->request->getParam('username')])->count();
+$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $this->request->getParam('username')])->Where(['etat'=> 1])->count();
 
 $this->set('nb_abonnement',$nb_abonnement);
 
@@ -89,13 +89,13 @@ $this->set('etat_blocage', $blocage);
         
 // partie nombre d'abonnes de moi
 
-   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $authname])->count();
+   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $authname])->Where(['etat'=> 1])->count();
 
 $this->set('nb_abonnes',$nb_abonnes);
       
     // partie nombre d'abonnement  de moi
 
-$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $authname])->count();
+$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $authname])->Where(['etat'=> 1])->count();
 
 $this->set('nb_abonnement',$nb_abonnement);  
         
@@ -154,7 +154,7 @@ $this->set('suivi', $suivi);
 
 
 
-    private function mesabonnes($authname)
+    private function mesabonnes($authname) // liste de mes abonnés destinés aux suggestions
     {
                $this->loadModel('Abonnement');
         $abonnement = $this->Abonnement->find()->select(['suivi'])->where(['user_id' =>  $authname]);

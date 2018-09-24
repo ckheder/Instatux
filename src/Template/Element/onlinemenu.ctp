@@ -47,9 +47,7 @@
 
         <ul class="dropdown-menu">
           <li><a href="/instatux/settings">Paramètres</a></li>
-          <li><a href="/instatux/abonnement/<?= $authName ;?>">Mes abonnements</a></li>
-          <li> <a href="/instatux/abonne/<?= $authName ;?>">Mes abonnés</a></li>
-          <li><a href="/instatux/demande">Mes demandes</a></li>
+          <li><a href="/instatux/abonnement/<?= $authName ;?>">Abonnements</a></li>
           <li><a href="/instatux/logout">Déconnexion</a> </li>
         </ul>    
       

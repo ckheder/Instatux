@@ -116,7 +116,9 @@ Router::connect('/notification/delete/:id',['controller' => 'Notifications', 'ac
 Router::connect('/search-:string',['controller' => 'Search', 'action' => 'index']);
 
 //fin route recherche
-
+    // route de mes abonnements
+Router::connect('/abonnement',['controller' => 'Abonnement', 'action' => 'index']);
+   // fin route de mes abonnements
     // route de mes abonnements
 Router::connect('/abonnement/:username',['controller' => 'Abonnement', 'action' => 'abonnement']);
    // fin route de mes abonnements
@@ -125,17 +127,12 @@ Router::connect('/abonne/:username',['controller' => 'Abonnement', 'action' => '
     // fin route abonne
 
     // route demande
-Router::connect('/demande',['controller' => 'Abonnement', 'action' => 'demande']);
+Router::connect('/demande',['controller' => 'Abonnement', 'action' => 'demande'],['_name' => 'demande']);
    // fin route demande
 
     // route abonnement add
 Router::connect('/abonnement/add/:username',['controller' => 'Abonnement', 'action' => 'add']);
     // fin route abonnement/add
-
-    // route like
-Router::connect('/like-:id',['controller' => 'Aime', 'action' => 'add'],['id' => '\d+', 'pass' =>['id']],['_name' => 'routelike']);
-    // fin route like
-
     // route abonnement delete
 Router::connect('/abonnement/delete/:username',['controller' => 'Abonnement', 'action' => 'delete']);
     // fin route abonnement/delete
@@ -145,8 +142,15 @@ Router::connect('/abonnement/:act/:username',['controller' => 'Abonnement', 'act
     // fin route abonnement/delete
 
     // route accepter abonnement
+Router::connect('/abonnement/remove/:username',['controller' => 'Abonnement', 'action' => 'deleterequest']);
+    // fin route abonnement/delete
+
+    // route accepter abonnement
 Router::connect('/abonnement/indexmessagerie',['controller' => 'Abonnement', 'action' => 'indexmessagerie']);
     // fin route abonnement/delete
+    // route like
+Router::connect('/like-:id',['controller' => 'Aime', 'action' => 'add'],['id' => '\d+', 'pass' =>['id']],['_name' => 'routelike']);
+    // fin route like
 
     // route settings
 Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);

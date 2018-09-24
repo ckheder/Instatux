@@ -1,3 +1,9 @@
+// assigner la classe active au lien cliqué
+$(document).ready(function() {
+  // get current URL path and assign 'active' class
+  var pathname = window.location.pathname;
+  $('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
+});
 
 // accepter ou refuser une demande d'abonnement
     $("#accept, #refuse").each(function(){
@@ -51,5 +57,5 @@ document.getElementById('nbattente').innerHTML = nbattente + ' demande(s) en att
          });
 });
     });
-// fin gestion des abonnements
+
 

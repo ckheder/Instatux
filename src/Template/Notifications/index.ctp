@@ -1,6 +1,8 @@
-<?php
-use Cake\Routing\Router;
+<div class="alert alert-info">
+<strong>Info!</strong> Vous pouvez configurer les notifications dans l'onglet "notifications" de vos paramètres.
 
+    </div>
+<?php
             if(isset($nb_notif))
             {
                 echo '<div class="alert alert-info">
@@ -20,30 +22,29 @@ use Cake\Routing\Router;
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <li><?= $this->Html->Link("Tout marquer comme lue",'#',array(
-        'id' => 'allnotiflue','onclick' => 'return false' 
+        'id' => 'allnotiflue','onclick' => 'return false'
     ));?></li>
     <li><?= $this->Html->Link("Tout effacer",'#',array(
-        'id' => 'alldeletenotif','onclick' => 'return false' 
+        'id' => 'alldeletenotif','onclick' => 'return false'
     ));?> </li>
-    <li><?=$this->Html->Link("Paramètres", '/settings#setup_profil'); ?> </li>
   </ul>
-</div> 
+</div>
 <br />
 <div id="list_tweet">
 <?php
 
- foreach ($notification as $notification): 
+ foreach ($notification as $notification):
 
 if($notification->statut == 0) // notif non lu
 {
-    
+
     echo '<div class="notif_non_lu" data-idnotif="'.$notification->id_notif.'">';
 
  }
 
 else // notif lue
 {
-  
+
 echo '<div class="notif_lu" data-idnotif="'.$notification->id_notif.'">';
 
 }
@@ -53,11 +54,11 @@ echo '<div class="notif_lu" data-idnotif="'.$notification->id_notif.'">';
 
             <?= $notification->created->i18nformat('dd MMMM YYYY'); ?>
 
-             <a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Supprimer"  class="deletenotif" onclick="return false;"><span class="glyphicon glyphicon-remove red"></span></a> 
+             <a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Supprimer"  class="deletenotif" onclick="return false;"><span class="glyphicon glyphicon-remove red"></span></a>
 
-                             
+
              </span>
-       
+
 
             <?= $this->Text->autoParagraph($notification->notification); ?>
 
@@ -78,7 +79,7 @@ endforeach; ?>
 
           </div>
 
- <?php         
+ <?php
 
         } ?>
 

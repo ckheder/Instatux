@@ -1,4 +1,23 @@
- <?php
+ <div class="alert alert-success">
+<strong>Info!</strong> Vous trouverez ici la liste de toutes les personnes qui veulent vous suivre mais aussi les personnes à qui vous avez envoyé une demande de suivi.
+<br />
+<br />
+Vous pouvez accepter ou refuser les demandes d'abonnements depuis cette page.
+    </div>      
+                            <?= $this->Paginator->limitControl([10 => 10, 30 => 30]); ?>
+
+                          <div class="pagination">
+    <ul class="pagination">
+            <?php
+                echo $this->Paginator->prev(__('page précédente'), array('tag' => 'li'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
+                echo $this->Paginator->numbers(array('separator' => '','currentTag' => 'a', 'currentClass' => 'active','tag' => 'li','first' => 1));
+                echo $this->Paginator->next(__('page suivante'), array('tag' => 'li','currentClass' => 'disabled'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
+            ?>
+        </ul>
+    </div>
+
+           <?php
+ // partie mes demandes reçues
         if(isset($nbabonnement_attente))
         {
          echo '<div class="alert alert-info">Aucune demande d\'abonnement en attente.</div>';
@@ -17,11 +36,26 @@
 <?= $this->Html->link(h($abonnement_attente->Users['username']),'/'.h($abonnement_attente->Users['username']).'');
                
  echo '<span class="link_abo pull-right">';
-               echo '<a href="#" data-username="'.$abonnement_attente->Users['username'].'"  data-action="accept" id="accept" class="accept-link">Accepter</a> - <a href="#" data-username="'.$abonnement_attente->Users['username'].'"  data-action="refuse" id="refuse" class="refuse-link">Refuser</a>'; ?>
+               echo '<a href="#" data-username="'.$abonnement_attente->Users['username'].'"  data-action="accept" id="accept" class="btn btn-success accept-link">Accepter</a> - <a href="#" data-username="'.$abonnement_attente->Users['username'].'"  data-action="refuse" id="refuse" class="btn btn-danger refuse-link">Refuser</a>'; ?>
                </span>
               </div>
-               <?php  endforeach;
-        
+               <?php  endforeach; ?>
+                          <div class="pagination pagination-large">
+    <ul class="pagination">
+            <?php
+                echo $this->Paginator->prev(__('page précédente'), array('tag' => 'li'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
+                echo $this->Paginator->numbers(array('separator' => '','currentTag' => 'a', 'currentClass' => 'active','tag' => 'li','first' => 1));
+                echo $this->Paginator->next(__('page suivante'), array('tag' => 'li','currentClass' => 'disabled'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
+            ?>
+        </ul>
+    </div>
+    <?php
         }
-?>
-<?= $this->Html->script('/js/settingsabo.js') ?>
+
+
+// fin partie mes demandes reçues
+
+// partie mes demandes envoyés
+         ?>
+
+

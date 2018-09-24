@@ -58,6 +58,9 @@ class TweetController extends AppController
 
 
     }
+
+    if(!isset($no_follow)) // si je suis abonné ou profil public 
+    {
         $tweet = $this->Tweet->find()->select([
             'Users.username',
             'Users.avatarprofil',
@@ -89,7 +92,7 @@ class TweetController extends AppController
 
             $this->set('tweet', $this->Paginator->paginate($tweet, ['limit' => 8]));
 
-
+}
 }
 // VÉRIFIER SI JE PEUT VOIR UN PROFIL
     private function allow_see_profil($username) // $username = $this->request->getPram('username')

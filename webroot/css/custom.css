@@ -156,7 +156,11 @@ float: left;
   margin-left: 6px;
 }
 /* abonnement */
-
+.pagination
+{
+margin-top: 2px;
+  margin-bottom: 5px;
+}
 
 .link_delete_abo
 {
@@ -544,7 +548,7 @@ color: #657786;
 .link_abo
 {
 
-  margin-top: 15px;
+  margin-top: 7px;
 
 
 }

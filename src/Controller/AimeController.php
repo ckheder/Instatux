@@ -15,35 +15,7 @@ class AimeController extends AppController
 {
 
 public $components = array('RequestHandler');
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|void
-     */
-    public function index()
-    {
-        $aime = $this->paginate($this->Aime);
-
-        $this->set(compact('aime'));
-        $this->set('_serialize', ['aime']);
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Aime id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $aime = $this->Aime->get($id, [
-            'contain' => []
-        ]);
-
-        $this->set('aime', $aime);
-        $this->set('_serialize', ['aime']);
-    }
+    
 
     /**
      * Add method
@@ -153,48 +125,5 @@ $result = $query
             // return $this->redirect($this->referer());
 }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Aime id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $aime = $this->Aime->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $aime = $this->Aime->patchEntity($aime, $this->request->getData());
-            if ($this->Aime->save($aime)) {
-                $this->Flash->success(__('The aime has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The aime could not be saved. Please, try again.'));
-        }
-        $this->set(compact('aime'));
-        $this->set('_serialize', ['aime']);
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Aime id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $aime = $this->Aime->get($id);
-        if ($this->Aime->delete($aime)) {
-            $this->Flash->success(__('The aime has been deleted.'));
-        } else {
-            $this->Flash->error(__('The aime could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
+   
 }

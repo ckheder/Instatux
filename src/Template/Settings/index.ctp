@@ -276,7 +276,6 @@ Les notifications de commentaires vous informent si vos abonnés , dans le cas d
 <span id="result_comm" class="spannotif"></span>
 
     <!-- fin notification de commentaire -->
-<hr>
 <!-- fin notifications -->
   </div>
    <div class="tab-pane " id="blocks">

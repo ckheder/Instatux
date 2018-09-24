@@ -14,7 +14,8 @@ class AbonnementController extends AppController
 {
 
             public $paginate = [
-        'limit' => 30,
+        'limit' => 10,
+        'maxLimit' => 30
         
     ];
     public $components = array('RequestHandler');
@@ -36,11 +37,21 @@ class AbonnementController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
+
+
     public function abonnement() // liste de mes abonnements
     {
-        $this->viewBuilder()->layout('general');
+           $this->viewBuilder()->layout('follow');
+
+           if($this->request->getParam('username') == $this->Auth->user('username'))
+           {
 
         $this->set('title', 'Mes abonnements');
+    }
+    else
+    {
+        $this->set('title', 'Liste des abonnements de '.$this->request->getParam('username').'');
+    }
 
         // abonnement valide, personne que je suis
 
@@ -71,9 +82,17 @@ class AbonnementController extends AppController
 
 public function abonnes()
 {
-            $this->viewBuilder()->layout('general');
+            $this->viewBuilder()->layout('follow');
 
-        $this->set('title', 'Mes abonnés');
+                   if($this->request->getParam('username') == $this->Auth->user('username'))
+           {
+
+        $this->set('title', 'Mes abonné(s)');
+    }
+    else
+    {
+        $this->set('title', 'Liste des abonnés de '.$this->request->getParam('username').'');
+    }
             // abonné valide, personne qui me suive
         $abonne_valide = $this->Abonnement->find()
         ->select(['Users.username','Users.avatarprofil'])
@@ -97,15 +116,17 @@ public function abonnes()
             $this->set('count_abonnes', $nb_abonnes);
             $this->set('abonne_valide', $this->Paginator->paginate($abonne_valide, ['limit' => 30]));
         }
-// fin abonné valide
+
 }
 
-public function demande()
+public function demande() 
 {
-            $this->viewBuilder()->layout('general');
+            $this->viewBuilder()->layout('follow');
 
-        $this->set('title', 'Mes demandes');
-            // abonné valide, personne qui me suive
+        $this->set('title', 'Demande(s) de suivi');
+
+        // mes demandes reçues
+  
          $abonnement_attente = $this->Abonnement->find()
        
         ->select([
@@ -120,7 +141,8 @@ public function demande()
         ->where(['suivi' =>  $this->Auth->user('username') ])
      
         ->where(['etat' => 0])
-        ->order((['Users.username' => 'ASC']));
+        ->order((['Users.username' => 'ASC']))
+        ->limit(10);
         $nb_attente = $abonnement_attente->count(); // nombre de demande en attente
         if ($nb_attente === 0) // aucun résultat
         {
@@ -129,26 +151,12 @@ public function demande()
         else
         {
             $this->set('nb_attente', $nb_attente);
-            $this->set(compact('abonnement_attente', $abonnement_attente));
+            $this->set('abonnement_attente', $this->paginate($abonnement_attente, ['limit' => 10]));
         }
-// fin abonné valide
-}
-    /**
-     * View method
-     *
-     * @param string|null $id Abonnement id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $abonnement = $this->Abonnement->get($id, [
-            'contain' => []
-        ]);
 
-        $this->set('abonnement', $abonnement);
-        $this->set('_serialize', ['abonnement']);
-    }
+}
+
+
 
     /**
      * Add method
@@ -391,6 +399,42 @@ public function validate() // valider ou non une demande d'abonnement
     }
 
 }
+ /**
+     * Annuler une demande d'abo
+     *
+     * @param string|null $id Abonnement id.
+     * @return \Cake\Network\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function deleterequest()
+    {
+        if ($this->request->is('ajax')) {
+
+$query = $this->Abonnement->query()
+                            ->delete()
+                            ->where(['suivi' => $this->request->getParam('username') ])
+                            ->Where(['user_id' => $this->Auth->user('username')])
+                            ->execute();
+
+                 if($query)
+                {
+                    
+                    $reponse = 'removerequest';
+                }
+                else
+                {
+                    $reponse = 'probleme';
+                }
+
+
+
+  
+                       $this->response->body($reponse);
+    return $this->response;
+
+
+    }
+    }
 
 private function check_type_profil($username) // vérifie le profil de la personne que l'on souhaite suivre
 {
