@@ -1,6 +1,7 @@
 <?php $search = str_replace('%23', '#', $search); ?>
-<div class="text-center"><h3>Résultat pour <?= $search ?></h3></div>
+<div class="text-center"><h3><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Résultat pour <?= $search ?></h3></div>
 <br />
+<div class="text-center"><h4><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<?= $nb_resultat_users ?> membre(s) trouvé(s)</h4></div>
 <?php // résultat users
                          foreach ($resultat_users as $resultat_users): ?>
                          <div class="tweet">
@@ -25,9 +26,21 @@
 ?>
                
               </div>
-<?php endforeach; //fin résultat users ?>
+<?php endforeach; //fin résultat users 
 
-
+// résultat hashtag 
+?>
+<div class="text-center"><h4><span class="glyphicon glyphicon-fire"></span>&nbsp;&nbsp;<?= $nb_resultat_hashtag ?> hashtag trouvé(s)</h4></div>
+<ul class="hashtag">
+  <?php
+foreach ($resultat_hash as $resultat_hash): ?>
+                         <li>
+<?= $this->Html->link('#'.h($resultat_hash->tag),'/search-%23'.h($resultat_hash->tag).'');?>
+                          
+              </li>
+<?php endforeach; //fin résultat hashtag?> 
+</ul>
+<div class="text-center"><h4><span class="glyphicon glyphicon-bullhorn"></span>&nbsp;&nbsp;<?= $nb_resultat_tweet ?> publication(s) trouvée(s)</h4></div>
 <div id="list_tweet">
 
 <?php
@@ -120,7 +133,7 @@
 
           </div>
 
-<?= $this->Html->script('iassearch.js') ?>
 
+<?= $this->Html->script('iassearch.js') ?>   
           
 

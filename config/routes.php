@@ -116,6 +116,11 @@ Router::connect('/notification/delete/:id',['controller' => 'Notifications', 'ac
 Router::connect('/search-:string',['controller' => 'Search', 'action' => 'index']);
 
 //fin route recherche
+
+    // route search user autocomplete
+Router::connect('/search/searchusers',['controller' => 'Search', 'action' => 'searchusers']);
+    // fin route search user autocomplete
+
     // route de mes abonnements
 Router::connect('/abonnement',['controller' => 'Abonnement', 'action' => 'index']);
    // fin route de mes abonnements

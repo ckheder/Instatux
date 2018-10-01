@@ -33,6 +33,7 @@ use Cake\Routing\Router;
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
+    <?= $this->Html->script('/js/search.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>

@@ -29,10 +29,13 @@
     
 
    <div class="input-group">
-    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-       <?= $this->Form->input('search',['type' => 'text', 'label'=>'', 'placeholder' =>'Rechercher sur Instatux', 'required','class' =>'form-control']); ?>
+
+       <?= $this->Form->input('search',['id'=>'search','type' => 'text', 'label'=>'', 'placeholder' =>'Rechercher sur Instatux', 'required','class' =>'form-control']); ?>
   
-       </div>
+           <div class="input-group-btn">
+        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+      </div>
+           </div>
 </form>
 </li>
 <li><a href="/instatux/<?= $authName ;?>"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Moi</a></li>

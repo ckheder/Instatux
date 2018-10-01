@@ -19,13 +19,15 @@
  
 
    <div class="input-group">
-       <?= $this->Form->input('search',['type' => 'text', 'label'=>'', 'placeholder' =>'Recherche...', 'required','class' =>'form-control']); ?>
+       <?= $this->Form->input('search',['id'=>'search','type' => 'text', 'label'=>'', 'placeholder' =>'Recherche...', 'required','class' =>'form-control']); ?>
   
     <div class="input-group-btn">
         <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
       </div>
      </div>
+
 </form>
+
 </li>
 </ul>
       <div class="nav navbar-nav navbar-right">

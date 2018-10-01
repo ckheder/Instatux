@@ -55,14 +55,29 @@
 
 // auto completion des abonnés
 
+if ($('#autocomplete').length > 0) {
+
       $(function() 
       {
 
-    $( "#autocomplete").autocomplete({
+    $( "#autocomplete" ).autocomplete({
 
 source:'/instatux/abonnement/indexmessagerie',
+html: true, 
+        open: function(event, ui) {
+          $(".ui-autocomplete").css("z-index", 1000);
+
+        }
+
+      })
+        .autocomplete( "instance" )._renderItem = function( ul, item ) {
+
+        return $( "<li><div><img src='/instatux/img/"+item.avatar+"'><span>"+item.value+"</span></div></li>" ).appendTo( ul );
+
+      };
 
 
 
-})});
+});
+    };
 

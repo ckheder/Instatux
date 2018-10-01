@@ -39,6 +39,7 @@
     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
      <?= $this->Html->script('/js/nbnotif.js') ?>
+     <?= $this->Html->script('/js/search.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>
@@ -93,10 +94,10 @@ else // je ne suis pas authentifié
         <?php if (isset($authName))
 {
  echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
+ echo $this->element('modaltweet');
 }
 ?>
 </div>
-<?= $this->element('modaltweet') ?>
 <?= $this->element('modalconnexion') ?>
 <footer>
     </footer>

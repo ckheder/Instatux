@@ -84,7 +84,9 @@ class UsersController extends AppController
 
                 $this->eventManager()->dispatch($event);
 
-                $this->getMailer('User')->send('welcome', [$user]);
+                //Envoi d'un mail de bienvenue
+
+                //$this->getMailer('User')->send('welcome', [$user]);
 
                 $this->Flash->success(__('Inscription réussie, bienvenue '.h($this->request->data('username')).' sur Instatux.'));
                 return $this->redirect('/'.$this->Auth->user('username').'');
@@ -326,7 +328,7 @@ else
 
 
         if ($this->Users->delete($user)) {
-          $this->getMailer('User')->send('deleteaccount', [$user]);
+          //$this->getMailer('User')->send('deleteaccount', [$user]);
             $this->Flash->success(__('Compte supprimé.'));
             return $this->redirect('/');
         } else {

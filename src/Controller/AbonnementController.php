@@ -318,22 +318,31 @@ if ($this->request->is('ajax')) {
 
 
                 if ($this->request->is('ajax')) {
+
+                    $this->loadModel('Users');
            
             $this->autoRender = false;            
             $name = $this->request->query('term');            
-                $abonnement = $this->Abonnement->find()->select(['suivi'])
-                
-        ->where(['user_id' =>  $this->Auth->user('username')])
-        ->where(['suivi LIKE '  => '%'.$name.'%'])
-        ->where(['etat' => 1]);
+                $abonnement = $this->Abonnement->find()->select(['Users.username','Users.avatarprofil'])
 
-$resultArr = [];
+        ->where(['Abonnement.user_id' =>  $this->Auth->user('username')])
+        ->where(['suivi LIKE '  => ''.$name.'%'])
+        ->where(['etat' => 1])
+        
+        ->contain(['Users']);
+
+
 
             foreach($abonnement as $result) 
             {
 
 
-               $resultArr[] =  array('label' => $result->suivi, 'value' => $result->suivi);
+               $resultArr[] =  array(
+                
+                    
+                    'value' => $result->Users['username'],
+                    'avatar' => $result->Users['avatarprofil']
+                    );
                 
                
             }

@@ -6,19 +6,36 @@ body {
   background-color: #DCDCDC;
   padding-top : 52px;
 overflow-y:scroll;
+
+
 }
 
 body.modal-open{
     width:100%!important;
     padding-right:0!important;
     overflow-y:scroll!important;
-}
 
+}
 a /* soulgnement lien */
 {
   text-decoration:none;
 }
-
+/* autocomplete messagerie + search */
+.ui-menu img{
+  width:38px;
+  height:38px;
+}
+.ui-menu li span{
+  font-size:1em;
+  padding:0 0 10px 10px;
+  margin:0 0 10px 0 !important;
+  white-space:nowrap;
+}
+.alias_tweet_search
+{
+  color: #657786;
+}
+/* fin autocomplete */
 .footer {
   position: relative;
   top : 40px;
