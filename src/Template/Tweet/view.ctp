@@ -94,9 +94,7 @@ use Cake\Network\Request;
                 ?>
                      <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
-                     <?= $this->Html->link('J\'aime', '/like-'.$tweet->id.'', array('data-value' => ''.$tweet->id.'','class' => 'link_like')); 
-
-                            ?>
+                    <a href="#" data-value="<?= $tweet->id ;?>" class="link_like" onclick="return false;">J'aime</a>
                &nbsp;&nbsp;&nbsp;
                <?php
 

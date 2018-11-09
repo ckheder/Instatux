@@ -38,10 +38,9 @@
     <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js') ?>
     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
-     <?= $this->Html->script('/js/nbnotif.js') ?>
-     <?= $this->Html->script('/js/search.js') ?>
+    <?= $this->Html->script('/js/nbnotif.js') ?>
+    <?= $this->Html->script('/js/search.js') ?>
     <?= $this->fetch('meta') ?>
-
 </head>
 <body>
    <?php if (isset($authName))
@@ -95,6 +94,7 @@ else // je ne suis pas authentifié
 {
  echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
  echo $this->element('modaltweet');
+echo  $this->element('helpmodal');
 }
 ?>
 </div>
@@ -106,5 +106,8 @@ else // je ne suis pas authentifié
           <?= $this->Html->script('sharetweet.js') ?> <!-- script de partage d'un tweet : utlisé sur l'accueil, profil, moteur de recherche -->
           <?= $this->Html->script('blocage.js') ?> <!-- script de blocage d'un utlisateur : utlisé sur l'accueil, profil, moteur de recherche,viewtweet,chat -->
           <?= $this->Html->script('messagerie.js') ?> <!-- message depuis les fenetres modals , la page d'accueil de la messagerie et l'auto completion des abonnements -->
+          <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs -->
+
+
 </body>
 </html>

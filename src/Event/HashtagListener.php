@@ -6,13 +6,14 @@ use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
 use Cake\Database\Expression\QueryExpression;
+use Cake\Routing\Router;
 
 
 class HashtagListener implements EventListenerInterface {
 
     public function implementedEvents() {
         return array(
-            'Model.Tweet.afterAdd' => 'hashtag_username',
+            'Model.Tweet.afterAdd' => 'hashtag_username'
         );
     }
 
@@ -134,4 +135,5 @@ $table_settings = TableRegistry::get('Settings');
 
              return $settings_notif;
 }
+
 }

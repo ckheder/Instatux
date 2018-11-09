@@ -70,9 +70,7 @@ foreach ($resultat_hash as $resultat_hash): ?>
                 ?>
                      <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
-                     <?= $this->Html->link('J\'aime', '/like-'.$resultat_tweet->id.'', array('data-value' => ''.$resultat_tweet->id.'','class' => 'link_like')); 
-
-                     ?>
+ <a href="#" data-value="<?= $resultat_tweet->id ;?>" class="link_like" onclick="return false;">J'aime</a>
                &nbsp;&nbsp;&nbsp;
                <?php
 

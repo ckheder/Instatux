@@ -1,11 +1,9 @@
 
-$('.link_like').click(function(event) {
-   event.preventDefault();
+$(document).on('click','.link_like',function() {
 
 var id = $(this).data('value');
  
 $.ajax({
-    type: "GET",
     url: '/instatux/like-'+id +'',
     success: function(data){
          $('#compteur_like-' +id +'')
@@ -14,7 +12,10 @@ $.ajax({
     },
     error: function(data)
     {
-        alert('fail');
+              $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Impossible de liker ce contenu.</span></p>');
+      setTimeout(function() {
+      $('.notif').fadeOut("slow");
+        }, 2000 );
     }
 });
 }); 

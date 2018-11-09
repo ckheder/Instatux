@@ -29,21 +29,23 @@ use Cake\Routing\Router;
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
+    <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
     <?= $this->Html->script('/js/search.js') ?>
+    <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
+    <?= $this->Html->script('/js/emoji/emojis.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>
 <body>
-  <?= $this->element('offlinemenu') ; ?>
+  <?= $this->element('onlinemenu') ; ?>
    <div class="container" style="border:1px solid #cecece;">
 
  <div class="row">
      <div class="col-sm-3">
-        <?= $this->element('encartinscriptionoffline'); ?>
          <ul id="myTab" class="nav nav-tabs nav-stacked">
   <li class="list-group-item list-group-item-info">Filtrer l'actualités.</li>
   <!-- lien de résultat les plus récents -->
@@ -65,12 +67,14 @@ use Cake\Routing\Router;
 <div class="col-sm-4">
 <br />
         <?= $this->cell('Hashtag');?>
+       
 </div>
 
-
+ <?=  $this->element('modaltweet');?>
 </div>
-<?= $this->element('modalconnexion') ?>
 <footer>
-    </footer>        
+    </footer>
+     <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs --> 
+     <?= $this->Html->script('countlike.js') ?> <!-- script d'ajoput/suppression de like : utlisé sur l'accueil, profil, moteur de recherche -->       
 </body>
 </html>

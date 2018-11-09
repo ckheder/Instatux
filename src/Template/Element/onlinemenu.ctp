@@ -42,9 +42,11 @@
 <li><?= $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', 
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#ModalTweet',
+                  'data-backdrop'=>'static',
+                   'data-keyboard'=> 'false',
                   'class' => 'btn btn-info navbar-btn',
                   'type' => 'button']);
-                  ?>    </li>
+                  ?> </li>
  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cog"></span></a>
 
 

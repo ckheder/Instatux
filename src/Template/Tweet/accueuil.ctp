@@ -69,7 +69,7 @@ if(isset($nb_tweet_accueuil))
                 <span class="link_comm_share">
                         <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
-                     <?= $this->Html->link('J\'aime', '/like-'.$abonnement->id.'', array('data-value' => ''.$abonnement->id.'','class' => 'link_like')); ?>
+                  <a href="#" data-value="<?= $abonnement->id ;?>" class="link_like" onclick="return false;">J'aime</a>
                &nbsp;&nbsp;&nbsp;
                <?php
                 

@@ -63,17 +63,23 @@ Router::scope('/', function (RouteBuilder $routes) {
 Router::connect('/logout',['controller' => 'Users', 'action' => 'logout']);
     // fin route logout
 
-//essai route profil
+// route profil
 
 Router::connect('/:username',['controller' => 'Tweet', 'action' => 'index'],['pass' =>['username']],['_name' => 'profil']);
 
-//fin essai route profil
+//fin  route profil
 
-//essai route tweet
+// route tweet
 
 Router::connect('/post/:id',['controller' => 'Tweet', 'action' => 'view'],['id' => '\d+', 'pass' =>['id']]);
 
-//fin essai route tweet
+//fin route tweet
+
+// route nouveau tweet
+
+Router::connect('/post/add',['controller' => 'Tweet', 'action' => 'add']);
+
+//fin route nouveau tweet
 
 //essai route tweet
 

@@ -28,11 +28,14 @@
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
+    <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
-     <?= $this->Html->script('/js/nbnotif.js') ?>
+    <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
+    <?= $this->Html->script('/js/emoji/emojis.js') ?>
+    <?= $this->Html->script('/js/nbnotif.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>
@@ -64,9 +67,10 @@
 
 ?>
 </div>
-<?= $this->element('modaltweet') ?>
+<?= $this->element('modaltweet'); ?>
 <footer>
     </footer>
       <?= $this->Html->script('settings.js') ?> <!-- script d'ajoput/suppression de like : utlisé sur l'accueil, profil, moteur de recherche -->
+      <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs -->
 </body>
 </html>

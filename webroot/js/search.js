@@ -1,7 +1,5 @@
 // autocomplete
 
-
-
       $(function() 
       {
 

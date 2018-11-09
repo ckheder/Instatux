@@ -315,16 +315,59 @@ class TweetController extends AppController
     return $voir;
 }
 
-    // parsage des tweets
+    // parsage des tweets : smiley, @,#,media
     private function linkify_tweet($tweet)
     {
-        $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
+        $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/', // @username
         '$1<a href="$2">@$2</a>',
         $tweet);
 
-        return preg_replace('/#([^\s]+)/',
+        $tweet =  preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt=":$1:" class="emoji_comm"/>', $tweet); // emoji
+
+        //lien
+
+        $pattern_url = '/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/';
+
+        if(preg_match_all($pattern_url, $tweet))
+        {
+            $tweet = preg_replace($pattern_url, '<a href="$1">$1</a>', $tweet);
+        }
+ 
+        // traitement média
+
+        if (preg_match('~\[videoYoutube]([^{]*)\[/videoYoutube]~i', $tweet)) // youtube
+        {
+        $tweet = preg_replace('~\[videoYoutube]([^{]*)\[/videoYoutube]~i', '<iframe src="https://www.youtube.com/embed/$1"  width="100%" height="360" frameborder="0" allowfullscreen></iframe>', $tweet);
+        
+    }
+
+        elseif (preg_match('~\[videoDailymotion]([^{]*)\[/videoDailymotion]~i', $tweet)) { // dailymotion
+        $tweet = preg_replace('~\[videoDailymotion]([^{]*)\[/videoDailymotion]~i', '<p><iframe frameborder="0" width="100%" height="360" src="//www.dailymotion.com/embed/video/$1" allowfullscreen></iframe></p>', $tweet);
+    }
+            elseif (preg_match('~\[clipTwitch]([^{]*)\[/clipTwitch]~i', $tweet)) { // clip twitch
+        $tweet = preg_replace('~\[clipTwitch]([^{]*)\[/clipTwitch]~i', '<p><iframe src="https://clips.twitch.tv/embed?autoplay=false&clip=$1&tt_content=embed&tt_medium=clips_embed" width="100%" height="360" frameborder="0" scrolling="no" allowfullscreen="true"></iframe></p>', $tweet);
+    }
+                elseif (preg_match('~\[videoTwitch]([^{]*)\[/videoTwitch]~i', $tweet)) { // video twitch
+        $tweet = preg_replace('~\[videoTwitch]([^{]*)\[/videoTwitch]~i', '<p><iframe src="https://player.twitch.tv/?autoplay=false&video=v$1" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="100%"></iframe></p>', $tweet);
+    }
+                elseif (preg_match('~\[InstagramPost]([^{]*)\[/InstagramPost]~i', $tweet)) { // instagram
+        $tweet = preg_replace('~\[InstagramPost]([^{]*)\[/InstagramPost]~i', '<p><iframe src="https://www.instagram.com/p/$1/embed/captioned/" width="100%" height="780" frameborder="0" scrolling="no" allowtransparency="true"></iframe></p>', $tweet);
+    }
+                    elseif (preg_match('~\[imageUrl]([^{]*)\[/imageUrl]~i', $tweet)) { // lien vers une image distante
+        $tweet = preg_replace('~\[imageUrl]([^{]*)\[/imageUrl]~i', '<a href="$1" ><img src="$1" width="100%" /></a>', $tweet);
+    }
+
+    // lien   
+
+
+
+        $tweet =  preg_replace('/#([^\s]+)/',#something
         '<a href="search-%23$1">#$1</a>',
         $tweet);
+
+        $tweet = nl2br($tweet);
+
+        return('<p><p>'.$tweet.'</p></p>');
     }
 
     /**
@@ -334,13 +377,24 @@ class TweetController extends AppController
      */
     public function add()
     {
-        $tweet = $this->Tweet->newEntity();
-        if ($this->request->is('post')) {
-            // fin vérification
+               
+         if ($this->request->is('ajax')) {
+            $tweet = $this->Tweet->newEntity();
+            $contenu_tweet = htmlspecialchars($this->request->data('contenu_tweet'));
+            //test et traitement envoi d'avatar
+            $file = $this->request->data['file'];
+            if($file['size'] != 0)
+            {
+            $contenu_tweet = $this->tweetupload($file, $contenu_tweet);
+            }
+            $idtweet = $this->idtweet();
+            // fin test et traitement envoi avatar
                    $data = array(
+                    
+            'id' => $idtweet,
             'user_id' => $this->Auth->user('username'),
             'user_timeline' => $this->Auth->user('username'),
-            'contenu_tweet' => $this->linkify_tweet($this->request->data('contenu_tweet')),
+            'contenu_tweet' => $this->linkify_tweet($contenu_tweet),
             'private' =>$this->get_type_profil($this->Auth->user('username')),
                         //evenement username
             'avatar_session' => $this->Auth->user('avatarprofil'),
@@ -353,23 +407,25 @@ class TweetController extends AppController
             if ($this->Tweet->save($tweet)) {
                 // évènement hashtag/username
 
-
                  $event = new Event('Model.Tweet.afterAdd', $this, ['tweet' => $tweet]);
 
                 $this->eventManager()->dispatch($event);
 
                 //fin évènement hashtag
-                $this->Flash->success(__('Nouveau tweet ajouté.'));
+                $this->response->body(json_encode($data));
 
 
             } else {
-                $this->Flash->error(__('Impossible d\'ajouter ce tweet.'));
+                $reponse = 'probleme';
+                $this->response->body($reponse);
             }
+                  
+    return $this->response;
         }
 
-        return $this->redirect($this->referer());
-
     }
+
+
 
     /**
      * Delete method
@@ -462,7 +518,7 @@ class TweetController extends AppController
                 }
 
         $data = array(
-            'tweet_id' => $this->request->getParam('id'),
+            'id' => $this->request->getParam('id'),
             'user_id' => $user_tweet,
             'user_timeline' => $this->Auth->user('username'),
             'contenu_tweet' => $contenu_tweet,
@@ -500,8 +556,8 @@ class TweetController extends AppController
 
     public function accueuil()
     {
-                $this->viewBuilder()->layout('general');
-                $this->set('title', 'Actualités'); // titre de la page
+                $this->viewBuilder()->layout('onlinenews');
+                $this->set('title', 'Instatux | Actualités'); // titre de la page
                 $abonnement = $this->Tweet->find()
                 ->select([
             'Users.username',
@@ -523,7 +579,6 @@ class TweetController extends AppController
         'Abonnement.user_id' =>  $this->Auth->user('username')
 
             ])
-        ->order(['Tweet.created' => 'DESC'])
         ->contain(['Users'])
         ->contain(['Abonnement']);
 
@@ -535,7 +590,7 @@ class TweetController extends AppController
         }
 
 
-     $this->set('abonnement', $this->Paginator->paginate($abonnement, ['limit' => 8]));
+     $this->set('abonnement', $this->paginate($abonnement, ['limit' => 8]));
 
     }
 
@@ -546,6 +601,7 @@ class TweetController extends AppController
     public function actualites()
     {
                 $this->viewBuilder()->layout('offlinenews');
+                $this->set('title', 'Instatux | Actualités'); // titre de la page
                 $actu = $this->Tweet->find()
                 ->select([
             'Users.username',
@@ -564,11 +620,10 @@ class TweetController extends AppController
 
         ->where(['Tweet.private' =>  0])
         ->where(['Tweet.share' =>  0])
-        ->order(['Tweet.created' => 'DESC'])
         ->contain(['Users']);
 
 
-     $this->set('actu', $this->Paginator->paginate($actu, ['limit' => 8]));
+     $this->set('actu', $this->paginate($actu, ['limit' => 8]));
 
     }
 
@@ -663,6 +718,72 @@ class TweetController extends AppController
 
              return $verif_share;
     }
+
+       private function tweetupload($file,$tweet) // on envoi le ficheri pour vérification et le contenu_tweet pour conversion
+        {
+
+
+if($file['error'] != 0)
+{
+  return $erreur = 'Problème lors de l\'envoi de votre fichier.Veuillez réessayer.';
+}
+
+      $imageMimeTypes = array( // type MIME autorisé
+      'image/jpg',
+      'image/png',
+      'image/jpeg');
+
+      $fileMimeType = mime_content_type($file['tmp_name']); // récupération du type MIME
+      if (!in_array($fileMimeType, $imageMimeTypes)) // test de l'extension du fichier
+            {
+                     $erreur = 'Ce n\'est pas une image';
+            }
+
+      if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
+                      {
+
+                $uploadPath = 'img/photos/'.$this->Auth->user('username').'/';
+
+                if(move_uploaded_file($file['tmp_name'], $uploadPath.basename($file['name'])))
+                {
+                    $tweet = preg_replace('~\[image]([^{]*)\[/image]~i', '<img src="'.$uploadPath.basename($file['name']).'" width="100%" />', $tweet);
+
+                    return $tweet;
+                }
+
+                    else
+                    {
+
+                      return $reponse = 'Impossible d\'envoyer ce fichier';
+
+                    }
+
+}
+else {
+  return $erreur;
+}
+
+
+        }
+
+        private function idtweet() // calcul d'un id de comm aléatoire
+{
+
+    $idtweet = rand();
+
+    $query = $this->Tweet->find()->select(['id'])->where(['id' => $idtweet]);
+
+     if ($query->isEmpty())
+     {
+        return $idtweet;
+     }
+     else
+    {
+        idtweet();
+    }
+
+}
+
 
 
 

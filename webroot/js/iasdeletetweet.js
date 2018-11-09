@@ -11,9 +11,6 @@
   ias.extension(new IASNoneLeftExtension({text: "Fin des tweets"}));
   ias.extension(new IASPagingExtension());
 
-
-
-
   // nouvel abonnement ou demande
 
   $(document).on('click','.deletetweet',function() {

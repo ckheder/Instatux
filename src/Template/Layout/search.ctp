@@ -29,12 +29,15 @@ use Cake\Routing\Router;
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
+    <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
     <?= $this->Html->script('/js/nbnotif.js') ?>
     <?= $this->Html->script('/js/search.js') ?>
+    <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
+    <?= $this->Html->script('/js/emoji/emojis.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>
@@ -90,18 +93,16 @@ else
         <?php if (isset($authName)) // test de l'authentification
   {
 echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
+echo $this->element('modaltweet'); 
 }
 ?>
 </div>
-        <?php if (isset($authName)) // test de l'authentification
-  {
-echo $this->element('modaltweet') ;
-}
-?>
-<?= $this->element('modalconnexion') ?>
+
+<?= $this->element('modalconnexion'); ?>
 <footer>
     </footer>
  
-
+<?= $this->Html->script('instatuxeditor.js'); ?>
+<?= $this->Html->script('countlike.js') ?> <!-- script d'ajoput/suppression de like : utlisé sur l'accueil, profil, moteur de recherche -->  
 </body>
 </html>

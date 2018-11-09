@@ -75,7 +75,7 @@ class TweetTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->requirePresence('id', 'create');
 
          $validator
             ->notEmpty('contenu_tweet')

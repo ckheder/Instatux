@@ -2,6 +2,8 @@
 use Cake\I18n\Time;
 use Cake\Routing\Router;
 
+
+
             if(isset($nb_tweet))
             {
                 echo '<div class="alert alert-info">
@@ -94,17 +96,14 @@ use Cake\Routing\Router;
             else
             {
             echo $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter'));
-            echo  $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username?></span> - 
+            echo  $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username?></span> -  
             <?php
             }
 
 ?>
              <?= $tweet->created->i18nformat('dd MMMM YYYY'); ?>
-             <?php
 
-             $contenu = str_replace('</p>', '', $tweet->contenu_tweet);
-             ?>
-                <?= $this->Text->autoParagraph($contenu); 
+            <?= $tweet->contenu_tweet; 
 
 
 
@@ -124,9 +123,7 @@ use Cake\Routing\Router;
                 
                      <span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> 
 
-                     <?= $this->Html->link('J\'aime', '/like-'.$tweet->id.'', array('data-value' => ''.$tweet->id.'','class' => 'link_like')); 
-                   
-                     ?>
+                     <a href="#" data-value="<?= $tweet->id ;?>" class="link_like" onclick="return false;">J'aime</a>
                &nbsp;&nbsp;&nbsp;
                <?php
                      }          
@@ -191,6 +188,7 @@ use Cake\Routing\Router;
         ?>
 
 <?= $this->Html->script('/js/iasdeletetweet.js') ?> <!-- suppression d'un tweet + scroll ajax liste des tweets -->
+
 
 
 
