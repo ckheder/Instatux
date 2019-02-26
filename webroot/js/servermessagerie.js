@@ -91,9 +91,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('message', function (data) {
 
-    var avatar = '/instatux/img/' + data.avatar;
-
-        socket.broadcast.in(data.room).emit('messagerepondu', {message: data.message, avatar: avatar,date: date_msg}); // renvoi aux autres et pas à moi
+        socket.broadcast.in(data.room).emit('messagerepondu', {message: data.message, date: date_msg}); // renvoi aux autres et pas à moi
     }); 
 
 

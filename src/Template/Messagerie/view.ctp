@@ -1,37 +1,14 @@
 <?php
-use Cake\I18n\Time;
-use Cake\Routing\Router;
-                  
+use Cake\I18n\Time;                
 ?>
-
-                <div id="etatco"></div>
-
-
-
- <div class="dropdown pull-right">
-  <button class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">
-    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><?= $this->html->link('Supprimer cette conversation', [
-                 'controller' => 'Conversation',
-                  'action' => 'edit',
-                  $this->request->getParam('id')]) ?></li>
-    <li><?= $this->Html->link('Bloquer '.$destinataire.'', ['controller' => 'Blocage','action' => 'add', $destinataire]); ?></li>
-    <li><a href="#">Signaler</a></li>
-  </ul>
-</div> 
-<br />
-<br />
-
+<div class="text-center"><h3>Répondre à <?= $destinataire ;?></h3></div>
 <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'),'id'=>'form_message')); ?>
                 
-<?= $this->Form->Textarea('message' ,['id'=> 'message','placeholder'=> 'Répondre à '.$destinataire.' ...','label'=> '','class' =>'emojis-plain textarea_comm']); ?>
+<?= $this->Form->Textarea('message' ,['id'=> 'message','placeholder'=> 'Votre message...','label'=> '','class' =>'emojis-plain']); ?>
 <br />
 <?= $this->Form->hidden('conversation', ['id'=>'conversation','value' => $this->request->getParam('id')]) // id de la conv ?>  
 <?= $this->Form->hidden('destinataire', ['id'=> 'destinataire','value' => $destinataire]) // id du destinataire?>
-<!-- pour le js node -->
-<?= $this->Form->hidden('avatar', ['id'=> 'avatar','value' => $authAvatar]) // id du destinataire?>
+
 
 
                 <?= $this->Form->end(); ?>
@@ -45,26 +22,22 @@ use Cake\Routing\Router;
             <?php if($message->user_id == $authName) // moi 
             {
                echo ' <div class="messagemoi">';
-               echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail')); 
+               echo  $this->Html->image('/img/avatar/'.$message->user_id.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-thumbail')); 
  
             }
             else
                 { 
                   echo '<div class="messagemoi other">'; // destinataire
-                    echo  $this->Html->image(''.$message->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail'));
+                    echo  $this->Html->image('/img/avatar/'.$message->user_id.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-thumbail'));
                 }
                 ?>           
 
                <?= $message->message;  ?>
 
-                  <span class="datemessage"> <?=  $message->created->i18nformat('d MMMM YYYY HH:mm') ?></span>
+                  <span class="datemessage"> <?=  $message->created->i18nformat('dd MMMM YYYY - HH:mm') ?></span>
                 
             </div>
             
-
-
-
-
             <?php endforeach; ?>
 
           </div>

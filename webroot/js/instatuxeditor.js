@@ -54,9 +54,23 @@ $('#instatuxeditor_textarea').on("input", function(){
     $wysiwyg.trigger('change');
     //fin smiley
 
+//insérer lien
+$('#btnurl').on('click', function(e)
+{
+ e.preventDefault();
+    _insertAtCaret($('#instatuxeditor_textarea'), '{Url}Collez ici le lien{/Url} ');
+});
+
+function _insertAtCaret(element, text) {
+    var caretPos = element[0].selectionStart,
+        currentValue = element.val();
+
+    element.val(currentValue.substring(0, caretPos) + text + currentValue.substring(caretPos));
+}
+
+
 // insertion d'un média externe
 // vidéo Youtube,Vimeo,Dailymotion,Twitch
-//image externe
 $('#btninsertmedia').on('click', function()
 {
 
@@ -287,6 +301,7 @@ function remove_existig_media(editor)
 }
 //fin compter le nombre de média  
 // envoi tweet
+
     $('#form_tweet').submit(function(e){
 
       e.preventDefault();
@@ -323,14 +338,23 @@ $('#ModalTweet').modal('hide');
  $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;Tweet ajouté.</span></p>');
         setTimeout(function() {
           $('.notif').fadeOut("slow");
-        }, 1500 );
+        }, 1000 );
+        //incremnte nombre de tweet
+        var nb_tweet = $('#nb_tweet_'+data.auth_name+'').text();// nombre de tweet
+        nb_tweet++;
+        $('#nb_tweet_'+data.auth_name+'').empty('').prepend(nb_tweet);
+        //fin incrementte nombre de tweet
 $('#instatuxeditor_textarea').val(''); // on vide l'editeur
 // on vide les preview
 $('#preview').empty(''); 
 $('#previewpic').empty('');
 $('#media').val('');
-$('#textCounter').text("250 caractère(s) restant(s)");
-$('#list_tweet').prepend('<div class="tweet" data-idtweet="' + data.id + '"><div class="dropdown"><button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">    ...</button><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="#" data-idtweet="' + data.id +'"  title="Effacer ce tweet"  class="deletetweet" onclick="return false;">Effacer ce tweet</a></li></ul></div><img src="/instatux/img/' + data.avatar_session + '"alt="image utilisateur" class="img-circle vcenter"/><a href="/instatux/' + data.auth_name +'" class="link_username_tweet">' + data.auth_name + '</a><span class="alias_tweet">@' + data.auth_name +'</span> - A l\'instant<p>' + data.contenu_tweet +'</p><span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-'+ data.id +'">0</span></span><span class="nb_comm_share">0 commentaire(s) - 0 partage(s)</span><br /><br /><span class="link_comm_share"><span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> <a href="#" data-value="'+data.id+'" class="link_like" onclick="return false;">J&#039;aime</a>&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-comment" style="vertical-align:center"></span>&nbsp;<a href="/instatux/post/'+data.id+'">Commenter</a></span></div>');
+$('#sendpic').val('');
+$('#textCounter').text("250 caractère(s) restant(s)");//compteur reinitialisé
+$('#list_tweet_'+data.auth_name+'').prepend('<div class="tweet" data-idtweet="' + data.id_tweet + '"><div class="dropdown"><button class="btn btn-default dropdown-toggle pull-right" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">    ...</button><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1"><li><a href="#" data-idtweet="' + data.id_tweet +'"  title="Effacer ce tweet"  class="deletetweet" onclick="return false;">Effacer ce tweet</a></li></ul></div><img src="/instatux/img/avatar/' + data.auth_name + '.jpg"alt="image utilisateur" class="img-circle vcenter"/><a href="/instatux/' + data.auth_name +'" class="link_username_tweet">' + data.auth_name + '</a><span class="alias_tweet">@' + data.auth_name +'</span> - A l\'instant<p>' + data.contenu_tweet +'</p><span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-'+ data.id +'">0</span></span><span class="nb_comm_share">0 commentaire(s) - 0 partage(s)</span><br /><br /><span class="link_comm_share"><span class="glyphicon glyphicon-thumbs-up" style="vertical-align:center"></span> <a href="#" data-value="'+data.id+'" class="link_like" onclick="return false;">J&#039;aime</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-comment" style="vertical-align:center"></span>&nbsp;<a href="/instatux/post/'+data.id_tweet+'" data-toggle="modal" data-target="#viewtweet" data-remote="false">Commenter</a></span></div>');
+if ($('#notweet').length > 0) {
+  $('#notweet').remove();
+  }
   }
 
 

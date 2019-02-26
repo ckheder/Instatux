@@ -18,23 +18,24 @@
  
 
    <div class="input-group">
-       <?= $this->Form->input('search',['id'=>'search','type' => 'text', 'label'=>'', 'placeholder' =>'Recherche...', 'required','class' =>'form-control']); ?>
+       <?= $this->Form->input('search',['id'=>'search','type' => 'text', 'label'=>'', 'placeholder' =>'Recherche...', 'required']); ?>
   
     <div class="input-group-btn">
         <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
       </div>
      </div>
-</form>
+<?= $this->Form->end(); ?>
 </li>
 </ul>
+<div class="text-center logintitle"><h4>Connexion</h4></div>
        <ul class="nav navbar-nav navbar-right">
         <li>
-          <?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'login'),'class'=>'navbar-form'));?>
+          <?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'login'),'class' =>'navbar-form'));?>
 
        <?= $this->Form->input('username', ['placeholder'=>'Nom d\'utilisateur', 'label' => '']); ?>
    <?= $this->Form->password('password', ['placeholder'=>'Mot de passe',  'label' => '']); ?>
 
-<?= $this->Form->button('Connexion', array('class'=>'btn btn-primary')) ?>
+<?= $this->Form->button('Connexion', array('class'=>'btn btn-primary btnlogin')) ?>
     <?= $this->Form->end() ?>
         </li>
         <li>

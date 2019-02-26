@@ -4,34 +4,35 @@ use Cake\Routing\Router;
 
 ?>
 
-<div class="text-center">
-
-  <h3>Nouveau Message </h3>
-
-
                 <?= $this->Form->create('Messagerie', array('url'=>array('controller'=>'messagerie', 'action'=>'add'),'id'=>'new_message')); ?>
-                <?= $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'destinataire','prepend' => ' <span class="glyphicon glyphicon-user"></span> ','label'=>'', 'required'=> 'required']) ;?>
+                
+                <?= $this->Form->input('destinataire', ['id' => 'autocomplete', 'placeholder' => 'À :','prepend' => ' <span class="glyphicon glyphicon-user"></span> ','label'=>'', 'required'=> 'required']) ;?>
 
-                <?=$this->Form->Textarea('message', ['placeholder' =>'Votre message...']) ;?>
-<!-- <textarea name="message" class="textarea_message" placeholder="Message..."></textarea> -->
-<br /> 
+                <?=$this->Form->Textarea('message', ['id' =>'textarea_message','placeholder' =>'Votre message...','rows' => '7', 'required'=> 'required']) ;?>
+                <!-- envoi depuis messagerie  -->
 
-                <br />
+
 <div class="text-center">
-                <?= $this->Form->button('Envoyer', array('class'=>'btn btn-success')) ?>
+                <?= $this->Form->input('Envoyer', array('type'=>'submit')) ?>
 </div>
                 <?= $this->Form->end(); 
 
 ?>
-
 <br />
-</div>
-<div class="text-center">
- <h4>Mes conversations </h4>
- <br />
- </div>
 
-            <?php foreach ($conv as $conv): ?>
+<div id = "conv">
+ <?php if($nb_conv == 0)
+ {
+  echo '<div class="alert alert-warning text-center" id="noconv">
+                        Aucune conversation active.
+                        </div>';
+ }
+ else
+{
+?>
+<div class="text-center"><h4><span class="glyphicon glyphicon-cog"></span><span id="nb_conv">&nbsp;<?= $nb_conv ;?></span> conversation(s) active(s)</h4></div>
+<?php
+           foreach ($conv as $conv): ?>
             <div class="tweet" data-conv ="<?= $conv->Messagerie['conv'] ;?>">
 
                                       <div class="dropdown">
@@ -49,7 +50,7 @@ use Cake\Routing\Router;
                         <li><?= $this->Html->link('Signaler ', ['action' => 'view']); ?></li> <!-- un post qui ne m'appartient pas , je peut le signaler -->
   </ul>
 </div>
-               <?= $this->Html->image(''.$conv->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
+               <?= $this->Html->image('/img/avatar/'.$conv->participant2.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter')) ?>
 
 <?= $this->Html->link(h($conv->participant2),'/'.h($conv->participant2).'',['class' => 'link_username_tweet']) ?>
                               
@@ -59,8 +60,8 @@ use Cake\Routing\Router;
 
                 
             </div>
-            <?php endforeach; ?>
+            <?php endforeach;} ?>
 
-                 
+      </div>           
 <?= $this->Html->script('deleteconv.js') ?>
 

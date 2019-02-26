@@ -1,7 +1,7 @@
 
 
      var ias = jQuery.ias({
-  container:  '#list_tweet',
+  container:  '#list_search',
   item:       '.tweet',
   pagination: '#pagination',
   next:       '.next'

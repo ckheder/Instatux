@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Routing\Router;
 
 /**
  * Messagerie Controller
@@ -40,7 +41,7 @@ class MessagerieController extends AppController
      */
     public function index()
     {
-        $this->viewBuilder()->layout('general');
+        $this->viewBuilder()->layout('messagerie');
         $this->set('title', 'Messagerie'); // titre de la page
 
         // on recherche toutes les conversations non masquées, statut = 1 de l'utilisateur courant, on récupère le destinataire et la date de dernier message
@@ -51,7 +52,6 @@ class MessagerieController extends AppController
 
         $conv->select([
           'Messagerie.conv',
-          'Users.avatarprofil',
           'participant2',
           'created' => $conv->func()->max('Messagerie.created'),
         ])
@@ -71,6 +71,10 @@ class MessagerieController extends AppController
         ->group('Messagerie.conv');
     
         $this->set(compact('conv'));
+
+        $nb_conv = $conv->count();
+
+        $this->set('nb_conv', $nb_conv);
 
 
 }
@@ -113,10 +117,10 @@ class MessagerieController extends AppController
 
          if($verif_user == 0)
          {
-            $this->Flash->error(__('Vous n\'avez pas l\'autorisation de voir cette conversation.'));
+            $this->Flash->error(__('Vous n\'avez pas l\'autorisation de voir cette conversation, soit elle n\'existe pas , soit vous n\'en faites pas partie soit la personne avec qui vous parliez n\'existe plus.'));
                 return $this->redirect([
                     'controller' => 'messagerie',
-    'action' => 'index'
+                    'action' => 'index'
         
 ]);
                
@@ -130,12 +134,11 @@ class MessagerieController extends AppController
   'Messagerie.destinataire', 
   'Messagerie.message', 
   'Messagerie.created',  
-  'Users.avatarprofil', 
             ])
         ->where(['conv' => $this->request->getParam('id')])
-        ->order(['Messagerie.created' => 'DESC'])
+        ->order(['Messagerie.created' => 'DESC']);
 
-        ->contain(['Users']);
+
    $this->set('message', $this->Paginator->paginate($message, ['limit' => 8]));
 
 
@@ -146,10 +149,12 @@ foreach ($message as $message):
 if($message->user_id == $this->Auth->user('username'))
 {
  $destinataire = $message->destinataire;
+
  }
  else
  {
  $destinataire = $message->user_id;
+
  }
 
 endforeach;
@@ -158,25 +163,11 @@ $this->set('title', 'Conversation avec  '.$destinataire.''); // titre de la page
 
 $this->set('destinataire', $destinataire);
 
+
 }
   
     }
 
-        // parsage des tweets
-    private function linkify_tweet($tweet) 
-    {
-        // remplacement des @ -> lien vers profil
-    $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
-        '$1<a href="$2">@$2</a>',
-        $tweet);
-        // remplacement des liens par des liens cliquables
-    $tweet = preg_replace('#(https?://)([\w\d.&:\#@%/;$~_?\+-=]*)#','<a href="$1$2" target="_blank">$2</a>',$tweet);
-
-    // remplacement des # -> lien vers moteur de recherche
-    return preg_replace('/#([^\s]+)/',
-        '<a href="search-%23$1">#$1</a>',
-        $tweet);
-}
 
 
     /**
@@ -189,13 +180,16 @@ $this->set('destinataire', $destinataire);
 
        if ($this->request->is('ajax')) {
 
+        $page = $this->request->referer(true); // url d'origine
 
-         if($this->test_blocage($this->request->data['destinataire'])) // si je suis bloqué
+         $url_messagerie = str_replace('/instatux','',Router::url(['_name' => 'messagerie']));// url messagerie
+
+         if($this->test_blocage($this->request->data['destinataire']) == 1) // si je suis bloqué
         {
 
         $reponse = 'blocage';
-         $this->response->body($reponse);
-
+         $this->response->body(json_encode($reponse));
+         return $this->response;
         }
         else
         {
@@ -241,15 +235,6 @@ $checkconv = $this->Conversation
             }
 }
 
-if(isset($this->request->data['avatar']))
-{
-  $avatar = $this->request->data['avatar'];
-}
-else
-{
-   $avatar = $this->Auth->user('avatarprofil');
-}
-
 // notification de message pour mon destinataire
 
 if($this->testnotifmessage($this->request->data['destinataire']) === "oui")
@@ -273,7 +258,6 @@ $messages = strip_tags($this->request->data('message')); // echappement des cara
             'conv' => $conversation,
             //evenement abonnement
             'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' =>$avatar,
              'new_conv' => $new_conv,
              'notif' =>$notif
             );
@@ -290,12 +274,23 @@ $messages = strip_tags($this->request->data('message')); // echappement des cara
             
                 // fin évènement
 
-        
-        
+            if($page == $url_messagerie) // je vien de la page messagerie
+    {
+
+      $data['origin'] = 1;
     }
-    $this->response->body(json_encode($data));
+       $this->response->body(json_encode($data)); 
+          
     }
-      return $this->response;      
+    else {
+                $reponse = 'probleme';
+                $this->response->body(json_encode($reponse));
+
+            }
+
+
+    }
+  return $this->response;      
 }
 }
 
@@ -303,11 +298,9 @@ $messages = strip_tags($this->request->data('message')); // echappement des cara
     {
         $this->loadModel('Blocage');
 
-        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $username])->where(['bloquer' => $this->Auth->user('username') ]);
+        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $username])->where(['bloquer' => $this->Auth->user('username') ])->count();
 
-        $result_blocage = $verif_blocage->count();
-
-             return $result_blocage;
+             return $verif_blocage;
     }
 
     private function testnotifmessage($username) // on vérifie si la personne à qui j'envoi un message accepte les notifications de message
@@ -327,16 +320,22 @@ $messages = strip_tags($this->request->data('message')); // echappement des cara
                 // parsage des tweets et des emoticones
     private function linkify_message($message) 
     {
-    $message = preg_replace('/(^|[^@\w])@(\w{1,15})\b/', // @username
-        '$1<a href="./$2">@$2</a>',
+        // remplacement des @ -> lien vers profil
+    $message = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
+        '$1<a href="$2">@$2</a>',
         $message);
-  $message = preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt="$1" class="emoji_comm"/>', $message); // emoji
-    $message = preg_replace('/#([^\s]+)/', '<a href="./search-%23$1">#$1</a>', $message); // #something
 
-       $message = preg_replace("/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/",
-        '<a href="$0">$0</a>',$message); // url
+    $message =  preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt=":$1:" class="emoji_comm"/>', $message); // emoji
+
+    $message = preg_replace('/#([^\s]+)/', '<a href="../instatux/search/hashtag/$1">#$1</a>', $message);
        
-      return $message; 
+       
+        // remplacement des liens par des liens cliquables
+  $message = preg_replace("/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))/",
+        '<a href="$0">$0</a>',$message);
+
+    // remplacement des # -> lien vers moteur de recherche
+    return $message;
 }
 
 }

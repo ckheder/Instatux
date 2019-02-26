@@ -19,7 +19,7 @@ class CommentaireListener implements EventListenerInterface {
 
 
  
-    $notif = '<img src="/instatux/img/'.$commentaire->avatar_session.'" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/'.$commentaire->nom_session.'">'.$commentaire->nom_session.'</a> à commenté votre <a href="/instatux/post/'.$commentaire->tweet_id.'">publication.</a>';
+    $notif = '<img src="/instatux/img/avatar/'.$commentaire->nom_session.'.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/'.$commentaire->nom_session.'">'.$commentaire->nom_session.'</a> à commenté votre <a href="/instatux/post/'.$commentaire->tweet_id.'" data-toggle="modal" data-target="#viewtweet" data-remote="false">publication.</a>';
    
     $entity = TableRegistry::get('Notifications');
 

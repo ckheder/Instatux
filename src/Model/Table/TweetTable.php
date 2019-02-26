@@ -36,9 +36,21 @@ class TweetTable extends Table
 
         $this->table('tweet');
         $this->displayField('id');
-        $this->primaryKey('id');
+        $this->primaryKey('id_tweet');
 
         $this->addBehavior('Timestamp');
+
+                $this->hasMany('Commentaires',
+            [
+                'dependent' => true
+            ]
+      );
+
+                $this->hasOne('Media',
+            [
+                'dependent' => true
+            ]
+      );
 
         $this->belongsTo('Abonnement', [
             'foreignKey' => 'user_timeline',
@@ -46,19 +58,12 @@ class TweetTable extends Table
         ]);
 
         $this->belongsTo('Users', [
-            'bindingKey' => 'username',
-             
+            'bindingKey' => 'username',             
         ]);
-
-          $this->hasMany('Commentaires',
-            [
-                'dependent' => true
-            ]
-      );
 
           $this->hasMany('Aime');
 
-          $this->hasOne('Partage', [
+          $this->hasMany('Partage', [
             'foreignKey' => 'tweet_partage',
             'dependent' => true
 
@@ -73,6 +78,7 @@ class TweetTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+
         $validator
             ->integer('id')
             ->requirePresence('id', 'create');

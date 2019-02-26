@@ -1,6 +1,6 @@
-
+ // mon nom de session
               var ias = jQuery.ias({
-  container:  '#list_tweet',
+  container:  '#list_tweet_' + currentprofil + '',
   item:       '.tweet',
   pagination: '#pagination',
   next:       '.next'
@@ -13,11 +13,14 @@
 
   // nouvel abonnement ou demande
 
-  $(document).on('click','.deletetweet',function() {
+  $(document).on('click', '.deletetweet', function(event) {
+
+    event.preventDefault();
+
+    var id = $(this).data("idtweet");//id du tweet à effacer
+    var nb_tweet = $("#nb_tweet").text();// nombre de tweet
 
 
-      var id = $(this).data("idtweet");
-    
 
               $.ajax({
                 url: '/instatux/post/delete/'+ id +'',
@@ -30,7 +33,17 @@
           $('.notif').fadeOut("slow");
         }, 2000 );
 
-         $( '.tweet[data-idtweet="' + id + '"]' ).remove();// bouton signifiant l'envoi d'une demande
+         $('.tweet[data-idtweet="'+id+'"]').remove();// on efface le tweet
+         
+         //decremente le compteur
+         nb_tweet--;
+        $("#nb_tweet").empty('').prepend(nb_tweet);
+        //si decrementation à zero
+        if(nb_tweet == 0)
+        {
+          $("#list_tweet").html('<div class="alert alert-info" id="notweet">Aucun tweet à afficher</div>');
+                                             
+        }
     }
         else if(data == 'echectweetsupprime'){ // problème requete
 

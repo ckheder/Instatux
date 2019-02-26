@@ -14,7 +14,43 @@ use Cake\Event\Event;
 class AimeController extends AppController
 {
 
+            public $paginate = [
+        'limit' => 8,
+
+    ];
+
 public $components = array('RequestHandler');
+
+                public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
+  
+    /** index liste des aimants d'un post
+ */
+    public function index($idtweet)
+    {
+        if ($this->request->is('ajax')) {
+                $listlike = $this->Aime->find()->select(['Users.username'])->where(['tweet_aime' => $idtweet])->contain(['Users'])->order(['Aime.created' => 'DESC'])->limit(10);
+
+                $nb_like = $listlike->count();
+
+                if($nb_like == 0)
+                {
+                    $this->set('nolike', $nb_like);
+                }
+                else
+                {
+        $this->set('listlike',$this->Paginator->paginate($listlike, ['limit' => 8]));
+    }
+    }
+    else
+{
+throw new NotFoundException(__('Cette page n\'existe pas.'));
+}
+    }
+
     
 
     /**
@@ -24,16 +60,15 @@ public $components = array('RequestHandler');
      */
     public function add()
     {
-
-                
-        
+   
         if ($this->request->is('ajax')) {
 
+            $nb_like = $this->request->data('nb_like'); // nombrez de like avant traitement
 
 
         // on vérifie si j'aime déjà
 
-        $query = $this->Aime->find()->select(['id'])->where(['username' => $this->Auth->user('username')])->where(['tweet_aime' => $this->request->getParam('id')]);
+        $query = $this->Aime->find()->select(['id'])->where(['username' => $this->Auth->user('username')])->where(['tweet_aime' => $this->request->data('id')]);
 
 
 
@@ -45,7 +80,7 @@ public $components = array('RequestHandler');
 
                           $data = array(
             'username' => $this->Auth->user('username'),
-            'tweet_aime' => $this->request->getParam('id')
+            'tweet_aime' => $this->request->data('id')
             );
 
             $new_like = $this->Aime->patchEntity($new_like, $data);
@@ -63,11 +98,13 @@ $result = $query
         $query->newExpr('nb_like = nb_like + 1')
     )
     ->where([
-        'id' => $this->request->getParam('id')
+        'id' => $this->request->data('id')
     ])
     ->execute();
        
- 
+    $nb_like = $nb_like + 1;
+
+    $action = 'add';
     }
     else // on récupère l'id du like et on le delete
     {
@@ -92,37 +129,27 @@ $result = $query
         $query->newExpr('nb_like = nb_like - 1')
     )
     ->where([
-        'id' => $this->request->getParam('id')
+        'id' => $this->request->data('id')
     ])
     ->execute();
+$nb_like = $nb_like - 1;
 
+$action = 'delete';
     }
 
-    // récupération du nombre de like
+    $data = array(
+       'nb_like' => $nb_like,
+        'authname' => $this->Auth->user('username'),
+        'action' => $action
 
-    $tweet = $this->Tweet->find()->select([
-            'Tweet.nb_like',
-            ])
-        ->where(['Tweet.id' => $this->request->getParam('id')]);
+    );
 
-        foreach($tweet as $tweet)
-
-            $nb_like = $tweet->nb_like;
-
-
-
-
-            $this->response->body($nb_like);
+            $this->response->body(json_encode($data));
        return $this->response;
 
-
-
     
-       
     }
-
-
-            // return $this->redirect($this->referer());
+        
 }
 
    

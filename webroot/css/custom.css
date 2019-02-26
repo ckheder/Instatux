@@ -1,25 +1,42 @@
-
+html {
+    height: 100%;
+}
 body {
   /* Margin bottom by footer height */
+  height: 100%;
   font-family: 'Athiti', serif;
   color : black;
-  background-color: #DCDCDC;
-  padding-top : 52px;
+     background-color: #DCDCDC;
+  padding-top : 51px;
 overflow-y:scroll;
-
-
 }
 
 body.modal-open {
     /*overflow: auto !important;*/
     overflow-y:scroll!important;
-    width:100%!important;
-    padding-right: 0px !important;
+
+    padding-right: 0 !important;
+
 }
 
+.navbar {
+padding-right: 0px !important;
+}
+.navbar a
+{
+    font-weight: bold;
+}
+.cover
+{
 
-body.modal-open[style] {
-    padding-right: 0px !important;
+width: 100%;
+height: 500px;
+
+}
+.cover img
+{
+display: block;
+
 }
 
 a /* soulgnement lien */
@@ -30,6 +47,89 @@ a /* soulgnement lien */
    outline: none !important;
    box-shadow: none;
 }
+.container /* conteneur bootstrap general */
+{
+  border :1px solid #cecece;
+  padding: 0px;
+
+}
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+
+}
+/*  alert */
+.alert {
+  padding: @alert-padding;
+  margin-bottom: 0px;
+  border: 1px solid transparent;
+  border-radius: @alert-border-radius;
+
+  /* Headings for larger alerts */
+  h4 {
+    margin-top: 0;
+    color: inherit; // Specified for the h4 to prevent conflicts of changing @headings-color
+  }
+
+  /* Provide class for links that match alerts */
+  .alert-link {
+    font-weight: @alert-link-font-weight;
+  }
+
+  /* Improve alignment and spacing of inner content */
+  > p,
+  > ul {
+    margin-bottom: 0;
+  }
+
+  > p + p {
+    margin-top: 5px;
+  }
+}
+
+/* Dismissible alerts
+
+ Expand the right padding and account for the close button's positioning.
+
+ The misspelled .alert-dismissable was deprecated in 3.2.0. */
+.alert-dismissable,
+.alert-dismissible {
+  padding-right: (@alert-padding + 20);
+
+  /* Adjust close link position */
+  .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+  }
+}
+
+/* Alternate styles
+
+ Generate contextual modifier classes for colorizing the alert. */
+
+.alert-success {
+  .alert-variant(@alert-success-bg; @alert-success-border; @alert-success-text);
+}
+
+.alert-info {
+  .alert-variant(@alert-info-bg; @alert-info-border; @alert-info-text);
+}
+
+.alert-warning {
+  .alert-variant(@alert-warning-bg; @alert-warning-border; @alert-warning-text);
+}
+
+.alert-danger {
+  .alert-variant(@alert-danger-bg; @alert-danger-border; @alert-danger-text);
+}
+
+
+
 /* autocomplete messagerie + search */
 .ui-menu img{
   width:38px;
@@ -70,21 +170,39 @@ height : 10px;
 #form_insc
 {
   margin-top : 30px;
-  margin-left : 30px;
+
 }
 #form_insc input
 {
   height : 40px;
+  width: 70%;
+}
+.input_info {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  width: 100px;
+  display: none;
+}
+
+input[type="text"]:focus + .input_info {
+  display: block;
 }
 /* page d'accueil */
 .home
 {
-  margin-top: 15px;
+  margin-top: 27px;
   height : 100%;
-  font-size : 25px;
+  font-size : 20px;
   text-align: center;
 }
-
+.logintitle
+{
+  display: none;
+}
 .list_accueil
 {
   list-style-type: none;
@@ -158,13 +276,50 @@ color : #657786;
 /* mise en forme tweet */
 .tweet
 {
-  background-color: white;
   padding : 6px ;
   color : black;
-margin-bottom: 12px;
-border-radius: 15px;
 height: 100%;
+background-color: white;
+border: 1px solid #cecece;
 }
+
+.tweet >img
+{
+/* max-width: 100%;
+  height: auto;*/
+  height : 48px;
+  width : 48px;
+}
+
+/* mise en forme tweet modal */
+
+.tweetmodal
+{
+  padding : 4px ;
+  color : black;
+height: 100%;
+background-color: white;
+
+}
+.tweetmodal .contenutweet
+{
+  font-size: 27px;
+}
+
+.tweetmodal >img
+{
+/* max-width: 100%;
+  height: auto;*/
+  height : 48px;
+  width : 48px;
+}
+.date_tweet_modal
+{
+  color: #90949c;
+}
+
+
+/* fin mise en forme tweet modal */
 
 .vcenter_left {
     display: inline-block;
@@ -210,17 +365,20 @@ display: inline-block;
 float: left;
 
 }
-.tweet >img
-{
-/* max-width: 100%;
-  height: auto;*/
-  height : 48px;
-  width : 48px;
-}
+
 .avatar_view
 {
     height : 48px;
   width : 48px;
+}
+
+#notifmodalview
+{
+  width: 100%;
+  line-height : 50px;
+  font-weight: bold;
+  text-align: center;
+z-index : 999;
 }
 
 .deletetweet
@@ -335,6 +493,15 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 
 /* fin commentaire */
 /* messagerie */
+#new_message
+{
+  margin-top: -21px;
+}
+#new_message .form-group
+{
+  margin-bottom: 0px!important;
+}
+
 .messagemoi {
     border: 2px solid #dedede;
     background-color: #f1f1f1;
@@ -391,12 +558,7 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
   font-weight: bold;
 }
 /* div etat connection + typing */
-#etatco
-{
-  height: 15px;
-  margin-bottom : 5px;
 
-}
 #etattype
 {
   height: 25px;
@@ -404,15 +566,43 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 
 }
 /* fin div etat connection + typing*/
+
+/* cell conversation */
+.info_conv
+{
+  padding : 5px;
+
+margin-left : 20px;
+font-weight: bold;
+}
+
+.info_conv img
+{
+border-radius: 50%;
+  height : 48px;
+  width : 48px;
+}
+
+#etatco
+{
+
+  height: 15px;
+
+font-weight: bold;
+}
+/* fin cell conversation */
 /* fin messagerie */
 /* notification */
+.badge-notify{
+   background:red;
+    font-size: 10px;
 
+  }
 sup
 {
       vertical-align: super;
-    font-size: 17px;
-    font-weight: bold;
-    color: red;
+
+
 }
 
 /*span paramètre notification*/
@@ -459,6 +649,22 @@ z-index : 999;
 
 /* fin paragraphe */
 
+/* cell notifi */
+
+.statut_notif
+{
+  list-style-type: none;
+}
+
+.statut_notif li
+{
+    padding : 9px;
+    font-size : 15px;
+}
+
+/*fin cell notif */
+
+
 /* div notif non lu */
 
 .notif_non_lu
@@ -467,6 +673,7 @@ z-index : 999;
 
   color : black;
 margin-bottom: 12px;
+border: 1px solid #cecece;
 }
 
 .notif_non_lu a /* enlève le soulignement des liens */
@@ -499,6 +706,7 @@ text-decoration: none;
 
   color : black;
 margin-bottom: 12px;
+border: 1px solid #cecece;
 }
 
 .notif_lu a /* enlève le soulignement des liens */
@@ -510,9 +718,15 @@ text-decoration: none;
 {
   color: black;
 }
-.deletenotif
+.notif_link
 {
-  margin-left: 15px;
+
+  margin-left: 5px;
+
+}
+.notif_link a
+{
+  color: black;
 }
 
 .notif_lu img
@@ -551,12 +765,41 @@ color : green;
 
 /* fin couleur abonnes, page abonnement*/
 
-.container
-{
-  padding: 0px;
-}
-/* listes des infos sur l'utilisateur*/
+/* mise en page like */
 
+.liste_like
+{
+
+  margin-left: 15px;
+  margin-bottom: 5px;
+
+}
+
+
+.likepic /* avatar like */
+{
+  height: 35px;
+  width: 35px;
+}
+.btn_like /* bouton de follow, unfollow sur la view like */
+{
+  float: right;
+}
+
+/* fin mise en page like
+
+/* listes des infos sur l'utilisateur*/
+.list_media {
+text-align: left;
+
+}
+.thumbmedia /* liste des media sprofil */
+{
+
+  width : 90px;
+  height: 90px;
+
+}
 .item-user
 {
   list-style-type: none;
@@ -648,6 +891,7 @@ color: #657786;
     float: left;
   color : #90949c;
 }
+
 .link_comm_share a
 {
   color : #484C4B;
@@ -655,19 +899,15 @@ font-weight: bold;
 }
 
 /* fin barre du nombre de commentaire, de like  et de partage */
-/* mise en page settings */
-
-
-
-/* fin mise en page settings */
 
 /* liset suggestion cell */
 
 .liste_suggestion
 {
-  padding : 5px;
+
+  margin-left: 15px;
   margin-bottom: 5px;
-  margin-left: 40px;
+
 }
 
 .liste_suggestion img
@@ -688,3 +928,73 @@ font-weight: bold;
 }
 
 /* fin inscription offline element */
+/* settings */
+/* lien deblocage settings */
+
+#deleteblock /* lien d'abonnement sur le moteur de recherche */
+{
+    float: right;
+    margin-right: 3px;
+}
+/*fin lien deblocage settings
+/* fin settings */
+/* media query */
+@media screen and (min-width: 320px) and (max-width: 767px)
+{
+    body
+  {
+    overflow-x: hidden;
+  }
+
+.row-eq-height {
+
+  flex-direction: column;
+}
+
+.container /* conteneur bootstrap general */
+{
+  border:none;
+
+}
+.cover /* disparition de la photot de couverture */
+{
+  display: none;
+}
+.affix {
+        position: static;
+    }
+  .btnlogin /* bouton de connexion centré */
+  {
+    display: block;
+    margin: 0 auto;
+    margin-top : 10px;
+  }
+  .logintitle /* affichage de la mention "connexion" */
+  {
+  display: block;
+  color : white;
+  margin-top : -10px;
+  }
+  .navbar-nav /* suppression des marges de la navbar*/
+  {
+  margin : 0;
+  }
+  /* réduction des marges du formulaire, reduction de la taille des input et la span help-block */
+    .form-control
+  {
+    display: inline;
+  }
+  #form_insc
+  {
+  margin-top : 30px;
+  margin-left : 25px;
+  }
+  #form_insc input
+  {
+    width : 95%;
+  }
+  .help-block
+  {
+    width : 90%;
+  }
+}

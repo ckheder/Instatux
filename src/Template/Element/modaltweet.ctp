@@ -9,10 +9,11 @@ echo $this->Modal->create(['id' => 'ModalTweet', 'close'=>false]) ;
 
 	<div class="text-center">
 		<br />
-		<a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-default" role="button" title = "Ajouter une vidéo Youtube" data-target="#modalmedia"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp; Ajouter un média externe</a>
+    <a class="btn btn-default" role="button" id = "btnurl" title = "Ajouter un lien"><span class="glyphicon glyphicon-globe"></span>&nbsp; Ajouter un lien</a>
+		<a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-default" role="button" title = "Ajouter un média externe" data-target="#modalmedia"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp; Ajouter un média externe</a>
 </div>
 
-                <textarea id="instatuxeditor_textarea" class ="emojis-plain_editor" rows="5" name="contenu_tweet" placeholder="Publier quelque chose..." maxlength='250'></textarea>
+                <textarea id="instatuxeditor_textarea" class ="emojis-plain_editor" rows="5" name="contenu_tweet" placeholder="Publier quelque chose..." maxlength="250"></textarea>
                 <h5 class="pull-right" id="textCounter">250 Caractères restants.</h5>
                 
                         <div class="form-group">
@@ -24,7 +25,7 @@ echo $this->Modal->create(['id' => 'ModalTweet', 'close'=>false]) ;
    </div> 
       <br />        
 <div class="text-center">
-                <button class="btn btn-default" type="submit">Publier</button>
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</button>
     		<a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-default" role="button" title = "Ajouter un média externe" data-target="#HelpModal"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Aide</a>         
 </div>
                 <br />

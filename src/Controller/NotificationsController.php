@@ -49,14 +49,11 @@ class NotificationsController extends AppController
 
         $nb_notif =  $notification->count(); // calcul du nombre de tweet
 
-         if($nb_notif == 0)
-         {
+
              $this->set('nb_notif', $nb_notif);
-         }
-         else
-         {
+
             $this->set('notification', $this->Paginator->paginate($notification, ['limit' => 10]));
-         }      
+              
              
     }
 
@@ -111,6 +108,35 @@ public function allNotiflue() // indiquer que toutes les notifications sont lues
 
 
     }
+}
+
+public function singleNotiflue() // indiquer que toutes les notifications sont lues
+{
+
+    if ($this->request->is('ajax')) {
+     $query = $this->Notifications->query();
+$query->update()
+    ->set(['statut' => 1])
+    ->where(['user_name' => $this->Auth->user('username')])
+    ->where(['id_notif' => $this->request->getParam('id')])
+    ->execute();
+
+                 if($query)
+                 {
+                    $reponse = 'ok';
+                
+            } else {
+                 $reponse = 'erreur';
+            }
+        
+
+                    $this->response->body($reponse);
+    return $this->response;
+
+
+    }
+
+
 }
 
 public function allDeletenotif() // indiquer que toutes les notifications sont lues

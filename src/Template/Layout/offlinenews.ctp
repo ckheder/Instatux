@@ -25,25 +25,29 @@ use Cake\Routing\Router;
         
     </title>
     <?= $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'))."\n"; ?>
-    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'); ?>
+    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'); ?>
-    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
+    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
     <?= $this->Html->script('/js/search.js') ?>
+    <?= $this->Html->script('/js/modal.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>
 <body>
-  <?= $this->element('offlinemenu') ; ?>
-   <div class="container" style="border:1px solid #cecece;">
+  
+   <div class="container">
 
- <div class="row">
-     <div class="col-sm-3">
+ <div class="row-no-gutters">
+  <?= $this->element('offlinemenu') ; ?>
+     <div class="col-sm-4">
         <?= $this->element('encartinscriptionoffline'); ?>
+        <?= $this->element('modalview'); ?>
+        <?= $this->element('viewlike'); ?>
          <ul id="myTab" class="nav nav-tabs nav-stacked">
   <li class="list-group-item list-group-item-info">Filtrer l'actualités.</li>
   <!-- lien de résultat les plus récents -->
@@ -59,18 +63,18 @@ use Cake\Routing\Router;
  </ul>
      </div>
  <div class="col-sm-5">
-<br />
+
         <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-4">
-<br />
-        <?= $this->cell('Hashtag');?>
+<div class="col-sm-3">
 </div>
 
 
-</div>
+
 <?= $this->element('modalconnexion') ?>
 <footer>
-    </footer>        
+    </footer>   
+    </div>
+    </div>     
 </body>
 </html>

@@ -1,6 +1,6 @@
 
 
-  // nouvel abonnement ou demande
+  // partage de tweet
 
   $(document).on('click','.addshare',function() {
 
@@ -28,9 +28,16 @@
           $('.notif').fadeOut("slow");
         }, 2000 );
     }
-        else if(data == 'problème'){ // problème requete
+    else if(data == 'inexistant'){ // problème requete
 
-     $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Problème lors du traitement de votre demande.</span></p>');
+     $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Ce tweet n\'existe pas.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+    }
+        else if(data == 'probleme'){ // problème requete
+
+     $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible de partager ce tweet.</span></p>');
         setTimeout(function() {
           $('.notif').fadeOut("slow");
         }, 2000 );

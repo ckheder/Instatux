@@ -1,17 +1,11 @@
 <?php
 use Cake\I18n\Time;
-use Cake\Routing\Router;
+?>
 
+ <div id="list_tweet_<?= $this->request->getParam('username') ;?>">
+    <?php
 
-
-            if(isset($nb_tweet))
-            {
-                echo '<div class="alert alert-info">
-                        Aucun tweet à afficher
-                        </div>';
-                        
-            }
-            elseif(isset($no_follow))
+if(isset($no_follow))
             {
                 echo '<div class="alert alert-danger">
                         Impossible de voir ce profil 
@@ -25,17 +19,25 @@ use Cake\Routing\Router;
                         </div>';
 
             }
+            elseif(isset($nb_tweet))
+            {
+                echo '<div class="alert alert-info" id="notweet">
+                        Aucun tweet à afficher
+                        </div>';
+                        
+            }
+
             else
             {
                 ?>
-                <div id="list_tweet">
+               
                     
                 
                 <?php foreach ($tweet as $tweet): ?> 
                     
                 
                  
-            <div class="tweet" data-idtweet="<?= $tweet->id ;?>">
+            <div class="tweet" data-idtweet="<?= $tweet->id_tweet ;?>">
               <?php
               if(isset($authName))
               {
@@ -54,7 +56,7 @@ use Cake\Routing\Router;
                 {
                 ?>
                 <li>
-                  <a href="#" data-idtweet="<?= $tweet->id ;?>"  title="Effacer ce tweet"  class="deletetweet" onclick="return false;">Effacer ce tweet</a>
+                  <a href="#" data-idtweet="<?= $tweet->id_tweet ;?>"  title="Effacer ce tweet"  class="deletetweet" onclick="return false;">Effacer ce tweet</a>
                  <!-- je peut effacer mon post -->
             </li>
                 <?php
@@ -89,33 +91,29 @@ use Cake\Routing\Router;
             if($tweet->share == 1) // si tweet partagé
             {
                 echo '<span class="glyphicon glyphicon-share-alt"></span>&nbsp; Partagé par '.$this->request->getParam('username').'<br />';
-                 echo  $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter'));
-            echo  $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username?></span> - 
-            <?php
+                 
             }
-            else
-            {
-            echo $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter'));
+
+            echo $this->Html->image('/img/avatar/'.$tweet->user->username.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter'));
             echo  $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username?></span> -  
-            <?php
-            }
 
-?>
-             <?= $tweet->created->i18nformat('dd MMMM YYYY'); ?>
+             <?= $tweet->created->i18nformat('dd MMMM YYYY - HH:mm'); 
 
-            <?= $tweet->contenu_tweet; 
+             $contenu_tweet = str_replace('%23', '#', $tweet->contenu_tweet);
+
+              echo $contenu_tweet;
 
 
 
                 ?>
 
 
-                  <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-<?= $tweet->id ;?>"><?= $tweet->nb_like ;?></span></span>
-
-                <span class="nb_comm_share"><?= $tweet->nb_commentaire ?> commentaire(s) - <?= $tweet->nb_partage ?> partage(s)</span>
+                  <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span><a href="" data-idtweet="<?= $tweet->id ;?>" data-toggle="modal" data-target="#viewlike" data-remote="false" onclick="return false;"><span id="compteur_like-<?= $tweet->id ;?>"> <?= $tweet->nb_like ;?></span></a>
+                  </span>
+                <span class="nb_comm_share"><span class="profilnbcomm_<?= $tweet->id_tweet ;?>"><?= $tweet->nb_commentaire ;?></span> commentaire(s) - <?= $tweet->nb_partage ?> partage(s)</span>
                 <br />
                 <br />
-                <span class="link_comm_share">
+                <div class="link_comm_share">
                 <?php
                                  if(isset($authName))
               {
@@ -136,19 +134,16 @@ use Cake\Routing\Router;
                  ?>
 
                 <span class="glyphicon glyphicon-comment" style="vertical-align:center"></span> 
-                  
-               <?= $this->Html->link('Commenter', ['action' => 'view',  $tweet->id]); 
 
-               ?>
-               &nbsp;&nbsp;&nbsp;
-               <?php
-
-               
+                <a href="" data-idtweet="<?= $tweet->id_tweet ;?>" data-toggle="modal" data-target="#viewtweet" data-remote="false" onclick="return false;">Commenter</a>
+             <?php
            }
+           ?>&nbsp;&nbsp;&nbsp;
+           <?php
                                 if(isset($authName))
               {
            
-               if($tweet->user_id != $authName AND $tweet->share == 0) // si l'auteur du tweet est différends de l'utilisateur courant on peut partager et que le tweet n'est pas un partage
+               if($tweet->user_timeline != $authName) // si l'auteur du tweet est différends de l'utilisateur courant
             {
                  ?>
 
@@ -157,27 +152,28 @@ use Cake\Routing\Router;
               
                 
 
-                <a href="#" data-idtweet="<?= $tweet->id ;?>" data-auteurtweet="<?= $tweet->user_id ;?>" title="Partager"  class="addshare" onclick="return false;">Partager</a>
+                <a href="#" data-idtweet="<?= $tweet->id_tweet ;?>" data-auteurtweet="<?= $tweet->user_id ;?>" title="Partager"  class="addshare" onclick="return false;">Partager</a>
               </span>
                 <?php
             }
           }
             ?>
-        </span>
+        </div>
     </div>
 
         <?php  endforeach; ?>
         
-</div>
+
 
 
             <div id="pagination">
 
+                                                        <?= $this->Paginator->options([
+    'url' => array('controller' => '/'.$tweet->user->username.'')
+        
+    ]);?>
+
             <?= $this->Paginator->next('Next page'); ?>
-
-
-
-
 
           </div>
 
@@ -186,7 +182,10 @@ use Cake\Routing\Router;
         } 
 
         ?>
-
+</div>
+<script>
+var currentprofil = "<?= $this->request->getParam('username') ;?>"; // id du tweet
+</script>
 <?= $this->Html->script('/js/iasdeletetweet.js') ?> <!-- suppression d'un tweet + scroll ajax liste des tweets -->
 
 

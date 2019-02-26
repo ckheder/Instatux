@@ -20,18 +20,18 @@ use Cake\Routing\Router;
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
+    <title class="titlepage">
         <?= $title ?>
 
     </title>
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
-    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'); ?>
+    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
-    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
+    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
     <?= $this->Html->script('/js/nbnotif.js') ?>
@@ -42,11 +42,12 @@ use Cake\Routing\Router;
 
 </head>
 <body>
-  <?=  $this->element('onlinemenu') ;?>
-   <div class="container" style="border:1px solid #cecece;">
+  
+   <div class="container">
     <p id="etatnotif"></p>
-  <div class="row">
-<div class="col-sm-3">
+  <div class="row-no-gutters">
+    <?=  $this->element('onlinemenu') ;?>
+<div class="col-sm-4">
   <?php
   $username = $this->request->getParam('username'); // nom du profil en cours
   $current_url = Router::url(null, false); // url en cours
@@ -78,19 +79,14 @@ else
 
  <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-4">
-<br />
-        <?= $this->cell('Hashtag');?>
-
- <?= $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
-
-?>
+<div class="col-sm-3">
 </div>
 <?= $this->element('modaltweet'); ?>
 <footer>
     </footer>
  <?= $this->Html->script('/js/settingsabo.js') ?> 
- <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs -->   
-
+ <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs -->  
+ <?= $this->Html->script('actionabo.js') ?> <!-- script d'ajout/suppression d'un abo : utlisé sur profil, moteur de recherche,gestion abonnement --> 
+<?= $this->Html->script('blocage.js') ?> <!-- script de blocage d'un utlisateur : utlisé sur l'accueil, profil, moteur de recherche,viewtweet,chat,gestion abonnement -->
 </body>
 </html>

@@ -70,8 +70,7 @@ class UsersController extends AppController
           $data = array(
             'username' => $this->request->data['username'],
             'password' => $this->request->data['password'],
-            'email' =>  $this->request->data['email'],
-            'avatarprofil' =>  "avatars/".$this->request->data['username'].".jpg"
+            'email' =>  $this->request->data['email']
             );
 
             $user = $this->Users->patchEntity($user, $data);
@@ -204,13 +203,22 @@ $user->email = $this->request->data('mail');
       }
 
       // avatars
-      if(!empty($this->request->data['file']['name']))
+      if(!empty($this->request->data['avatar']) AND $this->request->data['avatar']['error'] == 0)
                 {
 
-                  $file = $this->request->data['file'];
+                  $avatar = $this->request->data['avatar'];
 
-                    $reponse = $this->avatar($file);
+                    $reponse = $this->avatar($avatar);
                 }
+
+      //cover
+               if(!empty($this->request->data['cover']) AND $this->request->data['cover']['error'] == 0)
+                {
+
+                  $cover = $this->request->data['cover'];
+
+                    $reponse = $this->cover($cover);
+                }       
       // modification autorisée
 if($allowedit == 1)
 {
@@ -280,63 +288,21 @@ else
     {
         $user = $this->Users->get($id);
 
-// suppression avatar
-
-                $avatar = WWW_ROOT.'img/avatars/'.$this->Auth->user('username'). '.jpg';
-                unlink($avatar);
-
-
-              // suppression de la ligne settings
-
-              $this->loadModel('Settings');
-
-              $query = $this->Settings->query();
-            $query->delete()
-    ->where(['user_id' => $this->Auth->user('username')])
-    ->execute();
-
-    // suppression des abonnements
-
-              $this->loadModel('Abonnement');
-
-              $query = $this->Abonnement->query();
-            $query->delete()
-    ->where(['user_id' => $this->Auth->user('username')])
-    ->orWhere(['suivi' => $this->Auth->user('username')])
-    ->execute();
-
-    // suppression notification
-
-                  $this->loadModel('Notifications');
-
-              $query = $this->Notifications->query();
-            $query->delete()
-    ->where(['user_name' => $this->Auth->user('username')])
-    ->execute();
-
-    // suppression conversation
-
-                  $this->loadModel('Conversation');
-
-              $query = $this->Conversation->query();
-            $query->delete()
-    ->where(['participant1' => $this->Auth->user('username')])
-    ->orWhere(['participant2' => $this->Auth->user('username')])
-    ->execute();
+                $deleteuser = $this->Users->delete($user);
 
     // suppression user
 
-
-        if ($this->Users->delete($user)) {
+        if ($deleteuser) {
           //$this->getMailer('User')->send('deleteaccount', [$user]);
+                          $event = new Event('Model.User.afterdelete', $this, ['user' => $user]);
+
+                $this->eventManager()->dispatch($event);
             $this->Flash->success(__('Compte supprimé.'));
             return $this->redirect('/');
         } else {
             $this->Flash->error(__('Impossible de supprimer votre compte.'));
             return $this->redirect('/settings');
         }
-
-
     }
 
 
@@ -351,9 +317,6 @@ else
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                $this->Flash->success('Bonjour '.$this->Auth->user('username').' !');
-
-
 
                 return $this->redirect('/'.$this->Auth->user('username').'');
 
@@ -367,7 +330,7 @@ else
     // déconnexion
     public function logout()
     {
-      $this->Flash->success('Vous êtes déconnecté, à bientôt !');
+
         return $this->redirect($this->Auth->logout());
     }
     /** changer l'avatar
@@ -376,11 +339,6 @@ else
     private function avatar($file)
         {
 
-
-if($file['error'] != 0)
-{
-  return $erreur = 'Problème lors de l\'envoi de votre fichier.Veuillez réessayer.';
-}
 $taillemax = 3047171; // taille max soit 3 mo
 
 $taille = filesize($file['tmp_name']); // taille du fichier
@@ -391,22 +349,46 @@ $taille = filesize($file['tmp_name']); // taille du fichier
       }
       $imageMimeTypes = array( // type MIME autorisé
       'image/jpg',
-      'image/jpeg');
+      'image/jpeg',
+      'image/png');
 
       $fileMimeType = mime_content_type($file['tmp_name']); // récupération du type MIME
       if (!in_array($fileMimeType, $imageMimeTypes)) // test de l'extension du fichier
             {
-                     $erreur = 'Seules les images jpg sont autorisées';
+                     $erreur = 'Seules les images jpg/png sont autorisées';
             }
 
       if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
                       {
+                          if($fileMimeType == 'image/png')
+                        {
+                       
+                        $tempfilename = $file['tmp_name']; 
+
+                        $filename = imagecreatefrompng($tempfilename);
+
+                        $chemin = 'img/avatar/'.$this->Auth->user('username') . '.jpg';
+                        
+                        if(imagejpeg($filename, $chemin , 70))
+                        {
+                          return $reponse = 'ok';
+                          imagedestroy($file);
+                        }
+                         else
+                 {
+                  return $reponse = 'probleme';
+                 }
+
+                        }
+                        else
+                        {
 
                 $fileName = $this->Auth->user('username') . '.jpg';
 
-                $uploadPath = 'img/avatars/';
+                $uploadPath = 'img/avatar/';
 
                 $uploadFile = $uploadPath.$fileName;
+              
 
                 if(move_uploaded_file($file['tmp_name'],$uploadFile))
                 {
@@ -419,7 +401,7 @@ $taille = filesize($file['tmp_name']); // taille du fichier
                       return $reponse = 'Impossible d\'envoyer ce fichier';
 
                     }
-
+}
 }
 else {
   return $erreur;
@@ -427,4 +409,108 @@ else {
 
 
         }
+
+   /** changer l'image de couverture
+    ** mise à jour de l'image de couverture
+    **/
+    private function cover($file)
+        {
+
+$taillemax = 3047171; // taille max soit 3 mo
+
+$taille = filesize($file['tmp_name']); // taille du fichier
+  // taille du fichier
+      if($taille > $taillemax) // vérification taille + envoi
+      {
+        $erreur = 'Ce fichier est trop volumineux.';
+      }
+      $imageMimeTypes = array( // type MIME autorisé
+      'image/jpg',
+      'image/jpeg',
+      'image/png');
+
+      $fileMimeType = mime_content_type($file['tmp_name']); // récupération du type MIME
+
+      if (!in_array($fileMimeType, $imageMimeTypes)) // test de l'extension du fichier
+            {
+                     $erreur = 'Seules les images jpg/png sont autorisées';
+            }
+
+      if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload ou si c'est un png
+                      {
+
+                        // converstion png vers jpg
+
+                        if($fileMimeType == 'image/png')
+                        {
+                       
+                        $tempfilename = $file['tmp_name']; 
+
+                        $filename = imagecreatefrompng($tempfilename);
+
+                        $chemin = 'img/media/'.$this->Auth->user('username') . '/cover_'.$this->Auth->user('username') . '.jpg';
+
+                        imagejpeg($filename, $chemin , 70);
+                        
+                        if($this->resize($chemin) == 'ok')
+                        {
+                          return $reponse = 'ok';
+                          imagedestroy($file);
+                        }
+                         else
+                 {
+                  return $reponse = 'probleme';
+                 }
+
+                        }
+                       else
+                       {
+                          
+
+                 $tempfilename = $file['tmp_name']; 
+                        
+                        if($this->resize($tempfilename) == 'ok')
+                        {
+                          return $reponse = 'ok';
+                          imagedestroy($file);
+                        }
+                         else
+                 {
+                  return $reponse = 'probleme';
+                 }
+                      
+}
+}
+else {
+  return $erreur;
+}
+
+
+        }
+
+        private function resize($file) // redimension de la photo de couverture
+        {
+          $fileName = imagecreatefromjpeg($file);
+
+                $new_cover = imagecreatetruecolor(1170, 500);
+
+                $largeur_source = imagesx($fileName);
+                $hauteur_source = imagesy($fileName);
+
+                $largeur_destination = imagesx($new_cover);
+                $hauteur_destination = imagesy($new_cover);
+
+                imagecopyresampled($new_cover, $fileName, 0, 0, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
+
+                 if(imagejpeg($new_cover, 'img/media/'.$this->Auth->user('username') .'/cover_'.$this->Auth->user('username').'.jpg'))
+                 {
+                  return $reponse = 'ok';
+                 }
+                 else
+                 {
+                  return $reponse = 'probleme';
+                 }
+                        
+        }
+
 }

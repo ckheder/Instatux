@@ -55,7 +55,7 @@ class AbonnementController extends AppController
 
         // abonnement valide, personne que je suis
 
-        $abonnement_valide = $this->Abonnement->find()->select(['Users.username','Users.avatarprofil'])
+        $abonnement_valide = $this->Abonnement->find()->select(['Users.username'])
                 
         ->where(['Abonnement.user_id' =>  $this->request->getParam('username') ])
      
@@ -95,7 +95,7 @@ public function abonnes()
     }
             // abonné valide, personne qui me suive
         $abonne_valide = $this->Abonnement->find()
-        ->select(['Users.username','Users.avatarprofil'])
+        ->select(['Users.username'])
         ->leftjoin(
             ['Users'=>'users'],
             ['Users.username = (Abonnement.user_id)']
@@ -131,7 +131,6 @@ public function demande()
        
         ->select([
             'Users.username',
-            'Users.avatarprofil'
             ])
         ->leftjoin(
             ['Users'=>'users'],
@@ -186,7 +185,6 @@ if ($this->request->is('ajax')) {
             //evenement abonnement
              'user_session' => $this->Auth->user('id'), // id de session
             'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' => $this->Auth->user('avatarprofil')
             );
             $abonnement = $this->Abonnement->newEntity();
             $abonnement = $this->Abonnement->patchEntity($abonnement, $data);
@@ -228,7 +226,6 @@ if ($this->request->is('ajax')) {
             //evenement abonnement
              'user_session' => $this->Auth->user('id'), // id de session
             'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' => $this->Auth->user('avatarprofil')
             );
             $abonnement = $this->Abonnement->newEntity();
             $abonnement = $this->Abonnement->patchEntity($abonnement, $data);
@@ -323,14 +320,10 @@ if ($this->request->is('ajax')) {
            
             $this->autoRender = false;            
             $name = $this->request->query('term');            
-                $abonnement = $this->Abonnement->find()->select(['Users.username','Users.avatarprofil'])
+                $abonnement = $this->Users->find()->select(['username'])
 
-        ->where(['Abonnement.user_id' =>  $this->Auth->user('username')])
-        ->where(['suivi LIKE '  => ''.$name.'%'])
-        ->where(['etat' => 1])
-        
-        ->contain(['Users']);
-
+        ->where(['username !=' =>  $this->Auth->user('username')])
+        ->where(['username LIKE '  => ''.$name.'%']);
 
 
             foreach($abonnement as $result) 
@@ -340,13 +333,13 @@ if ($this->request->is('ajax')) {
                $resultArr[] =  array(
                 
                     
-                    'value' => $result->Users['username'],
-                    'avatar' => $result->Users['avatarprofil']
+                    'value' => $result->username
                     );
                 
                
             }
             echo json_encode($resultArr); 
+
 
 }
 }
@@ -369,7 +362,6 @@ public function validate() // valider ou non une demande d'abonnement
                     $data_event = array(
                         'destinataire_notif' => $this->request->getParam('username'),
                         'nom_session' => $this->Auth->user('username'),//nom de session
-                        'avatar_session' => $this->Auth->user('avatarprofil')
                         );
 
                     $event = new Event('Model.Abonnement.abovalide', $this, ['data_event' => $data_event]);

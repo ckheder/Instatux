@@ -2,7 +2,7 @@
 use Cake\I18n\Time;
  ?>
 
-                <div id="list_actu">
+                <div id="list_actu_offline">
 
 
                     <?php
@@ -15,16 +15,17 @@ use Cake\I18n\Time;
               <div class="tweet">
 
 <?php
-            echo  $this->Html->image(''.$actu->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter'));
+            echo  $this->Html->image('/img/avatar/'.$actu->user->username.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter'));
             echo  $this->Html->link($actu->user->username,'/'.$actu->user->username.'',['class' => 'link_username_tweet']) ;?>
             <span class="alias_tweet">@<?=$actu->user->username ?></span>
             
-            <?= $actu->created->i18nformat('dd MMMM YYYY'); ?>
+            <?= $actu->created->i18nformat('dd MMMM YYYY - HH:mm');
                        
 
+                $resultat_tweet_contenu = preg_replace('/%23/', '#', $actu->contenu_tweet); 
 
-
-                <?= $this->Text->autoParagraph($actu->contenu_tweet); ?>
+                
+                echo $resultat_tweet_contenu ?>
 
                 <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-<?= $actu->id ;?>"><?= $actu->nb_like ;?></span></span>
 
@@ -44,8 +45,11 @@ use Cake\I18n\Time;
                   ?>
 
                 <span class="glyphicon glyphicon-comment" style="vertical-align:center"></span> 
-              <?php
-                    echo $this->Html->link('Commenter ', ['action' => 'view',  $actu->id]); 
+
+     <a href="" data-idtweet="<?= $actu->id_tweet ;?>" data-toggle="modal" data-target="#viewtweet" data-remote="false" onclick="return false;">Lire</a>
+                                    <?php
+
+
 
              }
            
@@ -62,12 +66,8 @@ use Cake\I18n\Time;
 
             </div>
 
-
-
-
             <div id="pagination">
-
-            <?= $this->Paginator->next('Next page'); ?>
+            <?= $this->Paginator->next('Page suivante'); ?>
 
           </div>
 

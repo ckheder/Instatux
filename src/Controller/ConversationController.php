@@ -37,6 +37,7 @@ class ConversationController extends AppController
             {
                 
              $reponse = 'suppconvok';
+             $this->Flash->success('Conversation supprimée avec succès.');
             }
             else
             {

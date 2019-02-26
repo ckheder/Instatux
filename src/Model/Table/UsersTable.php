@@ -39,12 +39,25 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
+                $this->hasMany('Tweet', [
+ 
+             'dependent' => true
+        ]);
+
         $this->hasMany('Commentaires', [
             'dependent' => true
     
         ]);
 
-        $this->hasMany('Tweet');
+        $this->hasMany('Aime', [
+            'dependent' => true
+    
+        ]);
+
+         $this->hasMany('Media', [
+            'dependent' => true
+    
+        ]);
 
          $this->hasMany('Abonnement', [
             'dependent' => true
@@ -56,6 +69,10 @@ class UsersTable extends Table
          $this->hasMany('Conversation');
 
          $this->hasMany('Partage');
+
+         $this->hasOne('Settings', [
+            'dependent' => true
+            ]);
 
     }
 
@@ -94,15 +111,19 @@ $validator = new Validator();
             'message'=>'Ce nom ne peut pas être utlisé.'
          ]
         ])
+
+                        ->add(
+                'username',[
+        'validFormat'=>[
+            'rule'=> array('custom','/^[a-z\d_]{5,20}$/i'),
+            'message'=>'Les noms doivent faire entre 5 et 20 caracères et les caractères spéciaux ne sont pas autorisés.'
+         ]
+        ])
         
             ->notEmpty('password', "le mot de passe doit être renseigné")
             ->requirePresence('password')
-
-        
+       
             ->allowEmpty('description')
-
-        
-            ->allowEmpty('avatarprofil')
 
             ->allowEmpty('lieu')
 

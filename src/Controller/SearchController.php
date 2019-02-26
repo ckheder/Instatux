@@ -30,7 +30,7 @@ var $uses = array(); // se passer d'un modèle
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['index','redirectsearch','searchusers']); // on autorise les gens non identifiés à accéder au moteur de recherche
+        $this->Auth->allow(['index','redirectsearch','searchusers','hashtag']); // on autorise les gens non identifiés à accéder au moteur de recherche
 
     }
 
@@ -40,22 +40,38 @@ var $uses = array(); // se passer d'un modèle
 
         $this->viewBuilder()->layout('search');
 
-        $this->set('title', 'Résultat de recherche'); // titre de la page
+        $keyword = $this->request->GetParam('string');
+
+        $this->set('title', ''.$keyword.' - Recherche sur Instatux'); // titre de la page
       
         $keyword = $this->request->GetParam('string');
 
-        $search = str_replace('#', '%23', $keyword);// on remplace le dièse par le truc qui marche
+        // recherche dans les users
+   $this->loadModel('Users');
+$query_user = $this->Users->find()->select([
+            'Users.username',
+            'Users.description',
+            ])
+                           
+                            ->where(['Users.username LIKE '  => ''.$keyword.'%']);
 
-// recherche dans les tweets
+$nb_resultat_users = $query_user->count(); // décompte du nombre de résultat
+
+$this->set('nb_resultat_users', $nb_resultat_users);
+
+    $this->set('resultat_users',$query_user);
+
+        // recherche dans les users
+
 
  $this->loadModel('Tweet');
 
 
 $query_tweet = $this->Tweet->find()->select([
             'Users.username',
-            'Users.avatarprofil',
             'Users.description',
             'Tweet.id',
+            'Tweet.id_tweet',
             'Tweet.user_id',
             'Tweet.contenu_tweet',
             'Tweet.created',
@@ -70,7 +86,47 @@ $query_tweet = $this->Tweet->find()->select([
     ->orWhere(['Tweet.user_id = :search'])
     ->where(['Tweet.share' => 0]) // on ne cherche que les tweets non partagés
     ->where(['private' => 0]) // on ne cherche que les tweets publics
-    ->bind(':search',$search)
+    ->bind(':search',$keyword)
+    ->contain(['Users']);
+
+$nb_resultat_tweet = $query_tweet->count(); // décompte du nombre de résultat
+
+$this->set('nb_resultat_tweet', $nb_resultat_tweet);
+
+$this->set('resultat_tweet', $this->paginate($query_tweet, ['limit' => 8]));
+             
+    }
+
+    public function hashtag($search = null)
+    {
+
+                $this->viewBuilder()->layout('search');
+
+                 $keyword = $this->request->GetParam('string');
+
+        $this->set('title', 'Hashtag #'.$keyword.''); // titre de la page
+      
+        $this->loadModel('Tweet');
+
+
+$query_tweet = $this->Tweet->find()->select([
+            'Users.username',
+            'Users.description',
+            'Tweet.id',
+            'Tweet.user_id',
+            'Tweet.contenu_tweet',
+            'Tweet.created',
+            'Tweet.nb_commentaire',
+            'Tweet.nb_partage',
+            'Tweet.nb_like',
+            'Tweet.allow_comment',
+            ])
+    ->where([
+        "MATCH(Tweet.contenu_tweet) AGAINST(:search)" 
+    ])
+    ->where(['Tweet.share' => 0]) // on ne cherche que les tweets non partagés
+    ->where(['private' => 0]) // on ne cherche que les tweets publics
+    ->bind(':search','%23'.$keyword.'')
     ->contain(['Users']);
 
 $nb_resultat_tweet = $query_tweet->count(); // décompte du nombre de résultat
@@ -79,40 +135,7 @@ $this->set('nb_resultat_tweet', $nb_resultat_tweet);
 
 $this->set('resultat_tweet', $this->paginate($query_tweet, ['limit' => 8]));
         
-$this->set('search',$search); // on renvoi la requete 
-
-         // recherche dans les users
-   $this->loadModel('Users');
-$query_user = $this->Users->find()->select([
-            'Users.username',
-            'Users.avatarprofil',
-            'Users.description',
-            ])
-                            ->where([
-        "MATCH(Users.username) AGAINST(:search)" 
-    ])
-                            ->bind(':search', $search);
-
-$nb_resultat_users = $query_user->count(); // décompte du nombre de résultat
-
-$this->set('nb_resultat_users', $nb_resultat_users);
-
-    $this->set('resultat_users',$query_user);
-
-        // recherche dans les hashtag
-       $this->loadModel('Hashtag');
-$query_hash = $this->Hashtag->find()
-                            ->where([
-        "MATCH(Hashtag.tag) AGAINST(:search)" 
-    ])
-                            ->bind(':search', $search);
-
-$nb_resultat_hashtag = $query_hash->count(); // décompte du nombre de résultat
-
-$this->set('nb_resultat_hashtag', $nb_resultat_hashtag);
-
-    $this->set('resultat_hash',$query_hash);
-
+$this->set('search',$keyword); // on renvoi la requete 
     }
 
     public function searchusers() // utilisé pour la suggestion de recherche
@@ -123,7 +146,7 @@ $this->set('nb_resultat_hashtag', $nb_resultat_hashtag);
    $this->loadModel('Users');
    $this->autoRender = false;            
             $name = $this->request->query('term');
-$query_user = $this->Users->find()->select(['username','avatarprofil'])
+$query_user = $this->Users->find()->select(['username'])
                             
                            ->where(['username LIKE '  => ''.$name.'%']);
 
@@ -135,8 +158,7 @@ $query_user = $this->Users->find()->select(['username','avatarprofil'])
                $resultUsers[] =  array(
                 
                     
-                    'value' => $result->username,
-                    'avatar' => $result->avatarprofil
+                    'value' => $result->username
                     );
                 
                

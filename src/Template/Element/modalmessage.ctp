@@ -2,8 +2,9 @@
                 echo $this->Modal->create(['id' => 'modalmessage']) ;
                 echo $this->Modal->header('Envoyer un message à '.$destinataire.'', ['close'=>false]) ;
                 echo $this->Form->create('Messagerie', array('id'=>'new_message','class'=>'form-inline','url'=>array('controller'=>'messagerie', 'action'=>'add')));
-                echo $this->Form->Textarea('message', ['id' =>'textarea_message','placeholder' =>'Votre message...']) ;
-                echo $this->Form->hidden('destinataire', ['value' => $destinataire]) ;
+                echo '<br />';
+                echo $this->Form->Textarea('message', ['id' =>'textarea_message','placeholder' =>'Votre message...', 'required'=> 'required']) ;
+                echo $this->Form->hidden('destinataire', ['id' => 'destinataire', 'value' => $destinataire]) ;
                 echo $this->Form->hidden('user_message', ['value' => $destinataire])  // nom du destinataire ;?>
                 <br />
                 <br />

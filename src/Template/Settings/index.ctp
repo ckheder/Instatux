@@ -1,7 +1,55 @@
 <div id="myTabContent" class="tab-content">
   <div class="tab-pane  in active" id="infos">
+        <div class="text-center">
+<h4> <span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Mon profil</h4>
+</div>
+<?php
+if($setup_profil == 0) // profil public
+{
+?>
+<span id="etatprofil">
+<p class="text-success">
+  <br />
+&nbsp;Tous le monde peut voir vos publications.
+<br />
+<br />
+&nbsp;Les demandes d 'abonnement seront acceptés automatiquement.
+  <br />
+  <br />
+</p>
+<div class="text-center">
+<a href="#"  data-action="prive" title="Rendre mon profil privé"  id="setupprofil" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Rendre mon profil privé</a>
+</div>
+</span>
+<?php
+}
+else // profil privé
+{
+ ?>
+ <span id="etatprofil">
+<p class="text-danger">
+  <br />
+&nbsp;Seules vos abonnés voient vos publications.<br />
+<br />
+&nbsp;Vous pouvez choisir d'accepter ou non une demande d'abonnement.
+<br />
+<br />
+</p>
+<div class="text-center">
+<a href="#"  data-action="public" title="Rendre mon profil public"  id="setupprofil" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Rendre mon profil public</a>
+</div>
+</span>
+<?php
+ }
+
+ ?>
+<br />
+ <div class="text-center">
+ <h4> <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Mes informations</h4>
+</div>
+<br />
 <div class="alert alert-info">
-<strong>Info!</strong> Vous pouvez ajouter ou modifier ici toutes les informations vous concernant et qui seront affichés sur votre profil à l'exception de votre adresse mail et de votre mot de passe.
+<strong>Info!</strong> Vous pouvez ajouter ou modifier toutes les informations vous concernant et qui seront affichés sur votre profil à l'exception de votre adresse mail et de votre mot de passe.
 <br />
 <br />
 Toutes ces informations sont facultatives.
@@ -48,8 +96,8 @@ Toutes ces informations sont facultatives.
 <h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;Changer ma photo</h4>
 </div>
 <br />
-<p class="text-muted">Nouvel avatar (jpg/jpeg) 3mo maximum </p>
-<input id="inputfile" type="file" name="file"   accept="image/*">
+<p class="text-muted">Nouvel avatar (jpg/jpeg/png) 3mo maximum </p>
+<input id="inputfile" type="file" name="avatar"   accept="image/*">
 <br />
 <div class="alert alert-info">
 <strong>Important !</strong> Votre avatar peut mettre un peu de temps à se mettre à jour, n'hésitez pas à actualiser la prochaine page que vous visiterez si votre avatar n'a pas changé.
@@ -60,6 +108,17 @@ Toutes ces informations sont facultatives.
 <!--<img id="previewHolder"  width="160px" height="160px"/>-->
 
 <?= $this->Html->image('default.png', ['alt' => '','id' => 'previewHolder', 'width' =>128, 'height'=> 'auto','class'=>'img-circle']); ?>
+</div>
+<!-- modifier ma photo de couverture -->
+<div class="text-center">
+<h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;Changer ma photo de couverture</h4>
+</div>
+<br />
+<p class="text-muted">Nouvel photo de couverture (jpg/jpeg/png) 3mo maximum</p>
+<input type="file" name="cover"   accept="image/*">
+<br />
+<div class="alert alert-info">
+<strong>Important !</strong> Choississez une photo de couverture ayant une grande longueur pour un meilleur rendu.
 </div>
 <!-- changer mot de passe -->
 <div class="text-center">
@@ -74,58 +133,15 @@ Toutes ces informations sont facultatives.
 
 <br />
 <div class="text-center">
-<?= $this->Form->submit('Enregistrer les modifications', ['class' => 'btn btn-info']) ?>
+<div class="btn-group" role="group">
+<?= $this->Form->button('Enregistrer', ['class' => 'btn btn-success','type'=>'submit']) ?><?= $this->Form->button('Réinitialiser', ['class' => 'btn btn-default','type' => 'reset']) ?>
 <br />
 <br />
+</div>
 </div>
 <?= $this->Form->end() ?>
 <!-- fin changer mot de passe -->
   </div>
-<div class="tab-pane " id="settings">
-    <div class="text-center">
-<h4> <span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Mon profil</h4>
-</div>
-<?php
-if($setup_profil == 0) // profil public
-{
-?>
-<span id="etatprofil">
-<p class="text-success">
-  <br />
-Tous le monde peut voir vos publications.
-<br />
-<br />
-  Les demandes d 'abonnement seront acceptés automatiquement.
-  <br />
-  <br />
-</p>
-<div class="text-center">
-<a href="#"  data-action="prive" title="Rendre mon profil privé"  id="setupprofil" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Rendre mon profil privé</a>
-</div>
-</span>
-<?php
-}
-else // profil privé
-{
- ?>
- <span id="etatprofil">
-<p class="text-danger">
-  <br />
-Seules vos abonnés voient vos publications.<br />
-<br />
-Vous pouvez choisir d'accepter ou non une demande d'abonnement.
-</p>
-<div class="text-center">
-<a href="#"  data-action="public" title="Rendre mon profil public"  id="setupprofil" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Rendre mon profil public</a>
-</div>
-</span>
-<?php
- }
-
- ?>
-<!-- fin mise à jour type profil -->
-
-</div>
 <div class="tab-pane" id="notifs">
   <!-- notifications -->
 
@@ -296,21 +312,18 @@ Les notifications de commentaires vous informent si vos abonnés , dans le cas d
         else
         {
 
-
-
-
             foreach ($listebloques as $listebloques): ?>
 
             <div class="tweet" data-username="<?= $listebloques->user->username ?>">
 
 
-                            <?= $this->Html->image(''.$listebloques->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>' img-thumbail vcenter')) ?>
+                            <?= $this->Html->image('/img/avatar/'.$listebloques->user->username.'.jpg', array('alt' => 'image utilisateur', 'class'=>' img-circle vcenter')) ?>
 
             <?= $this->Html->link(h($listebloques->user->username),'/'.h($listebloques->user->username).'',['class' => 'link_username_tweet']) ?>
 
             <span class="alias_abo">@<?=$listebloques->user->username ?></span>
 
-            <span id = "abosearch">
+            <span id = "deleteblock">
 
  <a href="#" data-username="<?= $listebloques->user->username ;?>" data-action="delete" title="Débloquer <?= $listebloques->user->username ;?>"  id="addblock" class="btn btn-success navbar-btn" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span></a>
 

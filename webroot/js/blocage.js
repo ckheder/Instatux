@@ -24,7 +24,15 @@ $(document).on('click','#addblock',function() {
           $('.notif').fadeOut("slow");
         }, 2000 );
 
-        document.getElementById('block').innerHTML = '<a href="#" data-username="' + username + '" data-action="delete" title="Débloquer ' + username + '"  id="addblock" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span></a>'  ; // lien de déblocage
+        if(document.getElementById('block')) // je suis sur profil
+        {
+
+        document.getElementById('block').innerHTML = '<a href="#" data-username="' + username + '" data-action="delete" title="Débloquer ' + username + '"  id="addblock" class="btn btn-danger" onclick="return false;">Débloquer</a>'  ; // lien de déblocage
+      }
+      else if(document.getElementById('etatblocageabonnes')) // je suis sur abonnes.ctp
+      {
+        document.getElementById('etatblocageabonnes').innerHTML = '<a href="#" data-username="' + username + '" data-action="delete" title="Débloquer ' + username + '"  id="addblock" class="link_delete_abo" onclick="return false;">Débloquer</a>'  ; // lien de déblocage
+      }
     }
 
         else if(data == 'alreadyblock'){
@@ -80,8 +88,12 @@ $(document).on('click','#addblock',function() {
          if(document.getElementById('block')) // si je débloque depuis le profil d'une personne
 {
 
-        document.getElementById('block').innerHTML = ' <a href="#" data-username="' + username + '" data-action="add" title="Bloquer' + username + '"  id="addblock" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-ban-circle"></span></a>'  ; // mise à jour  : ajout du lien activé comm
+        document.getElementById('block').innerHTML = ' <a href="#" data-username="' + username + '" data-action="add" title="Bloquer' + username + '"  id="addblock" class="btn btn-danger" onclick="return false;">Bloquer</a>'  ; // mise à jour  : ajout du lien activé comm
     }
+    else if(document.getElementById('etatblocageabonnes')) // je suis sur abonnes.ctp
+      {
+        document.getElementById('etatblocageabonnes').innerHTML = '<a href="#" data-username="' + username + '" data-action="add" title="Bloquer ' + username + '"  id="addblock" class="link_delete_abo" onclick="return false;">Bloquer</a>'  ; // lien de déblocage
+      }
 
  else
 {

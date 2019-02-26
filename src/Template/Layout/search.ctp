@@ -20,29 +20,37 @@ use Cake\Routing\Router;
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
+    <title class="titlepage">
         <?= $title ?>
 
     </title>
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
-    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'); ?>
+    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
-    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
+    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js'); ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/fr.js'); ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js') ?>
     <?= $this->Html->script('/js/nbnotif.js') ?>
     <?= $this->Html->script('/js/search.js') ?>
     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
+    <?= $this->Html->script('/js/modal.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>
 <body>
-   <?php if (isset($authName)) // test de l'authentification
+ 
+   <div class="container">
+    <p id="etatnotif"></p>
+  <div class="row-no-gutters">
+      <?php if (isset($authName)) // test de l'authentification
   {
   echo  $this->element('onlinemenu') ;
 }
@@ -51,9 +59,6 @@ else
   echo  $this->element('offlinemenu') ;
 }
 ?>
-   <div class="container" style="border:1px solid #cecece;">
-    <p id="etatnotif"></p>
-  <div class="row">
 <div class="col-sm-3"> 
   <?php
 // texte à afficher sur le lien de la liste
@@ -71,38 +76,43 @@ else
  <ul id="myTab" class="nav nav-tabs nav-stacked">
   <li class="list-group-item list-group-item-info">Filtrer les résultats de recherche pour les tweets.</li>
   <!-- lien de résultat les plus récents -->
-  <li><?= $this->Paginator->sort('created',$texte_link,['escape' => false,'direction' => 'desc', 'lock' => false]);?></li>
+  <li><?= str_replace('#', '%23', $this->Paginator->sort('created',$texte_link,['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
         <!-- lien de résultat les plus anciens -->
   
       <!-- les plus partagés -->
-        <li><?= $this->Paginator->sort('nb_partage','<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;Les plus partagés',['escape' => false,'direction' => 'desc', 'lock' => true]);?></li>
+        <li><?= str_replace('#', '%23', $this->Paginator->sort('nb_partage','<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;Les plus partagés',['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
         <!-- les plus likés -->
-      <li><?= $this->Paginator->sort('nb_like','<span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Les plus likés',['escape' => false,'direction' => 'desc', 'lock' => true]);?></li>
+      <li><?= str_replace('#', '%23', $this->Paginator->sort('nb_like','<span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Les plus likés',['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
       <!-- les plus commentés -->
-      <li><?= $this->Paginator->sort('nb_commentaire','<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Les plus commentés',['escape' => false,'direction' => 'desc', 'lock' => true]);?></li>
+      <li><?= str_replace('#', '%23', $this->Paginator->sort('nb_commentaire','<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Les plus commentés',['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
  </ul>
 </div>
 <div class="col-sm-5">
 
  <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-4">
+<div class="col-sm-3">
 <br />
-        <?= $this->cell('Hashtag');?>
+        
 
         <?php if (isset($authName)) // test de l'authentification
   {
-echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
+
 echo $this->element('modaltweet'); 
+}
+else
+{
+  echo $this->element('modalconnexion');
 }
 ?>
 </div>
-
-<?= $this->element('modalconnexion'); ?>
+<?= $this->element('modalview'); ?>
+<?= $this->element('viewlike'); ?>
 <footer>
     </footer>
  
 <?= $this->Html->script('instatuxeditor.js'); ?>
 <?= $this->Html->script('countlike.js') ?> <!-- script d'ajoput/suppression de like : utlisé sur l'accueil, profil, moteur de recherche -->  
+<?= $this->Html->script('actionabo.js') ?> <!-- script d'ajout/suppression d'un abo : utlisé sur profil, moteur de recherche -->
 </body>
 </html>

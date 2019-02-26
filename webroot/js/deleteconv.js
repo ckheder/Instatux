@@ -2,6 +2,8 @@
  $(document).on('click','.deleteconv',function() {
 
       var conv = $(this).data("conv"); // identifiant du comm
+
+      var nb_conv = $('#nb_conv').text(); // nombre de conversations
     
 
               $.ajax({
@@ -19,7 +21,16 @@
           $('.notif').fadeOut("slow");
         }, 2000 );
 
-        $('.tweet[data-conv="' + conv + '"]').remove(); // suppression du comm
+        $('.tweet[data-conv="' + conv + '"]').remove(); // suppression de la conv
+
+         nb_conv --;
+
+                  $("#nb_conv").empty('').prepend(nb_conv);
+        //si decrementation à zero, nouveau message + suppression des options
+        if(nb_conv == 0)
+        {
+          $("#conv").html('<div class="alert alert-warning text-center"><strong>Aucune conversations.</strong></div>');                                            
+        }
 
     }
         else if(data == 'suppconvfail'){ 

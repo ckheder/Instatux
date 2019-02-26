@@ -41,7 +41,7 @@ class CommentairesTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('Tweet', [
-            'foreigKey' => 'tweet_id',
+            'foreigKey' => 'tweet_id'
 
         ]);
 

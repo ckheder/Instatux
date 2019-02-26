@@ -40,7 +40,7 @@ response: function(event, ui) {
           else
           {
 
-        return $( "<li><div class=\"test\"><img src='/instatux/img/"+item.avatar+"'>&nbsp;<a href='/instatux/"+item.value+"'>"+item.value+"</a><span class=\"alias_tweet_search\">@"+item.value+"</span></div></li>" ).appendTo( ul );
+        return $( "<li><div class=\"test\"><img src='/instatux/img/avatar/"+item.value+".jpg'>&nbsp;<a href='/instatux/"+item.value+"'>"+item.value+"</a><span class=\"alias_tweet_search\">@"+item.value+"</span></div></li>" ).appendTo( ul );
 }
       };
 

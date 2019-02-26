@@ -1,12 +1,8 @@
-<div class="alert alert-info">
-<strong>Info!</strong> Vous pouvez configurer les notifications dans l'onglet "notifications" de vos paramètres.
-
-    </div>
 <?php
-            if(isset($nb_notif))
+            if($nb_notif == 0)
             {
-                echo '<div class="alert alert-info">
-                                Aucune notification à afficher
+                echo '<div class="alert alert-warning text-center">
+                                <strong>Aucune notification.</strong>
                         </div>';
             }
             else
@@ -14,11 +10,12 @@
 
 ?>
 
-<p id="etatnotif"></p>
+<div id="list_notif">
 
-
- <div class="dropdown">
-  <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Options
+<div class="alert alert-warning text-center"><strong>Vous avez <span id="nb_notif"><?= $nb_notif ;?></span>&nbsp;notification(s).</strong></div>
+<br />
+ <div class="dropdown" id="optionnotif">
+  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Options
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <li><?= $this->Html->Link("Tout marquer comme lue",'#',array(
@@ -30,7 +27,8 @@
   </ul>
 </div>
 <br />
-<div id="list_tweet">
+
+
 <?php
 
  foreach ($notification as $notification):
@@ -52,17 +50,17 @@ echo '<div class="notif_lu" data-idnotif="'.$notification->id_notif.'">';
 
             <span class="date_notif">
 
-            <?= $notification->created->i18nformat('dd MMMM YYYY'); ?>
+            <?= $notification->created->i18nformat('dd MMMM YYYY - HH:mm'); ?>
 
-             <a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Supprimer"  class="deletenotif" onclick="return false;"><span class="glyphicon glyphicon-remove red"></span></a>
+             
 
 
              </span>
 
 
-            <?= $this->Text->autoParagraph($notification->notification); ?>
-
-
+            <?= $notification->notification; ?>
+<br />
+<span class="notif_link"><a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Marquer comme lue"  class="readnotif" onclick="return false;">Marquer comme lue</a> - <a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Supprimer"  class="deletenotif" onclick="return false;">Effacer</a></span>
 
 </div>
 

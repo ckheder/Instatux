@@ -65,13 +65,13 @@ Router::connect('/logout',['controller' => 'Users', 'action' => 'logout']);
 
 // route profil
 
-Router::connect('/:username',['controller' => 'Tweet', 'action' => 'index'],['pass' =>['username']],['_name' => 'profil']);
+Router::connect('/:username',['controller' => 'Tweet', 'action' => 'index'],['_name' => 'profil']);
 
 //fin  route profil
 
 // route tweet
 
-Router::connect('/post/:id',['controller' => 'Tweet', 'action' => 'view'],['id' => '\d+', 'pass' =>['id']]);
+Router::connect('/post/:id',['controller' => 'Tweet', 'action' => 'view'],['pass' =>['id'], '_name' => 'post']);
 
 //fin route tweet
 
@@ -89,7 +89,7 @@ Router::connect('/post/delete/:id',['controller' => 'Tweet', 'action' => 'delete
 
 // route  notif
 
-Router::connect('/notifications',['controller' => 'Notifications', 'action' => 'index']);
+Router::connect('/notifications',['controller' => 'Notifications', 'action' => 'index'],['_name' => 'notifications']);
 
 //fin route  notif
 
@@ -117,11 +117,23 @@ Router::connect('/notification/delete/:id',['controller' => 'Notifications', 'ac
 
 //fin route effacer notif
 
+// route  1 notif lue
+
+Router::connect('/notification/read/:id',['controller' => 'Notifications', 'action' => 'singlenotiflue'],['id' => '\d+', 'pass' =>['id']]);
+
+//fin route  1 notif lue
+
 // route recherche
 
 Router::connect('/search-:string',['controller' => 'Search', 'action' => 'index']);
 
 //fin route recherche
+
+// route recherche hashtag
+
+Router::connect('/search/hashtag/:string',['controller' => 'Search', 'action' => 'hashtag']);
+
+//fin route recherche hashtag
 
     // route search user autocomplete
 Router::connect('/search/searchusers',['controller' => 'Search', 'action' => 'searchusers']);
@@ -160,8 +172,12 @@ Router::connect('/abonnement/remove/:username',['controller' => 'Abonnement', 'a
 Router::connect('/abonnement/indexmessagerie',['controller' => 'Abonnement', 'action' => 'indexmessagerie']);
     // fin route abonnement/delete
     // route like
-Router::connect('/like-:id',['controller' => 'Aime', 'action' => 'add'],['id' => '\d+', 'pass' =>['id']],['_name' => 'routelike']);
+Router::connect('/like',['controller' => 'Aime', 'action' => 'add'],['_name' => 'routelike']);
     // fin route like
+
+    // route liste like
+Router::connect('/like/:id',['controller' => 'Aime', 'action' => 'index'],['id' => '\d+', 'pass' =>['id']]);
+    // fin route liste like
 
     // route settings
 Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
@@ -224,12 +240,20 @@ Router::connect('/bloques',['controller' => 'Blocage', 'action' => 'listebloques
     // fin route listebloques
 
     // route messagerie
-Router::connect('messagerie',['controller' => 'Messagerie', 'action' => 'index']);
+Router::connect('/messagerie',['controller' => 'Messagerie', 'action' => 'index'],['_name' => 'messagerie']);
     //fin route messagerie
 
     // route envoi message
 Router::connect('/message/add',['controller' => 'Messagerie', 'action' => 'add']);
     // fin route envoi message
+
+    // route conversation
+Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['_name' => 'conversation']);
+    //fin route conversation
+
+    // route delete conversation
+Router::connect('/conversation/delete/:id',['controller' => 'Conversation', 'action' => 'edit'],['id' => '\d+', 'pass' =>['id']]);
+    // fin route delete conversation
 
     // route autoriser commentaire
 Router::connect('/allowcomment/:etat/:idtweet',['controller' => 'Tweet', 'action' => 'allowComment'],['etat' => '\d+', 'pass' =>['etat']]);
@@ -244,7 +268,7 @@ Router::connect('/commentaire/edit/:id',['controller' => 'Commentaires', 'action
     // fin route edit commentaire
 
     // route delete comentaire
-Router::connect('/commentaire/delete/:id',['controller' => 'Commentaires', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+Router::connect('/commentaire/delete',['controller' => 'Commentaires', 'action' => 'delete']);
     // fin route delete commentaire
 
     // route envoi nouveau commentaire
@@ -255,13 +279,7 @@ Router::connect('/blocage/add/:username',['controller' => 'Blocage', 'action' =>
 Router::connect('/blocage/delete/:username',['controller' => 'Blocage', 'action' => 'delete']);
     // fin route delete commentaire
 
-    // route conversation
-Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['id' => '\d+', 'pass' =>['id']]);
-    //fin route conversation
 
-    // route delete conversation
-Router::connect('/conversation/delete/:id',['controller' => 'Conversation', 'action' => 'edit'],['id' => '\d+', 'pass' =>['id']]);
-    // fin route delete conversation
 
     // route accueil
 Router::connect('/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);

@@ -12,11 +12,12 @@ var  server = require('http').createServer(server),
     
 var date_comm = date_format.format('LL'); // mise en forme
 
-var users = [];// tableau contenant les users connecté
-  
+var clients = {};
 
 // connexion / déconnexion
-io.sockets.on('connection', function (socket) {
+io.on('connection', function (socket) {
+
+    console.log('user connected');
 
     socket.on('room', function(room) {
         socket.join(room);
@@ -27,7 +28,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('comm', function (data) {
 
 
-        socket.broadcast.in(data.room).emit('commentaire', {idcomm: data.idcomm, auteurcomm: data.auteurcomm, comm: data.comm, avatar: data.avatar, date_comm: date_comm, tweetid: data.tweetid, auteurtweet: data.auteurtweet});
+        socket.broadcast.in(data.room).emit('commentaire', {idcomm: data.idcomm, auteurcomm: data.auteurcomm, comm: data.comm, date_comm: date_comm, tweetid: data.tweetid, auteurtweet: data.auteurtweet});
 
     }); 
 // renvoi mise à jour
@@ -37,9 +38,11 @@ io.sockets.on('connection', function (socket) {
 
     }); 
 //renvoi suppression
-    socket.on('del', function (data) {
+    socket.on('delete', function (data) {
 
-        io.to(data.room).emit('delete', {idcomm: data.idcomm});
+        io.to(data.room).emit('delete', {idcomm: data.idcomm, idtweet: data.idtweet});
+
+
     }); 
 // renvoi désactivation des comms
     socket.on('commdesac', function (data) {
@@ -53,7 +56,17 @@ io.sockets.on('connection', function (socket) {
         io.to(data.room).emit('commac');
     }); 
 
+    socket.on('disconnect', function(){
+
+        socket.removeAllListeners();
+        socket.disconnect(true);
+     
+    console.log('user disconnected', socket.id);
+  });
+
 });
+
+
 
 server.listen(8083);
 

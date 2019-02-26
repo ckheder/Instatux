@@ -3,8 +3,10 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-//use App\Controller\Component\AuthComponent;
-
+use Cake\Network\Exception\NotFoundException;
+use Cake\Filesystem\Folder;
+use Cake\Filesystem\File;
+use Cake\Utility\Text;
 /**
  * Tweet Controller
  *
@@ -41,9 +43,16 @@ class TweetController extends AppController
     public function index()
     {
         $this->viewBuilder()->layout('general');
+
         $this->set('title', ''.$this->request->getParam('username').' | Instatux'); // titre de la page
 
         $username = $this->request->getParam('username'); // nom en paramètre
+
+        if($this->verif_user($username) == 0) // membre inexistant
+        {
+            throw new NotFoundException(__('Cette page n\'existe pas.'));
+        }
+
 
         if($username != $this->Auth->user('username')) // si je ne suis pas sur mon profil
     {
@@ -63,8 +72,8 @@ class TweetController extends AppController
     {
         $tweet = $this->Tweet->find()->select([
             'Users.username',
-            'Users.avatarprofil',
             'Tweet.id',
+            'Tweet.id_tweet',
             'Tweet.user_id',
             'Tweet.user_timeline',
             'Tweet.contenu_tweet',
@@ -79,8 +88,6 @@ class TweetController extends AppController
         ->where(['Tweet.user_timeline' => $username])
         ->order(['Tweet.created' => 'DESC'])
         ->contain(['Users']);
-
-
 
          $nb_tweet =  $tweet->count(); // calcul du nombre de tweet
 
@@ -165,13 +172,27 @@ class TweetController extends AppController
      */
     public function view($id = null)
     {
-        $this->viewBuilder()->layout('general');
-        $this->set('title', 'Commentaires'); // titre de la page
+        if ($this->request->is('ajax')) {
+       
+         if($this->verif_tweet($this->request->getParam('id')) == 0) // membre inexistant
+        {
+            throw new NotFoundException(__('Ce tweet n\'existe pas.'));
+        }
+
+                    if($this->allow_view_tweet($this->Auth->user('username')) == 0) // pas le droit de voir le tweet
+        {
+            $no_follow = 0;
+            $this->set('no_follow', $no_follow);
+
+
+        }
+        else
+        {
 
 
         $info_tweet = $this->Tweet->find()->select([
             'Users.username',
-            'Users.avatarprofil',
+            'Tweet.id_tweet',
             'Tweet.id',
             'Tweet.user_id',
             'Tweet.user_timeline',
@@ -184,13 +205,15 @@ class TweetController extends AppController
             'Tweet.allow_comment',
             ]) // récupération des infos du tweet
 
-        ->where(['Tweet.id' => $this->request->getParam('id')])
+        ->where(['Tweet.id_tweet' => $this->request->getParam('id')])
 
 
         ->contain(['Users']);
+      
 
-        $this->set('tweet', $info_tweet);
+         $this->set('tweet', $info_tweet);
 
+       
         // partie commentaire
 
         $this->loadModel('Commentaires');
@@ -202,7 +225,6 @@ class TweetController extends AppController
   'Commentaires.created',
   'Commentaires.edit',
   'Users.username',
-  'Users.avatarprofil',
         ])
 
         ->where(['Commentaires.tweet_id' => $this->request->getParam('id')])
@@ -210,17 +232,14 @@ class TweetController extends AppController
         ->contain(['Users']);
 
 
-            if($this->allow_view_tweet($this->Auth->user('username')) == 0) // pas le droit de voir le tweet
-        {
-            $no_follow = 0;
-            $this->set('no_follow', $no_follow);
 
-
-        }
-        else
-        {
         $this->set('commentaires', $this->Paginator->paginate($comm_tweet, ['limit' => 8]));
     }
+}
+else
+{
+throw new NotFoundException(__('Cette page n\'existe pas.'));
+}
 
 
     }
@@ -238,7 +257,7 @@ class TweetController extends AppController
 
         ->select(['Tweet.user_id', 'share','private'])
 
-        ->where(['Tweet.id' => $this->request->getParam('id')]);
+        ->where(['Tweet.id_tweet' => $this->request->getParam('id')]);
 
         foreach($tweet as $tweet)
         {
@@ -324,15 +343,6 @@ class TweetController extends AppController
 
         $tweet =  preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt=":$1:" class="emoji_comm"/>', $tweet); // emoji
 
-        //lien
-
-        $pattern_url = '/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/';
-
-        if(preg_match_all($pattern_url, $tweet))
-        {
-            $tweet = preg_replace($pattern_url, '<a href="$1">$1</a>', $tweet);
-        }
- 
         // traitement média
 
         if (preg_match('~\[videoYoutube]([^{]*)\[/videoYoutube]~i', $tweet)) // youtube
@@ -353,19 +363,23 @@ class TweetController extends AppController
                 elseif (preg_match('~\[InstagramPost]([^{]*)\[/InstagramPost]~i', $tweet)) { // instagram
         $tweet = preg_replace('~\[InstagramPost]([^{]*)\[/InstagramPost]~i', '<p><iframe src="https://www.instagram.com/p/$1/embed/captioned/" width="100%" height="780" frameborder="0" scrolling="no" allowtransparency="true"></iframe></p>', $tweet);
     }
+
                     elseif (preg_match('~\[imageUrl]([^{]*)\[/imageUrl]~i', $tweet)) { // lien vers une image distante
         $tweet = preg_replace('~\[imageUrl]([^{]*)\[/imageUrl]~i', '<a href="$1" ><img src="$1" width="100%" /></a>', $tweet);
     }
+            
+                    //lien
+        if(preg_match_all('/\{Url}((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\\\\\\\w]*))?)\{\/Url}/', $tweet))
+    {
+            $tweet = preg_replace('~\{Url}([^{]*)\{/Url}~i', '<a href="$1">$1</a>', $tweet);
+    }
 
-    // lien   
 
-
-
-        $tweet =  preg_replace('/#([^\s]+)/',#something
-        '<a href="search-%23$1">#$1</a>',
-        $tweet);
-
-        $tweet = nl2br($tweet);
+        $tweet =  preg_replace('/#([^\s]+)/','<a href="http://localhost/instatux/search/hashtag/$1">#$1</a>',$tweet);
+        
+        $tweet =  str_replace('#', '%23', $tweet);
+          
+        $tweet = nl2br($tweet); // paragraphe
 
         return('<p><p>'.$tweet.'</p></p>');
     }
@@ -379,6 +393,7 @@ class TweetController extends AppController
     {
                
          if ($this->request->is('ajax')) {
+            $new_media = 0;
             $tweet = $this->Tweet->newEntity();
             $contenu_tweet = htmlspecialchars($this->request->data('contenu_tweet'));
             //test et traitement envoi d'avatar
@@ -386,6 +401,8 @@ class TweetController extends AppController
             if($file['size'] != 0)
             {
             $contenu_tweet = $this->tweetupload($file, $contenu_tweet);
+            //variable pour signaler un nouveau media interne
+            $new_media = 1;
             }
             $idtweet = $this->idtweet();
             // fin test et traitement envoi avatar
@@ -397,22 +414,25 @@ class TweetController extends AppController
             'contenu_tweet' => $this->linkify_tweet($contenu_tweet),
             'private' =>$this->get_type_profil($this->Auth->user('username')),
                         //evenement username
-            'avatar_session' => $this->Auth->user('avatarprofil'),
-            'auth_name' => $this->Auth->user('username')
+            'auth_name' => $this->Auth->user('username'),
+            'new_media' => $new_media
             );
             $tweet = $this->Tweet->patchEntity($tweet, $data);
 
 
-
             if ($this->Tweet->save($tweet)) {
-                // évènement hashtag/username
+
+                 
+                // évènement tweet
 
                  $event = new Event('Model.Tweet.afterAdd', $this, ['tweet' => $tweet]);
 
                 $this->eventManager()->dispatch($event);
 
-                //fin évènement hashtag
-                $this->response->body(json_encode($data));
+                //fin évènement username
+
+                $data['contenu_tweet'] = preg_replace('/%23/', '#', $data['contenu_tweet']);
+                $this->response->body(json_encode($tweet));
 
 
             } else {
@@ -437,56 +457,105 @@ class TweetController extends AppController
     public function delete($id = null)
     {
 
-        if ($this->request->is('ajax')) {
+if ($this->request->is('ajax')) {
 
- $tweet_verif = $this->Tweet->find();
-        $tweet_verif->where([
+     $id_tweet = $this->request->getParam('id');
 
-'user_timeline' =>  $this->Auth->user('username') // id de la personne connecté
+ $tweet_verif = $this->Tweet->find()->select(['user_id','user_timeline'])
 
-            ])
-        ->where(['id' => $this->request->getParam('id')]);
+        ->where(['id_tweet' => $id_tweet]);
+
+             $entity = $this->Tweet->get($id_tweet);
 
         if(!$tweet_verif->isEmpty())
         {
-            $id_tweet = $this->request->getParam('id');
-            $entity = $this->Tweet->get($id_tweet); // création de l'entité abonnement
-            $result = $this->Tweet->delete($entity);
-            if($result)
+                                 foreach($tweet_verif as $tweet_verif)
+        {
+            $user_tweet = $tweet_verif->user_id; // createur du tweet
+            $user_timeline_tweet = $tweet_verif->user_timeline;
+           
+        }
+            if($user_tweet === $this->Auth->user('username')) // je suis l'auteur du tweet, je supprimme mon tweet et tous les partage
             {
-            $reponse = 'tweetsupprime';
-        }
-        else {
-            $reponse = 'echectweetsupprime';
-        }
-        }
+                $result = $this->Tweet->deleteAll(['id' => $entity->id]);
+            }
+            elseif($user_timeline_tweet === $this->Auth->user('username')) // je suis suis sur mon profil, que ce soit un partage ou non
+            {
+                $result = $this->Tweet->delete($entity);
+            }
 
+            // verif media
+        if(preg_match('/(http(s?):)([\/|.|\w|\s|-])*\.(?:jpg|gif|png)/', $entity->contenu_tweet, $matches))
+    {
 
+        $folder_media = new Folder(WWW_ROOT . 'img/media/'.$this->Auth->user('username').'/');
 
-
-        $this->response->body($reponse);
-    return $this->response;
-
-
+        $media = new File($matches[0]);
+        $media_name = $media->name;
+        $file = new File(WWW_ROOT . 'img/media/'.$this->Auth->user('username').'/'.$media_name.'', false, 0777);
+        $file->delete();
+           
     }
+            
+            if($result)
+           {
+            $reponse = 'tweetsupprime';
+       }
+        else
+         {
+        $reponse = 'echectweetsupprime';
+       }
+
+        }
+
+              $this->response->body($reponse);
+   return $this->response;
+  }
     else
     {
         $this->Flash->error(__('Impossible de supprimé.'));
         return $this->redirect($this->referer());
     }
-    }
+    
+}
 
     // partage d'un tweet
-    public function share($id = null)
+    public function share($id = null) // 0 -> pas partager, 1 -> partager
     {
 
         if ($this->request->is('ajax')) {
 
+            if($this->verif_tweet($this->request->getParam('id')) == 0)
+            {
+                $reponse = 'inexistant';
+            }
+            else
+            {
+
+        $info_tweet = $this->Tweet->find() // on récupère les infos du tweet pour le copier
+        ->select([
+            'id',
+         'user_id',
+         'contenu_tweet',
+            ])
+        ->where(['Tweet.id_tweet' => $this->request->getParam('id')]);
+
+        foreach($info_tweet as $info_tweet)
+        {
+            $user_tweet = $info_tweet->user_id;
+            $contenu_tweet = $info_tweet->contenu_tweet;
+            $id = $info_tweet->id;
+        }
+
 // on vérifie si je n'ais pas déjà partagé
 
-            if($this->testshare($this->request->getParam('id')) == 1) // j'ai déjà partager
+            if($this->testshare($id) == 1) // j'ai déjà partager
             {
                 $reponse = 'deja';
+            }
+            elseif($user_tweet === $this->Auth->user('username')) // je ne peut partager un tweet à moi qui à était partager par d'autres
+            {
+                $reponse = 'probleme';
             }
             else
             {
@@ -494,19 +563,6 @@ class TweetController extends AppController
 // fin vérification si j'ai déjà partagé un tweet
 
         $tweet = $this->Tweet->newEntity();
-
-        $info_tweet = $this->Tweet->find() // on récupère les infos du tweet pour le recrée
-        ->select([
-         'user_id',
-         'contenu_tweet',
-            ])
-        ->where(['Tweet.id' => $this->request->getParam('id')]);
-
-        foreach($info_tweet as $info_tweet)
-        {
-            $user_tweet = $info_tweet->user_id;
-            $contenu_tweet = $info_tweet->contenu_tweet;
-        }
 
           if($this->testnotifshare($user_tweet) === "oui") // on vérifie si l'auteur du tweet veut une notification de partage
                 {
@@ -516,17 +572,15 @@ class TweetController extends AppController
                 {
                     $notif = 'non';
                 }
-
+                
         $data = array(
-            'id' => $this->request->getParam('id'),
+            'id' => $id,
             'user_id' => $user_tweet,
             'user_timeline' => $this->Auth->user('username'),
             'contenu_tweet' => $contenu_tweet,
-            'share' => 1,
+            'share' => 1, // indique que ce tweet est un partage
             // évènement
             'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' => $this->Auth->user('avatarprofil'),
-            'id_tweet' => $this->request->getParam('id'),
              'notif' =>$notif
             );
             $tweet = $this->Tweet->patchEntity($tweet, $data);
@@ -545,6 +599,7 @@ class TweetController extends AppController
             }
 
 }
+}
                                    $this->response->body($reponse);
     return $this->response;
 
@@ -561,8 +616,8 @@ class TweetController extends AppController
                 $abonnement = $this->Tweet->find()
                 ->select([
             'Users.username',
-            'Users.avatarprofil',
             'Tweet.id',
+            'Tweet.id_tweet',
             'Tweet.user_id',
             'Tweet.user_timeline',
             'Tweet.contenu_tweet',
@@ -605,8 +660,8 @@ class TweetController extends AppController
                 $actu = $this->Tweet->find()
                 ->select([
             'Users.username',
-            'Users.avatarprofil',
             'Tweet.id',
+            'Tweet.id_tweet',
             'Tweet.user_id',
             'Tweet.user_timeline',
             'Tweet.contenu_tweet',
@@ -620,6 +675,7 @@ class TweetController extends AppController
 
         ->where(['Tweet.private' =>  0])
         ->where(['Tweet.share' =>  0])
+        ->order(['Tweet.created' => 'DESC'])
         ->contain(['Users']);
 
 
@@ -678,6 +734,12 @@ class TweetController extends AppController
         $this->loadModel('Users');
         $check_user = $this->Users->find()->where(['username' => $username ])->count();
         return $check_user;
+    }
+
+            private function verif_tweet($id) // on vérifie si le tweet existe
+        {
+        $check_tweet = $this->Tweet->find()->where(['id_tweet' => $id ])->count();
+        return $check_tweet;
     }
 
     private function get_type_profil() // récupération du type de profil privé ou public
@@ -742,11 +804,11 @@ if($file['error'] != 0)
       if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
                       {
 
-                $uploadPath = 'img/photos/'.$this->Auth->user('username').'/';
+                $uploadPath = 'img/media/'.$this->Auth->user('username').'/';
 
                 if(move_uploaded_file($file['tmp_name'], $uploadPath.basename($file['name'])))
                 {
-                    $tweet = preg_replace('~\[image]([^{]*)\[/image]~i', '<img src="'.$uploadPath.basename($file['name']).'" width="100%" />', $tweet);
+                    $tweet = preg_replace('~\[image]([^{]*)\[/image]~i', '<img src="http://localhost/instatux/'.$uploadPath.basename($file['name']).'" width="100%" alt="image introuvable" />', $tweet);
 
                     return $tweet;
                 }
@@ -766,12 +828,12 @@ else {
 
         }
 
-        private function idtweet() // calcul d'un id de comm aléatoire
+        private function idtweet() // calcul d'un id de tweet aléatoire
 {
 
     $idtweet = rand();
 
-    $query = $this->Tweet->find()->select(['id'])->where(['id' => $idtweet]);
+    $query = $this->Tweet->find()->select(['id'])->where(['id' => $idtweet]); // on vérifie si il existe déjà
 
      if ($query->isEmpty())
      {
@@ -779,7 +841,7 @@ else {
      }
      else
     {
-        idtweet();
+        idtweet(); // ou $this->idtweet();
     }
 
 }

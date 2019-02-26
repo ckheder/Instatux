@@ -16,32 +16,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <?= $this->Html->charset() ?>
+<?= $this->Html->charset() ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $this->fetch('title') ?>
+        Instatux | Erreur
     </title>
-    <?= $this->Html->meta('icon') ?>
-
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
-
+    <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
+    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
+    <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
+    <?= $this->Html->css('custom') ?>
+    <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
+    <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
+    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
+    <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
+        <?= $this->Html->script('/js/search.js') ?>
     <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
 </head>
 <body>
-    <div id="container">
-        <div id="header">
-            <h1><?= __('Error') ?></h1>
-        </div>
-        <div id="content">
+<?php 
+  echo  $this->element('onlineerrormenu') ;
+?>
+    <div id="container" class="container" style="border:1px solid #cecece;">
+    <div class="row-no-gutters">
+<div class="col-sm-8">
             <?= $this->Flash->render() ?>
 
+            <div class="text-center">
+
+                <h1>Oops !</h1>
+
             <?= $this->fetch('content') ?>
+
+            <br />           
+
+            <a href="javascript:history.back()" title="Retour" class="btn btn-default" role="button">Retour</a>
+
+            </div>
         </div>
-        <div id="footer">
-            <?= $this->Html->link(__('Back'), 'javascript:history.back()') ?>
-        </div>
+        <div class="col-sm-4">
+<br />
+
+
+</div>
+
     </div>
+
+        <footer>
+    </footer>
+</div>
 </body>
 </html>

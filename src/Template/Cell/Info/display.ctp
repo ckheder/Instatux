@@ -1,11 +1,16 @@
 <?php
 use Cake\I18n\Time;
+?>
+
+<div class="text-center">
+<br />
+<?php
 
 
  foreach ($users as $user): ?>
-<div class="text-center">
 
-                 <?= $this->Html->image(''.$user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle', 'width'=>128, 'max-width'=>'100%','height'=>'auto'));
+
+                 <?= $this->Html->image('/img/avatar/'.$this->request->getParam('username').'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-circle', 'width'=>128, 'max-width'=>'100%','height'=>'auto'));
                 
                 ?>
                 <br />
@@ -51,7 +56,7 @@ use Cake\I18n\Time;
             ?>
 
                <li><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Inscrit le <?= $user->created->i18nformat('dd MMMM YYYY'); ?></li>
-
+<li><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;<span id="nb_tweet"><?= $nb_tweet ;?></span>&nbsp;Tweet(s)</li>
 
           <?php endforeach; ?>
 

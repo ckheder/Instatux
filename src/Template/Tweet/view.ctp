@@ -2,7 +2,9 @@
 use Cake\I18n\Time;
 use Cake\Network\Request;
 
-
+?>
+<p id="notifmodalview"></p>
+<?php
  
                         if(isset($no_follow))
             {
@@ -24,7 +26,7 @@ use Cake\Network\Request;
 
  foreach ($tweet as $tweet): ?>
 
-<div class="tweet"> 
+<div class="tweetmodal"> 
      <?php
 // dropdown bloquer les commenaires
 
@@ -71,20 +73,28 @@ use Cake\Network\Request;
             <?php
           }
           ?><!-- partie info sur le tweet -->
-            <?= $this->Html->image(''.$tweet->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-circle left avatar_view')) ?>
-            <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username ?></span> - 
-            
+            <?= $this->Html->image('/img/avatar/'.$tweet->user->username.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-circle left avatar_view')) ?>
+            <?= $this->Html->link($tweet->user->username,'/'.$tweet->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$tweet->user->username ?></span>             
+<?php
+ 
 
-             <span class="date_message"><?= $tweet->created->i18nformat('d MMMM YYYY'); ?></span>
+$tweet->contenu_tweet = str_replace('/post', '', $tweet->contenu_tweet) ;
 
-<p><?= $tweet->contenu_tweet; ?></p>
+             $contenu_tweet = str_replace('%23', '#', $tweet->contenu_tweet);
+
+              echo '<span class="contenutweet">'.$contenu_tweet.'</span>';
 
 
-
-                 <span class="nb_like"><span id="compteur_like-<?= $tweet->id ;?>"><?= $tweet->nb_like ;?></span> like(s)</span>
-                <span class="nb_comm_share"><span id="nbcomm"><script> var nbcomm = <?= $tweet->nb_commentaire ;?> 
-           document.getElementById('nbcomm').innerHTML = nbcomm;
-         </script> commentaire(s) </span> - <?= $tweet->nb_partage ?> partage(s)</span>
+?>
+<hr>
+<span class="date_tweet_modal"><?= $tweet->created->i18nformat('dd MMMM YYYY - HH:mm'); ?></span>
+<hr>
+                 <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> 
+                 <a href="" data-idtweet="<?= $tweet->id ;?>" data-toggle="modal" data-target="#viewlike" data-remote="false" onclick="return false;"><span id="compteur_like_view-<?= $tweet->id ;?>"><?= $tweet->nb_like ;?></span></a>
+                <span id="list_like"><?= $this->cell('Like', ['idtweet' => $tweet->id]) ; ?></span>
+               </span>
+               <br />
+                <span class="nb_comm_share"><span class="viewnbcomm_<?= $tweet->id_tweet ;?>"><?= $tweet->nb_commentaire ;?></span> commentaire(s) - <?= $tweet->nb_partage ?> partage(s)</span>
                 <br />
                 <br />
                 <span class="link_comm_share">
@@ -145,24 +155,15 @@ else
 
  <!-- fin div info tweet -->
 
-</span>
+
 <?php
 
 }
 ?>
+</span>
  <p id="allowcomment"></p>
 
 <div id="list_comm">
-  <?php
-if($tweet->nb_commentaire == 0)
-{
-    echo '<span id="nocomment"><div class="alert alert-info">Aucun commentaire pour cette publication</div></span>';
-}
-else
-{
-    ?>
-
-
 
         <?php foreach ($commentaires as $commentaires): ?>
             <div class="comm" data-idcomm="<?= $commentaires->id ;?>">
@@ -183,7 +184,7 @@ else
     {
         ?>
         <li>
-        <a href="#" data-idcomm="<?= $commentaires->id ;?>"  title="Effacer ce commentaire"  class="deletecomm" onclick="return false;">Effacer ce commentaire</a>
+        <a href="#" data-idcomm="<?= $commentaires->id ;?>" data-idtweet="<?= $this->request->getParam('id') ;?>" title="Effacer ce commentaire"  class="deletecomm" onclick="return false;">Effacer ce commentaire</a>
         </li>
 
         <?php
@@ -211,8 +212,8 @@ else
 }
 ?>
 <!-- fin bouton dropdown comm -->
- <?= $this->Html->image(''.$commentaires->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail left avatarcomm')) ?>
- <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - <span class="date_message"><?= $commentaires->created->i18nformat('dd MMMM YYYY');
+ <?= $this->Html->image('/img/avatar/'.$commentaires->user->username.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-thumbail left avatarcomm')) ?>
+ <?= $this->Html->link($commentaires->user->username,'/'.$commentaires->user->username.'',['class' => 'link_username_tweet']) ?><span class="alias_tweet">@<?=$commentaires->user->username ?></span> - <span class="date_message"><?= $commentaires->created->i18nformat('d MMMM YYYY  HH:mm');
  ?>
  <span class="updatecomm<?= $commentaires->id ;?>">
   <?php
@@ -236,7 +237,7 @@ else
 
 <?php
 
-}
+
 echo ' </div>';
 }
 
@@ -254,10 +255,22 @@ endforeach;
             <?= $this->Paginator->next('Next page'); ?>
 
           </div>
+<?php
 
-          <script>
+if(isset($authName)) // je suis co 
+{
+  ?>
+            <script>
 var idtweet = "<?= $this->request->getParam('id') ;?>"; // id du tweet
 var authname = "<?= $authName ;?>";
-          </script>
 
-<?= $this->Html->script('/js/clientcommentaires.js') ?>
+          </script>
+<?php
+echo  $this->Html->script('/js/clientcommentaires.js');
+
+}
+else // pas connecter
+{
+  echo $this->Html->script('/js/iasviewtweetoffline.js');
+}
+

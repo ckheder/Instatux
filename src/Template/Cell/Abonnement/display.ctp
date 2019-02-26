@@ -25,7 +25,7 @@ if(isset($authname))
               ?>
               
               <li id="actionabo"> <!-- lien nouvel abonnement : public ou privé -->
-                  <button type="button" class="btn btn-warning">Demande envoyé</button>
+                  <button type="button" class="btn btn-info">En attente</button>
             </li>
              
                
@@ -37,14 +37,14 @@ if(isset($authname))
                 
 ?>
                 <li id="actionabo">
-                <?= $this->Form->button('<span class="glyphicon glyphicon-envelope"></span>', // lien pour envoyer un message
+                  <button data-username="<?= $this->request->getParam('username') ;?>" data-action="delete" title="Ne plus suivre <?= $this->request->getParam('username') ;?>" type="button"  id="aboact" class="btn btn-danger navbar-btn" onclick="return false;">Ne plus suivre</button> - 
+                <?= $this->Form->button('Envoyer un message', // lien pour envoyer un message
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#modalmessage',
                   'class' => 'btn btn-primary navbar-btn',
                   'title' => 'Envoyer un message à '.$this->request->getParam('username').'',
                   'type' => 'button']);
-                  ?> - 
-                              <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="delete" title="Ne plus suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-minus"></a>
+                  ?>        
                 </li>
                 <?php  
             }
@@ -52,7 +52,7 @@ if(isset($authname))
             {
               ?>
               <li id="actionabo">
-                <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="add" title="Suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-plus"></span></a>
+                <button data-username="<?= $this->request->getParam('username') ;?>" data-action="add" title="Suivre <?= $this->request->getParam('username') ;?>"  id="aboact" class="btn btn-success" onclick="return false;">Suivre</button>
               </li>
               <?php
             }
@@ -60,7 +60,7 @@ if(isset($authname))
             {
               ?>
               <li id="block">
-                  <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="delete" title="Débloquer <?= $this->request->getParam('username') ;?>"  id="addblock" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span></a>
+                  <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="delete" title="Débloquer <?= $this->request->getParam('username') ;?>"  id="addblock" class="btn btn-success" onclick="return false;">Débloquer</a>
                 </li>
                 <?php
             }
@@ -68,7 +68,7 @@ if(isset($authname))
             {
               ?>
               <li id="block">
-                <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="add" title="Bloquer <?= $this->request->getParam('username') ;?>"  id="addblock" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-ban-circle"></span></a>
+                <a href="#" data-username="<?= $this->request->getParam('username') ;?>" data-action="add" title="Bloquer <?= $this->request->getParam('username') ;?>"  id="addblock" class="btn btn-danger" onclick="return false;">Bloquer</a>
               </li>
               <?php
             }

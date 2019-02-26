@@ -20,31 +20,39 @@ use Cake\Routing\Router;
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
+    <title class="titlepage">
       <?= $title ?>
         
     </title>
     <?= $this->Html->meta('favicon.ico','img/favicon.ico',array('type' => 'icon'))."\n"; ?>
-    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'); ?>
+    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
-    <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'); ?>
-    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
+    <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
+    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
+        <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js'); ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/fr.js'); ?>
+    <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js') ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
+     <?= $this->Html->script('/js/nbnotif.js') ?>
     <?= $this->Html->script('/js/search.js') ?>
     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
+    <?= $this->Html->script('/js/modal.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>
 <body>
-  <?= $this->element('onlinemenu') ; ?>
-   <div class="container" style="border:1px solid #cecece;">
 
- <div class="row">
+   <div class="container">
+<p id="etatnotif"></p>
+ <div class="row-no-gutters">
+    <?= $this->element('onlinemenu') ; ?>
+    <?= $this->element('modalview'); ?>
+    <?= $this->element('viewlike'); ?>
      <div class="col-sm-3">
          <ul id="myTab" class="nav nav-tabs nav-stacked">
   <li class="list-group-item list-group-item-info">Filtrer l'actualités.</li>
@@ -59,22 +67,27 @@ use Cake\Routing\Router;
       <!-- les plus commentés -->
       <li><?= $this->Paginator->sort('nb_commentaire','<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Les plus commentés',['escape' => false,'direction' => 'desc', 'lock' => true]);?></li>
  </ul>
+
      </div>
  <div class="col-sm-5">
-<br />
+
         <?= $this->fetch('content') ?>
 </div>
 <div class="col-sm-4">
-<br />
-        <?= $this->cell('Hashtag');?>
+
+
+<?= $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;?>
        
 </div>
+<?=  $this->element('modaltweet');?>
+<?=  $this->element('helpmodal');?> 
 
- <?=  $this->element('modaltweet');?>
-</div>
 <footer>
     </footer>
      <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs --> 
-     <?= $this->Html->script('countlike.js') ?> <!-- script d'ajoput/suppression de like : utlisé sur l'accueil, profil, moteur de recherche -->       
+     <?= $this->Html->script('countlike.js') ?> <!-- script d'ajoput/suppression de like : utlisé sur l'accueil, profil, moteur de recherche -->
+     <?= $this->Html->script('sharetweet.js') ?> <!-- script de partage d'un tweet : utlisé sur l'accueil, profil, moteur de recherche -->    
+     </div>
+     </div>   
 </body>
 </html>

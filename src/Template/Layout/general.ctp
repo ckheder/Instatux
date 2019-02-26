@@ -1,4 +1,5 @@
 <?php
+use Cake\Routing\Router;
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -12,25 +13,31 @@
  * @since         0.10.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
+  
+  // variable URL
+           $current_url = Router::url(null, false); // url en cours
+  $url_notification = Router::url(['_name' => 'notifications']);// url notification
+  $url_profil = Router::url(['_name' => 'profil', 'username' => $this->request->getParam('username')]);// url profil
+  $url_conv = Router::url(['_name' => 'conversation', 'id' => $this->request->getParam('id')]);// url view tweet
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
+    <title class="titlepage">
+
         <?= $title ?>
         
     </title>
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
-    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'); ?>
+    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
-    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
+    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('jquery-ias.min.js') ?>
     <?= $this->Html->script('//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js'); ?>
@@ -40,10 +47,29 @@
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
     <?= $this->Html->script('/js/nbnotif.js') ?>
     <?= $this->Html->script('/js/search.js') ?>
+    <?= $this->Html->script('/js/modal.js') ?>
     <?= $this->fetch('meta') ?>
 </head>
 <body>
-   <?php if (isset($authName))
+<?php
+$current_user = $this->request->getParam('username'); ?>
+     <div class="container">
+      <p id="etatnotif"></p>
+        <?php
+  if($current_url == $url_profil) // je suis sur un profil quelconque
+    {
+      ?>
+            <div class="cover"><!-- image de couverture -->
+  <!--<img src="https://pbs.twimg.com/profile_banners/702671204/1538668415" class="img-responsive">-->
+  <?= $this->Html->image('media/'.$current_user.'/cover_'.$current_user.'', array('alt' => 'couverture utilisateur', 'class'=>'img-responsive')); ?>
+  </div>
+  <?php
+}
+?>
+          
+          <?= $this->Flash->render() ?>
+<div class="row-no-gutters row-eq-height">
+       <?php if (isset($authName))
   {
   echo  $this->element('onlinemenu') ;
 }
@@ -52,51 +78,68 @@ else
   echo  $this->element('offlinemenu') ;
 }
 ?>
- 
-   <div class="container" style="border:1px solid #cecece;">
-    <p id="etatnotif"></p>
-<?= $this->Flash->render() ?>
-  <div class="row">
-<div class="col-sm-3">
-<br />
-   <?php if (isset($authName)) // je suis authentifié
+<div class="col-md-4">
+
+   <?php
+echo $this->element('modalview');
+echo $this->element('viewlike');
+   if (isset($authName)) // je suis authentifié
   {
 
-    if($this->request->getParam('username')) // si je suis le profil d'une autre personne ou le mien
-
+      if($current_url == $url_profil) // je suis sur un profil quelconque
     {
+
+    echo $this->cell('Info'); // info sur le profil que je visite
+    echo $this->cell('Abonnement', ['authname' => $authName]) ; // test de l'abonnement, blocage vis a vis du profil que je visite
+    echo $this->cell('Media');
     
-     echo $this->cell('Info'); // info sur le profil que je visite
-     echo $this->cell('Abonnement', ['authname' => $authName]) ; // test de l'abonnement, blocage vis a vis du profil que je visite
+
+
     }
 
-    else // info sur moi pour les autres pages que le profil
+    elseif($current_url == $url_notification) // mes paramètres de notifications
     {
-    echo  $this->cell('Info::moi', ['authname' => $authUser]); 
-    echo  $this->cell('Abonnement::moi', ['authname' => $authName]) ;
+      echo $this->cell('Notifications::notifications', ['authname' => $authName]) ;
+      echo $this->element('modalview');
     }  
+        
+       elseif($current_url == $url_conv) // conversation
+    {
+      echo $this->element('conversation');
+    }
   }
 else // je ne suis pas authentifié
 {
+        if($current_url == $url_profil) // je suis sur un profil quelconque
+    {
+
+    echo $this->cell('Info'); // info sur le profil que je visite
+    echo $this->cell('Media');
+
+    }
   echo $this->element('encartinscriptionoffline');
 }
 ?>
 
 </div>
-<div class="col-sm-5">
+<div class="col-md-5">
 
         <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-4">
-<br />
-        <?= $this->cell('Hashtag');?>
+<div class="col-md-3">
         <?php if (isset($authName))
 {
- echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
+  if($current_url == $url_profil) // je suis sur un profil quelconque
+    {
+     echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
+   }
  echo $this->element('modaltweet');
 echo  $this->element('helpmodal');
 }
+
 ?>
+
+
 </div>
 <?= $this->element('modalconnexion') ?>
 <footer>
@@ -107,7 +150,10 @@ echo  $this->element('helpmodal');
           <?= $this->Html->script('blocage.js') ?> <!-- script de blocage d'un utlisateur : utlisé sur l'accueil, profil, moteur de recherche,viewtweet,chat -->
           <?= $this->Html->script('messagerie.js') ?> <!-- message depuis les fenetres modals , la page d'accueil de la messagerie et l'auto completion des abonnements -->
           <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs -->
+          <?= $this->Html->script('screen.js') ?>
 
 
+</div>
+</div>
 </body>
 </html>

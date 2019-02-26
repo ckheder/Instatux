@@ -1,3 +1,51 @@
+//marquer une notif comme lue
+ $(document).on('click','.readnotif',function() {
+
+      var idnotif = $(this).data("idnotif"); // identifiant de la notifi
+
+      var className = $(this).parents( "div" ).attr('class'); // récupération de la class de la div parente du lien
+
+                   $.ajax({
+                url: '/instatux/notification/read/'+ idnotif +'',
+    success: function(data){
+
+
+
+      if(data == 'ok'){ // suppression réussi
+
+  
+
+     $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;&nbsp;Notification marquée comme lue.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+
+        $('.' + className +'[data-idnotif="' + idnotif + '"]').toggleClass("notif_lu");
+        //si decrementation à zero, nouveau message + suppression des options
+
+    }
+        else if(data == 'probleme'){ 
+
+
+     $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible de marquer cette notification comme lue.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+    }
+
+  },
+    error: function(data)
+    {
+            $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible de marquer cette notification comme lue.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+    }
+                
+         });
+});
+//fin marquer une notif comme lue
+
 // marquer les notifications comme lues
     $("#allnotiflue").click(function(){
 
@@ -22,7 +70,7 @@ $('.notif_non_lu').toggleClass("notif_lu");
 // fin marquer les notifications comme lues
 
               var ias = jQuery.ias({
-  container:  '#list_tweet',
+  container:  '#list_notif',
   item:       '.notif_lu, .notif_non_lu',
   pagination: '#pagination',
   next:       '.next'
@@ -41,6 +89,8 @@ $('.notif_non_lu').toggleClass("notif_lu");
       var idnotif = $(this).data("idnotif"); // identifiant de la notifi
 
       var className = $(this).parents( "div" ).attr('class'); // récupération de la class de la div parente du lien
+
+      var nbnotif = $('#nb_notif').text(); // récupération du nombre de notif
     
 
               $.ajax({
@@ -60,6 +110,19 @@ $('.notif_non_lu').toggleClass("notif_lu");
 
 
           $('.' + className +'[data-idnotif="' + idnotif + '"]').remove(); // suppression de la notif
+
+          // décrémentation du nombre de notification
+
+          nbnotif --;
+
+                  $("#nb_notif").empty('').prepend(nbnotif);
+        //si decrementation à zero, nouveau message + suppression des options
+        if(nbnotif == 0)
+        {
+          $(".col-md-5").html('<div class="alert alert-warning text-center"><strong>Aucune notification.</strong></div>');
+          $("#optionnotif").remove();
+                                             
+        }
         
 
     }
@@ -98,7 +161,10 @@ $("#alldeletenotif").click(function(){
           $('#etatnotif').fadeOut("slow");
         }, 2000 );
 
-        $("#list_tweet").empty();
+        $("#list_notif").empty();
+        $(".col-md-5").html('<div class="alert alert-warning text-center"><strong>Aucune notification.</strong></div>');
+        $("#optionnotif").remove();
+
 
     },
     error: function(data)

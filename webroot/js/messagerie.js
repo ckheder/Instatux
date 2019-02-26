@@ -1,10 +1,32 @@
-     // message envoyé depuis la modal sur cell, moteur de recherche et page d'accueild e la messagerie
-
-
+     // message envoyé depuis la modal sur cell,  et page d'accueild e la messagerie
 
     $('#new_message').submit(function(e){
 
       e.preventDefault();
+
+      // test destinataire vide
+
+              if ($.trim($('#autocomplete').val()).length != 0){
+
+                    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Destinataire non renseigné.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+        $('#autocomplete').val('');
+       return false;
+        }
+
+      // test message vide
+
+              if ($.trim($('#textarea_message').val()).length != 0){
+
+                    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Votre message est vide.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+        $('#textarea_message').val('');
+       return false;
+        }
 
         $.ajax({
                 type: 'POST',
@@ -25,13 +47,12 @@
     else  // message envoyé avec succès
     {
 
-
-        var url = 'http://localhost/instatux/conversation-' + data.conv +'';
+      if(data.origin === 1) // redirection parce que je viens de la page de messagerie
+      {
+                var url = 'http://localhost/instatux/conversation-'+ data.conv +'';
     
         window.location.href = url;
-
-
-      
+      }
 
      $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;&nbsp;Message envoyé</span></p>');
         setTimeout(function() {
@@ -72,7 +93,7 @@ html: true,
       })
         .autocomplete( "instance" )._renderItem = function( ul, item ) {
 
-        return $( "<li><div><img src='/instatux/img/"+item.avatar+"'><span>"+item.value+"</span></div></li>" ).appendTo( ul );
+        return $( "<li><div><img src='/instatux/img/avatar/"+item.value+".jpg'><span>"+item.value+"</span></div></li>" ).appendTo( ul );
 
       };
 

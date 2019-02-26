@@ -1,6 +1,8 @@
 <?php
 use Cake\I18n\Time;
-
+?>
+<div id="list_actu_online">
+  <?php
 if(isset($nb_tweet_accueuil))
 {
           
@@ -8,12 +10,6 @@ if(isset($nb_tweet_accueuil))
         }
         else
         {
-
-          ?>
-                <div id="list_tweet">
-                    <?php
-
-
 
              foreach ($abonnement as $abonnement): ?>
             
@@ -43,27 +39,32 @@ if(isset($nb_tweet_accueuil))
               <?php
                           if($abonnement->share == 1) // si c'est un partage
             {
-                echo '<br />';
-                echo  $this->cell('Abonnement::avatar_user', ['user' => $abonnement->user_timeline, 'share' => $abonnement->share, $abonnement]) ; 
+              ?>
+                <br />
+                
+                  <span class="glyphicon glyphicon-share-alt blue_actu"></span>&nbsp;
+<?= $this->Html->image( '/img/avatar/'.$abonnement->user_timeline.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter')) ?>
+<?= $this->Html->link(h($abonnement->user_timeline),'/'.h($abonnement->user_timeline).''); ?>
+&nbsp;à partagé cette publication.<hr>
+<?php
             } 
-            else
-            {
-            echo  $this->Html->image(''.$abonnement->user->avatarprofil.'', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter'));
+     
+            
+            echo  $this->Html->image('/img/avatar/'.$abonnement->user->username.'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-thumbail vcenter'));
             echo  $this->Html->link($abonnement->user->username,'/'.$abonnement->user->username.'',['class' => 'link_username_tweet']) ;?>
             <span class="alias_tweet">@<?=$abonnement->user->username ?></span> - 
-             <?php
-            }
-  ?>
-            <?= $abonnement->created->i18nformat('dd MMMM YYYY'); ?>
-                       
 
+            <?= $abonnement->created->i18nformat('dd MMMM YYYY - HH:mm');
+                      
 
+                $resultat_tweet_contenu = preg_replace('/%23/', '#', $abonnement->contenu_tweet); 
 
-                <?= $this->Text->autoParagraph($abonnement->contenu_tweet); ?>
+                
+                echo $resultat_tweet_contenu ?>
 
                 <span class="nb_like"><span class="glyphicon glyphicon-heart" style="vertical-align:center"></span> <span id="compteur_like-<?= $abonnement->id ;?>"><?= $abonnement->nb_like ;?></span></span>
 
-                <span class="nb_comm_share"><?= $abonnement->nb_commentaire ?> commentaire(s) - <?= $abonnement->nb_partage ?> partage(s)</span>
+                <span class="nb_comm_share"><span class="profilnbcomm_<?= $abonnement->id_tweet ;?>"><?= $abonnement->nb_commentaire ?></span> commentaire(s) - <?= $abonnement->nb_partage ?> partage(s)</span>
                 <br />
                 <br />
                 <span class="link_comm_share">
@@ -82,8 +83,10 @@ if(isset($nb_tweet_accueuil))
                   ?>
 
                 <span class="glyphicon glyphicon-comment" style="vertical-align:center"></span> 
-              <?php
-                    echo $this->Html->link('Commenter ', ['action' => 'view',  $abonnement->id]); 
+ 
+
+                                    <a href="" data-idtweet="<?= $abonnement->id_tweet ;?>" data-toggle="modal" data-target="#viewtweet" data-remote="false" onclick="return false;">Commenter</a>
+                                    <?php
 
              }
                ?>
@@ -98,7 +101,7 @@ if(isset($nb_tweet_accueuil))
               
                 
 
-                <a href="#" data-idtweet="<?= $abonnement->id ;?>" data-auteurtweet="<?= $abonnement->user_id ;?>" title="Partager"  class="addshare" onclick="return false;">Partager</a>
+                <a href="#" data-idtweet="<?= $abonnement->id_tweet ;?>" data-auteurtweet="<?= $abonnement->user_id ;?>" title="Partager"  class="addshare" onclick="return false;">Partager</a>
               </span>
 
                 <?php
@@ -107,11 +110,8 @@ if(isset($nb_tweet_accueuil))
 ?>
 </span>
             </div>
-            <?php endforeach; 
-            echo '</div>';
-
-?>
-
+            <?php endforeach; ?>
+           
 
             <div id="pagination">
 
@@ -126,7 +126,7 @@ if(isset($nb_tweet_accueuil))
  <?php         
 
         } ?>
-
+ </div>
 
 <?= $this->Html->script('onlinenews.js') ?>
 

@@ -22,10 +22,12 @@ class CommentairesController extends AppController
         
          if ($this->request->is('ajax')) {
 
+
+
             if ($this->allowcomm($this->request->data('id')) == 1) // test commentaire désactivé sur l'id du tweet
             {
                                 $reponse = 'commdesac';
-                $this->response->body($reponse);
+                $this->response->body(json_encode($reponse));
 
             }
 
@@ -49,7 +51,6 @@ class CommentairesController extends AppController
             'auttweet' => $this->request->data('auttweet'), // auteur du tweet, pas du comm
             'user_session' => $this->Auth->user('id'), // id de session
             'nom_session' => $this->Auth->user('username'),//nom de session
-            'avatar_session' => $this->Auth->user('avatarprofil')
             );
             $commentaire = $this->Commentaires->patchEntity($commentaire, $data);
 
@@ -74,7 +75,7 @@ class CommentairesController extends AppController
 
             } else {
                 $reponse = 'probleme';
-                $this->response->body($reponse);
+                $this->response->body(json_encode($reponse));
 
             }
 
@@ -146,22 +147,45 @@ $this->response->body(json_encode($data));
 
       if ($this->request->is('ajax')) {
 
-                            $query = $this->Commentaires->query();
-            $query->delete()
-    ->where(['user_id' => $this->Auth->user('id')])
-    ->where(['id' => $this->request->getParam('id')])
-    ->execute();
+        //idtweet ->$this->request->data('idtweet');
+        //idcomm -> $this->request->data('idtweet');
+
+// je vérifie si je suis bien le propriétaire du commentaire
+
+
+
+      $query = $this->Commentaires->find()
+      ->where(['Commentaires.user_id' => $this->Auth->user('id')])  
+      ->orWhere(['Tweet.user_id' => $this->Auth->user('username')])
+      ->orWhere(['Tweet.user_timeline' => $this->Auth->user('username')])
+      ->andWhere([
+        'Tweet.id_tweet' => $this->request->data('idtweet')       
+    ])
+      ->contain(['Tweet']);
+
+      if($query->isEmpty())
+      {
+        $reponse = 'suppcommfail';
+      }
+      else
+      {
+
+        $entity = $this->Commentaires->get($this->request->data('idcomm'));
+$result = $this->Commentaires->delete($entity);
  
-            if ($query) 
+            if ($result) 
             {
                $reponse = 'suppcommok';
             }
-            else 
+            else
             {
-
-                $reponse = 'suppcommfail';
+              $reponse = 'suppcommfail';
             }
-                        $this->response->body($reponse);
+        }
+
+
+
+                        $this->response->body(json_encode($reponse));
     return $this->response;
         
 }
@@ -190,9 +214,9 @@ $this->response->body(json_encode($data));
         $tweet);
 
 $tweet =  preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt=":$1:" class="emoji_comm"/>', $tweet); // emoji
-    $tweet =  preg_replace('/#([^\s]+)/',
-        '<a href="../search-%23$1">#$1</a>',
-        $tweet);
+    $tweet =  preg_replace('/#([^\s]+)/','<a href="../search/hashtag/$1">#$1</a>', $tweet);
+       
+       
 
    $tweet = preg_replace("/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))/",
         '<a href="$0">$0</a>',$tweet);
@@ -223,7 +247,7 @@ private function allowcomm($idtweet) // test de l'activation des commentaires
 {
     $this->loadModel('Tweet');
 
-    $allowcomment = $this->Tweet->find()->select(['allow_comment'])->where(['id' => $idtweet]);
+    $allowcomment = $this->Tweet->find()->select(['allow_comment'])->where(['id_tweet' => $idtweet]);
 
         foreach ($allowcomment as $allowcomment) // recupération du résultat
                 {

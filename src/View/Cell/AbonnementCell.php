@@ -81,46 +81,37 @@ $this->set('etat_blocage', $blocage);
 
 
 
-
-        public function moi($authname)
+    public function test_abo_search($authname, $suivi) // test de l'abonnement sur le moeteur de recherche
     {
 
         $this->loadModel('Abonnement');
+        $abonnement = $this->Abonnement->find()->select(['etat'])
+->where([
+
+'user_id' =>  $authname
+
+            ])
+        ->where(['suivi'=> $suivi]);
         
-// partie nombre d'abonnes de moi
-
-   $nb_abonnes = $this->Abonnement->find()->where(['suivi' => $authname])->Where(['etat'=> 1])->count();
-
-$this->set('nb_abonnes',$nb_abonnes);
-      
-    // partie nombre d'abonnement  de moi
-
-$nb_abonnement = $this->Abonnement->find()->where(['user_id' => $authname])->Where(['etat'=> 1])->count();
-
-$this->set('nb_abonnement',$nb_abonnement);  
-        
-    }
-
-         public function avatar_user($user, $share,$abonnement) // avatar de l'utilisateur abonné sur l'accueuil dans le cas d'un partage
-    {
-        $this->loadModel('Users');
-        $avatar_user = $this->Users->find();
-        $avatar_user->select(['avatarprofil'])
-        ->where(['username' => $user ]);
-        
-        $this->set('avatar_user',$avatar_user);
-        $this->set('user', $user);
-        $this->set('abonnement', $abonnement);
-
-        if($share == 1)
+        if ($abonnement->isEmpty()) 
         {
-            $this->set('share', $share);
-        }
+   $this->set('abonnement',2);
+}
+else
+{
+    
+                    foreach ($abonnement as $abonnement) // 0 -> demande, 1 -> abonnement validé
+                {
+                $etat_abo = $abonnement['etat'];
+                }
+     $this->set('abonnement',$etat_abo);
 
-        
+}
+
+$this->set('suivi', $suivi);
     }
 
-    public function test_abo($authname, $suivi) // test de l'abonnement sur le moeteur de recherche
+        public function test_abo_like($authname, $suivi) // test de l'abonnement sur les likes
     {
 
         $this->loadModel('Abonnement');
@@ -166,12 +157,22 @@ $this->set('suivi', $suivi);
     public function suggestionmoi($authname)
     {
          $this->loadModel('Users');
-        $suggestionmoi = $this->Users->find()->select(['username','avatarprofil'])->where(['username NOT IN' =>  $this->mesabonnes($authname)])
+        $suggestionmoi = $this->Users->find()->select(['username'])->where(['username NOT IN' =>  $this->mesabonnes($authname)])
         ->where(['username !=' => $authname])
     
         ->limit(5);
 
         $this->set('suggestionmoi', $suggestionmoi);
+    }
+
+    public function testblocage($authname, $suivi)
+    {
+        $this->loadModel('Blocage');
+
+$blocage = $this->Blocage->find()->where(['bloqueur' => $authname])->where(['bloquer' => $suivi])->count();
+
+$this->set('blocage', $blocage);
+$this->set('suivi', $suivi);
     }
 
 

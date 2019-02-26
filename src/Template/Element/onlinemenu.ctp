@@ -13,14 +13,12 @@
         <li><a href="/instatux/accueuil"><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;Actualités</a></li>
 
              <li><a href="/instatux/notifications" title="Notifications"><span class="glyphicon glyphicon-bell"></span><span id="count_nb_notif"></span>&nbsp;Notifications</a></li>
-     <li><a href="/instatux/messagerie" title="Messagerie"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;Messagerie</a></li>
+     <li><a href="/instatux/messagerie" title="Messagerie"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;Messagerie
+     </a></li>
         
-          
+        
 
       </ul>
-
-
-    
 
       <ul class="nav navbar-nav navbar-right">
         
@@ -43,22 +41,21 @@
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#ModalTweet',
                   'data-backdrop'=>'static',
-                   'data-keyboard'=> 'false',
+                  'data-keyboard'=> 'false',
                   'class' => 'btn btn-info navbar-btn',
                   'type' => 'button']);
                   ?> </li>
  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-cog"></span></a>
 
 
+
         <ul class="dropdown-menu">
           <li><a href="/instatux/settings">Paramètres</a></li>
           <li><a href="/instatux/abonnement/<?= $authName ;?>">Abonnements</a></li>
           <li><a href="/instatux/logout">Déconnexion</a> </li>
-        </ul>    
-      
-</li>
-
-      </ul>
+        </ul> 
+        </li>
+        </ul>
     </div>
   </div>
 </nav>

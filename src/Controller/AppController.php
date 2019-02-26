@@ -69,8 +69,6 @@ class AppController extends Controller
         $this->Auth->allow(['index', 'view', 'display']);
         $this->set('authUser', $this->Auth->user('id')); // id du connecté
         $this->set('authName', $this->Auth->user('username')); // nom du connecté
-        $this->set('authAvatar', $this->Auth->user('avatarprofil')); // avatar du connecté
-        
 
     }
 

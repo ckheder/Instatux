@@ -30,7 +30,7 @@ Vous pouvez annuler ces abonnements depuis cette page ou depuis le profil de la 
             <?php foreach ($abonnement_valide as $abonnement_valide): ?>
           <div class="liste_abo" data-username="<?= $abonnement_valide->Users['username'] ;?>">
                 
-            <?= $this->Html->image(''.$abonnement_valide->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>' img-thumbnail vcenter', 'title' => ''.h($abonnement_valide->Users['username']).'')) ?>
+            <?= $this->Html->image('/img/avatar/'.$abonnement_valide->Users['username'].'.jpg', array('alt' => 'image utilisateur', 'class'=>' img-thumbnail vcenter', 'title' => ''.h($abonnement_valide->Users['username']).'')) ?>
 
             <?= $this->Html->link(''.h($abonnement_valide->Users['username']).'','/'.h($abonnement_valide->Users['username']).'',['class' => 'link_username_tweet','escape' => false]) ?>
 

@@ -4,17 +4,6 @@
 <br />
 Vous pouvez accepter ou refuser les demandes d'abonnements depuis cette page.
     </div>      
-                            <?= $this->Paginator->limitControl([10 => 10, 30 => 30]); ?>
-
-                          <div class="pagination">
-    <ul class="pagination">
-            <?php
-                echo $this->Paginator->prev(__('page précédente'), array('tag' => 'li'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
-                echo $this->Paginator->numbers(array('separator' => '','currentTag' => 'a', 'currentClass' => 'active','tag' => 'li','first' => 1));
-                echo $this->Paginator->next(__('page suivante'), array('tag' => 'li','currentClass' => 'disabled'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
-            ?>
-        </ul>
-    </div>
 
            <?php
  // partie mes demandes reçues
@@ -31,7 +20,7 @@ Vous pouvez accepter ou refuser les demandes d'abonnements depuis cette page.
             // abonnement attente //
  foreach ($abonnement_attente as $abonnement_attente):?>
         <div class="tweet" data-username="<?= $abonnement_attente->Users['username'] ;?>">
-                          <?= $this->Html->image(''.$abonnement_attente->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter')) ?>
+                          <?= $this->Html->image('/img/avatar/'.$abonnement_attente->Users['username'].'.jpg', array('alt' => 'image utilisateur', 'class'=>'img-circle vcenter')) ?>
                          
 <?= $this->Html->link(h($abonnement_attente->Users['username']),'/'.h($abonnement_attente->Users['username']).'');
                
@@ -40,22 +29,20 @@ Vous pouvez accepter ou refuser les demandes d'abonnements depuis cette page.
                </span>
               </div>
                <?php  endforeach; ?>
+               <div class="text-center">
                           <div class="pagination pagination-large">
     <ul class="pagination">
             <?php
                 echo $this->Paginator->prev(__('page précédente'), array('tag' => 'li'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
-                echo $this->Paginator->numbers(array('separator' => '','currentTag' => 'a', 'currentClass' => 'active','tag' => 'li','first' => 1));
+                echo $this->Paginator->numbers(array('separator' => ' - ','currentTag' => 'a', 'currentClass' => 'active','tag' => 'li','first' => 1));
                 echo $this->Paginator->next(__('page suivante'), array('tag' => 'li','currentClass' => 'disabled'), null, array('tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
             ?>
         </ul>
     </div>
+  </div>
     <?php
         }
 
-
-// fin partie mes demandes reçues
-
-// partie mes demandes envoyés
          ?>
 
 

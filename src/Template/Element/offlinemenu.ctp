@@ -34,7 +34,7 @@
      <?= $this->Form->button('Connexion', 
                 [ 'data-toggle' => 'modal',
                   'data-target' => '#ModalConnexion',
-                  'class' => 'btn btn-primary navbar-btn',
+                  'class' => 'btn btn-primary navbar-btn btnlogin',
                   'type' => 'button']);
                   ?>&nbsp;&nbsp;
       

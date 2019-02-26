@@ -33,6 +33,6 @@ endif;
 ?>
 <h2><?= h($message) ?></h2>
 <p class="error">
-    <strong><?= __d('cake', 'Error') ?>: </strong>
-    <?= __d('cake', 'The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>") ?>
+    <h3><strong><?= __d('cake', 'Error') ?>: </strong>
+    <?= __d('cake', 'La page demandée {0} n\'a pas était trouvé.', "<strong>'{$url}'</strong>") ?></h3>
 </p>

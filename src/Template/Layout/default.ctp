@@ -20,32 +20,48 @@ $cakeDescription = ' Instatux. Ce qu\'il se passe.';
 <html>
 <head>
     <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <title>
         <?= $cakeDescription ?>
         
     </title>
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
-    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'); ?>
+    <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
         <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
-    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'); ?>
+    <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
     <?= $this->Html->script('/js/search.js') ?>
     <?= $this->fetch('meta') ?>
 
 </head>
-<body>
-<?= $this->element('accueilmenu')?>
 
+<body>
+
+
+   <div class="container" style="border: 1px solid #cecece;">
+
+        
+  <div class="row-no-gutters">
+    <?= $this->element('accueilmenu')?>
+    <?= $this->Flash->render() ?>
+         <div class="col-sm-6">
    
         <?= $this->fetch('content') ?>
 
-
-<footer>
+</div>
+<div class="col-sm-6">
+ <?= $this->element('join')?>
+    </div>
+    <footer class="footer">
+  <div>
+   <a href="#">Conditions d'utilisation - </a><a  href="https://github.com/ckheder/Instatux">Contribuer - </a><a href="#">Contact</a>
+  </div>
     </footer>
+</div>
+</div>
 </body>
 </html>

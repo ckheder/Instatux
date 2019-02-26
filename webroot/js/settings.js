@@ -18,13 +18,18 @@ var action; // sera utilisé pour déterminer quelle notification sera modifié
 var choix; // sera utilisé pour déterminer le choix de notification : oui ou non
 
         // notif de message
-    $( "button" ).click(function(e){
+    $('button').click(function(e){
 
       action = $(this).parent().data("action"); // on récupère l'action du parent : message, abo, comm
 
-      choix  = $(this).val(); // valeur du bouton cliqué : oui ou non
+      if (typeof action !== 'undefined') {
+
+
+                    choix  = $(this).val(); // valeur du bouton cliqué : oui ou non
 
       update_preference_notif(action, choix) // on apelle la fonction de mise à jour
+            }
+
       });
 
     function update_preference_notif(action, choix) // action : message,comm,abo,... choix : oui/non
@@ -79,7 +84,7 @@ $(document).on('click','#setupprofil',function() {
           $('.notif').fadeOut("slow");
         }, 2000 );
 
-        document.getElementById('etatprofil').innerHTML = '<p class="text-success"><br />Tous le monde peut voir vos publications.<br /><br />Les demandes d \'abonnement seront acceptés automatiquement.</p><div class="text-center"><a href="#"  data-action="prive" title="Rendre mon profil privé"  id="setupprofil" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Rendre mon profil privé</a></div>';
+        document.getElementById('etatprofil').innerHTML = '<p class="text-success"><br />&nbsp;Tous le monde peut voir vos publications.<br /><br />&nbsp;Les demandes d \'abonnement seront acceptés automatiquement.</p><br /><div class="text-center"><a href="#"  data-action="prive" title="Rendre mon profil privé"  id="setupprofil" class="btn btn-danger" onclick="return false;"><span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Rendre mon profil privé</a></div>';
 
     }
         else if(data == 'profilpriveok'){ // profil devenu privé avec succès
@@ -90,7 +95,7 @@ $(document).on('click','#setupprofil',function() {
           $('.notif').fadeOut("slow");
         }, 2000 );
 
-        document.getElementById('etatprofil').innerHTML = '<p class="text-danger"><br />Seules vos abonnés voient vos publications.<br /><br />Vous pouvez choisir d\'accepter ou non une demande d\'abonnement.</p><div class="text-center"><a href="#"  data-action="public" title="Rendre mon profil public"  id="setupprofil" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Rendre mon profil public</a></div>'  ;
+        document.getElementById('etatprofil').innerHTML = '<p class="text-danger"><br />&nbsp;Seules vos abonnés voient vos publications.<br /><br />&nbsp;Vous pouvez choisir d\'accepter ou non une demande d\'abonnement.</p><br /><div class="text-center"><a href="#"  data-action="public" title="Rendre mon profil public"  id="setupprofil" class="btn btn-success" onclick="return false;"><span class="glyphicon glyphicon-ok-circle"></span>&nbsp;Rendre mon profil public</a></div>'  ;
 
 }
     else if(data == 'problème'){
@@ -119,6 +124,8 @@ $(document).on('click','#setupprofil',function() {
 
 // mise à jour informations
 
+//partie avatar
+
 $("#inputfile").on('change', function (event) {
 
 
@@ -126,7 +133,7 @@ $("#inputfile").on('change', function (event) {
      var size = $(this)[0].files[0].size;
      var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
 
-     if (extn == "jpg" || extn == "jpeg") { // fichier jpg/jpeg
+     if (extn == "jpg" || extn == "jpeg" || extn == "png") { // fichier jpg/jpeg/png
        if(size <= 3047171) // taille inférieur ou égale à 3mo
        {
          if (typeof (FileReader) != "undefined") { // si vieux navigateur
@@ -152,7 +159,7 @@ $('.notif').fadeOut("slow");
 }, 2000 );
        }
      } else {
-       $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Seules les images jpg sont autorisées.</span></p>');
+       $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-remove red" style="vertical-align:center"></span>&nbsp;Seules les images jpg/png sont autorisées.</span></p>');
 setTimeout(function() {
 $('.notif').fadeOut("slow");
 }, 2000 );

@@ -31,7 +31,7 @@ N'hésitez pas à bloquer depuis cette page ceux dont vous ne voulez pas qu'ils 
             <?php foreach ($abonne_valide as $abonne_valide): ?>
           <div class="liste_abo">
 
-            <?= $this->Html->image(''.$abonne_valide->Users['avatarprofil'].'', array('alt' => 'image utilisateur', 'class'=>' img-thumbnail vcenter', 'title' => ''.h($abonne_valide->Users['username']).'')) ?>
+            <?= $this->Html->image('/img/avatar/'.$abonne_valide->Users['username'].'.jpg', array('alt' => 'image utilisateur', 'class'=>' img-thumbnail vcenter', 'title' => ''.h($abonne_valide->Users['username']).'')) ?>
             
             <?= $this->Html->link(''.h($abonne_valide->Users['username']).'','/'.h($abonne_valide->Users['username']).'',['class' => 'link_username_tweet','escape' => false]) ?>
 
@@ -39,10 +39,13 @@ N'hésitez pas à bloquer depuis cette page ceux dont vous ne voulez pas qu'ils 
              <?php
                         if($this->request->getParam('username') == $authName) // si je suis sur mon compte
 {
+
 ?>
+<span id="etatblocageabonnes">
 
-             <a href="#" data-username="<?= $abonne_valide->Users['username'] ;?>" data-action="add" title="Bloquer <?= $abonne_valide->Users['username'] ;?>"  id="addblock" class="link_delete_abo" onclick="return false;">Bloquer</a>
+  <?= $this->cell('Abonnement::testblocage', ['authname' => $authName, 'suivi' => $abonne_valide->Users['username']]) ; ?>
 
+</span>
      <?php
      }
      ?>         

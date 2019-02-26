@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 09 Novembre 2018 à 15:10
--- Version du serveur :  10.2.18-MariaDB-10.2.18+maria~xenial
--- Version de PHP :  7.1.23-4+ubuntu16.04.1+deb.sury.org+1
+-- Généré le :  Jeu 21 Février 2019 à 10:35
+-- Version du serveur :  10.2.22-MariaDB-10.2.22+maria~xenial
+-- Version de PHP :  7.1.26-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -38,8 +38,9 @@ CREATE TABLE `abonnement` (
 --
 
 INSERT INTO `abonnement` (`id`, `user_id`, `suivi`, `etat`) VALUES
-(605, 'test', 'osefman', 1),
-(607, 'osefman', 'test', 1);
+(660, 'test', 'osefman', 1),
+(636, 'test', 'essai', 0),
+(635, 'osefman', 'test', 1);
 
 -- --------------------------------------------------------
 
@@ -50,25 +51,21 @@ INSERT INTO `abonnement` (`id`, `user_id`, `suivi`, `etat`) VALUES
 CREATE TABLE `aime` (
   `id` int(111) NOT NULL,
   `username` varchar(255) NOT NULL,
-  `tweet_aime` int(11) NOT NULL
+  `tweet_aime` int(11) NOT NULL,
+  `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `aime`
 --
 
-INSERT INTO `aime` (`id`, `username`, `tweet_aime`) VALUES
-(233, 'essai', 249),
-(234, 'essai', 248),
-(235, 'essai', 242),
-(240, 'essai', 250),
-(256, 'test', 252),
-(268, 'test', 250),
-(279, 'test', 242),
-(289, 'essai', 325),
-(291, 'test', 390),
-(309, 'test', 392),
-(313, 'test', 325);
+INSERT INTO `aime` (`id`, `username`, `tweet_aime`, `created`) VALUES
+(406, 'osefman', 617954580, '2019-02-12 10:34:10'),
+(411, 'essai', 617954580, '2019-02-08 10:06:51'),
+(414, 'test', 1666176494, '2019-02-14 20:52:44'),
+(457, 'test', 363060505, '2019-02-21 10:03:10'),
+(460, 'test', 1536874538, '2019-02-21 10:05:58'),
+(490, 'test', 1327034712, '2019-02-21 10:30:45');
 
 -- --------------------------------------------------------
 
@@ -102,56 +99,8 @@ CREATE TABLE `commentaires` (
 --
 
 INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`, `edit`) VALUES
-(831, 'test <img src="/instatux/img/emoji/trollface.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:16:26', 1),
-(830, 'gg <img src="/instatux/img/emoji/stuck_out_tongue_winking_eye.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:14:10', 1),
-(829, 'et là', '325', '17', '2018-06-11 10:13:01', 0),
-(828, 'test', '325', '17', '2018-06-11 10:12:20', 0),
-(827, 'osefman', '325', '17', '2018-06-11 10:12:07', 0),
-(826, 'osefman', '325', '17', '2018-06-11 10:11:43', 0),
-(825, 'cb', '325', '17', '2018-06-11 10:10:13', 0),
-(824, 'essai 3', '325', '17', '2018-06-11 10:09:33', 0),
-(823, 'essai 2', '325', '17', '2018-06-11 10:08:50', 0),
-(822, 'essai', '325', '17', '2018-06-11 10:06:55', 0),
-(821, 'test', '325', '17', '2018-06-10 21:59:54', 0),
-(820, 'vpyons', '325', '17', '2018-06-10 21:59:49', 0),
-(819, 'test', '325', '17', '2018-06-10 21:58:49', 0),
-(742, ' cvb', '325', '17', '2018-06-08 14:45:23', 0),
-(740, ' cvb', '325', '17', '2018-06-08 14:45:22', 0),
-(741, ' cvb', '325', '17', '2018-06-08 14:45:23', 0),
-(738, ' cvb', '325', '17', '2018-06-08 14:45:22', 0),
-(739, ' cvb', '325', '17', '2018-06-08 14:45:22', 0),
-(726, ' cvb', '325', '17', '2018-06-08 14:45:20', 0),
-(762, 'test', '325', '17', '2018-06-08 17:54:16', 0),
-(761, 'test', '325', '17', '2018-06-08 17:54:16', 0),
-(760, 'dsf', '325', '17', '2018-06-08 14:54:27', 0),
-(759, 'fr', '325', '17', '2018-06-08 14:54:14', 0),
-(758, 'fr', '325', '17', '2018-06-08 14:54:14', 0),
-(752, 'test', '325', '17', '2018-06-08 14:51:04', 0),
-(735, ' cvb', '325', '17', '2018-06-08 14:45:21', 0),
-(736, ' cvb', '325', '17', '2018-06-08 14:45:21', 0),
-(737, ' cvb', '325', '17', '2018-06-08 14:45:22', 0),
-(724, ' cvb', '325', '17', '2018-06-08 14:45:19', 0),
-(688, 'osef', '325', '17', '2018-06-06 10:25:00', 0),
-(687, 'test', '325', '17', '2018-06-06 10:24:46', 0),
-(686, 'wxc', '325', '17', '2018-06-06 10:24:40', 0),
-(685, 'lol', '325', '17', '2018-06-06 10:21:16', 0),
-(725, ' cvb', '325', '17', '2018-06-08 14:45:20', 0),
-(683, 'gg', '325', '17', '2018-06-06 10:21:07', 0),
-(722, 'gg', '325', '17', '2018-06-08 14:41:40', 0),
-(751, 'fr', '325', '17', '2018-06-08 14:49:38', 0),
-(719, 'de', '325', '17', '2018-06-08 09:53:12', 0),
-(720, 'cdf', '325', '17', '2018-06-08 09:53:16', 0),
-(721, 'test', '325', '17', '2018-06-08 14:39:02', 0),
-(677, 'test', '325', '17', '2018-06-05 17:02:40', 0),
-(67965497, 'fre   <img src="/instatux/img/emoji/clap.png" alt=":clap:" class="emoji_comm"/>', '325', '17', '2018-07-14 15:00:34', 1),
 (290939056, 'osef', '325', '18', '2018-07-14 14:56:46', 0),
 (1334880537, 'moi', '325', '63', '2018-07-14 14:59:33', 0),
-(716, 'fr', '325', '17', '2018-06-08 09:15:19', 0),
-(717, 'test', '325', '17', '2018-06-08 09:51:47', 0),
-(670, 'cv', '325', '17', '2018-06-05 15:26:55', 0),
-(723, ' cvb', '325', '17', '2018-06-08 14:45:19', 0),
-(413, 'sdf', '325', '17', '2018-05-03 14:35:16', 0),
-(407, 'sdf', '325', '17', '2018-05-03 14:35:16', 0),
 (393, 'test 5', '336', '18', '2018-03-21 14:39:31', 0),
 (392, 'test 5', '336', '18', '2018-03-21 14:39:31', 0),
 (391, 'test 5', '336', '18', '2018-03-21 14:39:30', 0),
@@ -160,100 +109,54 @@ INSERT INTO `commentaires` (`id`, `comm`, `tweet_id`, `user_id`, `created`, `edi
 (388, 'test 3', '336', '18', '2018-03-21 14:37:58', 0),
 (387, 'test 2', '336', '18', '2018-03-21 10:28:07', 0),
 (386, 'test', '336', '18', '2018-03-21 10:16:28', 0),
-(362, 'test', '336', '17', '2018-03-12 15:04:29', 0),
-(363, 'teret', '336', '17', '2018-03-12 21:15:52', 0),
-(364, 'beuhihan', '336', '17', '2018-03-12 21:16:39', 0),
 (365, 'wtf ?', '336', '18', '2018-03-12 21:16:44', 0),
-(832, 'test <img src="/instatux/img/emoji/rage.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:45:19', 1),
-(833, 'gt <img src="/instatux/img/emoji/dizzy_face.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:45:24', 1),
-(834, 'osef <img src="/instatux/img/emoji/laughing.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:45:42', 1),
-(835, 'xcwc <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-11 10:46:32', 1),
-(836, 'mon comm <img src="/instatux/img/emoji/confused.png" alt="" class="emoji_comm"/>:', '325', '17', '2018-06-11 10:46:54', 1),
-(396623746, 'test <img src="/instatux/img/emoji/bowtie.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-12 09:29:43', 1),
-(2018752444, 'ghj <img src="/instatux/img/emoji/dizzy_face.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-12 10:32:51', 1),
-(1637704706, 'test', '325', '17', '2018-06-12 10:34:03', 1),
-(1789336374, 'gg', '325', '17', '2018-06-19 14:32:26', 0),
-(1284104919, 'test', '325', '17', '2018-06-19 14:33:00', 0),
-(1126997285, 'rebug ?', '325', '17', '2018-06-19 14:33:26', 0),
-(43903217, 'test', '390', '17', '2018-06-14 10:43:14', 0),
-(1150172858, 'french', '390', '18', '2018-06-14 10:43:42', 0),
-(1027986348, 'test', '390', '17', '2018-06-14 10:44:18', 0),
-(1692103555, 'alors ?', '390', '18', '2018-06-14 10:46:45', 0),
-(1343230564, 'arggg', '390', '18', '2018-06-14 10:49:57', 0),
 (295569070, 'tin', '325', '18', '2018-06-19 17:32:59', 0),
-(1360565439, 'lol', '325', '17', '2018-06-19 14:31:39', 0),
-(1916399052, 'lol', '325', '17', '2018-06-19 14:31:35', 0),
-(771569778, 'test', '325', '17', '2018-06-19 17:33:18', 0),
-(1055510937, 'felkon', '325', '17', '2018-06-19 17:34:10', 1),
 (1976844812, 'ah ben ça marche, modif wtf', '325', '18', '2018-06-19 17:34:19', 1),
-(1351168884, 'hen', '325', '17', '2018-06-19 17:34:32', 1),
 (1441466898, 'bug', '325', '18', '2018-06-19 17:37:57', 0),
-(263120729, 'comm ?', '325', '17', '2018-06-19 19:50:36', 0),
-(1386374175, 'comm ok ?', '325', '17', '2018-06-20 10:12:53', 0),
 (498473387, 'test', '325', '18', '2018-06-20 10:13:18', 0),
-(658387918, 'oui ben comm ok <img src="/instatux/img/emoji/heart_eyes.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 10:13:24', 1),
-(1370837179, 'new comm', '325', '17', '2018-06-20 10:14:26', 0),
-(1335190183, 'yo vivaldi on ets nul ?', '325', '17', '2018-06-20 10:20:14', 1),
 (1977003712, 'bug vivaldi', '325', '18', '2018-06-20 10:20:44', 0),
-(918496256, 'hein ? 2', '325', '17', '2018-06-20 10:21:02', 1),
-(564640525, 'new', '325', '17', '2018-06-20 14:35:28', 0),
-(240989083, 'test 6', '325', '17', '2018-06-20 10:21:52', 1),
-(1708241529, 'erf 5', '325', '17', '2018-06-20 10:22:28', 1),
-(272504557, 'erf 3', '325', '17', '2018-06-20 10:22:35', 1),
-(458474222, 'osef <img src="/instatux/img/emoji/fearful.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 14:35:32', 1),
-(316078881, 'test bh', '325', '17', '2018-06-20 14:31:27', 1),
-(414880554, 'ta race vivaldi <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 14:42:12', 1),
-(601490146, 'comm', '325', '17', '2018-06-20 11:03:21', 0),
-(2087830383, 'va chier  <img src="/instatux/img/emoji/bowtie.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 11:04:36', 1),
-(1851223844, 'hein 4', '325', '17', '2018-06-20 11:05:26', 1),
-(1192168119, 'node de merde', '325', '17', '2018-06-20 14:25:25', 1),
-(254672366, 'add 2', '325', '17', '2018-06-25 14:41:37', 0),
-(414248952, 'erreur ? bgh', '325', '17', '2018-06-20 14:59:43', 1),
 (882934463, 'buggué', '325', '18', '2018-06-20 15:00:17', 0),
-(189746303, 'erreur ? <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 15:02:16', 1),
-(121858191, 'test', '325', '17', '2018-06-20 14:36:43', 0),
-(393289133, 'lol', '325', '17', '2018-06-20 14:36:49', 0),
-(958543512, 'comprend rien <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 14:37:42', 1),
-(842495140, 'rah$', '325', '17', '2018-06-20 14:38:10', 0),
-(1933014971, 'xsd osef', '325', '17', '2018-06-20 14:38:17', 1),
 (746665536, 'pff <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '18', '2018-06-20 15:05:08', 1),
-(1741614609, 'ah ', '325', '17', '2018-06-20 15:05:19', 0),
-(634984492, 'test', '325', '17', '2018-06-20 16:40:57', 0),
-(1661270938, 'hein <img src="/instatux/img/emoji/satisfied.png" alt="" class="emoji_comm"/>', '325', '17', '2018-06-20 16:41:04', 1),
 (1167160060, 'osef <img src="/instatux/img/emoji/bowtie.png" alt="" class="emoji_comm"/>', '325', '18', '2018-06-20 16:41:46', 1),
-(500878733, 'add <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/>', '325', '17', '2018-06-25 14:41:24', 1),
-(1115873060, 'pff', '390', '63', '2018-06-21 10:20:17', 0),
 (272897399, 'erf', '325', '63', '2018-06-25 14:43:29', 0),
-(598981740, 'erf', '390', '63', '2018-06-21 10:37:02', 0),
-(1285147589, 'test 3   <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/> <img src="/instatux/img/emoji/kissing_heart.png" alt=":kissing_heart:" class="emoji_comm"/>', '325', '17', '2018-06-21 15:04:59', 1),
-(1142576330, 'test', '325', '17', '2018-06-24 14:43:58', 0),
-(195952293, 'https://stackoverflow.com/questions/46349478/socket-emit-to-specific-rooms', '325', '17', '2018-06-28 11:11:54', 0),
-(321858438, '<a href="../essai">@essai</a> lol  <img src="/instatux/img/emoji/laughing.png" alt="laughing" class="emoji_comm"/> #facebook', '325', '17', '2018-06-30 18:51:03', 0),
-(1162050751, '<a href="../essai">@essai</a> osef <a href="../search-%23facebook">#facebook</a>  <img src="/instatux/img/emoji/kissing_heart.png" alt="kissing_heart" class="emoji_comm"/> <img src="/instatux/img/emoji/blush.png" alt="blush" class="emoji_comm"/>', '325', '17', '2018-06-30 18:55:03', 0),
 (1915498756, 'osefman ?', '325', '63', '2018-07-14 14:56:20', 0),
-(1296962333, 'moi', '325', '17', '2018-07-14 14:56:30', 0),
 (825724234, 'dfgh', '325', '18', '2018-07-14 14:22:12', 0),
-(694580492, 'test', '321', '18', '2018-07-14 10:53:04', 0),
 (642223717, 'ghkl', '325', '18', '2018-07-14 14:22:16', 0),
 (1013530438, 'xcv', '325', '18', '2018-07-14 14:26:03', 0),
-(1930367681, 'rte', '325', '17', '2018-07-14 14:27:28', 0),
-(733471708, 'test', '325', '17', '2018-07-14 14:29:08', 0),
-(988472199, 'tester', '325', '17', '2018-07-14 14:51:36', 0),
 (1294495213, 'osef', '325', '63', '2018-07-14 14:52:42', 0),
-(1721224420, 'test', '325', '17', '2018-07-14 14:55:32', 0),
-(1347539550, 'test', '325', '17', '2018-07-14 10:54:29', 0),
-(760570809, 'sf', '325', '17', '2018-07-14 10:57:57', 0),
 (1002771262, 'sdfp', '325', '63', '2018-07-14 10:58:44', 0),
-(1401118478, 'test', '325', '17', '2018-07-14 10:58:52', 0),
 (1199199233, 'test', '325', '18', '2018-07-14 14:18:06', 0),
-(1464260963, 'fre', '325', '17', '2018-07-14 14:19:53', 0),
-(1378052583, 'test', '325', '17', '2018-07-14 14:20:24', 0),
 (469034435, 'dfgh', '325', '18', '2018-07-14 14:21:29', 0),
-(1362338445, 'd', '325', '17', '2018-07-14 14:22:10', 0),
 (369701159, 'test', '325', '18', '2018-07-15 14:14:47', 0),
 (1655700237, 'test', '325', '63', '2018-07-15 14:18:53', 0),
 (18604357, 'french', '325', '18', '2018-07-15 14:20:26', 0),
-(1045537601, 'test', '325', '18', '2018-07-15 14:24:38', 0);
+(1045537601, 'test', '325', '18', '2018-07-15 14:24:38', 0),
+(657586974, 'test', '178', '192', '2018-12-06 20:23:51', 0),
+(38381733, 'fg', '179', '192', '2018-12-06 10:19:52', 0),
+(1299162870, 'test', '179', '192', '2018-12-06 10:18:38', 0),
+(818680801, 'test', '230', '192', '2018-12-15 11:39:58', 0),
+(1607038356, 'test', '270', '192', '2019-02-07 09:55:49', 0),
+(461816182, 'lol', '245', '192', '2019-02-05 21:16:38', 0),
+(1155551227, 'test notif', '270', '63', '2019-02-06 10:29:16', 0),
+(1317785123, 'test', '245', '192', '2019-02-05 21:16:35', 0),
+(1944631191, 'test', '245', '192', '2019-02-05 21:15:35', 0),
+(1993473083, 'lol', '245', '192', '2019-02-05 21:15:37', 0),
+(599982926, 'test', '236', '192', '2019-02-05 21:13:21', 0),
+(336568906, 'test', '245', '192', '2019-02-05 21:14:56', 0),
+(510108122, 'lol', '245', '192', '2019-02-05 21:15:03', 0),
+(1479545489, 'test', '236', '192', '2019-02-05 10:24:14', 0),
+(1464948044, '+1', '236', '192', '2019-02-05 21:11:06', 0),
+(680411768, '+1', '236', '192', '2019-02-05 21:12:59', 0),
+(1434105634, 'lol', '269', '192', '2019-02-04 10:23:00', 0),
+(322871466, 'test', '269', '192', '2019-02-04 10:28:44', 0),
+(808141912, 'go', '269', '192', '2019-02-04 10:29:01', 0),
+(99693561, 'avatar ?', '269', '192', '2019-02-04 10:10:41', 0),
+(536466084, 'test', '269', '192', '2019-02-04 10:13:00', 0),
+(1115525175, 'add <img src="/instatux/img/emoji/heart_eyes.png" alt=":heart_eyes:" class="emoji_comm"/>', '269', '192', '2019-02-04 10:00:13', 1),
+(1757231552, 'test', '269', '192', '2019-02-04 10:04:05', 0),
+(1602958797, 'pour la science', '269', '192', '2019-02-04 10:04:42', 0),
+(1219092142, 'yo', '241', '18', '2019-02-04 10:01:16', 0),
+(1840513501, 'lol', '269', '192', '2019-02-04 10:05:24', 0);
 
 -- --------------------------------------------------------
 
@@ -274,46 +177,31 @@ CREATE TABLE `conversation` (
 --
 
 INSERT INTO `conversation` (`id`, `conv`, `participant1`, `participant2`, `statut`) VALUES
-(61, 986523447, 'test', 'essai', 1),
-(62, 986523447, 'essai', 'test', 1),
-(65, 328523323, 'test', 'osefman', 1),
-(66, 328523323, 'osefman', 'test', 1);
+(75, 622503430, 'test', 'osefman', 1),
+(76, 622503430, 'osefman', 'test', 1),
+(77, 1371584839, 'essai', 'test', 1),
+(78, 1371584839, 'test', 'essai', 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `hashtag`
+-- Structure de la table `media`
 --
 
-CREATE TABLE `hashtag` (
-  `id` int(111) NOT NULL,
-  `tag` text NOT NULL,
-  `nb_tag` bigint(20) NOT NULL
+CREATE TABLE `media` (
+  `id_media` int(11) NOT NULL,
+  `nom_media` text NOT NULL,
+  `tweet_media` int(11) NOT NULL,
+  `user_id` varchar(50) NOT NULL,
+  `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `hashtag`
+-- Contenu de la table `media`
 --
 
-INSERT INTO `hashtag` (`id`, `tag`, `nb_tag`) VALUES
-(1, 'foot', 2),
-(2, 'catch', 6),
-(3, 'cakephp', 19),
-(4, 'laravel', 31),
-(5, 'nikkibella', 5),
-(6, 'jenniferlopez', 10),
-(9, 'symfony', 14),
-(10, 'facebook', 47),
-(15, 'jloestmoche', 1),
-(16, 'venestbeau', 1),
-(18, 'osefman156', 1),
-(19, 'osef', 2),
-(20, 'test', 51),
-(21, 'teamgius', 1),
-(22, 'gg', 1),
-(23, 'lol', 1),
-(24, '39', 3),
-(25, 'essai', 1);
+INSERT INTO `media` (`id_media`, `nom_media`, `tweet_media`, `user_id`, `created`) VALUES
+(25, '30430200_2191784560839404_2075229341_n.jpg', 268, 'test', '2019-01-22 14:37:17');
 
 -- --------------------------------------------------------
 
@@ -388,7 +276,105 @@ INSERT INTO `messagerie` (`id`, `user_id`, `destinataire`, `message`, `created`,
 (800, 'jean', 'test', 'test', '2018-08-13 10:52:16', 794910404),
 (801, 'jean', 'test', 'tesr', '2018-08-13 10:53:12', 794910404),
 (802, 'test', 'jean', 'french', '2018-08-13 10:53:57', 794910404),
-(803, 'jean', 'test', 'gh', '2018-08-13 10:54:09', 794910404);
+(803, 'jean', 'test', 'gh', '2018-08-13 10:54:09', 794910404),
+(804, 'test', 'osefman', '<a href="./search-%23test">#test</a>', '2018-11-24 15:26:55', 328523323),
+(805, 'test', 'osefman', '<a href="./search-%23test">#test</a>', '2018-11-24 15:28:17', 328523323),
+(806, 'test', 'osefman', '<a href="../search/hashtag/test">#test</a>', '2018-11-24 15:30:34', 328523323),
+(807, 'test', 'osefman', '<a href="../instatux/search/hashtag/test">#test</a>', '2018-11-24 15:31:40', 328523323),
+(808, 'test', 'osefman', '<a href="https://book.cakephp.org/3.0/fr/index.html">https://book.cakephp.org/3.0/fr/index.html</a>', '2018-11-24 15:32:03', 328523323),
+(809, 'test', 'osefman', '<a href="../instatux/search/hashtag/test">#test</a> messagerie', '2018-11-24 18:16:47', 328523323),
+(810, 'osefman', 'test', 'test', '2018-11-27 20:47:08', 328523323),
+(811, 'osefman', 'test', 'pas bouger', '2018-11-27 20:48:09', 328523323),
+(812, 'folder', 'test', 'test', '2018-12-07 09:48:16', 620845979),
+(813, 'test', 'folder', 'oui quoi', '2018-12-07 09:48:33', 620845979),
+(814, 'folder', 'test', 'hey', '2018-12-07 10:04:28', 1171075610),
+(815, 'test', 'folder', 'quoi', '2018-12-07 10:04:35', 1171075610),
+(816, 'test', 'osefman', 'test', '2018-12-16 21:04:13', 622503430),
+(817, 'test', 'osefman', 'test', '2018-12-18 09:41:48', 622503430),
+(818, 'osefman', 'test', 'réponse', '2018-12-18 09:42:16', 622503430),
+(819, 'osefman', 'test', 'test', '2018-12-18 09:43:53', 622503430),
+(820, 'test', 'osefman', 'sdf', '2018-12-18 09:44:04', 622503430),
+(821, 'osefman', 'test', 'cool', '2018-12-18 09:55:11', 622503430),
+(822, 'test', 'osefman', 'so cool', '2018-12-18 09:55:20', 622503430),
+(823, 'osefman', 'test', 'notif', '2018-12-18 10:47:50', 622503430),
+(824, 'osefman', 'test', 'xcv', '2018-12-18 10:47:53', 622503430),
+(825, 'osefman', 'test', 'cvf', '2018-12-18 10:50:27', 622503430),
+(826, 'osefman', 'test', 'fgh', '2018-12-18 10:50:29', 622503430),
+(827, 'osefman', 'test', 'xwc', '2018-12-18 10:51:38', 622503430),
+(828, 'osefman', 'test', 'xcv', '2018-12-18 10:51:39', 622503430),
+(829, 'osefman', 'test', 'xv', '2018-12-18 10:52:16', 622503430),
+(830, 'osefman', 'test', 'fdg', '2018-12-18 10:52:17', 622503430),
+(831, 'osefman', 'test', 'wcw', '2018-12-18 10:55:26', 622503430),
+(832, 'osefman', 'test', 'sdfs', '2018-12-18 10:55:27', 622503430),
+(833, 'osefman', 'test', 'cbcb', '2018-12-19 10:15:04', 622503430),
+(834, 'osefman', 'test', 'sdf', '2018-12-19 10:15:11', 622503430),
+(835, 'test', 'osefman', 'test', '2018-12-19 14:47:13', 622503430),
+(836, 'test', 'osefman', 'test', '2018-12-20 10:21:03', 622503430),
+(837, 'test', 'osefman', 'ghf', '2018-12-20 10:25:55', 622503430),
+(838, 'test', 'osefman', 'dfg', '2018-12-20 10:36:34', 622503430),
+(839, 'test', 'osefman', 'test', '2018-12-20 14:32:38', 622503430),
+(840, 'test', 'osefman', 'test redirect', '2018-12-21 10:22:53', 622503430),
+(841, 'test', 'osefman', 'test', '2018-12-21 10:23:40', 622503430),
+(842, 'test', 'osefman', 'test', '2018-12-21 10:24:18', 622503430),
+(843, 'test', 'osefman', 'dfg', '2018-12-21 10:25:02', 622503430),
+(844, 'test', 'osefman', 'fdg', '2018-12-21 10:25:21', 622503430),
+(845, 'test', 'osefman', 'fgh', '2018-12-21 10:28:01', 622503430),
+(846, 'test', 'osefman', 'ghj', '2018-12-21 10:38:15', 622503430),
+(847, 'test', 'osefman', 'fgh', '2018-12-21 10:38:32', 622503430),
+(848, 'test', 'osefman', 'test', '2018-12-21 10:38:45', 622503430),
+(849, 'test', 'osefman', 'test', '2018-12-21 10:39:19', 622503430),
+(850, 'test', 'osefman', 'osef', '2018-12-21 10:39:56', 622503430),
+(851, 'test', 'osefman', 'test', '2018-12-21 10:40:05', 622503430),
+(852, 'test', 'osefman', 'ghj', '2018-12-21 10:40:17', 622503430),
+(853, 'test', 'osefman', 'dfghd', '2018-12-21 10:41:43', 622503430),
+(854, 'test', 'osefman', 'wxcw', '2018-12-21 10:43:08', 622503430),
+(855, 'test', 'osefman', 'dqds', '2018-12-21 10:43:50', 622503430),
+(856, 'test', 'osefman', 'ghj', '2018-12-21 10:44:28', 622503430),
+(857, 'test', 'osefman', 'ghf', '2018-12-21 10:45:31', 622503430),
+(858, 'test', 'osefman', 'test', '2018-12-21 10:45:36', 622503430),
+(859, 'test', 'osefman', 'bxb', '2018-12-21 10:45:44', 622503430),
+(860, 'test', 'osefman', 'fghf', '2018-12-21 10:46:30', 622503430),
+(861, 'test', 'osefman', 'fghf', '2018-12-21 10:46:38', 622503430),
+(862, 'test', 'osefman', 'test', '2018-12-21 10:46:43', 622503430),
+(863, 'test', 'osefman', 'conv', '2018-12-21 10:47:10', 622503430),
+(864, 'test', 'osefman', 'profil', '2018-12-21 10:47:19', 622503430),
+(865, 'test', 'osefman', 'messagerie', '2018-12-21 10:47:31', 622503430),
+(866, 'test', 'osefman', 'test', '2019-01-07 10:22:41', 622503430),
+(867, 'osefman', 'test', 'test', '2019-01-07 13:00:00', 622503430),
+(868, 'test', 'osefman', 'test', '2019-01-08 10:20:50', 622503430),
+(869, 'test', 'osefman', 'test', '2019-01-08 10:22:02', 622503430),
+(870, 'test', 'osefman', 'ça marche', '2019-01-08 10:25:33', 622503430),
+(871, 'test', 'osefman', 'grt', '2019-01-08 10:26:00', 622503430),
+(872, 'test', 'osefman', 'test', '2019-01-08 10:32:35', 622503430),
+(873, 'osefman', 'test', 'reponse', '2019-01-08 10:32:43', 622503430),
+(874, 'test', 'osefman', 'oui', '2019-01-08 10:33:29', 622503430),
+(875, 'osefman', 'test', 'emission', '2019-01-08 10:35:21', 622503430),
+(876, 'test', 'osefman', 'test', '2019-01-08 10:37:21', 622503430),
+(877, 'osefman', 'test', 'test', '2019-01-08 10:37:46', 622503430),
+(878, 'test', 'osefman', 'test', '2019-01-08 10:39:51', 622503430),
+(879, 'osefman', 'test', 'reponse', '2019-01-08 10:40:00', 622503430),
+(880, 'osefman', 'test', 'osefman', '2019-01-08 10:42:48', 622503430),
+(881, 'osefman', 'test', 'osefman 2', '2019-01-08 10:43:24', 622503430),
+(882, 'osefman', 'test', 'osefman 3', '2019-01-08 10:44:11', 622503430),
+(883, 'test', 'osefman', 'test', '2019-01-08 10:44:33', 622503430),
+(884, 'test', 'osefman', 'test', '2019-01-08 10:46:55', 622503430),
+(885, 'osefman', 'test', 'reponse', '2019-01-08 10:47:02', 622503430),
+(886, 'osefman', 'test', 'test', '2019-01-08 14:37:21', 622503430),
+(887, 'test', 'osefman', 'test', '2019-01-08 14:55:12', 622503430),
+(888, 'osefman', 'test', 'go', '2019-01-09 10:19:53', 622503430),
+(889, 'osefman', 'test', 'test', '2019-01-09 10:25:44', 622503430),
+(890, 'osefman', 'test', 'test', '2019-01-09 10:26:51', 622503430),
+(891, 'osefman', 'test', 'go', '2019-01-09 11:12:26', 622503430),
+(892, 'osefman', 'test', 're go', '2019-01-09 11:12:38', 622503430),
+(893, 'osefman', 'test', 'test', '2019-01-09 15:59:01', 622503430),
+(894, 'osefman', 'test', 'bloqué\r\n', '2019-01-10 10:28:31', 622503430),
+(895, 'osefman', 'test', 'sdfs', '2019-01-10 10:37:20', 622503430),
+(896, 'essai', 'test', 'bonjour', '2019-02-07 10:42:37', 1371584839),
+(897, 'test', 'essai', 'bonjour à toi  :laughing:', '2019-02-07 10:43:16', 1371584839),
+(898, 'osefman', 'test', 'yo', '2019-02-07 10:43:31', 622503430),
+(899, 'test', 'osefman', 'yo', '2019-02-07 10:43:37', 622503430),
+(900, 'osefman', 'test', 'emoji  <img src="/instatux/img/emoji/fearful.png" alt=":fearful:" class="emoji_comm"/>', '2019-02-07 10:46:26', 622503430),
+(901, 'test', 'osefman', 'c\'est good  <img src="/instatux/img/emoji/stuck_out_tongue_winking_eye.png" alt=":stuck_out_tongue_winking_eye:" class="emoji_comm"/>', '2019-02-07 10:46:38', 622503430);
 
 -- --------------------------------------------------------
 
@@ -409,7 +395,10 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id_notif`, `user_name`, `notification`, `created`, `statut`) VALUES
-(180, 'osefman', '<img src="/instatux/img/avatars/test.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> à partagé votre <a href="/instatux/post/408">post</a> !', '2018-10-26 15:04:42', 0);
+(381, 'essai', '<img src="/instatux/img/avatar/test.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2019-01-10 10:41:06', 1),
+(382, 'essai', '<img src="/instatux/img/avatar/test.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a><span class="alias_tweet">@test</span> s\'est abonné', '2019-01-10 10:41:06', 1),
+(470, 'osefman', '<img src="/instatux/img/avatar/test.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-622503430">message</a> !', '2019-02-07 10:43:37', 0),
+(472, 'osefman', '<img src="/instatux/img/avatar/test.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/test">test</a> vous à envoyé un <a href="/instatux/conversation-622503430">message</a> !', '2019-02-07 10:46:38', 0);
 
 -- --------------------------------------------------------
 
@@ -429,8 +418,11 @@ CREATE TABLE `partage` (
 --
 
 INSERT INTO `partage` (`id_partage`, `sharer`, `tweet_partage`, `created`) VALUES
-(112, 'osefman', 252, '2018-07-07 11:03:35'),
-(114, 'test', 408, '2018-10-26 15:04:42');
+(219, 'test', 2100750165, '2019-01-07 10:26:09'),
+(220, 'osefman', 1132315017, '2019-01-07 10:47:41'),
+(221, 'osefman', 103914207, '2019-01-07 10:47:42'),
+(222, 'essai', 2100750165, '2019-01-07 10:48:08'),
+(225, 'test', 1666176494, '2019-01-08 21:01:09');
 
 -- --------------------------------------------------------
 
@@ -475,10 +467,10 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `user_id`, `type_profil`, `notif_cite`, `notif_partage`, `notif_abo`, `notif_comm`, `notif_message`) VALUES
-(3, 'test', 0, 'non', 'oui', 'oui', 'non', 'oui'),
 (5, 'essai', 1, 'oui', 'oui', 'oui', 'oui', 'non'),
-(6, 'osefman', 0, 'oui', 'oui', 'non', 'non', 'oui'),
-(101, 'osefgirl', 0, 'oui', 'oui', 'oui', 'oui', 'oui');
+(6, 'osefman', 0, 'oui', 'oui', 'non', 'oui', 'oui'),
+(101, 'osefgirl', 0, 'oui', 'oui', 'oui', 'oui', 'oui'),
+(135, 'test', 0, 'oui', 'oui', 'oui', 'oui', 'oui');
 
 -- --------------------------------------------------------
 
@@ -487,6 +479,7 @@ INSERT INTO `settings` (`id`, `user_id`, `type_profil`, `notif_cite`, `notif_par
 --
 
 CREATE TABLE `tweet` (
+  `id_tweet` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `user_timeline` varchar(255) NOT NULL,
@@ -504,58 +497,33 @@ CREATE TABLE `tweet` (
 -- Contenu de la table `tweet`
 --
 
-INSERT INTO `tweet` (`id`, `user_id`, `user_timeline`, `contenu_tweet`, `created`, `share`, `nb_commentaire`, `nb_partage`, `nb_like`, `private`, `allow_comment`) VALUES
-(8, 'essai', 'essai', '<p>accueil moi</p>', '2016-09-06 19:35:36', 0, 5, 21, 0, 1, 0),
-(242, 'essai', 'essai', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-09-14 12:34:31', 0, 0, 1, 2, 1, 1),
-(248, 'test', 'essai', '<p>Meilleur framework PHP</p><div data-oembed-url="http://cakephp.org/"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/LSanG5">CakePHP - Build fast, grow solid | PHP Framework | Home</a><script async="" src="//cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-10-27 15:25:52', 0, 1, 0, 1, 0, 0),
-(249, 'test', 'essai', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-10-27 15:30:17', 0, 0, 0, 1, 0, 0),
-(250, 'test', 'essai', '<div data-oembed-url="https://www.youtube.com/watch?v=2vryJJllAsw&amp;t=0s"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe tabindex="-1" src="https://www.youtube.com/embed/2vryJJllAsw?rel=0&amp;showinfo=0&amp;controls=2" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen="" scrolling="no"></iframe></div></div><p>&nbsp;</p>', '2017-10-27 15:30:24', 0, 0, 0, 2, 0, 0),
-(252, 'test', 'test', '<div data-oembed-url="https://i.redd.it/07gyjkopm2vz.png"><div style="max-width: 1728px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 177.7778%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/G45pTO1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-11-03 10:30:39', 0, 0, 1, 1, 0, 0),
-(292, 'essai', 'osefman', '<p>pas voir</p>', '2017-11-09 13:24:04', 0, 0, 1, 0, 1, 0),
-(310, 'test', 'essai', '<div data-oembed-url="http://www.20minutes.fr/"><a href="http://www.20minutes.fr/" data-iframely-url="https://cdn.iframe.ly/cqIqWR5">20 Minutes, information en continu. Actualit&eacute;s, Politique, Football,...</a><script async="" src="https://cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-23 15:31:17', 0, 1, 0, 0, 0, 0),
-(311, 'essai', 'essai', '<p><a href="test">@test</a> yo !</p>', '2017-11-23 15:31:55', 0, 0, 0, 0, 1, 0),
-(312, 'essai', 'essai', '<p><a href="search-%23facebook</p>">#facebook</p></a>', '2017-11-23 15:34:32', 0, 0, 0, 0, 1, 0),
-(317, 'test', 'essai', '<div data-oembed-url="https://out.reddit.com/t3_7achq2?url=https%3A%2F%2Fi.imgur.com%2FmyWL1rv.jpg&amp;token=AQAAjFT8WbJ1XM5CjQwefLOmj6P5jaJhoJQt11wdrMz4_K1vhq1Y&amp;app_name=reddit.com"><blockquote class="imgur-embed-pub" data-id="myWL1rv" lang="en"><a href="https://imgur.com/myWL1rv">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-28 16:19:14', 0, 0, 0, 0, 0, 0),
-(320, 'test', 'essai', '<div data-oembed-url="https://out.reddit.com/t3_7achq2?url=https%3A%2F%2Fi.imgur.com%2FmyWL1rv.jpg&amp;token=AQAAjFT8WbJ1XM5CjQwefLOmj6P5jaJhoJQt11wdrMz4_K1vhq1Y&amp;app_name=reddit.com"><blockquote class="imgur-embed-pub" data-id="myWL1rv" lang="en"><a href="https://imgur.com/myWL1rv">View post on imgur.com</a></blockquote><script async="" src="//s.imgur.com/min/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-30 10:11:13', 0, 0, 0, 0, 0, 0),
-(321, 'test', 'essai', '<div data-oembed-url="http://www.20minutes.fr/"><a href="http://www.20minutes.fr/" data-iframely-url="https://cdn.iframe.ly/cqIqWR5">20 Minutes, information en continu. Actualit&eacute;s, Politique, Football,...</a><script async="" src="https://cdn.iframe.ly/embed.js" charset="utf-8"></script></div><p>&nbsp;</p>', '2017-11-30 10:11:46', 0, 1, 0, 0, 0, 0),
-(325, 'test', 'test', '<div data-oembed-url="https://scontent-dft4-3.cdninstagram.com/t51.2885-15/e35/25013083_251948242004274_6743671715026436096_n.jpg"><div style="max-width: 1296px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/91HD3mZ" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2017-12-23 09:37:11', 0, 133, 1, 2, 0, 0),
-(390, 'osefman', 'osefman', '<p>test comm</p>', '2018-06-14 10:42:20', 0, 7, 1, 1, 0, 0),
-(392, 'test', 'osefman', '<div data-oembed-url="https://scontent-dft4-3.cdninstagram.com/t51.2885-15/e35/25013083_251948242004274_6743671715026436096_n.jpg"><div style="max-width: 1296px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 100%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/91HD3mZ" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2018-07-04 15:11:29', 1, 0, 0, 1, 0, 0),
-(408, 'osefman', 'test', '<p>partage</p>', '2018-07-05 10:48:55', 1, 0, 1, 0, 0, 0),
-(422, 'test', 'osefman', '<p>2</p>', '2018-07-07 11:03:28', 1, 0, 0, 0, 0, 0),
-(423, 'test', 'osefman', '<div data-oembed-url="https://i.redd.it/07gyjkopm2vz.png"><div style="max-width: 1728px;"><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 177.7778%;"><iframe tabindex="-1" src="https://cdn.iframe.ly/G45pTO1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen=""></iframe></div></div></div><p>&nbsp;</p>', '2018-07-07 11:03:35', 1, 0, 0, 0, 0, 0),
-(448, 'test', 'osefman', '<div class="youtube-embed-wrapper" style="position:relative;padding-bottom:56.25%;padding-top:30px;height:0;overflow:hidden"><iframe allow=";" src="https://www.youtube.com/embed/SeCNHtmTzSE" style="position:absolute;top:0;left:0;width:100%;height:100%" allowfullscreen="" width="640" height="360" frameborder="0"></iframe></div><p>&nbsp;</p>', '2018-10-01 14:42:51', 1, 0, 0, 0, 0, 0),
-(494, 'test', 'test', '\r\n\r\n<div class="iframely-embed"><div class="iframely-responsive" style="padding-bottom: 33.3333%; padding-top: 120px;"><a href="https://cakephp.org/" data-iframely-url="//cdn.iframe.ly/utmXHc7"></a></div></div><script async src="//cdn.iframe.ly/embed.js" charset="utf-8"></script>\r\n\r\n', '2018-10-03 23:00:00', 0, 0, 0, 0, 0, 0),
-(507, 'test', 'test', '<p><a href="https://cakephp.org/" target="_blank">https://cakephp.org/</a><br></p>', '2018-10-05 10:08:32', 0, 0, 0, 0, 0, 0),
-(509, 'test', 'test', '<p><img style="width: 100%;" src="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/42625082_10214302075238982_3959025420942180352_n.jpg?_nc_cat=101&amp;oh=e3eda775b29ec49188b1dba4a2f8b480&amp;oe=5C575F72"></p><br>', '2018-10-05 10:09:40', 0, 0, 0, 0, 0, 0),
-(511, 'test', 'test', '<p><iframe src="//www.youtube.com/embed/euf1bDkwzQU" class="note-video-clip" width="100%" height="360" frameborder="0"></iframe><br></p>', '2018-10-05 10:41:11', 0, 0, 0, 0, 0, 0),
-(513, 'test', 'test', '<p><img style="width: 100%;" src="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/42625082_10214302075238982_3959025420942180352_n.jpg?_nc_cat=101&amp;oh=e3eda775b29ec49188b1dba4a2f8b480&amp;oe=5C575F72" width="100%"><br></p>', '2018-10-05 10:57:54', 0, 0, 0, 0, 0, 0),
-(516, 'test', 'test', '<p><img style="width: 100%;" src="https://66.media.tumblr.com/480e027f9ec30a5e6aae0940fe31de37/tumblr_p0cy5snWtf1tk7cqdo1_500.jpg"><br></p>', '2018-10-05 14:26:51', 0, 0, 0, 0, 0, 0),
-(521, 'test', 'test', '<p><img style="width: 100%;" src="http://static1.millenium.org/articles/3/28/16/23/@/181299-alexstrasza-heroes-storm-article_m-3.jpg"><br></p>', '2018-10-06 09:30:02', 0, 0, 0, 0, 0, 0),
-(525, 'test', 'test', '<p><img style="width: 100%;" src="https://i.redd.it/t6kxwbt62hq11.jpg"><br></p>', '2018-10-06 10:01:49', 0, 0, 0, 0, 0, 0),
-(574, 'test', 'test', 'test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/><p><iframe src="//www.youtube.com/embed/C4ixsI5xWWE"  width="100%" height="360" frameborder="0" allowfullscreen></iframe></p>', '2018-10-22 10:24:18', 0, 0, 0, 0, 0, 0),
-(575, 'test', 'test', '<p><iframe frameborder="0" width="100%" height="360" src="//www.dailymotion.com/embed/video/x60gir3" allowfullscreen></iframe></p>', '2018-10-22 10:25:09', 0, 0, 0, 0, 0, 0),
-(581, 'test', 'test', '<p><iframe src="https://www.instagram.com/p/BpB8mbBlGcK/embed/captioned/" width="100%" height="780" frameborder="0" scrolling="no" allowtransparency="true"></iframe></p>', '2018-10-22 10:37:10', 0, 0, 0, 0, 0, 0),
-(599, 'test', 'test', '<a href="https://cakephp.org/" >https://cakephp.org/</a>&nbsp; <a href="http://php.net/manual/fr/function.preg-replace.php" >http://php.net/manual/fr/function.preg-replace.php</a>&nbsp; ', '2018-10-22 14:58:11', 0, 0, 0, 0, 0, 0),
-(602, 'test', 'test', '<p><a href="https://pre00.deviantart.net/9f23/th/pre/f/2015/346/5/9/alexstrasza_the_life_binder_by_raikoart-d9iviol.png" ><img src="https://pre00.deviantart.net/9f23/th/pre/f/2015/346/5/9/alexstrasza_the_life_binder_by_raikoart-d9iviol.png" width="100%" /></a></p>', '2018-10-23 10:15:55', 0, 0, 0, 0, 0, 0),
-(603, 'test', 'test', '<a href="https://cakephp.org/" >https://cakephp.org/</a>&nbsp; <a href="https://cakephp.org/" >https://cakephp.org/</a>&nbsp; ', '2018-10-23 10:16:19', 0, 0, 0, 0, 0, 0),
-(610, 'test', 'test', '<p><iframe src="https://www.instagram.com/p/BpB8mbBlGcK/embed/captioned/" width="100%" height="780" frameborder="0" scrolling="no" allowtransparency="true"></iframe></p>', '2018-10-23 10:33:59', 0, 0, 0, 0, 0, 0),
-(617, 'test', 'test', '<p><iframe src="//www.youtube.com/embed/GNRZ65SfslM"  width="100%" height="360" frameborder="0" allowfullscreen></iframe></p>', '2018-10-23 10:56:39', 0, 0, 0, 0, 0, 0),
-(618, 'test', 'test', '<p><a href="https://static1.millenium.org/articles/3/28/16/23/@/181299-alexstrasza-heroes-storm-article_m-3.jpg" ><img src="https://static1.millenium.org/articles/3/28/16/23/@/181299-alexstrasza-heroes-storm-article_m-3.jpg" width="100%" /></a></p>', '2018-10-23 10:56:59', 0, 0, 0, 0, 0, 0),
-(620, 'test', 'test', '<a href="https://gist.github.com/ghalusa/6c7f3a00fd2383e5ef33" >https://gist.github.com/ghalusa/6c7f3a00fd2383e5ef33</a>&nbsp; <a href="https://stackoverflow.com/questions/43000840/pattern-to-get-video-id-from-youtube-url" >https://stackoverflow.com/questions/43000840/pattern-to-get-video-id-from-youtube-url</a>&nbsp;', '2018-10-23 10:58:16', 0, 0, 0, 0, 0, 0),
-(366364921, 'test', 'test', '<p><p><iframe src="//www.youtube.com/embed/GNRZ65SfslM"  width="100%" height="360" frameborder="0" allowfullscreen></iframe></p> </p>', '2018-11-04 14:30:51', 0, 0, 0, 0, 0, 0),
-(541757212, 'test', 'test', '<p></p>', '2018-11-05 14:50:42', 0, 0, 0, 0, 0, 0),
-(596556966, 'test', 'test', '<p><p><iframe src="https://www.instagram.com/p/BpB8mbBlGcK/embed/captioned/" width="100%" height="780" frameborder="0" scrolling="no" allowtransparency="true"></iframe></p> </p>', '2018-11-05 11:35:43', 0, 0, 0, 0, 0, 0),
-(599649566, 'test', 'test', '<p><p><iframe src="https://www.youtube.com/embed/GNRZ65SfslM"  width="100%" height="360" frameborder="0" allowfullscreen></iframe></p> <a href="https://www.youtube.com/watch?v=GNRZ65SfslM">https://www.youtube.com/watch?v=GNRZ65SfslM</a></p>', '2018-11-05 14:50:56', 0, 0, 0, 0, 0, 0),
-(682904346, 'test', 'test', '<p>test <p><iframe src="//www.youtube.com/embed/GNRZ65SfslM"  width="100%" height="360" frameborder="0" allowfullscreen></iframe></p> </p>', '2018-11-01 15:21:56', 0, 0, 0, 0, 0, 0),
-(721776921, 'test', 'test', '<p>test  <img src="/instatux/img/emoji/laughing.png" alt=":laughing:" class="emoji_comm"/><br />\r\n<a href="http://cakephp.org/">http://cakephp.org/</a></p>', '2018-11-09 14:58:25', 0, 0, 0, 0, 0, 0),
-(758344504, 'test', 'test', '<p><p><iframe src="https://www.instagram.com/p/BpB8mbBlGcK/embed/captioned/" width="100%" height="780" frameborder="0" scrolling="no" allowtransparency="true"></iframe></p> <a href="https://www.instagram.com/p/BpB8mbBlGcK/">https://www.instagram.com/p/BpB8mbBlGcK/</a></p>', '2018-11-05 14:51:20', 0, 0, 0, 0, 0, 0),
-(767088773, 'test', 'test', '<p><p><iframe src="https://www.youtube.com/embed/GNRZ65SfslM"  width="100%" height="360" frameborder="0" allowfullscreen></iframe></p> <a href="https://www.youtube.com/watch?v=GNRZ65SfslM">https://www.youtube.com/watch?v=GNRZ65SfslM</a>&nbsp;</p>', '2018-11-04 14:36:37', 0, 0, 0, 0, 0, 0),
-(1010887730, 'test', 'test', '<p></p>', '2018-11-05 14:50:25', 0, 0, 0, 0, 0, 0),
-(1032856359, 'test', 'test', '<p><p><iframe src="//www.youtube.com/embed/GNRZ65SfslM"  width="100%" height="360" frameborder="0" allowfullscreen></iframe></p> </p>', '2018-11-04 10:23:33', 0, 0, 0, 0, 0, 0),
-(1065623462, 'test', 'test', '<p><p><img src="img/photos/test/30430200_2191784560839404_2075229341_n.jpg" width="100%" /> <br />\r\n<a href="http://cakephp.org/">http://cakephp.org/</a><br />\r\n <img src="/instatux/img/emoji/satisfied.png" alt=":satisfied:" class="emoji_comm"/></p></p>', '2018-11-09 15:02:56', 0, 0, 0, 0, 0, 0),
-(1733041901, 'test', 'test', '<p><p><iframe src="https://www.youtube.com/embed/GNRZ65SfslM"  width="100%" height="360" frameborder="0" allowfullscreen></iframe></p> test</p>', '2018-11-04 21:01:18', 0, 0, 0, 0, 0, 0),
-(1894695984, 'test', 'test', 'test <img src="img/photos/test/1680x1050_the-lord-of-the-rings-gandalf-guardians-of-middle-earth.jpg" width="100%" />', '2018-10-31 15:05:56', 0, 0, 0, 0, 0, 0);
+INSERT INTO `tweet` (`id_tweet`, `id`, `user_id`, `user_timeline`, `contenu_tweet`, `created`, `share`, `nb_commentaire`, `nb_partage`, `nb_like`, `private`, `allow_comment`) VALUES
+(122, 1327034712, 'osefman', 'osefman', '<p><p>test</p></p>', '2018-12-04 18:03:45', 0, 1, 0, 2, 0, 0),
+(177, 1132315017, 'test', 'test', '<p><p>test</p></p>', '2018-12-06 10:16:26', 0, 1, 0, 2, 0, 0),
+(201, 103914207, 'test', 'test', '<p><p>sdfs</p></p>', '2018-12-07 15:43:29', 0, 0, 0, 0, 0, 0),
+(202, 619198963, 'test', 'test', '<p><p>dfgd</p></p>', '2018-12-07 15:44:19', 0, 0, 0, 0, 0, 0),
+(203, 1429727289, 'test', 'test', '<p><p>sqd</p></p>', '2018-12-07 15:44:27', 0, 0, 0, 0, 0, 0),
+(209, 480605778, 'test', 'test', '<p><p>test</p></p>', '2018-12-08 18:30:46', 0, 0, 0, 0, 0, 0),
+(210, 1607198138, 'test', 'test', '<p><p>test</p></p>', '2018-12-08 18:30:55', 0, 0, 0, 0, 0, 0),
+(212, 123620011, 'test', 'test', '<p><p>dimanche 2</p></p>', '2018-12-09 10:32:41', 0, 0, 0, 0, 0, 0),
+(213, 1031274847, 'test', 'test', '<p><p>dimanche 3</p></p>', '2018-12-09 10:33:59', 0, 0, 0, 0, 0, 0),
+(215, 1214937471, 'test', 'test', '<p><p>sdf</p></p>', '2018-12-09 10:37:01', 0, 0, 0, 0, 0, 0),
+(216, 632774517, 'test', 'test', '<p><p>dhdh</p></p>', '2018-12-09 10:47:48', 0, 0, 0, 0, 0, 0),
+(217, 1484761430, 'test', 'test', '<p><p>fghf</p></p>', '2018-12-09 10:47:53', 0, 0, 0, 0, 0, 0),
+(231, 1441527878, 'test', 'test', '<p><p>CakePHP makes building web applications simpler, faster, while requiring less code. A modern PHP 7 framework offering a flexible database access layer and a powerful scaffolding system that makes building both small and complex systems simpler, easie</p></p>', '2018-12-11 11:13:04', 0, 0, 0, 0, 0, 0),
+(232, 2100750165, 'osefman', 'osefman', '<p><p>test</p></p>', '2018-12-17 10:36:48', 0, 0, 0, 0, 0, 0),
+(233, 2100750165, 'osefman', 'test', '<p><p>test</p></p>', '2019-01-07 10:26:09', 1, 0, 0, 0, 0, 0),
+(234, 1132315017, 'test', 'osefman', '<p><p>test</p></p>', '2019-01-07 10:47:41', 1, 0, 0, 0, 0, 0),
+(235, 103914207, 'test', 'osefman', '<p><p>sdfs</p></p>', '2019-01-07 10:47:42', 1, 0, 0, 0, 0, 0),
+(236, 2100750165, 'osefman', 'essai', '<p><p>test</p></p>', '2019-01-07 10:48:08', 1, 4, 0, 0, 0, 0),
+(240, 1666176494, 'osefman', 'osefman', '<p><p><a href="test">@test</a> yo</p></p>', '2019-01-08 14:39:28', 0, 0, 0, 1, 0, 0),
+(241, 1666176494, 'osefman', 'test', '<p><p><a href="test">@test</a> yo</p></p>', '2019-01-08 21:01:09', 1, 1, 0, 1, 0, 0),
+(243, 1861778861, 'osefman', 'osefman', '<p><p><a href="test">@test</a> re</p></p>', '2019-01-10 10:32:05', 0, 0, 0, 0, 0, 0),
+(244, 1892192761, 'osefman', 'osefman', '<p><p><a href="test">@test</a> reconnu</p></p>', '2019-01-10 10:34:33', 0, 0, 0, 0, 0, 0),
+(245, 249051394, 'osefman', 'osefman', '<p><p><a href="test">@test</a> lol</p></p>', '2019-01-10 10:37:17', 0, 6, 0, 1, 0, 0),
+(268, 363060505, 'test', 'test', '<p><p><img src="http://localhost/instatux/img/media/test/30430200_2191784560839404_2075229341_n.jpg" width="100%" alt="image introuvable" /> </p></p>', '2019-01-22 14:37:17', 0, 0, 0, 1, 0, 0),
+(269, 1536874538, 'test', 'test', '<p><p>tweet vierge</p></p>', '2019-01-24 10:16:57', 0, 9, 0, 1, 0, 0),
+(270, 617954580, 'test', 'test', '<p><p>test lien modal</p></p>', '2019-02-06 10:27:27', 0, 2, 0, 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -571,7 +539,6 @@ CREATE TABLE `users` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `avatarprofil` varchar(255) DEFAULT NULL,
   `lieu` varchar(255) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -580,11 +547,11 @@ CREATE TABLE `users` (
 -- Contenu de la table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`, `modified`, `description`, `avatarprofil`, `lieu`, `website`) VALUES
-(17, 'test', '$2y$10$OhDROcVYT5Q0UxaynhfwoOblrTPj0sC7LEuvlzUGxOF6tF8gx8JOC', 'christophekheder@gmail.com', '2016-09-02 12:08:17', '2018-09-12 18:03:55', 'test', 'avatars/test.jpg', 'Metz', 'https://cakephp.org/'),
-(18, 'essai', '$2y$10$iXLVGo6eGEB2cTKBpg/nieN5xr/VfBLiKl9LFBcQ1nVAfW00I3JOG', 'osef@gmail.com', '2016-09-06 19:03:25', '2018-05-23 10:24:40', 'essai cakephp 3', 'avatars/essai.jpg', 'Metz', ''),
-(63, 'osefman', '$2y$10$ogM/Rds30RYxjktgdyRRLeQzaD7w8Egon7iysEDFOrz1SNH3D4tMi', 'testred@gmail.com', '2017-11-09 13:23:25', '2018-05-16 17:09:50', 'test', 'avatars/osefman.jpg', 'Metz', NULL),
-(158, 'osefgirl', '$2y$10$1F5/vA34QCFmrMfOvLjyzeQmULVjaGbsIJZ3Vs/1axJ4QZOZnaaYS', 'deletetest@gmail.com', '2018-09-27 20:21:44', '2018-09-27 20:21:44', NULL, 'avatars/osefgirl.jpg', NULL, NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `created`, `modified`, `description`, `lieu`, `website`) VALUES
+(18, 'essai', '$2y$10$iXLVGo6eGEB2cTKBpg/nieN5xr/VfBLiKl9LFBcQ1nVAfW00I3JOG', 'osef@gmail.com', '2016-09-06 19:03:25', '2018-05-23 10:24:40', 'essai cakephp 3', 'Metz', ''),
+(63, 'osefman', '$2y$10$ogM/Rds30RYxjktgdyRRLeQzaD7w8Egon7iysEDFOrz1SNH3D4tMi', 'testred@gmail.com', '2017-11-09 13:23:25', '2018-05-16 17:09:50', 'test', 'Metz', NULL),
+(158, 'osefgirl', '$2y$10$1F5/vA34QCFmrMfOvLjyzeQmULVjaGbsIJZ3Vs/1axJ4QZOZnaaYS', 'deletetest@gmail.com', '2018-09-27 20:21:44', '2018-09-27 20:21:44', NULL, NULL, NULL),
+(192, 'test', '$2y$10$FKQ3FoC4zIW.zOSZuOQLeOitFLX.8DUPrdFshEuyqWdB4J2oSLaQi', 'christophekheder@gmail.com', '2018-12-06 09:59:09', '2019-01-16 14:35:24', 'Développeur CakePHP 3', 'Metz', NULL);
 
 --
 -- Index pour les tables exportées
@@ -602,7 +569,7 @@ ALTER TABLE `abonnement`
 --
 ALTER TABLE `aime`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `tweet_constraint` (`tweet_aime`);
+  ADD KEY `tweet_aime` (`tweet_aime`);
 
 --
 -- Index pour la table `blocage`
@@ -625,11 +592,11 @@ ALTER TABLE `conversation`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `hashtag`
+-- Index pour la table `media`
 --
-ALTER TABLE `hashtag`
-  ADD PRIMARY KEY (`id`);
-ALTER TABLE `hashtag` ADD FULLTEXT KEY `tag` (`tag`);
+ALTER TABLE `media`
+  ADD PRIMARY KEY (`id_media`),
+  ADD KEY `tweet_media` (`tweet_media`);
 
 --
 -- Index pour la table `messagerie`
@@ -654,17 +621,17 @@ ALTER TABLE `partage`
 -- Index pour la table `settings`
 --
 ALTER TABLE `settings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Index pour la table `tweet`
 --
 ALTER TABLE `tweet`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id_tweet`),
   ADD KEY `user_key` (`user_id`),
   ADD KEY `id` (`id`);
 ALTER TABLE `tweet` ADD FULLTEXT KEY `search_tweet` (`contenu_tweet`);
-ALTER TABLE `tweet` ADD FULLTEXT KEY `search` (`contenu_tweet`);
 
 --
 -- Index pour la table `users`
@@ -681,52 +648,57 @@ ALTER TABLE `users` ADD FULLTEXT KEY `search_users` (`username`);
 -- AUTO_INCREMENT pour la table `abonnement`
 --
 ALTER TABLE `abonnement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=608;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=661;
 --
 -- AUTO_INCREMENT pour la table `aime`
 --
 ALTER TABLE `aime`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=346;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=491;
 --
 -- AUTO_INCREMENT pour la table `blocage`
 --
 ALTER TABLE `blocage`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 --
 -- AUTO_INCREMENT pour la table `conversation`
 --
 ALTER TABLE `conversation`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 --
--- AUTO_INCREMENT pour la table `hashtag`
+-- AUTO_INCREMENT pour la table `media`
 --
-ALTER TABLE `hashtag`
-  MODIFY `id` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+ALTER TABLE `media`
+  MODIFY `id_media` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT pour la table `messagerie`
 --
 ALTER TABLE `messagerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=804;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=902;
 --
 -- AUTO_INCREMENT pour la table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `id_notif` int(111) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=473;
 --
 -- AUTO_INCREMENT pour la table `partage`
 --
 ALTER TABLE `partage`
-  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id_partage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 --
 -- AUTO_INCREMENT pour la table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+--
+-- AUTO_INCREMENT pour la table `tweet`
+--
+ALTER TABLE `tweet`
+  MODIFY `id_tweet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 --
 -- Contraintes pour les tables exportées
 --
@@ -735,13 +707,19 @@ ALTER TABLE `users`
 -- Contraintes pour la table `aime`
 --
 ALTER TABLE `aime`
-  ADD CONSTRAINT `tweet_constraint` FOREIGN KEY (`tweet_aime`) REFERENCES `tweet` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `tweet_aime` FOREIGN KEY (`tweet_aime`) REFERENCES `tweet` (`id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `media`
+--
+ALTER TABLE `media`
+  ADD CONSTRAINT `tweet_constraint_media` FOREIGN KEY (`tweet_media`) REFERENCES `tweet` (`id_tweet`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `partage`
 --
 ALTER TABLE `partage`
-  ADD CONSTRAINT `tweet_constraint_share` FOREIGN KEY (`tweet_partage`) REFERENCES `tweet` (`id`);
+  ADD CONSTRAINT `tweet_constraint_share` FOREIGN KEY (`tweet_partage`) REFERENCES `tweet` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

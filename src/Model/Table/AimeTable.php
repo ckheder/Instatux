@@ -34,8 +34,17 @@ class AimeTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Timestamp');
+
                 $this->belongsTo('Tweet', [
             'foreignKey' => 'tweet_aime',
+            'dependent' => true
+
+        ]);
+
+                 $this->belongsTo('Users', [
+            'foreignKey' => 'username',
+            'bindingKey' => 'username',
             'dependent' => true
 
         ]);

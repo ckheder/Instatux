@@ -19,6 +19,50 @@
   ias.extension(new IASNoneLeftExtension({text: "Fin de la conversation"}));
   ias.extension(new IASPagingExtension());
 
+  //delete conversation
+$(document).on('click','#deleteconv',function() {
+
+      var idconv = $(this).data("idconv"); // personne à bloquer/débloquer
+
+              $.ajax({
+                url: '/instatux/conversation/delete/'+ idconv +'',
+    success: function(data){
+
+
+
+      if(data == 'suppconvok'){ // blocage réussi
+
+        var url = 'http://localhost/instatux/messagerie';
+    
+        window.location.href = url;
+
+         
+    }
+
+        else if(data == 'suppconvfail'){
+
+     $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible de supprimer cette conversation</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+    }
+        
+  },
+    error: function(data)
+    {
+            $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible de supprimer cette conversation.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+    }
+                
+   })
+   });
+   // fin bloquer
+
+ 
+  //connexion serveur
+
 var socket = io.connect('http://localhost:8082'); //create connection
 
  socket.emit('connexion', {authname, destinataire,room});
@@ -32,13 +76,13 @@ var socket = io.connect('http://localhost:8082'); //create connection
 
                     $('#etatco').empty();
 
-                 $('#etatco').prepend('<p class="text-success"><span class="glyphicon glyphicon-user green" style="vertical-align:center"></span>&nbsp;' + destinataire + ' est connecté(e).</span></p>');
+                 $('#etatco').prepend('<span class="green">connecté(e).</span>');
                }
                else
                {
                 $('#etatco').empty();
 
-                  $('#etatco').prepend('<p class="text-danger"><span class="glyphicon glyphicon-user red" style="vertical-align:center"></span>&nbsp;' + destinataire + ' est déconnecté(e).</span></p>');
+                  $('#etatco').append('<span class="red">déconnecté(e).</span>');
                 
                 }
 
@@ -83,7 +127,7 @@ socket.on('update-typing', function (data) {
              // retour du server, message pour mon destinataire
                socket.on('messagerepondu', function(data) {
 
-                 $('#list_conv').prepend('<div class="messagemoi other"><img src="' + data.avatar + '"alt="image utilisateur" class="img-thumbail right"/>' + data.message +'<span class="datemessage">' + data.date + '</span></div>');
+                 $('#list_conv').prepend('<div class="messagemoi other"><img src="img/avatar/' + destinataire + '.jpg" alt="image utilisateur" class="img-thumbail right"/>' + data.message +'<span class="datemessage">' + data.date + '</span></div>');
 
             })
 
@@ -110,21 +154,34 @@ var date_msg = date_format.format('LLL'); // mise en forme
                 data: $('#form_message').serialize(),
     success: function(data){
 
-                $('#etatnotif').fadeIn().html('<p class="notif bg-success"><span class="glyphicon glyphicon-ok green" style="vertical-align:center"></span>&nbsp;&nbsp;Message envoyé</span></p>');
+      if(data == 'blocage')
+      {
+            $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Cet utilisateur vous à bloqué, vous ne pouvez lui pas lui envoyer de message.</span></p>');
         setTimeout(function() {
           $('.notif').fadeOut("slow");
         }, 2000 );
-
-        socket.emit('message', {message: data.message, avatar: data.avatar_session,room: room}); // Transmet le message aux autres
+      }
+      else if(data == 'probleme')
+      {
+            $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible d\'envoyer votre message.</span></p>');
+        setTimeout(function() {
+          $('.notif').fadeOut("slow");
+        }, 2000 );
+      }
+      else
+      {
+        socket.emit('message', {message: data.message,room: room}); // Transmet le message aux autres
+      
     
-     $('#list_conv').prepend('<div class="messagemoi"><img src="img/' + data.avatar_session + '"alt="image utilisateur" class="img-thumbail"/>' + data.message +'<span class="datemessage">' + date_msg + '</span></div>');
+     $('#list_conv').prepend('<div class="messagemoi"><img src="img/avatar/' + authname + '.jpg" alt="image utilisateur" class="img-thumbail"/>' + data.message +'<span class="datemessage">' + date_msg + '</span></div>');
 
 $('#message').val('');
-
+}
     },
-    error: function(data)
+    error: function()
     {
-                                 $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible d\'envoyer votre message.</span></p>');
+
+    $('#etatnotif').fadeIn().html('<p class="notif bg-danger"><span class="glyphicon glyphicon-warning-sign red" style="vertical-align:center"></span>&nbsp;Impossible d\'envoyer votre message.</span></p>');
         setTimeout(function() {
           $('.notif').fadeOut("slow");
         }, 2000 );

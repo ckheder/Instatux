@@ -38,7 +38,7 @@ class AvatarmessageCell extends Cell
         $this->loadModel('Users');
         $info_message =  $this->Users->find()
 
-        ->select(['avatarprofil', 'username', 'id'])
+        ->select(['username', 'id'])
         ->where(['username' => $name]);
         $this->set('info_message',$info_message);
         
