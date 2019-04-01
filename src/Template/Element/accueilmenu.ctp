@@ -30,20 +30,27 @@
 <div class="text-center logintitle"><h4>Connexion</h4></div>
        <ul class="nav navbar-nav navbar-right">
         <li>
-          <?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'login'),'class' =>'navbar-form'));?>
+          <?= $this->Form->create('Users', array('url'=>array('controller'=>'users', 'action'=>'login'),'class' =>'navbar-form','id' =>'formco'));?>
 
-       <?= $this->Form->input('username', ['placeholder'=>'Nom d\'utilisateur', 'label' => '']); ?>
-   <?= $this->Form->password('password', ['placeholder'=>'Mot de passe',  'label' => '']); ?>
+       <?= $this->Form->input('username', ['placeholder'=>'Nom d\'utilisateur', 'label' => '','id' => 'inputusernamehome']); ?>
+   <?= $this->Form->password('password', ['placeholder'=>'Mot de passe',  'label' => '', 'id' => 'inputpasswordhome']); ?>
 
 <?= $this->Form->button('Connexion', array('class'=>'btn btn-primary btnlogin')) ?>
     <?= $this->Form->end() ?>
         </li>
         <li>
-          <a href="#">Mot de passe oublié ? </a>
+          <a href="#" id="forgetmdp">Mot de passe oublié ? </a>
         </li>
+       <li>
+<?= $this->Form->button('Connexion', 
+                [ 'data-toggle' => 'modal',
+                  'data-target' => '#ModalConnexion',
+                  'class' => 'btn btn-primary navbar-btn btnlogin',
+                  'id' => 'btnco',
+                  'type' => 'button']);
+                  ?>
+</li>
        </ul>
-
-
     </div>
   </div>
 </nav>

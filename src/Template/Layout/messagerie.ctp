@@ -53,10 +53,10 @@ $current_user = $this->request->getParam('username'); ?>
 
   <?=  $this->element('onlinemenu') ;?>
 
-<div class="col-md-3">
+<div class="col-md-3 col-sm-4">
       <?= $this->element('messagerieinfo'); ?>
 </div>
-<div class="col-md-6">
+<div class="col-md-6 col-sm-8">
 
         <?= $this->fetch('content') ?>
 </div>

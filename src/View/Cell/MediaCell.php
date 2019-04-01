@@ -26,7 +26,7 @@ class MediaCell extends Cell
     {
         $this->loadModel('Media');
 
-        $list_media = $this->Media->find()->select(['nom_media','tweet_media','user_id'])->where(['user_id' => $this->request->getParam('username')])->order(['created' => 'DESC'])->limit(6);
+        $list_media = $this->Media->find()->select(['nom_media','tweet_media','user_id'])->where(['user_id' => $this->request->getParam('username')])->order(['created' => 'DESC'])->limit(8);
 
         $this->set('list_media',$list_media);
     }

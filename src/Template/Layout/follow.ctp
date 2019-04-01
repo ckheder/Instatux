@@ -47,40 +47,35 @@ use Cake\Routing\Router;
     <p id="etatnotif"></p>
   <div class="row-no-gutters">
     <?=  $this->element('onlinemenu') ;?>
-<div class="col-sm-4">
+<div class="col-md-3 col-sm-4">
   <?php
   $username = $this->request->getParam('username'); // nom du profil en cours
   $current_url = Router::url(null, false); // url en cours
   $url_demande = Router::url(['_name' => 'demande']);// url demande d'abo
+  ?>
+  <ul id="myTab" class="nav nav-tabs nav-stacked">
+        <li><a href="/instatux/abonnement/<?= $authName ;?>"><span class="glyphicon glyphicon-user green"></span>&nbsp;&nbsp;Mes abonnement(s)</a></li>
+    <li><a href="/instatux/abonne/<?= $authName ;?>"><span class="glyphicon glyphicon-user red"></span>&nbsp;&nbsp;Mes abonné(s)</a></li>
+    <?php
      if($current_url == $url_demande OR $username == $authName) // je suis authentifié
    // si je suis le profil d'une autre personne ou le mien ou sur la page des demande
-
     {
       ?>
-<ul id="myTab" class="nav nav-tabs nav-stacked">
-    <li><a href="/instatux/abonnement/<?= $authName ;?>"><span class="glyphicon glyphicon-user green"></span>&nbsp;&nbsp;Mes abonnement(s)</a></li>
-    <li><a href="/instatux/abonne/<?= $authName ;?>"><span class="glyphicon glyphicon-user red"></span>&nbsp;&nbsp;Mes abonné(s)</a></li>
     <li><a href="/instatux/demande"><span class="glyphicon glyphicon-plus green"></span>&nbsp;&nbsp;Mes demande(s)</a></li>
   </ul>
   <?php
 }
 else
 {
-?>
-<ul id="myTab" class="nav nav-tabs nav-stacked">
-    <li><a href="/instatux/abonnement/<?= $username ;?>"><span class="glyphicon glyphicon-user green"></span>&nbsp;&nbsp;Liste des abonnements de <?= $username ;?></a></li>
-    <li><a href="/instatux/abonne/<?= $username ;?>"><span class="glyphicon glyphicon-user red"></span>&nbsp;&nbsp;Liste des abonnés de <?= $username ?></a></li>
-  </ul>
-<?php
+ echo '</ul>';
 }
 ?>
 </div>
-<div class="col-sm-5">
+<div class="col-md-7 col-sm-8">
 
  <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-3">
-</div>
+
 <?= $this->element('modaltweet'); ?>
 <footer>
     </footer>
@@ -88,5 +83,7 @@ else
  <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs -->  
  <?= $this->Html->script('actionabo.js') ?> <!-- script d'ajout/suppression d'un abo : utlisé sur profil, moteur de recherche,gestion abonnement --> 
 <?= $this->Html->script('blocage.js') ?> <!-- script de blocage d'un utlisateur : utlisé sur l'accueil, profil, moteur de recherche,viewtweet,chat,gestion abonnement -->
+</div>
+</div>
 </body>
 </html>

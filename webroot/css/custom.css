@@ -1,9 +1,11 @@
 html {
     height: 100%;
+    width: 100%;
 }
 body {
   /* Margin bottom by footer height */
   height: 100%;
+  width: 100%;
   font-family: 'Athiti', serif;
   color : black;
      background-color: #DCDCDC;
@@ -18,7 +20,6 @@ body.modal-open {
     padding-right: 0 !important;
 
 }
-
 .navbar {
 padding-right: 0px !important;
 }
@@ -26,19 +27,11 @@ padding-right: 0px !important;
 {
     font-weight: bold;
 }
-.cover
+
+#btnco /* bouton de connexion pour tablette */
 {
-
-width: 100%;
-height: 500px;
-
+  display: none;
 }
-.cover img
-{
-display: block;
-
-}
-
 a /* soulgnement lien */
 {
   text-decoration:none;
@@ -49,10 +42,12 @@ a /* soulgnement lien */
 }
 .container /* conteneur bootstrap general */
 {
-  border :1px solid #cecece;
-  padding: 0px;
-
+  width : 80%;
+border-left: 1px solid #cecece;
+border-right: 1px solid #cecece;
+border-bottom: 1px solid #cecece;
 }
+
 
 .row-eq-height {
   display: -webkit-box;
@@ -147,19 +142,17 @@ a /* soulgnement lien */
 }
 /* fin autocomplete */
 .footer {
-  position: relative;
-  top : 40px;
-  bottom: 0;
+
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: 60px;
   background-color: black;
-  text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
 
 }
+
+
 .footer a
 {
 text-decoration: none;
@@ -174,7 +167,7 @@ height : 10px;
 }
 #form_insc input
 {
-  height : 40px;
+  height : 50px;
   width: 70%;
 }
 .input_info {
@@ -791,13 +784,14 @@ color : green;
 /* listes des infos sur l'utilisateur*/
 .list_media {
 text-align: left;
-
+margin-left: 25px;
 }
 .thumbmedia /* liste des media sprofil */
 {
 
   width : 90px;
   height: 90px;
+  padding : 2px;
 
 }
 .item-user
@@ -808,6 +802,8 @@ text-align: left;
 {
   padding : 12px;
   color : #657786;
+  height: 60px;
+  font-weight: bold;
 }
 .item-user a
 {
@@ -904,10 +900,13 @@ font-weight: bold;
 
 .liste_suggestion
 {
+  list-style-type: none;
 
-  margin-left: 15px;
-  margin-bottom: 5px;
 
+}
+.liste_suggestion li
+{
+  margin-bottom: 10px;
 }
 
 .liste_suggestion img
@@ -929,6 +928,18 @@ font-weight: bold;
 
 /* fin inscription offline element */
 /* settings */
+
+/* formulaire settings */
+
+
+
+#form_infos input
+{
+
+  padding : 20px;
+
+}
+
 /* lien deblocage settings */
 
 #deleteblock /* lien d'abonnement sur le moteur de recherche */
@@ -954,7 +965,7 @@ font-weight: bold;
 .container /* conteneur bootstrap general */
 {
   border:none;
-
+width: 100%;
 }
 .cover /* disparition de la photot de couverture */
 {
@@ -997,4 +1008,53 @@ font-weight: bold;
   {
     width : 90%;
   }
+
+
+
 }
+/* tablette en gros */
+@media screen and (min-width: 768px) and (max-width: 991px)
+{
+.container
+{
+  width : 100%;
+  border : none;
+}
+#search
+{
+  width : 118px;
+}
+.col-md-4
+{
+  position: absolute;
+  top :910px;
+}
+
+  #form_insc
+  {
+
+  margin-left : 27px;
+  }
+  #form_insc input
+  {
+    width : 95%;
+  }
+
+#formco /* disparition du formulaire de connexion par défaut */
+{
+  display: none;
+}
+
+#btnco
+{
+  display: block;
+    margin-top : 8px;
+    margin-right : 5px;
+}
+#forgetmdp
+{
+  display: none;
+}
+
+
+  }

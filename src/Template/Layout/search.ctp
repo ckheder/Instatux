@@ -59,7 +59,7 @@ else
   echo  $this->element('offlinemenu') ;
 }
 ?>
-<div class="col-sm-3"> 
+<div class="col-md-3 col-sm-4"> 
   <?php
 // texte à afficher sur le lien de la liste
 if ($this->request->getQuery('direction') == "desc")
@@ -87,12 +87,11 @@ else
       <li><?= str_replace('#', '%23', $this->Paginator->sort('nb_commentaire','<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Les plus commentés',['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
  </ul>
 </div>
-<div class="col-sm-5">
+<div class="col-md-5 col-sm-8">
 
  <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-3">
-<br />
+
         
 
         <?php if (isset($authName)) // test de l'authentification
@@ -105,7 +104,7 @@ else
   echo $this->element('modalconnexion');
 }
 ?>
-</div>
+
 <?= $this->element('modalview'); ?>
 <?= $this->element('viewlike'); ?>
 <footer>

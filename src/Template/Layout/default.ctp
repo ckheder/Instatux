@@ -42,26 +42,31 @@ $cakeDescription = ' Instatux. Ce qu\'il se passe.';
 <body>
 
 
-   <div class="container" style="border: 1px solid #cecece;">
+   <div class="container">
 
         
   <div class="row-no-gutters">
     <?= $this->element('accueilmenu')?>
     <?= $this->Flash->render() ?>
-         <div class="col-sm-6">
+         <div class="col-md-6">
    
         <?= $this->fetch('content') ?>
 
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
  <?= $this->element('join')?>
+ <br />
     </div>
-    <footer class="footer">
-  <div>
+
+    
+
+    <footer class="footer container">
+  <div class="container-fluid">
    <a href="#">Conditions d'utilisation - </a><a  href="https://github.com/ckheder/Instatux">Contribuer - </a><a href="#">Contact</a>
   </div>
-    </footer>
-</div>
-</div>
+</footer>
+<?= $this->element('modalconnexion') ?>
+    </div>
+  </div>
 </body>
 </html>

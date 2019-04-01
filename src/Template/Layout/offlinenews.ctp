@@ -44,7 +44,7 @@ use Cake\Routing\Router;
 
  <div class="row-no-gutters">
   <?= $this->element('offlinemenu') ; ?>
-     <div class="col-sm-4">
+     <div class="col-md-3 col-sm-4">
         <?= $this->element('encartinscriptionoffline'); ?>
         <?= $this->element('modalview'); ?>
         <?= $this->element('viewlike'); ?>
@@ -62,14 +62,10 @@ use Cake\Routing\Router;
       <li><?= $this->Paginator->sort('nb_commentaire','<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Les plus commentés',['escape' => false,'direction' => 'desc', 'lock' => true]);?></li>
  </ul>
      </div>
- <div class="col-sm-5">
+ <div class="col-md-6 col-sm-8">
 
         <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-3">
-</div>
-
-
 
 <?= $this->element('modalconnexion') ?>
 <footer>

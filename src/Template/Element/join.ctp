@@ -31,8 +31,6 @@
             ?>
             </div>
             <br />
-        
-    </fieldset>
     <p>
       En cliquant sur Inscription, vous acceptez nos <a href="#">Conditions générales</a>.
     </p>
@@ -41,3 +39,5 @@
     <?= $this->Form->button('Inscription', array('class'=>'btn btn-info')) ?>
     <?= $this->Form->end() ?>
 </div>
+
+

@@ -210,15 +210,7 @@ $user->email = $this->request->data('mail');
 
                     $reponse = $this->avatar($avatar);
                 }
-
-      //cover
-               if(!empty($this->request->data['cover']) AND $this->request->data['cover']['error'] == 0)
-                {
-
-                  $cover = $this->request->data['cover'];
-
-                    $reponse = $this->cover($cover);
-                }       
+      
       // modification autorisée
 if($allowedit == 1)
 {
@@ -410,107 +402,5 @@ else {
 
         }
 
-   /** changer l'image de couverture
-    ** mise à jour de l'image de couverture
-    **/
-    private function cover($file)
-        {
-
-$taillemax = 3047171; // taille max soit 3 mo
-
-$taille = filesize($file['tmp_name']); // taille du fichier
-  // taille du fichier
-      if($taille > $taillemax) // vérification taille + envoi
-      {
-        $erreur = 'Ce fichier est trop volumineux.';
-      }
-      $imageMimeTypes = array( // type MIME autorisé
-      'image/jpg',
-      'image/jpeg',
-      'image/png');
-
-      $fileMimeType = mime_content_type($file['tmp_name']); // récupération du type MIME
-
-      if (!in_array($fileMimeType, $imageMimeTypes)) // test de l'extension du fichier
-            {
-                     $erreur = 'Seules les images jpg/png sont autorisées';
-            }
-
-      if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload ou si c'est un png
-                      {
-
-                        // converstion png vers jpg
-
-                        if($fileMimeType == 'image/png')
-                        {
-                       
-                        $tempfilename = $file['tmp_name']; 
-
-                        $filename = imagecreatefrompng($tempfilename);
-
-                        $chemin = 'img/media/'.$this->Auth->user('username') . '/cover_'.$this->Auth->user('username') . '.jpg';
-
-                        imagejpeg($filename, $chemin , 70);
-                        
-                        if($this->resize($chemin) == 'ok')
-                        {
-                          return $reponse = 'ok';
-                          imagedestroy($file);
-                        }
-                         else
-                 {
-                  return $reponse = 'probleme';
-                 }
-
-                        }
-                       else
-                       {
-                          
-
-                 $tempfilename = $file['tmp_name']; 
-                        
-                        if($this->resize($tempfilename) == 'ok')
-                        {
-                          return $reponse = 'ok';
-                          imagedestroy($file);
-                        }
-                         else
-                 {
-                  return $reponse = 'probleme';
-                 }
-                      
-}
-}
-else {
-  return $erreur;
-}
-
-
-        }
-
-        private function resize($file) // redimension de la photo de couverture
-        {
-          $fileName = imagecreatefromjpeg($file);
-
-                $new_cover = imagecreatetruecolor(1170, 500);
-
-                $largeur_source = imagesx($fileName);
-                $hauteur_source = imagesy($fileName);
-
-                $largeur_destination = imagesx($new_cover);
-                $hauteur_destination = imagesy($new_cover);
-
-                imagecopyresampled($new_cover, $fileName, 0, 0, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
-
-                 if(imagejpeg($new_cover, 'img/media/'.$this->Auth->user('username') .'/cover_'.$this->Auth->user('username').'.jpg'))
-                 {
-                  return $reponse = 'ok';
-                 }
-                 else
-                 {
-                  return $reponse = 'probleme';
-                 }
-                        
-        }
 
 }

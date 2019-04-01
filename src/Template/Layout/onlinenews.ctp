@@ -53,7 +53,7 @@ use Cake\Routing\Router;
     <?= $this->element('onlinemenu') ; ?>
     <?= $this->element('modalview'); ?>
     <?= $this->element('viewlike'); ?>
-     <div class="col-sm-3">
+     <div class="col-md-3 col-sm-4">
          <ul id="myTab" class="nav nav-tabs nav-stacked">
   <li class="list-group-item list-group-item-info">Filtrer l'actualités.</li>
   <!-- lien de résultat les plus récents -->
@@ -69,16 +69,11 @@ use Cake\Routing\Router;
  </ul>
 
      </div>
- <div class="col-sm-5">
+ <div class="col-md-6 col-sm-8">
 
         <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-4">
 
-
-<?= $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;?>
-       
-</div>
 <?=  $this->element('modaltweet');?>
 <?=  $this->element('helpmodal');?> 
 

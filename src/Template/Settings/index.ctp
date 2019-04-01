@@ -72,9 +72,11 @@ Toutes ces informations sont facultatives.
 
 <strong>Important !</strong> Votre adresse mail sert uniquement de contact , elle ne sera ni affichée, ni partagée et ni conservée même en cas de suppression de votre compte.
     </div>
+
 <?= $this->Form->input('mail', ['id' =>'mail','type' => 'email','prepend' => ' <span class="glyphicon glyphicon-envelope"></span> ','label'=>'','placeholder' => 'Nouvelle adresse mail'],array('class'=>'form-controle')) ?>
 
-<?= $this->Form->input('confirmmail', ['id' => 'confirmmail','type'=>'email', 'prepend' => ' <span class="glyphicon glyphicon-envelope"></span> ','label'=>'','placeholder' => 'confirmer nouvelle adresse mail','autocomplete' => 'off'],array('class'=>'form-controle')) ?>
+<?= $this->Form->input('confirmmail', ['id' => 'confirmmail','type'=>'email', 'prepend' => ' <span class="glyphicon glyphicon-envelope"></span> ','label'=>'','placeholder' => 'Confirmer nouvelle adresse mail','autocomplete' => 'off'],array('class'=>'form-controle')) ?>
+
 <!-- fin modifier mon lieu -->
 <!-- modifier mon lieu -->
 
@@ -108,17 +110,6 @@ Toutes ces informations sont facultatives.
 <!--<img id="previewHolder"  width="160px" height="160px"/>-->
 
 <?= $this->Html->image('default.png', ['alt' => '','id' => 'previewHolder', 'width' =>128, 'height'=> 'auto','class'=>'img-circle']); ?>
-</div>
-<!-- modifier ma photo de couverture -->
-<div class="text-center">
-<h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;Changer ma photo de couverture</h4>
-</div>
-<br />
-<p class="text-muted">Nouvel photo de couverture (jpg/jpeg/png) 3mo maximum</p>
-<input type="file" name="cover"   accept="image/*">
-<br />
-<div class="alert alert-info">
-<strong>Important !</strong> Choississez une photo de couverture ayant une grande longueur pour un meilleur rendu.
 </div>
 <!-- changer mot de passe -->
 <div class="text-center">
@@ -161,7 +152,7 @@ Vous ne recevrez des notifications que sur le site, aucune notification ne sera 
 Les notifications de messages vous informent en cas de nouveaux messages que ce soit dans une conversation en cours ou si quelqu'un avec qui vous ne parlez pas vous à envoyé un message.
 "><span class="glyphicon glyphicon-question-sign"></span></a>
 
-<label for"notifmessage">Notification de message</label>
+<label for="notifmessage">Notification de message</label>
 
 <div class="btn-group" data-action="message" id="notifmessage">
 
@@ -191,7 +182,7 @@ Les notifications de messages vous informent en cas de nouveaux messages que ce 
 <a href="#"  data-toggle="popover" data-trigger="hover" data-content="
 Les notifications de citation vous informent si votre @ à étaient utilisés dans un tweet soit de vos abonnés soit de quelqu'un d'autre, vous pouvez ainsi détecté les insultes ou autre et le signaler.
 "><span class="glyphicon glyphicon-question-sign"></span></a>
-<label for"notifcite">Notification de citation</label>
+<label for="notifcite">Notification de citation</label>
 <div class="btn-group" data-action="cite" id="notifcite">
    <?php if($notif_cite == 'oui')
    {
@@ -217,7 +208,7 @@ Les notifications de citation vous informent si votre @ à étaient utilisés da
 <a href="#"  data-toggle="popover" data-trigger="hover" data-content="
 Les notifications de partage vous informent si l'une de vos publications à étaient partagée, attention cependant les commentaires sont indépendant d'une publication à l'autre, assurez vous que vos publications soient vues par les bonnes personnes.
 "><span class="glyphicon glyphicon-question-sign"></span></a>
-<label for"notifpartage">Notification de partage</label>
+<label for="notifpartage">Notification de partage</label>
 <div class="btn-group" data-action="partage" id="notifpartage">
    <?php if($notif_partage == 'oui')
    {
@@ -244,7 +235,7 @@ Les notifications de partage vous informent si l'une de vos publications à éta
 <a href="#"  data-toggle="popover" data-trigger="hover" data-content="
 Les notifications d'abonnement vous informent d'un nouvel abonnement à votre profil, attention cependant vous ne pouvez paramétrer ces notifications que dans le cas d'un profil public.
 "><span class="glyphicon glyphicon-question-sign"></span></a>
-<label for"notifabo">Notification d'abonnement</label>
+<label for="notifabo">Notification d'abonnement</label>
 <div class="btn-group" data-action="abo" id="notifabo">
    <?php if($notif_abo == 'oui')
    {
@@ -270,7 +261,7 @@ Les notifications d'abonnement vous informent d'un nouvel abonnement à votre pr
 <a href="#"  data-toggle="popover" data-trigger="hover" data-content="
 Les notifications de commentaires vous informent si vos abonnés , dans le cas d'un profil privé ou si quelqu'un à commenté l'une de vos publications.Vous pourrez ainsi les consulter, les modérer, signaler tous commentaires injurieux ou bloquer les commentaires d'une publication.
 "><span class="glyphicon glyphicon-question-sign"></span></a>
-<label for"notifcomm">Notification de commentaires</label>
+<label for="notifcomm">Notification de commentaires</label>
 <div class="btn-group" data-action="comm" id="notifcomm">
    <?php if($notif_comm == 'oui')
    {

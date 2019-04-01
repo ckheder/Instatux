@@ -55,18 +55,7 @@ use Cake\Routing\Router;
 $current_user = $this->request->getParam('username'); ?>
      <div class="container">
       <p id="etatnotif"></p>
-        <?php
-  if($current_url == $url_profil) // je suis sur un profil quelconque
-    {
-      ?>
-            <div class="cover"><!-- image de couverture -->
-  <!--<img src="https://pbs.twimg.com/profile_banners/702671204/1538668415" class="img-responsive">-->
-  <?= $this->Html->image('media/'.$current_user.'/cover_'.$current_user.'', array('alt' => 'couverture utilisateur', 'class'=>'img-responsive')); ?>
-  </div>
-  <?php
-}
-?>
-          
+         
           <?= $this->Flash->render() ?>
 <div class="row-no-gutters row-eq-height">
        <?php if (isset($authName))
@@ -78,7 +67,7 @@ else
   echo  $this->element('offlinemenu') ;
 }
 ?>
-<div class="col-md-4">
+<div class="col-md-3 col-sm-5">
 
    <?php
 echo $this->element('modalview');
@@ -122,11 +111,11 @@ else // je ne suis pas authentifié
 ?>
 
 </div>
-<div class="col-md-5">
+<div class="col-md-5 col-sm-7">
 
         <?= $this->fetch('content') ?>
 </div>
-<div class="col-md-3">
+<div class="col-md-4">
         <?php if (isset($authName))
 {
   if($current_url == $url_profil) // je suis sur un profil quelconque

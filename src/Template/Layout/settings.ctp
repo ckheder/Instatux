@@ -41,12 +41,12 @@
 </head>
 <body>
 
-   <div class="container" style="background-color: white;border: none;">
+   <div class="container">
     <p id="etatnotif"></p>
   <div class="row-no-gutters">
       <?=  $this->element('onlinemenu') ;?>
-<div class="col-sm-4">
-<ul id="myTab" class="nav nav-tabs nav-stacked" style="border: none;">
+<div class="col-md-3 col-sm-4" >
+<ul id="myTab" class="nav nav-tabs nav-stacked">
       <li class="active"><a href="#infos" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Mon profil</a></li>
       <li><a href="#notifs" data-toggle="tab"><span class="glyphicon glyphicon-bell"></span>&nbsp;&nbsp;Notifications</a></li>
       <li><a href="#blocks" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Utilisateurs bloqués</a></li>
@@ -55,12 +55,11 @@
 
  </ul>
 </div>
-<div class="col-sm-5">
+<div class="col-md-6 col-sm-7">
 
         <?= $this->fetch('content') ?>
 </div>
-<div class="col-sm-3">        
-</div>
+
 <?= $this->element('modaltweet'); ?>
 
 <footer>

@@ -94,6 +94,8 @@ $nb_resultat_tweet = $query_tweet->count(); // décompte du nombre de résultat
 $this->set('nb_resultat_tweet', $nb_resultat_tweet);
 
 $this->set('resultat_tweet', $this->paginate($query_tweet, ['limit' => 8]));
+
+$this->set('search',$keyword); // on renvoi la requete 
              
     }
 
