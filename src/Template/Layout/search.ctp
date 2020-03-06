@@ -1,3 +1,13 @@
+<!--
+
+ * search.ctp
+ *
+ * Layout du moteur de recherche
+ *
+ */
+
+-->
+
 <?php
 use Cake\Routing\Router;
 /**
@@ -20,16 +30,16 @@ use Cake\Routing\Router;
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title class="titlepage">
-        <?= $title ?>
-
-    </title>
+    <title class="titlepage"><?= $title ?></title>
+<!-- favicon -->
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
+<!-- CSS -->
     <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
+<!-- Javascript -->
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
@@ -42,71 +52,83 @@ use Cake\Routing\Router;
     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
     <?= $this->Html->script('/js/modal.js') ?>
+<!-- meta -->
     <?= $this->fetch('meta') ?>
 
 </head>
+
 <body>
  
    <div class="container">
-    <p id="etatnotif"></p>
-  <div class="row-no-gutters">
-      <?php if (isset($authName)) // test de l'authentification
-  {
-  echo  $this->element('onlinemenu') ;
-}
-else
-{
-  echo  $this->element('offlinemenu') ;
-}
-?>
-<div class="col-md-3 col-sm-4"> 
-  <?php
+
+    <p id="etatnotif"></p> <!-- notifications -->
+
+    <div class="row-no-gutters">
+
+      <?= $this->element('navbar') ; ?>
+
+    <div class="col-md-3 col-sm-4">
+
+    <?php
+
 // texte à afficher sur le lien de la liste
-if ($this->request->getQuery('direction') == "desc")
+
+  if ($this->request->getQuery('direction') == "desc")
 {
   $texte_link = '<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;Les plus anciens';
 }
-else
+  else
 {
   $texte_link = '<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;Les plus récents';
 }
 
-
   ?>
- <ul id="myTab" class="nav nav-tabs nav-stacked">
-  <li class="list-group-item list-group-item-info">Filtrer les résultats de recherche pour les tweets.</li>
+  <!-- lien de tri -->
+    <ul id="myTab" class="nav nav-tabs nav-stacked">
+
+      <li class="list-group-item list-group-item-info">Filtrer les résultats de recherche pour les tweets.</li>
+
   <!-- lien de résultat les plus récents -->
-  <li><?= str_replace('#', '%23', $this->Paginator->sort('created',$texte_link,['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
-        <!-- lien de résultat les plus anciens -->
-  
-      <!-- les plus partagés -->
-        <li><?= str_replace('#', '%23', $this->Paginator->sort('nb_partage','<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;Les plus partagés',['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
-        <!-- les plus likés -->
+
+      <li><?= str_replace('#', '%23', $this->Paginator->sort('created',$texte_link,['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
+ 
+  <!-- les plus partagés -->
+
+      <li><?= str_replace('#', '%23', $this->Paginator->sort('nb_partage','<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;Les plus partagés',['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
+
+  <!-- les plus likés -->
+
       <li><?= str_replace('#', '%23', $this->Paginator->sort('nb_like','<span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Les plus likés',['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
-      <!-- les plus commentés -->
+
+  <!-- les plus commentés -->
+
       <li><?= str_replace('#', '%23', $this->Paginator->sort('nb_commentaire','<span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Les plus commentés',['escape' => false,'direction' => 'desc', 'lock' => true]));?></li>
- </ul>
+    </ul>
 </div>
+
 <div class="col-md-5 col-sm-8">
 
  <?= $this->fetch('content') ?>
+
 </div>
 
-        
+        <?php 
 
-        <?php if (isset($authName)) // test de l'authentification
-  {
+              if (isset($authName)) // test de l'authentification
+            {
 
-echo $this->element('modaltweet'); 
-}
-else
-{
-  echo $this->element('modalconnexion');
-}
-?>
+              echo $this->element('modaltweet'); //les connectés peuvent poster un tweet 
+            }
+              else
+            {
 
-<?= $this->element('modalview'); ?>
-<?= $this->element('viewlike'); ?>
+              echo $this->element('modalconnexion');// les nono connectés peuvent se connecter
+            }
+        ?>
+
+              <?= $this->element('modalview'); ?>
+              <?= $this->element('viewlike'); ?>
+
 <footer>
     </footer>
  

@@ -1,5 +1,15 @@
+<!--
+
+ * profil.ctp
+ *
+ * Layout profil
+ *
+ */
+
+-->
+
 <?php
-use Cake\Routing\Router;
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -13,29 +23,23 @@ use Cake\Routing\Router;
  * @since         0.10.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-  
-  // variable URL
-           $current_url = Router::url(null, false); // url en cours
-  $url_notification = Router::url(['_name' => 'notifications']);// url notification
-  $url_profil = Router::url(['_name' => 'profil', 'username' => $this->request->getParam('username')]);// url profil
-  $url_conv = Router::url(['_name' => 'conversation', 'id' => $this->request->getParam('id')]);// url view tweet
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title class="titlepage">
-
-        <?= $title ?>
-        
-    </title>
+    <title class="titlepage"><?= $title ?></title>
+<!-- Favicon -->
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
+<!-- CSS -->
     <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
+<!-- Javascript -->
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
@@ -48,99 +52,90 @@ use Cake\Routing\Router;
     <?= $this->Html->script('/js/nbnotif.js') ?>
     <?= $this->Html->script('/js/search.js') ?>
     <?= $this->Html->script('/js/modal.js') ?>
+<!-- Meta -->
     <?= $this->fetch('meta') ?>
 </head>
 <body>
 <?php
-$current_user = $this->request->getParam('username'); ?>
+
+$current_user = $this->request->getParam('username'); ?> <!-- nom du profil -->
+
      <div class="container">
-      <p id="etatnotif"></p>
-         
-          <?= $this->Flash->render() ?>
+
+      <p id="etatnotif"></p> <!-- notifications -->
+
+        <?= $this->Flash->render() ?>
+
 <div class="row-no-gutters row-eq-height">
-       <?php if (isset($authName))
-  {
-  echo  $this->element('onlinemenu') ;
-}
-else
-{
-  echo  $this->element('offlinemenu') ;
-}
-?>
+
+  <?= $this->element('navbar') ; ?>
+
 <div class="col-md-3 col-sm-5">
 
    <?php
-echo $this->element('modalview');
-echo $this->element('viewlike');
+        echo $this->element('modalview'); // modal vue de tweet
+        echo $this->element('viewlike'); // modal vue des like aimant un tweet
+        echo $this->cell('Info'); // info sur le profil que je visite
+        echo $this->cell('Media'); // affichage des 8 derniers médias
+        
+
    if (isset($authName)) // je suis authentifié
   {
 
-      if($current_url == $url_profil) // je suis sur un profil quelconque
-    {
-
-    echo $this->cell('Info'); // info sur le profil que je visite
-    echo $this->cell('Abonnement', ['authname' => $authName]) ; // test de l'abonnement, blocage vis a vis du profil que je visite
-    echo $this->cell('Media');
-    
-
-
-    }
-
-    elseif($current_url == $url_notification) // mes paramètres de notifications
-    {
-      echo $this->cell('Notifications::notifications', ['authname' => $authName]) ;
-      echo $this->element('modalview');
-    }  
-        
-       elseif($current_url == $url_conv) // conversation
-    {
-      echo $this->element('conversation');
-    }
+      echo $this->cell('Abonnement', ['authname' => $authName]) ; // affichage de mes abonnements
+      
   }
-else // je ne suis pas authentifié
-{
-        if($current_url == $url_profil) // je suis sur un profil quelconque
-    {
 
-    echo $this->cell('Info'); // info sur le profil que je visite
-    echo $this->cell('Media');
+    else // je ne suis pas authentifié, je visite un profil
+  {
+     
+      echo $this->cell('Abonnement', ['authname' => $current_user]) ; // affichage des abonnements
 
-    }
-  echo $this->element('encartinscriptionoffline');
-}
+      echo $this->element('encartinscriptionoffline'); // informations offline
+
+  }
+  
 ?>
 
 </div>
-<div class="col-md-5 col-sm-7">
+
+<div class="col-md-6 col-sm-7" style="margin-top : 15px;">
 
         <?= $this->fetch('content') ?>
 </div>
-<div class="col-md-4">
-        <?php if (isset($authName))
-{
-  if($current_url == $url_profil) // je suis sur un profil quelconque
-    {
-     echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ;
-   }
- echo $this->element('modaltweet');
-echo  $this->element('helpmodal');
-}
+
+<div class="col-md-3" style="margin-top : 15px;padding-left: 14px;">
+
+  <?php
+
+    if (isset($authName)) // je suis authentifié
+  {
+
+      echo $this->cell('Abonnement::suggestionmoi', ['authname' => $authName]) ; // suggestion pour moi
+      echo $this->element('modaltweet'); // modal nouveau tweet
+      echo $this->element('helpmodal'); // modal information tweet
+  }
+    else
+  {
+      echo $this->element('modalconnexion');
+  }
+
 
 ?>
 
-
 </div>
-<?= $this->element('modalconnexion') ?>
+
+
 <footer>
     </footer>
           <?= $this->Html->script('countlike.js') ?> <!-- script d'ajoput/suppression de like : utlisé sur l'accueil, profil, moteur de recherche -->
-           <?= $this->Html->script('actionabo.js') ?> <!-- script d'ajout/suppression d'un abo : utlisé sur profil, moteur de recherche -->
+          <?= $this->Html->script('actionabo.js') ?> <!-- script d'ajout/suppression d'un abo : utlisé sur profil, moteur de recherche -->
           <?= $this->Html->script('sharetweet.js') ?> <!-- script de partage d'un tweet : utlisé sur l'accueil, profil, moteur de recherche -->
           <?= $this->Html->script('blocage.js') ?> <!-- script de blocage d'un utlisateur : utlisé sur l'accueil, profil, moteur de recherche,viewtweet,chat -->
           <?= $this->Html->script('messagerie.js') ?> <!-- message depuis les fenetres modals , la page d'accueil de la messagerie et l'auto completion des abonnements -->
           <?= $this->Html->script('instatuxeditor.js') ?> <!-- posté des trucs -->
-          <?= $this->Html->script('screen.js') ?>
 
+          <?= $this->Html->script('screen.js') ?> <!-- mise en forme rersponsive -->
 
 </div>
 </div>

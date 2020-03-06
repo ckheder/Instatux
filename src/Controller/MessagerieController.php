@@ -2,24 +2,30 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 use Cake\Event\Event;
 use Cake\Routing\Router;
+use Cake\Datasource\ConnectionManager;
 
 /**
- * Messagerie Controller
+ * Controller Messagerie
  *
- * @property \App\Model\Table\MessagerieTable $Messagerie
+ * Gestion de la messagerie
+ *
+ * @property \App\Model\Table\MessagerieTable
  */
 class MessagerieController extends AppController
 {
 
     public $components = array('RequestHandler');
 
+    // pagination limitée à 8 messages par ordre décroissant de la date
+
     public $paginate = [
-        'limit' => 8,
-        'order' => [
-            'Messagerie.created' => 'desc'
-        ]
+                          'limit' => 8,
+                          'order' => [
+                                      'Messagerie.created' => 'desc'
+                                      ]
     ];
 
             public function beforeFilter(Event $event)
@@ -32,311 +38,440 @@ class MessagerieController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Paginator');
+        $this->loadModel('Conversation');
+        $this->loadModel('Blocage');
+        $this->loadModel('Settings');
     }
 
     /**
-     * Index method
+     * Méthode Index
      *
-     * @return \Cake\Network\Response|null
+     * Affiche une cell contenant toute les conversations de l'utilisateur courant qui ne sont pas masquées (statut 1), et un formulaire de nouveau message
+     *
      */
-    public function index()
+      public function index()
     {
         $this->viewBuilder()->layout('messagerie');
-        $this->set('title', 'Messagerie'); // titre de la page
-
-        // on recherche toutes les conversations non masquées, statut = 1 de l'utilisateur courant, on récupère le destinataire et la date de dernier message
-
-        $this->loadModel('Conversation');
-
-        $conv = $this->Conversation->find();
-
-        $conv->select([
-          'Messagerie.conv',
-          'participant2',
-          'created' => $conv->func()->max('Messagerie.created'),
-        ])
-        ->leftjoin(
-            ['Users'=>'users'],
-
-            ['Users.username = (Conversation.participant2)']
-    )
-                ->leftjoin(
-            ['Messagerie'=>'messagerie'],
-
-            ['Messagerie.conv = (Conversation.conv)']
-    )
-        ->where(['participant1' => $this->Auth->user('username')])
-        ->where(['statut' => 1])
-        ->contain(['Users'])
-        ->group('Messagerie.conv');
-    
-        $this->set(compact('conv'));
-
-        $nb_conv = $conv->count();
-
-        $this->set('nb_conv', $nb_conv);
-
-
-}
-
-// vérification que l'on peut accéder à une conversation
-    
-    private function verifconv($username)
-    {
-        $this->loadModel('Conversation');
-        $verif = $this->Conversation->find();
-       
-        $verif->where(['participant1' => $username])
-        ->orwhere(['participant2'=> $username])
-        ->where(['conv' => $this->request->getParam('id')]);
-
-        if ($verif->isEmpty())
-        {
-            return 0; // pas le droit
-        }
-        else
-        {
-            return 1; // autorisé
-        }
+        $this->set('title', 'Messagerie');
     }
 
     /**
-     * View method
-     * voir les messages d'une conversation
-     * @param string|null $id Messagerie id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null) // voir une conversation
-    {
-        $this->viewBuilder()->layout('general');
-         
-
-
-         $verif_user = $this->verifconv($this->Auth->user('username'));
-
-         if($verif_user == 0)
-         {
-            $this->Flash->error(__('Vous n\'avez pas l\'autorisation de voir cette conversation, soit elle n\'existe pas , soit vous n\'en faites pas partie soit la personne avec qui vous parliez n\'existe plus.'));
-                return $this->redirect([
-                    'controller' => 'messagerie',
-                    'action' => 'index'
-        
-]);
-               
-                die();
-         }
-         else
-         {
-
-   $message = $this->Messagerie->find()->select([ 
-  'Messagerie.user_id', 
-  'Messagerie.destinataire', 
-  'Messagerie.message', 
-  'Messagerie.created',  
-            ])
-        ->where(['conv' => $this->request->getParam('id')])
-        ->order(['Messagerie.created' => 'DESC']);
-
-
-   $this->set('message', $this->Paginator->paginate($message, ['limit' => 8]));
-
-
-            // fin pagination
-
-foreach ($message as $message): 
-                        
-if($message->user_id == $this->Auth->user('username'))
-{
- $destinataire = $message->destinataire;
-
- }
- else
- {
- $destinataire = $message->user_id;
-
- }
-
-endforeach;
-
-$this->set('title', 'Conversation avec  '.$destinataire.''); // titre de la page
-
-$this->set('destinataire', $destinataire);
-
-
-}
-  
-    }
-
-
-
-    /**
-     * Add method
+     * Méthode Add
      *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     * Ajout d'un message : soit ajouter à une conversation soit en crée une nouvelle
+     *
+     * Paramètre : idtweet-> identifiant du tweet dont on veut la liste des likes
      */
-    public function add() // envoyer un message, ajout auto à une conv ou création d'une nouvelle
+    public function add()
     {
 
        if ($this->request->is('ajax')) {
 
-        $page = $this->request->referer(true); // url d'origine
 
-         $url_messagerie = str_replace('/instatux','',Router::url(['_name' => 'messagerie']));// url messagerie
+        // url d'origine : profil | index messagerie | conversation
 
-         if($this->test_blocage($this->request->data['destinataire']) == 1) // si je suis bloqué
-        {
+          $page = $this->request->referer(true);
 
-        $reponse = 'blocage';
-         $this->response->body(json_encode($reponse));
-         return $this->response;
-        }
-        else
-        {
+        // url messagerie
 
+          $url_messagerie = str_replace('/instatux','',Router::url(['_name' => 'messagerie']));
 
-$message = $this->Messagerie->newEntity();
+        // destinataire du message
 
-if(isset($this->request->data['conversation'])) // on vérifie si j'envoi une conversation -> view.ctp
-{
-    $conversation = $this->request->data['conversation'];
-    $new_conv = 1; // conversation existante
-}
-else
-{
-       $this->loadModel('Conversation'); // on vérifie si il y'a déjà une conversation entre nous
+          $destinataire = $this->request->data['destinataire'];
 
-$checkconv = $this->Conversation
-        ->find()
-        ->select(['conv'])
-        ->where([
+// si je viens de la page index messagerie ou de la modale envoi de message depuis le profil
 
-'participant1' =>  $this->Auth->user('username') // moi
-
-            ])
-        ->where(['participant2' => $this->request->data['destinataire']]);
-
-
- if ($checkconv->isEmpty()) // si pas de résultat, on crée une nouvelle conversation
-        {
-
-            $conversation = rand();
-            $new_conv = 0; // conversatio in existante
-
-            }
-            else
+              if($page == $url_messagerie OR preg_match('/\/(\w+)/m', $page))
             {
-                foreach ($checkconv as $row) // recupération de la conversation
-                {
-                $conversation = $row['conv'];
-                $new_conv = 1; // converstion existante
-                }
+
+                //test si je suis bloqué par le destinataire
+
+                 if($this->test_blocage($destinataire) == 1)
+              {
+
+                  //renvoi d'une réponse 'blocage'
+                  $reponse = 'blocage';
+                  $this->response->body(json_encode($reponse));
+                  return $this->response;              
+              }
+                else
+              {
+
+                // récupération ou génération d'une nouvelle conversation avec mon destinataire
+
+                  $conversationresult = $this->get_conv($destinataire);
+
+                  $conversation = $conversationresult['conversation']; // identifiant conversation
+
+                  $new_conv = $conversationresult['new_conv']; // 0 : nouvelle conversation, 1 : conversation existante
+
+                  $statut = $conversationresult['statut'];
+
+                  //dd($statut);
+
+              }
+
+              $typeconv = 'duo';
+           } 
+
+//conversation duo
+
+            if(isset($this->request->data['typeconv']))
+          {
+
+            $typeconv = $this->request->data['typeconv'];
+
+              if($typeconv == 'duo')
+            {
+
+            //récupération de la conversation
+
+              $conversation = $this->request->data['conversation'];
+
+              $new_conv = 1;
+                                  
+            // test si je suis bloqué par le destinataire
+
+                 if($this->test_blocage($destinataire) == 1)
+              {
+
+                  //renvoi d'une réponse 'blocage'
+                  $reponse = 'blocage';
+                  $this->response->body(json_encode($reponse));
+                  return $this->response;              
+              }
 
             }
-}
 
-// notification de message pour mon destinataire
+          }
 
-if($this->testnotifmessage($this->request->data['destinataire']) === "oui")
-                {
+//création du nouveau message
 
-                  $notif = "oui";
-                }
-                else
-                {
-                  $notif = "non";
-                }
-// fin notification de message pour mon destinataire
+            // création d'une nouvelle entité "messagerie"
 
+            $message = $this->Messagerie->newEntity();
 
-$messages = strip_tags($this->request->data('message')); // echappement des caractères dans le message envoyé
-        
+            $messages = strip_tags($this->request->data('message')); // echappement des caractères dans le message envoyé
+
             $data = array(
-            'user_id' => $this->Auth->user('username'), // expediteur
-            'destinataire' => $this->request->data['destinataire'],
-            'message' =>  $this->linkify_message($messages), // message
-            'conv' => $conversation,
-            //evenement abonnement
-            'nom_session' => $this->Auth->user('username'),//nom de session
-             'new_conv' => $new_conv,
-             'notif' =>$notif
-            );
+                          'user_id' => $this->Auth->user('username'), // expediteur                          
+                          'message' =>  AppController::linkify_content($messages), // message
+                          'conv' => $conversation, // id conversation
+            // données servant à la création si besoin d'une nouvelle conversation et d'une notification de nouveau message
+                          'new_conv' => $new_conv, // 1-> conversation existante, 0 -> conversation inexistante
+                          'destinataire' => $destinataire
+                          );
+
 
             $message = $this->Messagerie->patchEntity($message, $data);
-            
-            if ($this->Messagerie->save($message)) 
+
+            if ($this->Messagerie->save($message))
+          {
+
+            // test de l'acceptation de notif message et si la conv existe
+
+            $notif = $this->testnotifmessage($destinataire, $conversation);
+
+              // évènement lié à la création d'un nouveau message : on crée une notif de nouveau message ou une nuvelle conversation si besoin
+
+              if($notif == 'oui' OR $new_conv == 0 OR $statut)
             {
 
-                    //évènenement
-
-                 $event = new Event('Model.Messagerie.afterAdd', $this, ['message' => $message]);
-                $this->eventManager()->dispatch($event);
-            
-                // fin évènement
-
-            if($page == $url_messagerie) // je vien de la page messagerie
-    {
-
-      $data['origin'] = 1;
-    }
-       $this->response->body(json_encode($data)); 
-          
-    }
-    else {
-                $reponse = 'probleme';
-                $this->response->body(json_encode($reponse));
+              $event = new Event('Model.Messagerie.afterAdd', $this, ['message' => $message,'notif' => $notif, 'statut' => $statut]);
+              $this->eventManager()->dispatch($event);
 
             }
 
+              // fin évènement
+
+                if($page == $url_messagerie OR preg_match('/\/(\w+)/m', $page)) // je viens de la page messagerie, je le notifie en JSON pour la redirection
+              {
+                $data['origin'] = 1;
+              }
+                $this->response->body(json_encode($data));
+          }
+            else
+          {
+                $reponse = 'probleme';
+                $this->response->body(json_encode($reponse));
+          }
+          return $this->response;
+
+        }
+          
+          // accès à la page hors d'une requête Ajax
+            else 
+          {
+            throw new NotFoundException(__('Cette page n\'existe pas.'));
+          }
+    }
+
+    /**
+     * Méthode View
+     *
+     * Affichage d'une conversation
+     *
+     */
+      public function view()
+    {
+        
+          if ($this->request->is('ajax')) 
+        {
+         
+        // on vérifie si j'ai le droit de voir cette conversation
+
+          $statut = AppController::verifconv($this->Auth->user('username'), $this->request->getParam('id'));
+
+          if($statut == 0) // je ne peut voir cette conversation
+         {
+
+          $this->Flash->error(__('Vous n\'avez pas l\'autorisation de voir cette conversation'));
+
+                // redirection vers le nouveau profil
+
+                return $this->redirect('/messagerie');
+
+            die();
+         }
+          else
+         {
+      
+          // récupération du type de conv
+
+            $type_conv = $this->get_type_conv($this->request->getParam('id'));
+
+            $message = $this->Messagerie->find()->select([
+                                                          'Messagerie.user_id',
+                                                          'Messagerie.message',
+                                                          'Messagerie.created',
+                                                        ])
+                                                ->where(['Messagerie.conv' => $this->request->getParam('id')])
+                                                ->order(['Messagerie.created' => 'DESC'])
+                                                ->contain(['Conversation']);
+
+            $this->set('message', $this->Paginator->paginate($message, ['limit' => 8]));
+           
+            $this->set('type_conv', $type_conv);
+
+              if($type_conv == 'duo')
+            {
+                  $destinataire = $this->get_destinataire($this->request->getParam('id'));
+
+                  $this->set('destinataire', $destinataire); 
+                                    
+            }
+           
+        }
 
     }
-  return $this->response;      
-}
-}
+      else 
+    {
+      throw new NotFoundException(__('Cette page n\'existe pas.'));
+    }
+  }
+
+           /**
+     * Méthode listconv
+     *
+     * Actualisation de la liste de mes conversation après envoi d'un message depuis la messagerie ou au chragement de la page
+     *
+     * Paramètre : statut = 0 -> booléen false donc visible
+     *
+     * Sortie : liste de mes conversations
+     */
+
+             public function listconv()
+    {
+
+            if ($this->request->is('ajax')) 
+        {
+      
+      $connection = ConnectionManager::get('default');
+
+      $conv = $connection->execute('SELECT M.conv AS conv, DM.message AS message, DM.created AS created, DM.user_id AS user_id 
+                                    FROM ( SELECT conv, MAX( created ) AS max_date FROM messagerie GROUP BY conv ) M 
+                                    INNER JOIN conversation C ON M.conv = C.conv 
+                                    INNER JOIN messagerie DM ON C.conv = DM.conv 
+                                    INNER JOIN users U ON DM.user_id = U.username AND M.max_date = DM.created 
+                                    WHERE C.user_conv = :username
+                                    AND C.statut = 0
+                                    ORDER BY DM.created DESC ', ['username' => $this->Auth->user('username')]);
+
+
+        $this->set('conv' , $conv); // liste des conversation
+             
+        $this->set('authname', $this->Auth->user('username'));
+
+        }
+
+          else 
+      {
+          throw new NotFoundException(__('Cette page n\'existe pas.'));
+      }
+
+    }
+
+
+        /**
+     * Méthode test_blocage
+     *
+     * Vérification si le destinataire ne m'a pas bloqué
+     *
+     * Paramètre : $username -> destinataire du message
+     *
+     * Sortie : 0 -> non bloqué | 1 -> bloqué
+     */
 
         private function test_blocage($username) // on vérifie que le destinataire ne m'a pas bloqué
     {
-        $this->loadModel('Blocage');
+        
 
-        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $username])->where(['bloquer' => $this->Auth->user('username') ])->count();
-
-             return $verif_blocage;
+        $verif_blocage = $this->Blocage->find()
+                                        ->where(['bloqueur' => $username])
+                                        ->where(['bloquer' => $this->Auth->user('username') ])
+                                        ->count();
+         return $verif_blocage;
     }
 
-    private function testnotifmessage($username) // on vérifie si la personne à qui j'envoi un message accepte les notifications de message
+            /**
+     * Méthode testnotifmessage
+     *
+     * Vérification si le destinataire accepte les notifications de message et si elle n'a pas supprimé la conversation
+     *
+     * Paramètre : $username -> destinataire du message
+     *
+     * Sortie : oui -> accepte | 1 -> refuse
+     */
+
+      private function testnotifmessage($username,$conv)
     {
-                $this->loadModel('Settings');
 
-        $verif_notif = $this->Settings->find()->select(['notif_message'])->where(['user_id' => $username]);
+      // vérification si conversation supprimé
 
-        foreach ($verif_notif as $verif_notif) // recupération de la conversation
-                {
-                $settings_notif = $verif_notif['notif_message'];
-                }
+      $verif_conv = $this->Conversation->find()
+                                        ->where(['user_conv' => $username])
+                                        ->where(['conv' => $conv])
+                                        ->where(['statut' => 0]); // statut 0 -> conversation affichée
+
+        if (!$verif_conv->isEmpty())
+        {
+
+        $verif_notif = $this->Settings->find()
+                                      ->select(['notif_message'])
+                                      ->where(['user_id' => $username]);
+
+        foreach ($verif_notif as $verif_notif) // récupération du paramètre
+      {
+          $settings_notif = $verif_notif['notif_message'];
+      }
 
              return $settings_notif;
+           }
+            else
+           {
+            return 'non';
+           }
     }
 
-                // parsage des tweets et des emoticones
-    private function linkify_message($message) 
+            /**
+     * Méthode gettypeconv
+     *
+     * Récupération du type de conversation
+     *
+     * Paramètre : $conv -> identifiant de la conversation
+     *
+     * Sortie : duo / multiple
+     */
+      private function get_type_conv($conv)
     {
-        // remplacement des @ -> lien vers profil
-    $message = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
-        '$1<a href="$2">@$2</a>',
-        $message);
 
-    $message =  preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt=":$1:" class="emoji_comm"/>', $message); // emoji
+      $type_conv = $this->Conversation->find()
+                                        ->select(['type_conv'])
+                                        ->where(['conv' => $conv]);
 
-    $message = preg_replace('/#([^\s]+)/', '<a href="../instatux/search/hashtag/$1">#$1</a>', $message);
+                  foreach ($type_conv as $type_conv) // récupération du paramètre
+                {
+                  $type_conv = $type_conv['type_conv'];
+                }
+                                 
+             return ($type_conv);
+    }
+
+                /**
+     * Méthode get_destinataire
+     *
+     * Récupération du destinataire d'une conversation
+     *
+     * Paramètre : $conv -> identifiant de la conversation
+     *
+     * Sortie : nom du destinataire
+     */
+
+        private function get_destinataire($conv)
+    {
+
+        $dest = $this->Conversation->find()
+                                    ->select(['user_conv'])
+                                    ->where(['conv' => $conv])
+                                    ->andwhere(['user_conv !=' => $this->Auth->user('username')]);
+
+                    foreach ($dest as $dest) // récupération du paramètre
+                {
+                  $dest = $dest['user_conv'];
+                }
+                                 
+             return ($dest);
+    }
+
+                    /**
+     * Méthode get_conv
+     *
+     * Récupération d'une éventuelle conversation
+     *
+     * Paramètre : $conv -> identifiant de la conversation
+     *
+     * Sortie : nom du destinataire
+     */
+
+        private function get_conv($destinataire)
+    {
+
+                        //récupération d'une éventuelle conversation existante
+
+              $otherparticipant = $this->Conversation
+                                        ->find()
+                                        ->select(['conv'])
+                                        ->where(['user_conv' =>  $destinataire])
+                                        ->andwhere(['type_conv' => 'duo']);
+
+              $checkconv = $this->Conversation
+                                ->find()
+                                ->select(['conv','statut'])
+                                ->where(['user_conv' =>  $this->Auth->user('username') ]) // moi
+                                ->andwhere(['conv IN' => $otherparticipant]); //destinataire
+
+                if ($checkconv->isEmpty()) // si pas de résultat, on crée une nouvelle conversation
+              {
+                $conversation = rand();// création d'id de conversation aléatoire
+                $new_conv = 0; // conversation inexistante, variable à 0
+              }
+                else // recupération de la conversation
+              {
+                  foreach ($checkconv as $row)
+                {
+                  $conversation = $row['conv'];
+                  $statut = $row['statut'];
+                  $new_conv = 1; // conversation existante
+                }
+              }
+
+              return array('conversation' => $conversation,
+                            'statut' => $statut,
+                            'new_conv' => $new_conv);
+    }
+
        
-       
-        // remplacement des liens par des liens cliquables
-  $message = preg_replace("/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))/",
-        '<a href="$0">$0</a>',$message);
 
-    // remplacement des # -> lien vers moteur de recherche
-    return $message;
-}
 
 }
-

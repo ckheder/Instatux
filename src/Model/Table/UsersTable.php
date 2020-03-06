@@ -39,38 +39,44 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-                $this->hasMany('Tweet', [
- 
-             'dependent' => true
-        ]);
+        $this->hasMany('Tweet');
 
         $this->hasMany('Commentaires', [
             'dependent' => true
-    
+
         ]);
 
         $this->hasMany('Aime', [
+          'foreignKey' => 'username',
+          'bindingKey' =>'username',
             'dependent' => true
-    
+
         ]);
 
          $this->hasMany('Media', [
             'dependent' => true
-    
+
         ]);
 
-         $this->hasMany('Abonnement', [
-            'dependent' => true
+         $this->hasMany('Abonnement');
 
-            ]);
+        $this->hasMany('Notifications', [
+              'foreignKey' => 'username',
+              'bindingKey' =>'username',
+               'dependent' => true
+
+               ]);
 
          $this->hasMany('Messagerie');
 
-         $this->hasMany('Conversation');
+         $this->hasMany('Conversation', [
+           'foreignKey' => 'user_conv'
+                ]);
 
          $this->hasMany('Partage');
 
          $this->hasOne('Settings', [
+           'bindingKey' =>'username',
             'dependent' => true
             ]);
 
@@ -91,14 +97,14 @@ $validator = new Validator();
             ->integer('id')
             ->allowEmpty('id', 'create')
 
-      
+
             ->notEmpty('username', "le nom doit être renseigné")
             ->requirePresence('username')
             ->add(
-        'username', 
+        'username',
         ['unique' => [
-            'rule' => 'validateUnique', 
-            'provider' => 'table', 
+            'rule' => 'validateUnique',
+            'provider' => 'table',
             'message' => 'Ce nom est déjà utilisé']
         ]
     )
@@ -119,28 +125,28 @@ $validator = new Validator();
             'message'=>'Les noms doivent faire entre 5 et 20 caracères et les caractères spéciaux ne sont pas autorisés.'
          ]
         ])
-        
+
             ->notEmpty('password', "le mot de passe doit être renseigné")
             ->requirePresence('password')
-       
+
             ->allowEmpty('description')
 
             ->allowEmpty('lieu')
 
             ->allowEmpty('website')
-            
+
             ->notEmpty('email', "une adresse mail doit être renseigné")
             ->requirePresence('email')
         ->add(
-        'email', 
+        'email',
         ['unique' => [
-            'rule' => 'validateUnique', 
-            'provider' => 'table', 
+            'rule' => 'validateUnique',
+            'provider' => 'table',
             'message' => 'Cette adresse mail est déjà utilisée']
         ]
     );
 
-        
+
 
             return $validator;
 

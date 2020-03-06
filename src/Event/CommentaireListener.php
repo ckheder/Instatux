@@ -5,6 +5,14 @@ use Cake\Event\EventListener;
 use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
+use Cake\Utility\Text;
+
+/**
+ * Listener CommentaireListener
+ *
+ * Création de notification de commentaire
+ *
+ */
 
 class CommentaireListener implements EventListenerInterface {
 
@@ -14,30 +22,32 @@ class CommentaireListener implements EventListenerInterface {
         );
     }
 
-    public function addnotifcomm($event, $commentaire) {
+/**
+     * Méthode addnotifcomm
+     *
+     * Ajout d'une notification de commentaire
+     *
+     * Paramètres : $commentaire -> tableau contenant le nom de la persone qui vient de commenter et le nom de l'auteur du tweet
+     *
+*/
 
+        public function addnotifcomm($event, $commentaire)
+    {
 
+        $notif = '<img src="/instatux/img/avatar/'.$commentaire->nom_session.'.jpg" alt="image utilisateur" class="img-thumbail notif_img"/><a href="/instatux/'.$commentaire->nom_session.'">'.$commentaire->nom_session.'</a> à commenté votre <a href="" data-idtweet="'.$commentaire->tweet_id.'" data-toggle="modal" data-target="#viewtweet" data-remote="false">publication.</a>';
 
- 
-    $notif = '<img src="/instatux/img/avatar/'.$commentaire->nom_session.'.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/'.$commentaire->nom_session.'">'.$commentaire->nom_session.'</a> à commenté votre <a href="/instatux/post/'.$commentaire->tweet_id.'" data-toggle="modal" data-target="#viewtweet" data-remote="false">publication.</a>';
-   
-    $entity = TableRegistry::get('Notifications');
+        $entity = TableRegistry::get('Notifications');
 
-    $article = $entity->newEntity();
+        $notif_comm = $entity->newEntity();
 
-    $article->user_name = $commentaire->auttweet; // auteur du tweet
+        $notif_comm->username = $commentaire->auttweet; // auteur du tweet
 
-    $article->notification = $notif;
+        $notif_comm->notification = $notif; // notification
 
-    $article->created =  Time::now();
+        $notif_comm->created =  Time::now();
 
-    $article->statut = 0;
+        $notif_comm->statut = 0;
 
-    $entity->save($article);   
-
-        
-
- 
+        $entity->save($notif_comm);
+    }
 }
-}
-

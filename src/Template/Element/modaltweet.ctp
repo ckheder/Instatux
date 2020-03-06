@@ -1,45 +1,71 @@
+<!--
 
-<?php
-echo $this->Modal->create(['id' => 'ModalTweet', 'close'=>false]) ;
-                echo $this->Modal->header('Nouveau Tweet') ;
-                echo $this->Form->create('Tweet', array('id' =>'form_tweet','class'=>'form-inline','url'=>array('controller'=>'Tweet', 'action'=>'add'),'type' => 'file'));
-                ?>
-    
-<div id="instatuxeditor">
+ * modaltweet.ctp
+ *
+ * Fenêtre modale de création d'un nouveau tweet
+ *
+ */
 
-	<div class="text-center">
-		<br />
-    <a class="btn btn-default" role="button" id = "btnurl" title = "Ajouter un lien"><span class="glyphicon glyphicon-globe"></span>&nbsp; Ajouter un lien</a>
-		<a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-default" role="button" title = "Ajouter un média externe" data-target="#modalmedia"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp; Ajouter un média externe</a>
-</div>
+-->
+    <?php
+          echo $this->Modal->create(['id' => 'ModalTweet', 'close'=>false]) ; // création modale
 
-                <textarea id="instatuxeditor_textarea" class ="emojis-plain_editor" rows="5" name="contenu_tweet" placeholder="Publier quelque chose..." maxlength="250"></textarea>
-                <h5 class="pull-right" id="textCounter">250 Caractères restants.</h5>
+          echo $this->Modal->header('Nouveau Tweet') ; // header titre
+
+          // création formulaire
+
+          echo $this->Form->create('Tweet', array('id' =>'form_tweet','class'=>'form-inline','url'=>array('controller'=>'Tweet', 'action'=>'add'),'type' => 'file'));
                 
-                        <div class="form-group">
-  <label for="selectpic">Selectionner une photo</label>
-  <input type="file" accept="image/*" name="file" id="sendpic">
-</div>
+    ?>
+    
+    <!-- editeur de tweet -->
+
+      <div id="instatuxeditor">
+
+    <!-- textarea corps du tweet -->
+
+        <textarea id="instatuxeditor_textarea" class ="emojis-plain_editor" rows="5" name="contenu_tweet" placeholder="Publier quelque chose..." maxlength="250"></textarea>
+
+          <a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="media-button-tweet"  title = "Ajouter un média" data-target="#modalmedia"><span class="glyphicon glyphicon-facetime-video"></span></a>
+
+    <!-- compteur de caractère restant -->
+
+      <h5 class="pull-right" id="textCounter">250 Caractères restants.</h5>
+       
 <br />
-<div id="previewpic" contenteditable="true">
-   </div> 
-      <br />        
-<div class="text-center">
-                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</button>
-    		<a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-default" role="button" title = "Ajouter un média externe" data-target="#HelpModal"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Aide</a>         
-</div>
-                <br />
-            <p id="etatnotifmodal"></p>
-                <?= $this->Form->end(); ?>
 
-                       <div id="preview" contenteditable="true">
-   </div> 
-<?= $this->Modal->end() ;?>
+<br />
 
-                </div>
+<br />
+<!-- preview d'une image uploadée -->
+  
+
+        <!-- boutons de publication et d'aide -->
+
+      <div class="text-center">
+
+        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</button>
+
+          <a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-default" role="button" title = "Ajouter un média externe" data-target="#HelpModal"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Aide</a>  
+
+      </div>
+
+<br />
+            <p id="etatnotifmodal"></p> <!-- résultat de la publication : réussie ou non -->
+
+            <?= $this->Form->end(); ?> <!-- fin du formulaire -->
+
+<!-- preview de média -->
+
+            <div id="previewmediatweet" contenteditable="true"></div> 
+   
+              <?= $this->Modal->end() ;?> <!-- fermeture modale -->
+
+            </div> <!-- fin editeur -->
  
 <!-- modal video -->           
 <div id="modalmedia" class="modal fade" role="dialog">
+
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -49,23 +75,41 @@ echo $this->Modal->create(['id' => 'ModalTweet', 'close'=>false]) ;
         <h4 class="modal-title w-100 text-center"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp; Partager un média</h4>
       </div>
       <div class="modal-body">
-      	        		<p class="alert alert-info">  
-       	Coller dans le champs ci-dessous le média à partager.<br />Pour plus de renseignements sur le manière dont son traités les médias, cliquez sur le bouton d'aide. 
-       	 <br />	
-    </p>
-        <div class="input-group">
+         <p class="alert alert-info">
 
-  <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-  <input type="url" class="form-control" id="media" placeholder="URL du média">
+            Coller dans le champs ci-dessous l'URL du média à partager ou envoyer une image depuis votre ordinateur.
 
-</div>
-<div class="text-center">
-	  <br />
- <button type="button" id="btninsertmedia" class="btn btn-default">Insérer</button>
+        </p>
 
- 
-</div>
-<p id="etatnotifmodalmedia"></p>
+          <label for="selectpic">URL d'un média</label>
+
+            <div class="input-group">
+
+              <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+              <input type="url" class="form-control" id="media" placeholder="Entrez URL...">
+
+            </div>
+
+             <div class="form-group">
+
+      <label for="selectpic" id="selectpic">Selectionner une photo</label>
+
+      <input type="file" accept="image/*" name="file" id="sendpic">
+
+      </div>
+
+      <hr>
+
+            <div class="text-center">
+
+        <button type="button" id="btninsertmedia" class="btn btn-primary">Insérer</button>
+
+        <a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="btn btn-default" role="button" title = "Ajouter un média externe" data-target="#HelpModal"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Aide</a>
+
+      </div>
+
+<p id="etatnotifmodalmedia"></p> <!-- notification de réussite ou échec d'envoi de média -->
+
       </div>
     </div>
 

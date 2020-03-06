@@ -7,8 +7,12 @@ use Cake\Network\Exception\NotFoundException;
 use Cake\Filesystem\Folder;
 use Cake\Filesystem\File;
 use Cake\Utility\Text;
+
+
 /**
- * Tweet Controller
+ * Controller Tweet
+ *
+ * Gestion des Tweet
  *
  * @property \App\Model\Table\TweetTable $Tweet
  */
@@ -17,837 +21,982 @@ class TweetController extends AppController
 
         public $paginate = [
         'limit' => 8,
-
-    ];
-
-
+                            ];
 
         public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->Auth->allow(['actualites']); // on autorise les gens non identifiés au controller de leur actu
-        $this->Auth->deny(['accueuil']); // on bloque l'accès a l'actu des gens connectes
+        $this->Auth->deny(['accueuil','media']); // on bloque l'accès a l'actu des gens connectes et aux médias
     }
 
-                public function initialize()
+        public function initialize()
     {
         parent::initialize();
         $this->loadComponent('Paginator');
+        $this->loadModel('Commentaires');
+        $this->loadModel('Media');
+        $this->loadModel('Blocage');
+        $this->loadModel('Settings');
+        $this->loadModel('Abonnement');
+        $this->loadModel('Users');
+        $this->loadModel('Partage');
     }
 
-    /**
-     * Index method
+/**
+     * Méthode Index
      *
-     * @return \Cake\Network\Response|null
-     */
+     * Retourne la liste des tweets par odred décroissant : vérifie d'abord si on peut accéder au profil
+     *
+*/
     public function index()
     {
-        $this->viewBuilder()->layout('general');
+        $this->viewBuilder()->layout('profil');
 
         $this->set('title', ''.$this->request->getParam('username').' | Instatux'); // titre de la page
 
         $username = $this->request->getParam('username'); // nom en paramètre
 
-        if($this->verif_user($username) == 0) // membre inexistant
+        // on test si le membre existe
+
+            if($this->verif_user($username) == 0)
         {
+
             throw new NotFoundException(__('Cette page n\'existe pas.'));
+
         }
 
+        // Si je ne suis pas sur mon profil, on test sie je peut le voir
 
-        if($username != $this->Auth->user('username')) // si je ne suis pas sur mon profil
-    {
-
-
-            if($this->allow_see_profil($username) == 0) // profil privé et non abonné
+            if($username != $this->Auth->user('username'))
         {
-            $no_follow = 0;
+                if($this->allow_see_profil($username) == 0) // profil privé et non abonné
+            {
+
+            $no_follow = 0; // je ne peut y accéder
+
             $this->set('no_follow', $no_follow);
 
+            }
+
         }
 
+        if(!isset($no_follow)) // si je suis abonné ou profil public , on récupère la liste des tweets
+        {
+            $tweet = $this->Tweet->find()->select([
+                                                    'Users.username',
+                                                    'Tweet.id',
+                                                    'Tweet.id_tweet',
+                                                    'Tweet.user_id',
+                                                    'Tweet.user_timeline',
+                                                    'Tweet.contenu_tweet',
+                                                    'Tweet.created',
+                                                    'Tweet.share',
+                                                    'Tweet.nb_commentaire',
+                                                    'Tweet.nb_partage',
+                                                    'Tweet.nb_like',
+                                                    'Tweet.allow_comment',
+                                                    ])
+                                    ->where(['Tweet.user_timeline' => $username])
+                                    ->order(['Tweet.created' => 'DESC'])
+                                    ->contain(['Users']);
 
-    }
+            $nb_tweet =  $tweet->count(); // calcul du nombre de tweet
 
-    if(!isset($no_follow)) // si je suis abonné ou profil public 
-    {
-        $tweet = $this->Tweet->find()->select([
-            'Users.username',
-            'Tweet.id',
-            'Tweet.id_tweet',
-            'Tweet.user_id',
-            'Tweet.user_timeline',
-            'Tweet.contenu_tweet',
-            'Tweet.created',
-            'Tweet.share',
-            'Tweet.nb_commentaire',
-            'Tweet.nb_partage',
-            'Tweet.nb_like',
-            'Tweet.allow_comment',
-            ])
-         // titre de la page
-        ->where(['Tweet.user_timeline' => $username])
-        ->order(['Tweet.created' => 'DESC'])
-        ->contain(['Users']);
-
-         $nb_tweet =  $tweet->count(); // calcul du nombre de tweet
-
-
-         if($nb_tweet == 0)
+          if($nb_tweet == 0)
          {
              $this->set('nb_tweet', $nb_tweet);
          }
 
             $this->set('tweet', $this->Paginator->paginate($tweet, ['limit' => 8]));
 
-}
-}
-// VÉRIFIER SI JE PEUT VOIR UN PROFIL
-    private function allow_see_profil($username) // $username = $this->request->getPram('username')
-    {
-
-        // 1) on vérifie si je suis bloqué : bloqueur -> l'autre et bloqué -> moi
-
-        $this->loadModel('Blocage');
-
-        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $username])->where(['bloquer' => $this->Auth->user('username')]);
-
-        $result_blocage = $verif_blocage->count();
-
-        if($result_blocage == 1) // je suis bloqué
-        {
-            return $voir = 0; // interdiction de voir le profil
         }
-        else
-        {
-        // récupération du profil courant 1) profil prive 0/ profil public
-
-        $this->loadModel('Settings');
-
-        $type_profil = $this->Settings->find()->select(['type_profil'])->where(['user_id' => $username]);
-
-        foreach($type_profil as $type_profil)
-
-            $type_profil = $type_profil->type_profil;
-
-            if($type_profil == 1) // profil privé
-            {
-
-        // on vérifie si je suis abonné
-
-        $this->loadModel('Abonnement');
-
-        $verif_abo = $this->Abonnement->find()->where(['user_id' => $this->Auth->user('username')])
-
-                                                            ->where(['suivi' => $username])
-                                                            ->where(['etat' => 1]);
-        $result_abo = $verif_abo->count();
-
-        if($result_abo == 0) // je ne suis pas abonné
-        {
-            $voir = 0; // interdiction de voir
-        }
-         else
-        {
-            $voir = 1; // autorisation de voir
-        }
-
-}
-
-    else // profil public et non bloqué je peut voir les tweets
-        {
-            $voir = 1;
-        }
-            }
-
-            return $voir;
     }
 
-
-    /**
-     * View method
+/**
+     * Méthode View
      *
-     * @param string|null $id Tweet id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
+     * Affichage d'un tweet
+     *
+*/
     public function view($id = null)
     {
-        if ($this->request->is('ajax')) {
-       
-         if($this->verif_tweet($this->request->getParam('id')) == 0) // membre inexistant
-        {
-            throw new NotFoundException(__('Ce tweet n\'existe pas.'));
-        }
-
-                    if($this->allow_view_tweet($this->Auth->user('username')) == 0) // pas le droit de voir le tweet
-        {
-            $no_follow = 0;
-            $this->set('no_follow', $no_follow);
-
-
-        }
-        else
+            if ($this->request->is('ajax'))
         {
 
-
-        $info_tweet = $this->Tweet->find()->select([
-            'Users.username',
-            'Tweet.id_tweet',
-            'Tweet.id',
-            'Tweet.user_id',
-            'Tweet.user_timeline',
-            'Tweet.contenu_tweet',
-            'Tweet.created',
-            'Tweet.share',
-            'Tweet.nb_commentaire',
-            'Tweet.nb_partage',
-            'Tweet.nb_like',
-            'Tweet.allow_comment',
-            ]) // récupération des infos du tweet
-
-        ->where(['Tweet.id_tweet' => $this->request->getParam('id')])
-
-
-        ->contain(['Users']);
-      
-
-         $this->set('tweet', $info_tweet);
-
-       
-        // partie commentaire
-
-        $this->loadModel('Commentaires');
-
-        $comm_tweet = $this->Commentaires->find()->select([
-          'Commentaires.id',
-  'Commentaires.comm',
-  'Commentaires.user_id',
-  'Commentaires.created',
-  'Commentaires.edit',
-  'Users.username',
-        ])
-
-        ->where(['Commentaires.tweet_id' => $this->request->getParam('id')])
-        ->order(['Commentaires.created' => 'DESC'])
-        ->contain(['Users']);
-
-
-
-        $this->set('commentaires', $this->Paginator->paginate($comm_tweet, ['limit' => 8]));
-    }
-}
-else
-{
-throw new NotFoundException(__('Cette page n\'existe pas.'));
-}
-
-
-    }
-
-        /**
-     * allow-view_tweet method
-     * test des autorisations de voir un tweet
-     * @param string| $username $this->Auth->user('username').
-     */
-
-        private function allow_view_tweet($username)
-    {
-
-        $tweet = $this->Tweet->find() // on récupère l'auteur du tweet et si c'est un partage et si il est privé
-
-        ->select(['Tweet.user_id', 'share','private'])
-
-        ->where(['Tweet.id_tweet' => $this->request->getParam('id')]);
-
-        foreach($tweet as $tweet)
-        {
-            $auteur_tweet = $tweet->user_id;
-            $share = $tweet->share;
-            $private = $tweet->private;
-        }
-
-        if($auteur_tweet != $this->Auth->user('username'))
-        {
-
-        // 1) on vérifie si je suis bloqué : bloqueur -> l'autre et bloqué -> moi
-
-        $this->loadModel('Blocage');
-
-        $verif_blocage = $this->Blocage->find()->where(['bloqueur' => $auteur_tweet])->where(['bloquer' => $this->Auth->user('username')]);
-
-        $result_blocage = $verif_blocage->count();
-
-
-        if($result_blocage == 1) // je suis bloqué
-        {
-            return $voir = 0; // interdiction de voir le tweet
-        }
-        else
-        {
-        // vérification si c'est un tweet privé
-
-            if($private == 1) // tweet privé
+                if($this->verif_tweet($this->request->getParam('id')) == 0) // membre inexistant
             {
 
-                if($auteur_tweet != $this->Auth->user('username') AND $share == 0) // je ne suis pas l'auteur et que ce n'est pas un tweet partagé
-
-                {
-
-        // on vérifie si je suis abonné
-
-        $this->loadModel('Abonnement');
-
-        $verif_abo = $this->Abonnement->find()->where(['user_id' => $this->Auth->user('username')])
-
-                                                            ->where(['suivi' => $auteur_tweet])
-                                                            ->where(['etat' => 1]);
-        $result_abo = $verif_abo->count();
-
-
-
-        if($result_abo == 0) // je ne suis pas abonné
-        {
-            $voir = 0; //interdiction de voir le tweet
-        }
-        else
-        {
-            $voir = 1;
-        }
-
+                throw new NotFoundException(__('Ce tweet n\'existe pas.'));
             }
 
-            }
-            else // tweet public, on peut le voir
+                if($this->allow_view_tweet($this->Auth->user('username')) == 0) // pas le droit de voir le tweet
             {
-                $voir = 1;
+
+                $no_follow = 0;
+                $this->set('no_follow', $no_follow);
             }
 
-    }
-}
-
-        else
-    {
-        $voir = 1;
-    }
-
-
-    return $voir;
-}
-
-    // parsage des tweets : smiley, @,#,media
-    private function linkify_tweet($tweet)
-    {
-        $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/', // @username
-        '$1<a href="$2">@$2</a>',
-        $tweet);
-
-        $tweet =  preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt=":$1:" class="emoji_comm"/>', $tweet); // emoji
-
-        // traitement média
-
-        if (preg_match('~\[videoYoutube]([^{]*)\[/videoYoutube]~i', $tweet)) // youtube
+            else
+                // récupération des infos du tweets
         {
-        $tweet = preg_replace('~\[videoYoutube]([^{]*)\[/videoYoutube]~i', '<iframe src="https://www.youtube.com/embed/$1"  width="100%" height="360" frameborder="0" allowfullscreen></iframe>', $tweet);
-        
-    }
 
-        elseif (preg_match('~\[videoDailymotion]([^{]*)\[/videoDailymotion]~i', $tweet)) { // dailymotion
-        $tweet = preg_replace('~\[videoDailymotion]([^{]*)\[/videoDailymotion]~i', '<p><iframe frameborder="0" width="100%" height="360" src="//www.dailymotion.com/embed/video/$1" allowfullscreen></iframe></p>', $tweet);
-    }
-            elseif (preg_match('~\[clipTwitch]([^{]*)\[/clipTwitch]~i', $tweet)) { // clip twitch
-        $tweet = preg_replace('~\[clipTwitch]([^{]*)\[/clipTwitch]~i', '<p><iframe src="https://clips.twitch.tv/embed?autoplay=false&clip=$1&tt_content=embed&tt_medium=clips_embed" width="100%" height="360" frameborder="0" scrolling="no" allowfullscreen="true"></iframe></p>', $tweet);
-    }
-                elseif (preg_match('~\[videoTwitch]([^{]*)\[/videoTwitch]~i', $tweet)) { // video twitch
-        $tweet = preg_replace('~\[videoTwitch]([^{]*)\[/videoTwitch]~i', '<p><iframe src="https://player.twitch.tv/?autoplay=false&video=v$1" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="100%"></iframe></p>', $tweet);
-    }
-                elseif (preg_match('~\[InstagramPost]([^{]*)\[/InstagramPost]~i', $tweet)) { // instagram
-        $tweet = preg_replace('~\[InstagramPost]([^{]*)\[/InstagramPost]~i', '<p><iframe src="https://www.instagram.com/p/$1/embed/captioned/" width="100%" height="780" frameborder="0" scrolling="no" allowtransparency="true"></iframe></p>', $tweet);
-    }
+            $info_tweet = $this->Tweet->find()->select([
+                                                        'Users.username',
+                                                        'Tweet.id_tweet',
+                                                        'Tweet.id',
+                                                        'Tweet.user_id',
+                                                        'Tweet.user_timeline',
+                                                        'Tweet.contenu_tweet',
+                                                        'Tweet.created',
+                                                        'Tweet.share',
+                                                        'Tweet.nb_commentaire',
+                                                        'Tweet.nb_partage',
+                                                        'Tweet.nb_like',
+                                                        'Tweet.allow_comment',
+                                                        ])
 
-                    elseif (preg_match('~\[imageUrl]([^{]*)\[/imageUrl]~i', $tweet)) { // lien vers une image distante
-        $tweet = preg_replace('~\[imageUrl]([^{]*)\[/imageUrl]~i', '<a href="$1" ><img src="$1" width="100%" /></a>', $tweet);
-    }
+                                            ->where(['Tweet.id_tweet' => $this->request->getParam('id')])
+                                            ->contain(['Users']);
+
+            $this->set('tweet', $info_tweet);
+
+
+        // récupération des commentaires du tweet par odre décroissant
+
             
-                    //lien
-        if(preg_match_all('/\{Url}((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\\\\\\\w]*))?)\{\/Url}/', $tweet))
-    {
-            $tweet = preg_replace('~\{Url}([^{]*)\{/Url}~i', '<a href="$1">$1</a>', $tweet);
+
+            $comm_tweet = $this->Commentaires->find()->select([
+                                                                'Commentaires.id',
+                                                                'Commentaires.comm',
+                                                                'Commentaires.user_id',
+                                                                'Commentaires.created',
+                                                                'Commentaires.edit',
+                                                                'Users.username',
+                                                                ])
+                                                    ->where(['Commentaires.tweet_id' => $this->request->getParam('id')])
+                                                    ->order(['Commentaires.created' => 'DESC'])
+                                                    ->contain(['Users']);
+
+            $this->set('commentaires', $this->Paginator->paginate($comm_tweet, ['limit' => 8]));
+        }
+        }
+            else
+        {
+            throw new NotFoundException(__('Cette page n\'existe pas.'));
+        }
+
     }
 
-
-        $tweet =  preg_replace('/#([^\s]+)/','<a href="http://localhost/instatux/search/hashtag/$1">#$1</a>',$tweet);
-        
-        $tweet =  str_replace('#', '%23', $tweet);
-          
-        $tweet = nl2br($tweet); // paragraphe
-
-        return('<p><p>'.$tweet.'</p></p>');
-    }
-
-    /**
-     * Add method
+/**
+     * Méthode Add
      *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
+     * Ajout d'un tweet
+     *
+     * Sortie : ajout d'un nouveau tweet à la timeline ou problème si il est impossible d'ajouter ce tweet
+     *
+*/
     public function add()
     {
-               
-         if ($this->request->is('ajax')) {
-            $new_media = 0;
-            $tweet = $this->Tweet->newEntity();
-            $contenu_tweet = htmlspecialchars($this->request->data('contenu_tweet'));
-            //test et traitement envoi d'avatar
-            $file = $this->request->data['file'];
-            if($file['size'] != 0)
+
+            if ($this->request->is('ajax'))
+        {
+
+
+            $new_media = 0; // par défaut on envoi pas de média interne
+
+            $tweet = $this->Tweet->newEntity(); // nouvel entité
+
+            $contenu_tweet = htmlspecialchars($this->request->data('contenu_tweet')); // suppression des balises HTML
+
+            //test de la présence d'un média externe
+
+              if(isset($this->request->data['file']))
             {
-            $contenu_tweet = $this->tweetupload($file, $contenu_tweet);
-            //variable pour signaler un nouveau media interne
-            $new_media = 1;
+
+            $file = $this->request->data['file'];
+
+                if($file['size'] != 0)
+            {
+              $contenu_tweet = AppController::upload($file, $contenu_tweet); // traitement de l'envoi du fichier et mise à jour du contenu du tweets
+
+              $new_media = 1; //variable pour signaler un nouveau media interne
             }
-            $idtweet = $this->idtweet();
-            // fin test et traitement envoi avatar
-                   $data = array(
-                    
-            'id' => $idtweet,
-            'user_id' => $this->Auth->user('username'),
-            'user_timeline' => $this->Auth->user('username'),
-            'contenu_tweet' => $this->linkify_tweet($contenu_tweet),
-            'private' =>$this->get_type_profil($this->Auth->user('username')),
-                        //evenement username
-            'auth_name' => $this->Auth->user('username'),
-            'new_media' => $new_media
-            );
-            $tweet = $this->Tweet->patchEntity($tweet, $data);
+          }
+          
+            $idtweet = $this->idtweet(); // génération d'un nouvel identifiant de tweet
+
+                $data = array(
+                                'id' => $idtweet,
+                                'user_id' => $this->Auth->user('username'),
+                                'user_timeline' => $this->Auth->user('username'),
+                                'contenu_tweet' => AppController::linkify_content($contenu_tweet),
+                                'private' =>$this->get_type_profil($this->Auth->user('username')),
+                        // Model.Tweet.afterAdd
+                                'new_media' => $new_media
+                            );
+
+                $tweet = $this->Tweet->patchEntity($tweet, $data);
+
+                    if ($this->Tweet->save($tweet)) //insertion réussie
+                {
+                    // évènement qui va extraire les username dans le tweet sauf moi, crée une ligne média si nécessaire
+                    $event = new Event('Model.Tweet.afterAdd', $this, ['tweet' => $tweet]);
+
+                    $this->eventManager()->dispatch($event);
+
+                    // remplacement de %23 par # pour les hashtag
+
+                    $data['contenu_tweet'] = preg_replace('/%23/', '#', $data['contenu_tweet']);
+
+                    $this->response->body(json_encode($tweet)); // réponse AJAX pour affichage
 
 
-            if ($this->Tweet->save($tweet)) {
+                }
+                    else
+                {
+                    $reponse = 'probleme'; // impossible d'ajouter ce tweet
+                    $this->response->body($reponse);
+                }
 
-                 
-                // évènement tweet
-
-                 $event = new Event('Model.Tweet.afterAdd', $this, ['tweet' => $tweet]);
-
-                $this->eventManager()->dispatch($event);
-
-                //fin évènement username
-
-                $data['contenu_tweet'] = preg_replace('/%23/', '#', $data['contenu_tweet']);
-                $this->response->body(json_encode($tweet));
-
-
-            } else {
-                $reponse = 'probleme';
-                $this->response->body($reponse);
-            }
-                  
-    return $this->response;
+                    return $this->response; // envoi d'une réponse AJAX
         }
+
+        else // accès a L'URL hors d'une requête AJAX
+    {
+        $this->Flash->error(__('Impossible d\'ajouter ce tweet.'));
+        return $this->redirect($this->referer());
+    }
 
     }
 
-
-
-    /**
-     * Delete method
+/**
+     * Méthode Delete
      *
-     * @param string|null $id Tweet id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
+     * Supprimer d'un tweet
+     *
+     * Sortie : tweetsupprimer -> Suppression du tweet | echectweetsupprime -> impossible de supprimer
+     *
+*/
     public function delete($id = null)
     {
 
-if ($this->request->is('ajax')) {
-
-     $id_tweet = $this->request->getParam('id');
-
- $tweet_verif = $this->Tweet->find()->select(['user_id','user_timeline'])
-
-        ->where(['id_tweet' => $id_tweet]);
-
-             $entity = $this->Tweet->get($id_tweet);
-
-        if(!$tweet_verif->isEmpty())
+            if ($this->request->is('ajax'))
         {
-                                 foreach($tweet_verif as $tweet_verif)
-        {
-            $user_tweet = $tweet_verif->user_id; // createur du tweet
-            $user_timeline_tweet = $tweet_verif->user_timeline;
-           
-        }
-            if($user_tweet === $this->Auth->user('username')) // je suis l'auteur du tweet, je supprimme mon tweet et tous les partage
+
+            $id_tweet = $this->request->getParam('id'); // identifiant du tweet
+
+            $entity = $this->Tweet->get($id_tweet); // récupération de l'entité
+
+            // On récupère l'auteur du tweet et la timeline associée
+
+            $tweet_verif = $this->Tweet->find()
+                                        ->select(['user_id','user_timeline'])
+                                        ->where(['id_tweet' => $id_tweet]);
+
+                if(!$tweet_verif->isEmpty()) // si ce tweet existe
+            {
+                    foreach($tweet_verif as $tweet_verif)
+                {
+                    $user_tweet = $tweet_verif->user_id; // createur du tweet
+                    $user_timeline_tweet = $tweet_verif->user_timeline; //timeline d'affichage
+                }
+
+
+                if($user_tweet === $this->Auth->user('username')) // je suis l'auteur du tweet, je supprimme mon tweet et tous les partage
             {
                 $result = $this->Tweet->deleteAll(['id' => $entity->id]);
             }
-            elseif($user_timeline_tweet === $this->Auth->user('username')) // je suis suis sur mon profil, que ce soit un partage ou non
+                elseif($user_timeline_tweet === $this->Auth->user('username')) // je suis sur mon profil, que ce soit un partage ou non , suppression de ma timeline uniquement
             {
                 $result = $this->Tweet->delete($entity);
             }
 
-            // verif media
-        if(preg_match('/(http(s?):)([\/|.|\w|\s|-])*\.(?:jpg|gif|png)/', $entity->contenu_tweet, $matches))
-    {
+            // tableau de reponse
 
-        $folder_media = new Folder(WWW_ROOT . 'img/media/'.$this->Auth->user('username').'/');
+            $data = array('media' => 0); // par défaut on ne supprime pas de média
 
-        $media = new File($matches[0]);
-        $media_name = $media->name;
-        $file = new File(WWW_ROOT . 'img/media/'.$this->Auth->user('username').'/'.$media_name.'', false, 0777);
-        $file->delete();
-           
+                        // verification si il y'a une image uploadé
+                    if(preg_match('/<img\s+(?=[^>]*?(?<=\s)class\s*=\s*"tweet_media")[^>]*?(?<=\ssrc=")\K[^"]*/', $entity->contenu_tweet, $matches))
+                {
+
+                    // ouverture de mon dossier média
+
+                    $folder_media = new Folder(WWW_ROOT . 'img/media/'.$this->Auth->user('username').'/');
+
+                    $media = new File($matches[0]);
+
+                    $media_name = $media->name;
+
+                    $file = new File(WWW_ROOT . 'img/media/'.$this->Auth->user('username').'/'.$media_name.'', false);
+
+                    //suppression du fichier
+
+                    $file->delete();
+
+                    $data['media'] = 1; // suppression d'un média
+
+                }
+
+                        if($result)
+                    {
+                      $data['reponse'] = 'tweetsupprime';
+                    }
+                        else
+                    {
+                      $data['reponse'] = 'echectweetsupprime';
+                    }
+            }
+                        $this->response->body(json_encode($data));
+                        return $this->response;
+        }
+            else // accès a L'URL de suppression hors d'une requête AJAX
+        {
+            $this->Flash->error(__('Impossible de supprimé.'));
+            return $this->redirect($this->referer());
+        }
     }
-            
-            if($result)
-           {
-            $reponse = 'tweetsupprime';
-       }
-        else
-         {
-        $reponse = 'echectweetsupprime';
-       }
 
+    /**
+         * Méthode Media
+         *
+         * Affichage des teweets contenant un média uploadé, utilisation d'une classe spécifique
+         *
+         *
+    */
+        public function media()
+        {
+
+          $this->viewBuilder()->layout('profil');
+
+          $username = $this->request->getParam('username');
+
+          $keyword = 'tweet_media'; // classe recherchée pour lister les tweets avec médias
+
+          $this->set('title', 'Média de '.$username.' | Instatux');
+
+          // on test si le membre existe
+
+              if($this->verif_user($username) == 0)
+          {
+
+              throw new NotFoundException(__('Cette page n\'existe pas.'));
+
+
+          }
+
+          // Si je ne suis pas sur mon profil, on test sie je peut le voir
+
+              if($username != $this->Auth->user('username'))
+          {
+                  if($this->allow_see_profil($username) == 0) // profil privé et non abonné
+              {
+              $no_follow = 0; // je ne peut y accéder
+              $this->set('no_follow', $no_follow);
+              }
+
+          }
+
+          if(!isset($no_follow)) // si je suis abonné ou profil public , on récupère la liste des tweets avec média
+          {
+
+              $query_media = $this->Tweet->find()->select([
+                                                      'Users.username',
+                                                      'Tweet.id',
+                                                      'Tweet.id_tweet',
+                                                      'Tweet.user_id',
+                                                      'Tweet.user_timeline',
+                                                      'Tweet.contenu_tweet',
+                                                      'Tweet.created',
+                                                      'Tweet.share',
+                                                      'Tweet.nb_commentaire',
+                                                      'Tweet.nb_partage',
+                                                      'Tweet.nb_like',
+                                                      'Tweet.allow_comment',
+                                                      ])
+                                              ->where(["MATCH(Tweet.contenu_tweet) AGAINST(:search)"])
+                                              ->where(['Tweet.user_timeline' => $username])
+                                              ->bind(':search',$keyword)
+                                              ->order(['Tweet.created' => 'DESC'])
+                                              ->contain(['Users']);
+
+
+              $this->set('tweet_media', $this->Paginator->paginate($query_media, ['limit' => 8]));
+            }
         }
 
-              $this->response->body($reponse);
-   return $this->response;
-  }
-    else
+/**
+             * Méthode Listmedia
+             *
+             * Recherche des 8 derniers média envoyés par un utilisateur,affiché sur le profil
+             *
+*/
+              public function listmedia()
+            {
+
+                if ($this->request->is('ajax'))
+              {
+                
+
+                $list_media = $this->Media->find()
+                                            ->select(['nom_media','tweet_media','user_id'])
+                                            ->where(['user_id' => $this->request->getParam('username')])
+                                            ->order(['created' => 'DESC'])
+                                            ->limit(8);
+
+                $this->set('list_media',$list_media);
+
+                }
+
+        else // accès a L'URL de partage hors d'une requête AJAX
     {
-        $this->Flash->error(__('Impossible de supprimé.'));
-        return $this->redirect($this->referer());
+        throw new NotFoundException(__('Cette page n\'existe pas.'));
     }
-    
-}
+            }
 
-    // partage d'un tweet
-    public function share($id = null) // 0 -> pas partager, 1 -> partager
+/**
+     * Méthode share
+     *
+     * Partage d'un tweet
+     *
+     * Sortie : inexistant -> ce tweet n'existe pas | deja -> j'ai déjà partagé ce tweet | probleme -> impossible de partager |
+     * shareok -> partage réussi
+     *
+*/
+    public function share()
     {
 
-        if ($this->request->is('ajax')) {
+            if ($this->request->is('ajax'))
+        {
+                // on vérifie si le tweet existe
 
-            if($this->verif_tweet($this->request->getParam('id')) == 0)
+                if($this->verif_tweet($this->request->getParam('id')) === 0)
             {
                 $reponse = 'inexistant';
             }
-            else
+                else
             {
 
-        $info_tweet = $this->Tweet->find() // on récupère les infos du tweet pour le copier
-        ->select([
-            'id',
-         'user_id',
-         'contenu_tweet',
-            ])
-        ->where(['Tweet.id_tweet' => $this->request->getParam('id')]);
+                // on vérifie si je n'ais pas déjà partagé
 
-        foreach($info_tweet as $info_tweet)
-        {
-            $user_tweet = $info_tweet->user_id;
-            $contenu_tweet = $info_tweet->contenu_tweet;
-            $id = $info_tweet->id;
+                    if($this->testshare($this->request->getParam('id')) == 1) // j'ai déjà partager
+                {
+                    $reponse = 'deja';
+                }
+                    elseif($this->request->getParam('id_auteur') === $this->Auth->user('username')) // je ne peut partager un tweet à moi qui à était partager par d'autres
+                {
+                    $reponse = 'probleme';
+                }
+                    else
+                {
+
+                    $tweet = $this->Tweet->newEntity(); // création d'une nouvelle ntité tweet
+
+                        if($this->testnotifshare($this->request->getParam('id_auteur')) === "oui") // on vérifie si l'auteur du tweet veut une notification de partage
+                    {
+                        $notif = 'oui';
+                    }
+                        else
+                    {
+                        $notif = 'non';
+                    }
+
+                        $info_tweet = $this->Tweet->find() // on récupère les infos du tweet pour le copier
+                                                    ->select([
+                                                                'id_tweet',
+                                                                'id',
+                                                                'user_id',
+                                                                'contenu_tweet',
+                                                            ])
+                                                    ->where(['Tweet.id' => $this->request->getParam('id')]);
+
+                            foreach($info_tweet as $info_tweet)
+                        {
+                            $user_tweet = $info_tweet->user_id;
+                            $contenu_tweet = $info_tweet->contenu_tweet;
+                            $id = $info_tweet->id;
+                            $id_tweet = $info_tweet->id_tweet;
+                        }
+
+                            $data = array(
+                                    'id' => $id, // identifiant original du tweet
+                                    'user_id' => $user_tweet, // auteur original du tweet
+                                    'user_timeline' => $this->Auth->user('username'),
+                                    'contenu_tweet' => $contenu_tweet,
+                                    'share' => 1, // indique que ce tweet est un partage
+                                    'notif' =>$notif // oui ou non
+                                );
+
+                            $tweet = $this->Tweet->patchEntity($tweet, $data);
+
+                        if ($this->Tweet->save($tweet))
+                    {
+
+// cet évènement déclenche oui ou non la création d'une notification de partage et va mettre à jour la table Partage
+
+                        $event = new Event('Model.Partage.afterAdd', $this, ['tweet' => $tweet, 'id_tweet' => $id_tweet]);
+                        $this->eventManager()->dispatch($event);
+
+                        $reponse = 'shareok';
+                    }
+                        else
+                    {
+                        $reponse = 'probleme';
+                    }
+
+                }
+            }
+                $this->response->body($reponse); // renvoi d'une réponse AJAX
+                return $this->response;
         }
 
-// on vérifie si je n'ais pas déjà partagé
-
-            if($this->testshare($id) == 1) // j'ai déjà partager
-            {
-                $reponse = 'deja';
-            }
-            elseif($user_tweet === $this->Auth->user('username')) // je ne peut partager un tweet à moi qui à était partager par d'autres
-            {
-                $reponse = 'probleme';
-            }
-            else
-            {
-
-// fin vérification si j'ai déjà partagé un tweet
-
-        $tweet = $this->Tweet->newEntity();
-
-          if($this->testnotifshare($user_tweet) === "oui") // on vérifie si l'auteur du tweet veut une notification de partage
-                {
-                    $notif = 'oui';
-                }
-                else
-                {
-                    $notif = 'non';
-                }
-                
-        $data = array(
-            'id' => $id,
-            'user_id' => $user_tweet,
-            'user_timeline' => $this->Auth->user('username'),
-            'contenu_tweet' => $contenu_tweet,
-            'share' => 1, // indique que ce tweet est un partage
-            // évènement
-            'nom_session' => $this->Auth->user('username'),//nom de session
-             'notif' =>$notif
-            );
-            $tweet = $this->Tweet->patchEntity($tweet, $data);
-            if ($this->Tweet->save($tweet)) {
-
-
-                 $event = new Event('Model.Partage.afterAdd', $this, ['tweet' => $tweet]);
-                $this->eventManager()->dispatch($event);
-
-
-                 $reponse = 'shareok';
-
-
-            } else {
-               $reponse = 'probleme';
-            }
-
-}
-}
-                                   $this->response->body($reponse);
-    return $this->response;
-
-
+        else // accès a L'URL de partage hors d'une requête AJAX
+    {
+        $this->Flash->error(__('Impossible de partager.'));
+        return $this->redirect($this->referer());
+    }
     }
 
-    }
-    // tweet actualités connectés
 
     public function accueuil()
     {
-                $this->viewBuilder()->layout('onlinenews');
-                $this->set('title', 'Instatux | Actualités'); // titre de la page
+
+        $this->viewBuilder()->layout('onlinenews');
+
+        $this->set('title', 'Instatux | Actualités'); // titre de la page
+
+        // Récupération des tweets de mes abonnements par odre décroissant
+
                 $abonnement = $this->Tweet->find()
-                ->select([
-            'Users.username',
-            'Tweet.id',
-            'Tweet.id_tweet',
-            'Tweet.user_id',
-            'Tweet.user_timeline',
-            'Tweet.contenu_tweet',
-            'Tweet.created',
-            'Tweet.share',
-            'Tweet.nb_commentaire',
-            'Tweet.nb_partage',
-            'Tweet.nb_like',
-            'Tweet.allow_comment',
-            ])
+                                            ->select([
+                                                        'Users.username',
+                                                        'Tweet.id',
+                                                        'Tweet.id_tweet',
+                                                        'Tweet.user_id',
+                                                        'Tweet.user_timeline',
+                                                        'Tweet.contenu_tweet',
+                                                        'Tweet.created',
+                                                        'Tweet.share',
+                                                        'Tweet.nb_commentaire',
+                                                        'Tweet.nb_partage',
+                                                        'Tweet.nb_like',
+                                                        'Tweet.allow_comment',
+                                                    ])
 
-       ->where([
+                                            ->where(['Abonnement.user_id' =>  $this->Auth->user('username') ])
+                                            ->contain(['Users'])
+                                            ->contain(['Abonnement']);
 
-        'Abonnement.user_id' =>  $this->Auth->user('username')
+            $nb_tweet_accueuil = $abonnement->count(); // nombre de tweet
 
-            ])
-        ->contain(['Users'])
-        ->contain(['Abonnement']);
-
-        $nb_tweet_accueuil = $abonnement->count();
-
-        if($nb_tweet_accueuil == 0)
+          if($nb_tweet_accueuil == 0) // si 0 -> affichage d'un message spécifique
         {
             $this->set('nb_tweet_accueuil', $nb_tweet_accueuil);
         }
 
-
-     $this->set('abonnement', $this->paginate($abonnement, ['limit' => 8]));
-
+            $this->set('abonnement', $this->paginate($abonnement, ['limit' => 8]));
     }
-
-    // fin tweet actualités connectés
-
-        // tweet actualités offline => tous les tweets publics
-
+/**
+     * Méthode Actualités
+     *
+     * Fil d'actualité pour les personnes non connectées
+     *
+     * N'affiche que les tweets publics et non partagés
+     *
+     *
+*/
     public function actualites()
     {
-                $this->viewBuilder()->layout('offlinenews');
-                $this->set('title', 'Instatux | Actualités'); // titre de la page
-                $actu = $this->Tweet->find()
-                ->select([
-            'Users.username',
-            'Tweet.id',
-            'Tweet.id_tweet',
-            'Tweet.user_id',
-            'Tweet.user_timeline',
-            'Tweet.contenu_tweet',
-            'Tweet.created',
-            'Tweet.share',
-            'Tweet.nb_commentaire',
-            'Tweet.nb_partage',
-            'Tweet.nb_like',
-            'Tweet.allow_comment',
-            ])
 
-        ->where(['Tweet.private' =>  0])
-        ->where(['Tweet.share' =>  0])
-        ->order(['Tweet.created' => 'DESC'])
-        ->contain(['Users']);
+        $this->viewBuilder()->layout('offlinenews');
+
+        $this->set('title', 'Instatux | Actualités');
 
 
-     $this->set('actu', $this->paginate($actu, ['limit' => 8]));
+        $actu = $this->Tweet->find()
+                            ->select([
+                                        'Users.username',
+                                        'Tweet.id',
+                                        'Tweet.id_tweet',
+                                        'Tweet.user_id',
+                                        'Tweet.user_timeline',
+                                        'Tweet.contenu_tweet',
+                                        'Tweet.created',
+                                        'Tweet.share',
+                                        'Tweet.nb_commentaire',
+                                        'Tweet.nb_partage',
+                                        'Tweet.nb_like',
+                                        'Tweet.allow_comment',
+                                    ])
+
+                            ->where(['Tweet.private' =>  0]) // tweet public uniquement
+                            ->where(['Tweet.share' =>  0]) // tweet non partagé
+                            ->order(['Tweet.created' => 'DESC'])
+                            ->contain(['Users']);
+
+        $this->set('actu', $this->paginate($actu, ['limit' => 8]));
 
     }
 
-    // fin tweet actualités offline
-
-
-    public function allowComment() // activer/désactiver les commentaires  1 -> désactiver, 0 -> activer
+/**
+     * Méthode Allowseeprofil
+     *
+     * Vérifie si j'ai le droit de consulter un profil
+     *
+     * Paramètre : $username = $this->request->getPram('username') -> username du profil à vérifier (transmis par URL)
+     *
+     * Sortie : $voir -> contient le résultat des tests : 0 -> interdiction de voir le profil | 1 : autorisation de voir le profil
+     *
+     *
+*/
+      private function allow_see_profil($username)
     {
 
-        if ($this->request->is('ajax')) {
+        // 1) on vérifie si je suis bloqué
 
-          $query = $this->Tweet->query()
-                            ->update()
-                            ->set(['allow_comment' => $this->request->getParam('etat')])
-                            ->where(['id' => $this->request->getParam('idtweet')])
-                            ->where(['user_timeline' => $this->Auth->user('username')]) // on vérifie que ce tweet est le tweet courant et que j'en suis le timeline
-                            ->execute();
+        $verif_blocage = $this->Blocage->find()
+                                        ->where(['bloqueur' => $username]) // profil à vérifier
+                                        ->where(['bloquer' => $this->Auth->user('username')]); // moi
 
-        if($query AND $this->request->getParam('etat') == 0)
+        $result_blocage = $verif_blocage->count();
+
+            if($result_blocage == 1) // je suis bloqué
         {
+            return $voir = 0; // interdiction de voir le profil
+        }
+            else
+        {
+
+        // Test du profil courant  : 1 -> profil prive | 0 -> profil public
+
+        $type_profil = $this->Settings->find()
+                                        ->select(['type_profil'])
+                                        ->where(['user_id' => $username]);
+
+                foreach($type_profil as $type_profil)
+
+            $type_profil = $type_profil->type_profil;
+
+              if($type_profil == 1) // profil privé
+            {
+
+                // on vérifie si je suis abonné
+
+                
+
+                $verif_abo = $this->Abonnement->find()->where(['user_id' => $this->Auth->user('username')])
+                                                        ->where(['suivi' => $username])
+                                                        ->where(['etat' => 1]);
+                $result_abo = $verif_abo->count();
+
+                    if($result_abo == 0) // je ne suis pas abonné
+                {
+                    $voir = 0; // interdiction de voir
+                }
+                    else
+                {
+                    $voir = 1; // autorisation de voir
+                }
+
+            }
+
+                else // profil public et non bloqué je peut voir les tweets
+            {
+                $voir = 1;
+            }
+        }
+          return $voir; // variable contenant le résulta des tests
+    }
+
+/**
+     * Méthode Allowviewtweet
+     *
+     * Vérifie si j'ai le droit de consulter un tweet
+     *
+     * Paramètre : $username = $this->request->getPram('username') -> username du profil à vérifier (transmis par URL)
+     *
+     * Sortie : $voir -> contient le résultat des tests : 0 -> interdiction de voir le profil | 1 : autorisation de voir le profil
+     *
+     *
+*/
+        private function allow_view_tweet($username)
+    {
+        // on récupère l'auteur du tweet , si c'est un partage et si il est privé
+
+            $tweet = $this->Tweet->find()
+
+                                    ->select(['Tweet.user_id', 'share','private'])
+
+                                    ->where(['Tweet.id_tweet' => $this->request->getParam('id')]);
+
+                foreach($tweet as $tweet)
+            {
+                $auteur_tweet = $tweet->user_id;
+                $share = $tweet->share;
+                $private = $tweet->private;
+            }
+
+                      if($auteur_tweet != $this->Auth->user('username')) // je ne suis pas l'auteur original du tweet
+                    {
+
+        // 1) on vérifie si je suis bloqué : bloqueur -> l'autre et bloqué -> moi
+
+                        $verif_blocage = $this->Blocage->find()
+                                                        ->where(['bloqueur' => $auteur_tweet])
+                                                        ->where(['bloquer' => $this->Auth->user('username')]);
+
+                        $result_blocage = $verif_blocage->count();
+
+
+                            if($result_blocage == 1) // je suis bloqué
+                        {
+                            return $voir = 0; // interdiction de voir le tweet
+                        }
+                            else
+                        {
+                            // vérification si c'est un tweet privé
+
+                                if($private == 1) // tweet privé
+                            {
+                                // je ne suis pas l'auteur et que ce n'est pas un tweet partagé
+
+                                    if($auteur_tweet != $this->Auth->user('username') AND $share == 0)
+                                {
+
+                                    // on vérifie si je suis abonné
+
+                                    $verif_abo = $this->Abonnement->find()
+                                                                    ->where(['user_id' => $this->Auth->user('username')])
+                                                                    ->where(['suivi' => $auteur_tweet])
+                                                                    ->where(['etat' => 1]);
+
+                                    $result_abo = $verif_abo->count();
+
+                                        if($result_abo == 0) // je ne suis pas abonné
+                                    {
+                                        $voir = 0; //interdiction de voir le tweet
+                                    }
+                                        else
+                                    {
+                                        $voir = 1;
+                                    }
+                                }
+                            }
+                                else // tweet public, on peut le voir
+                            {
+                                $voir = 1;
+                            }
+                         }
+                    }
+                    else
+                {
+                    $voir = 1;
+                }
+
+        return $voir;
+    }
+/**
+     * Méthode Allowcomment
+     *
+     * Activer/désactiver les commentaires
+     *
+     * Configuration : 1 -> désactiver, 0 -> activer
+     *
+     * Sortie : commac -> Commentaire activé | commdesac -> Commentaire désactivé | problème : impossible de modifier
+     *
+     *
+*/
+    public function allowComment()
+    {
+
+            if ($this->request->is('ajax'))
+        {
+
+            $query = $this->Tweet->query()
+                                    ->update()
+                                    ->set(['allow_comment' => $this->request->getParam('etat')])
+                                    ->where(['id' => $this->request->getParam('idtweet')])
+                                    ->where(['user_timeline' => $this->Auth->user('username')]) // on vérifie que ce tweet est le tweet courant et que j'en suis le timeline
+                                    ->execute();
+
+                // mise à jour réussie vers une activation des commentaire
+
+                if($query AND $this->request->getParam('etat') == 0)
+            {
               $reponse = 'commac';
+            }
 
+                // mise à jour réussie vers une désactivation des commentaire
 
-        }
-        elseif($query AND $this->request->getParam('etat') == 1)
-        {
+                elseif($query AND $this->request->getParam('etat') == 1)
+            {
               $reponse = 'commdesac';
+            }
 
-
-        }
-        else
-        {
+                // problème
+                else
+            {
                 $reponse = 'probleme';
+            }
+
+                    $this->response->body($reponse); // réponse AJAX
+                    return $this->response;
+
         }
-
-
-        $this->response->body($reponse);
-    return $this->response;
-
-
+            else
+        {
+            $this->Flash->error(__('Impossible de faire cette action.'));
+            return $this->redirect($this->referer());
+        }
     }
-    else
+
+/**
+     * Méthode Verifuser
+     *
+     * Vérifie si l'utilisateur existe
+     *
+     * Paramètre : $username -> nom à tester
+     *
+     * Sortie : 0 -> membre inexistant | 1 -> membre existant
+     *
+     *
+*/
+        private function verif_user($username)
     {
-        $this->Flash->error(__('Impossible de faire cette action.'));
-        return $this->redirect($this->referer());
-    }
-    }
+        
+        $check_user = $this->Users->find()
+                                    ->where(['username' => $username ])
+                                    ->count();
 
-
-        private function verif_user($username) // on vérifie si l'utilisateur existe
-    {
-        $this->loadModel('Users');
-        $check_user = $this->Users->find()->where(['username' => $username ])->count();
         return $check_user;
     }
+/**
+     * Méthode Veritweet
+     *
+     * Vérifie si un tweet existe
+     *
+     * Paramètre : $id -> identifiant du tweet
+     *
+     * Sortie : 0 -> tweet inexistant | 1 -> tweet existant
+     *
+     *
+*/
+        private function verif_tweet($id) // on vérifie si le tweet existe
+    {
 
-            private function verif_tweet($id) // on vérifie si le tweet existe
-        {
-        $check_tweet = $this->Tweet->find()->where(['id_tweet' => $id ])->count();
+        $check_tweet = $this->Tweet->find()
+                                    ->where(['id' => $id])
+                                    ->orWhere(['id_tweet' => $id])
+                                    ->count();
+
+                                    //dd($check_tweet);
+
         return $check_tweet;
     }
-
-    private function get_type_profil() // récupération du type de profil privé ou public
+/**
+     * Méthode Get_Type_Profil
+     *
+     * Récupération du type de profil privé ou public
+     *
+     *
+     * Sortie : 0 -> profil public | 1 -> profil privé
+     *
+     *
+*/
+    private function get_type_profil()
     {
-        $this->loadModel('Settings');
 
-        $type_profil = $this->Settings->find()->select(['type_profil'])->where(['user_id' => $this->Auth->user('username')]);
 
-        foreach ($type_profil as $type_profil)
-        {
-            $type_profil = $type_profil->type_profil;
-        }
+        $type_profil = $this->Settings->find()
+                                        ->select(['type_profil'])
+                                        ->where(['user_id' => $this->Auth->user('username')]);
+
+                    foreach ($type_profil as $type_profil)
+                {
+                    $type_profil = $type_profil->type_profil;
+                }
 
         return $type_profil;
     }
-
-        private function testnotifshare($username) // on vérifie si la personne à qui j'envoi un message accepte les notifications de message
+/**
+     * Méthode Testnotifshare
+     *
+     * Vérifie si la personne ,dont j'ai partagé le tweet, accepte les notifications de partage
+     *
+     * Paramètre : $username -> nom de la personne à vérifier
+     *
+     * Sortie : oui -> accepte | non -> refuse
+     *
+     *
+*/
+        private function testnotifshare($username)
     {
-                $this->loadModel('Settings');
 
-        $verif_notif = $this->Settings->find()->select(['notif_partage'])->where(['user_id' => $username]);
 
-        foreach ($verif_notif as $verif_notif) // recupération de la conversation
+        $verif_notif = $this->Settings->find()
+                                        ->select(['notif_partage'])
+                                        ->where(['user_id' => $username]);
+
+                    foreach ($verif_notif as $verif_notif)
                 {
-                $settings_notif = $verif_notif['notif_partage'];
+                    $settings_notif = $verif_notif['notif_partage'];
                 }
 
              return $settings_notif;
     }
-
-        private function testshare($idtweet) // on vérifie si j'ai déjà partager ce tweet
+/**
+     * Méthode Testshare
+     *
+     * Vérifie si j'ai déjà partager ce tweet
+     *
+     * Paramètre : $idtweet : id du tweet à vérifier
+     *
+     * Sortie : 0 -> pas partagé | 1 -> déjà partagé
+     *
+     *
+*/
+        private function testshare($idtweet)
     {
-                $this->loadModel('Partage');
+        
 
-        $verif_share = $this->Partage->find()->where(['tweet_partage' => $idtweet])->where(['sharer' => $this->Auth->user('username')])->count();
+        $verif_share = $this->Partage->find()
+                                        ->where(['tweet_partage' => $idtweet])
+                                        ->where(['sharer' => $this->Auth->user('username')])
+                                        ->count();
 
 
 
              return $verif_share;
     }
 
-       private function tweetupload($file,$tweet) // on envoi le ficheri pour vérification et le contenu_tweet pour conversion
-        {
-
-
-if($file['error'] != 0)
-{
-  return $erreur = 'Problème lors de l\'envoi de votre fichier.Veuillez réessayer.';
-}
-
-      $imageMimeTypes = array( // type MIME autorisé
-      'image/jpg',
-      'image/png',
-      'image/jpeg');
-
-      $fileMimeType = mime_content_type($file['tmp_name']); // récupération du type MIME
-      if (!in_array($fileMimeType, $imageMimeTypes)) // test de l'extension du fichier
-            {
-                     $erreur = 'Ce n\'est pas une image';
-            }
-
-      if(!isset($erreur)) //S'il n'y a pas d'erreur, on upload
-                      {
-
-                $uploadPath = 'img/media/'.$this->Auth->user('username').'/';
-
-                if(move_uploaded_file($file['tmp_name'], $uploadPath.basename($file['name'])))
-                {
-                    $tweet = preg_replace('~\[image]([^{]*)\[/image]~i', '<img src="http://localhost/instatux/'.$uploadPath.basename($file['name']).'" width="100%" alt="image introuvable" />', $tweet);
-
-                    return $tweet;
-                }
-
-                    else
-                    {
-
-                      return $reponse = 'Impossible d\'envoyer ce fichier';
-
-                    }
-
-}
-else {
-  return $erreur;
-}
-
-
-        }
-
-        private function idtweet() // calcul d'un id de tweet aléatoire
-{
-
-    $idtweet = rand();
-
-    $query = $this->Tweet->find()->select(['id'])->where(['id' => $idtweet]); // on vérifie si il existe déjà
-
-     if ($query->isEmpty())
-     {
-        return $idtweet;
-     }
-     else
+/**
+     * Méthode Idtweet
+     *
+     * Calcul d'un id de tweet aléatoire
+     *
+     * Sortie : $idtweet -> id de tweet
+     *
+     *
+*/
+        private function idtweet()
     {
-        idtweet(); // ou $this->idtweet();
+
+        $idtweet = rand();
+
+        // on vérifie si il existe déjà
+
+        $query = $this->Tweet->find()
+                                ->select(['id'])
+                                ->where(['id' => $idtweet]);
+
+                if ($query->isEmpty())
+            {
+                return $idtweet;
+            }
+                else
+            {
+                idtweet(); // ou $this->idtweet();
+            }
     }
-
-}
-
-
-
-
 
 }

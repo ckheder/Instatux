@@ -36,7 +36,10 @@ class ConversationTable extends Table
 
         $this->hasMany('Messagerie');
 
-        $this->belongsToMany('Users');
+        $this->belongsTo('Users', [
+          'foreignKey' => 'user_conv',
+          'bindingkey' => 'username'
+        ]);
     }
 
     /**
@@ -52,17 +55,16 @@ class ConversationTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('participant1')
-            ->requirePresence('participant1', 'create')
-            ->notEmpty('participant1');
+            ->requirePresence('user_conv', 'create')
+            ->notEmpty('user_conv');
+
+                        // type_conv : multiple/duo
+
+         $validator
+            ->requirePresence('type_conv', 'create')
+            ->notEmpty('type_conv');
 
         $validator
-            ->integer('participant2')
-            ->requirePresence('participant2', 'create')
-            ->notEmpty('participant2');
-
-        $validator
-            ->boolean('statut')
             ->requirePresence('statut', 'create')
             ->notEmpty('statut');
 

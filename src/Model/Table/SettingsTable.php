@@ -36,6 +36,11 @@ class SettingsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Users', [
+            'bindingkey' => 'user_id',
+
+        ]);
+
 
     }
 

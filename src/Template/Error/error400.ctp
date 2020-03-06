@@ -36,3 +36,4 @@ endif;
     <h3><strong><?= __d('cake', 'Error') ?>: </strong>
     <?= __d('cake', 'La page demandée {0} n\'a pas était trouvé.', "<strong>'{$url}'</strong>") ?></h3>
 </p>
+

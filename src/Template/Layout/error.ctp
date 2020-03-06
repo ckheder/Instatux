@@ -1,3 +1,13 @@
+<!--
+
+ * error.ctp
+ *
+ * Layout de la page d'erreur
+ *
+ */
+
+-->
+
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -24,45 +34,48 @@
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
     <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
-    <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
+    <?= $this->Html->css('custom') ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
-        <?= $this->Html->script('/js/search.js') ?>
+    <?= $this->Html->script('/js/search.js') ?>
     <?= $this->fetch('meta') ?>
 </head>
 <body>
-<?php 
-  echo  $this->element('onlineerrormenu') ;
-?>
-    <div id="container" class="container" style="border:1px solid #cecece;">
-    <div class="row-no-gutters">
-<div class="col-sm-8">
-            <?= $this->Flash->render() ?>
 
-            <div class="text-center">
+    <div class="container" style="border:1px solid #cecece;">
 
-                <h1>Oops !</h1>
 
-            <?= $this->fetch('content') ?>
+        <div class="row-no-gutters">
 
-            <br />           
+                <?= $this->element('navbar') ; ?>
 
-            <a href="javascript:history.back()" title="Retour" class="btn btn-default" role="button">Retour</a>
+            <div class="col-sm-12">
+
+                <div class="text-center">
+
+
+                    <h1>Erreur !</h1>
+
+
+                        <?= $this->fetch('content') ?> <!-- message d'erreur -->
+
+                        <br />
+
+                            <a href="javascript:history.back()" title="Retour" class="btn btn-default" role="button">Retour</a>
+
+                        <br />
+
+                        <br />
+
+                </div>
 
             </div>
+
         </div>
-        <div class="col-sm-4">
-<br />
-
-
-</div>
 
     </div>
 
-        <footer>
-    </footer>
-</div>
 </body>
 </html>

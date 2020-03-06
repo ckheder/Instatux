@@ -6,6 +6,14 @@ use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
 
+/**
+ * Listener MessageListener
+ *
+ * Création de notification de nouveau message et création d 2 entités de conversation si besoin
+ *
+ */
+
+
 class MessageListener implements EventListenerInterface {
 
     public function implementedEvents() {
@@ -14,71 +22,91 @@ class MessageListener implements EventListenerInterface {
         );
     }
 
-    public function addnotifmsg($event, $message) {
+/**
+     * Méthode addnotifmsg
+     *
+     * Ajout d'une notification de nouveau message et création d 2 entités de conversation si besoin
+     *
+     * Paramètres : $message -> tableau contenant le nom de la persone qui vient de commenter et le nom de l'auteur du tweet
+     *
+*/
 
-        if($message->notif == "oui")
+    public function addnotifmsg($event, $message, $notif, $statut) {
+
+        $entity = TableRegistry::get('Notifications');
+
+        $table_conv = TableRegistry::get('Conversation');
+
+
+            if($notif == 'oui')
+        {    
+
+            // création d'une notification de nouveau message dans une conversation en duo
+
+            $notif = '<img src="/instatux/img/avatar/'.$message->user_id.'.jpg" alt="image utilisateur" class="img-thumbail notif_img"/><a href="/instatux/'.$message->user_id.'">'.$message->user_id.'</a> vous à envoyé un <a href="#" class="joinconv" data-idconv = "'.$message->conv.'">message.</a>';
+        
+
+            $notif_msg = $entity->newEntity();
+
+            $notif_msg->username = $message->destinataire;
+
+            $notif_msg->notification = $notif;
+
+            $notif_msg->created =  Time::now();
+
+            $notif_msg->statut = 0;
+
+            $entity->save($notif_msg);
+
+        }
+        
+
+
+            // création d'une nouvelle entité conversation si besoin pour les deux participants
+
+            if($message->new_conv == 0)
         {
 
-        
-    // création d'une notification de nouveau message
- 
-    $notif = '<img src="/instatux/img/avatar/'.$message->nom_session.'.jpg" alt="image utilisateur" class="img-thumbail"/><a href="/instatux/'.$message->nom_session.'">'.$message->nom_session.'</a> vous à envoyé un <a href="/instatux/conversation-'.$message->conv.'">message</a> !';
-   
-    $entity = TableRegistry::get('Notifications');
+            
+            // participant 1
 
-    $notif_msg = $entity->newEntity();
+            $new_conv = $table_conv->newEntity();
 
-    $notif_msg->user_name = $message->destinataire;
+            $new_conv->conv =  $message->conv;
 
-    $notif_msg->notification = $notif;
+            $new_conv->user_conv = $message->user_id;
 
-    $notif_msg->created =  Time::now();
+            $new_conv->type_conv = 'duo';
 
-    $notif_msg->statut = 0;
+            $new_conv->statut = 0;
 
-    $entity->save($notif_msg);
-}
+            $table_conv->save($new_conv);
 
-    // mise à jour si conv masqué, réaffichage des messages
+            // participant 2
 
-    $table_conv = TableRegistry::get('Conversation');
+            $new_conv = $table_conv->newEntity();
 
-       $query = $table_conv->query()
-                            ->update()
-                            ->set(['statut' => 1])
-                            ->where(['participant1' => $message->user_id, 'participant2' => $message->destinataire ])
-                            ->orWhere(['participant2' => $message->user_id, 'participant1' => $message->destinataire])
-                            ->execute();
-    
+            $new_conv->conv =  $message->conv;
 
-     // création d'une nouvelle entité conversation si besoin pour les deux participants
+            $new_conv->user_conv = $message->destinataire;
 
-    if($message->new_conv === 0)
-    {     
-     $new_conv = $table_conv->newEntity();
+            $new_conv->type_conv = 'duo';
 
-     $new_conv->conv =  $message->conv;
+            $new_conv->statut = 0;
 
-     $new_conv->participant1 = $message->user_id;
+            $table_conv->save($new_conv);
+        }
 
-     $new_conv->participant2 = $message->destinataire;
+        //activation conversation si envoi d'un message vers une conversation supprimée
 
-     $new_conv->statut = 1;
-
-     $table_conv->save($new_conv);  
-
-        $new_conv = $table_conv->newEntity();
-
-     $new_conv->conv =  $message->conv;
-
-     $new_conv->participant1 = $message->destinataire;
-
-     $new_conv->participant2 = $message->user_id;
-
-     $new_conv->statut = 1;
-
-     $table_conv->save($new_conv);                    
+            if($statut)
+        {
+            $query = $table_conv->query()
+                                ->update()
+                                ->set(['statut' => 0])
+                                ->where(['conv' => $message->conv])
+                                ->where(['user_conv' => $message->user_id])
+                                ->execute();
+        }
     }
 }
-}
-

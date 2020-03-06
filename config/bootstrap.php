@@ -74,6 +74,7 @@ use App\Event\PartageListener; // listener personnel pour l'ajout d'un partage
 use App\Event\TweetListener; // listener personnel pour la création de hashtag
 use App\Event\SettingsListener; // listener personnel pour la mise à jour des tweets suite à un profil/privé
 use App\Event\UserListener; // listener personnel pour la création de la ligne settings à l'inscription, envoi d'un mail de bienvenue et reset password
+use App\Event\ConversationListener; // listener personnel pour la création d'une notification d'invitation à rejindre une conversation
 /*
  * Read configuration file and inject configuration into various
  * CakePHP classes.
@@ -254,6 +255,9 @@ EventManager::instance()->attach($TweetListener);
 /* évènement settings */
 $SettingsListener = new SettingsListener();
 EventManager::instance()->attach($SettingsListener);
-/* évèneent user*/
+/* évènement user*/
 $UserListener = new UserListener();
 EventManager::instance()->attach($UserListener);
+/* évènement conversation*/
+$ConvListener = new ConversationListener();
+EventManager::instance()->attach($ConvListener);

@@ -46,11 +46,11 @@ class TweetTable extends Table
             ]
       );
 
-                $this->hasOne('Media',
-            [
-                'dependent' => true
-            ]
-      );
+                //$this->hasOne('Media',
+          //  [
+                //'dependent' => true
+            //]
+      //);
 
         $this->belongsTo('Abonnement', [
             'foreignKey' => 'user_timeline',
@@ -58,7 +58,9 @@ class TweetTable extends Table
         ]);
 
         $this->belongsTo('Users', [
-            'bindingKey' => 'username',             
+
+
+            'bindingKey' => 'username'
         ]);
 
           $this->hasMany('Aime');
@@ -107,8 +109,8 @@ class TweetTable extends Table
 
         $validator
             ->allowEmpty('nb_like');
-            
- 
+
+
         return $validator;
     }
 

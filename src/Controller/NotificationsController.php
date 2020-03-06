@@ -2,184 +2,219 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Request;
 use Cake\Event\Event;
+
 /**
- * Notifications Controller
+ * Controller Notifications
  *
- * @property \App\Model\Table\NotificationsTable $Notifications
+ * Gestion complète des notifications
+ *
+ * @property \App\Model\Table\NotificationsTable
  */
 class NotificationsController extends AppController
 {
 
             public $paginate = [
-        'limit' => 10,
-        
-    ];
+                                'limit' => 10,
+                              ];
 
-            public function initialize()
+        public function initialize()
     {
         parent::initialize();
         $this->loadComponent('Paginator');
     }
 
-            public function beforeFilter(Event $event)
+        public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->Auth->deny(['index']); // on empeche l'accès a l'index si je ne suis pas auth
-    }
 
+    }
 
     /**
-     * Index method
+     * Méthode Index
      *
-     * @return \Cake\Network\Response|null
+     * Retourne la liste de toute mes notifications lues et non lues
+     *
      */
-    public function index() // mes notifications
+      public function index()
     {
-      $this->viewBuilder()->layout('general');
-       $this->set('title', 'Notifications'); // titre de la page
-                $notification = $this->Notifications->find()->where([
+      $this->viewBuilder()->layout('notifications');
 
-'user_name' =>  $this->Auth->user('username')
+      $this->set('title', 'Vos notifications'); // titre de la page
 
-            ])
-                
-                ->order(['created'=> 'DESC']);
+      // Récupération de mes notifications par odre décroissant de date
 
-        $nb_notif =  $notification->count(); // calcul du nombre de tweet
+      $notification = $this->Notifications->find()
+                                          ->where(['username' =>  $this->Auth->user('username') ])
+                                          ->order(['created'=> 'DESC']);
 
 
-             $this->set('nb_notif', $nb_notif);
-
-            $this->set('notification', $this->Paginator->paginate($notification, ['limit' => 10]));
-              
-             
+          $this->set('notification', $this->Paginator->paginate($notification, ['limit' => 10]));
     }
-
-        public function delete($id = null) // id-> id de la notification, 
-
+    /**
+     * Méthode Delete
+     *
+     * Suppression d'une notification
+     *
+     * Sorties : problème -> impossible de supprimer le commentaire | suppok -> suppression réussie
+     */
+        public function delete()
     {
-
-      if ($this->request->is('ajax')) {
-                    $query = $this->Notifications->query();
+        if ($this->request->is('ajax'))
+      {
+            $query = $this->Notifications->query();
             $query->delete()
-    ->where(['user_name' => $this->Auth->user('username')])
-    ->where(['id_notif' => $this->request->getParam('id')])
-    ->execute();
- 
-            if ($query) 
-            {
+                  ->where(['username' => $this->Auth->user('username')])
+                  ->where(['id_notif' => $this->request->getParam('id')])
+                  ->execute();
+
+            if ($query) // suppression réussie
+          {
                $reponse = 'suppok';
-            }
-            else 
-            {
+          }
+            else // échec suppression
+          {
 
                 $reponse = 'problème';
-            }
-                        $this->response->body($reponse);
-    return $this->response;
+          }
 
- }
-
-
+            $this->response->body($reponse); // renvoi d'une réponse AJAX
+            return $this->response;
+      }
+      // accès à la page hors d'une requête Ajax
+        else 
+      {
+        throw new NotFoundException(__('Cette page n\'existe pas.'));
+      }
 
     }
+    /**
+     * Méthode allNotiflue
+     *
+     * Indique que toutes les notifications sont lues
+     *
+     *Sortie : ok -> mise à jour effectuée | erreur -> problème lors de la mise à jour
+     */
+        public function allNotiflue()
+      {
 
-public function allNotiflue() // indiquer que toutes les notifications sont lues
-{
-
-    if ($this->request->is('ajax')) {
-   $query = $this->Notifications->updateAll(
-        ['statut' => 1], // champs
-        ['statut' => 0, 'user_name' => $this->Auth->user('username') ]); // conditions 
-
+          if ($this->request->is('ajax'))
+        {
+          $query = $this->Notifications->updateAll(
+                                                    ['statut' => 1], // champs à mettre à jour : passer de 0 à 1 (1 -> notifcation lue)
+                                                    ['statut' => 0, 'username' => $this->Auth->user('username') ]); // conditions : statut à 0 (donc non lue) et user_name -> moi
                  if($query)
-                 {
-                    $reponse = 'ok';
-                
-            } else {
+                {
+                  $reponse = 'ok';
+                }
+                  else
+                {
                  $reponse = 'erreur';
-            }
-        
+                }
 
-                    $this->response->body($reponse);
-    return $this->response;
+          $this->response->body($reponse); // renvoi d'une réponse AJAX
+          return $this->response;
+        }
+        // accès à la page hors d'une requête Ajax
+          else 
+        {
+          throw new NotFoundException(__('Cette page n\'existe pas.'));
+        }
+      }
+    /**
+     * Méthode singleNotiflue
+     *
+     * Indique qu'une notification est lue
+     *
+     *Sortie : ok -> mise à jour effectuée | erreur -> problème lors de la mise à jour
+     */
+        public function singleNotiflue()
+      {
+          if ($this->request->is('ajax'))
+        {
+          $query = $this->Notifications->query();
+          $query->update()
+                ->set(['statut' => 1])
+                ->where(['username' => $this->Auth->user('username')])
+                ->where(['id_notif' => $this->request->getParam('id')])
+                ->execute();
 
+            if($query)
+          {
+            $reponse = 'ok';
+          }
+            else
+          {
+            $reponse = 'erreur';
+          }
 
-    }
-}
+              $this->response->body($reponse); // renvoi d'une réponse AJAX
+              return $this->response;
+        }
+        // accès à la page hors d'une requête Ajax
+          else 
+        {
+          throw new NotFoundException(__('Cette page n\'existe pas.'));
+        }
+      }
 
-public function singleNotiflue() // indiquer que toutes les notifications sont lues
-{
+    /**
+     * Méthode allDeletenotif
+     *
+     * Supprimer toutes les notifications
+     *
+     *Sortie : ok -> mise à jour effectuée | erreur -> problème lors de la mise à jour
+     */
+        public function allDeletenotif() // indiquer que toutes les notifications sont lues
+      {
+          if ($this->request->is('ajax'))
+        {
+          $query = $this->Notifications->deleteAll(['username' => $this->Auth->user('username')]);
 
-    if ($this->request->is('ajax')) {
-     $query = $this->Notifications->query();
-$query->update()
-    ->set(['statut' => 1])
-    ->where(['user_name' => $this->Auth->user('username')])
-    ->where(['id_notif' => $this->request->getParam('id')])
-    ->execute();
+            if($query)
+          {
+            $reponse = 'ok';
+          }
 
-                 if($query)
-                 {
-                    $reponse = 'ok';
-                
-            } else {
-                 $reponse = 'erreur';
-            }
-        
+            else
+          {
+            $reponse = 'erreur';
+          }
 
-                    $this->response->body($reponse);
-    return $this->response;
+              $this->response->body($reponse); // renvoi d'une réponse AJAX
+              return $this->response;
+        }
+        // accès à la page hors d'une requête Ajax
+          else 
+        {
+          throw new NotFoundException(__('Cette page n\'existe pas.'));
+        }
+      }
 
+    /**
+     * Méthode nbnotif
+     *
+     * Calcul du nombre de notif non lues -> pour l'indicateur de notif non lue de la brre de menu
+     *
+     *Sortie : nb_notif : nombre de notif non lue
+     */
+        public function nbnotif()
+      {
 
-    }
-
-
-}
-
-public function allDeletenotif() // indiquer que toutes les notifications sont lues
-{
-
-    if ($this->request->is('ajax')) {
-   $query = $this->Notifications->deleteAll(
-        ['user_name' => $this->Auth->user('username') ]); // conditions 
-
-                 if($query)
-                 {
-                    $reponse = 'ok';
-                
-            } else {
-                 $reponse = 'erreur';
-            }
-        
-
-                    $this->response->body($reponse);
-    return $this->response;
-
-
-    }
-}
-
-
-
-public function nbnotif()// calcul du nombre de notif non lues
-{
-
-        $nb_notif = $this->Notifications->find()->where(['user_name' => $this->Auth->user('username')])->where(['statut' => 0])->count();
-        
-
-        if($nb_notif == 0)
+        $nb_notif = $this->Notifications->find()
+                                        ->where(['username' => $this->Auth->user('username')])
+                                        ->where(['statut' => 0])
+                                        ->count();
+          if($nb_notif == 0)
         {
             $this->set('nb_notif', 0);
         }
-        else
+          else
         {
-        $this->set('nb_notif', $nb_notif);
-    }
-       
+            $this->set('nb_notif', $nb_notif);
+        }
+      }
 }
-
-}
-

@@ -1,3 +1,13 @@
+<!--
+
+ * default.ctp
+ *
+ * Layout de la page d'accueil
+ *
+ */
+
+-->
+
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -46,26 +56,43 @@ $cakeDescription = ' Instatux. Ce qu\'il se passe.';
 
         
   <div class="row-no-gutters">
-    <?= $this->element('accueilmenu')?>
-    <?= $this->Flash->render() ?>
-         <div class="col-md-6">
-   
-        <?= $this->fetch('content') ?>
 
-</div>
-<div class="col-md-6">
- <?= $this->element('join')?>
- <br />
+    <?= $this->element('accueilmenu')?> <!-- menu-->
+
+    <?= $this->Flash->render() ?>
+
+      <div class="col-md-6">
+   
+        <?= $this->fetch('content') ?> <!-- Template/Pages/home.ctp-->
+
+      </div>
+
+      <div class="col-md-6">
+
+        <?= $this->element('join')?> <!-- Template/Element/join.ctp-->
+        <br />
+
     </div>
 
-    
+<!-- Footer-->
+
+<?= $this->element('modalconnexion') ?>
+
 
     <footer class="footer container">
   <div class="container-fluid">
+
+
+
    <a href="#">Conditions d'utilisation - </a><a  href="https://github.com/ckheder/Instatux">Contribuer - </a><a href="#">Contact</a>
+
+© 2020 Christophe KHEDER. Tous droits réservés.
   </div>
 </footer>
-<?= $this->element('modalconnexion') ?>
+
+
+  <!-- fin Footer -->
+
     </div>
   </div>
 </body>

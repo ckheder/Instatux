@@ -1,3 +1,13 @@
+<!--
+
+ * messagerie.ctp
+ *
+ * Layout messagerie
+ *
+ */
+
+-->
+
 <?php
 use Cake\Routing\Router;
 /**
@@ -19,17 +29,16 @@ use Cake\Routing\Router;
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title class="titlepage">
-
-        <?= $title ?>
-        
-    </title>
+    <title class="titlepage"><?= $title ?></title>
+<!--favicon -->
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
+<!-- CSS -->
     <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
+<!--Javascript -->
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
@@ -41,30 +50,43 @@ use Cake\Routing\Router;
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
     <?= $this->Html->script('/js/nbnotif.js') ?>
     <?= $this->Html->script('/js/search.js') ?>
+<!-- Meta -->
     <?= $this->fetch('meta') ?>
+    
 </head>
-<body>
-<?php
-$current_user = $this->request->getParam('username'); ?>
+
+  <body>
+
      <div class="container">
-      <p id="etatnotif"></p>       
-          <?= $this->Flash->render() ?>
-<div class="row-no-gutters row-eq-height">
 
-  <?=  $this->element('onlinemenu') ;?>
+        <p id="etatnotif"></p>  
 
-<div class="col-md-3 col-sm-4">
-      <?= $this->element('messagerieinfo'); ?>
-</div>
-<div class="col-md-6 col-sm-8">
+         <?= $this->Flash->render() ?>
+
+    <div class="row-no-gutters row-eq-height">
+
+      <?= $this->element('navbar') ; ?>
+
+    <div class="col-md-4 col-sm-7 conv"  style="padding-left: 10px;">
+
+      <script>
+
+          $(".conv").load('/instatux/listconv');
+
+        </script>
+
+    </div>
+
+          <div class="col-md-8 col-sm-5">
 
         <?= $this->fetch('content') ?>
-</div>
-<div class="col-md-3">
+         
 
-</div>
-<?= $this->element('modaltweet'); ?>
-<?=  $this->element('helpmodal');?>
+    </div>
+
+      <?= $this->element('modaltweet'); ?>
+      <?= $this->element('helpmodal'); ?>
+
 <footer>
     </footer>
           <?= $this->Html->script('blocage.js') ?> <!-- script de blocage d'un utlisateur : utlisé sur l'accueil, profil, moteur de recherche,viewtweet,chat -->

@@ -51,252 +51,256 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
+
+// Route USERS
+    
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     // route login
 
     $routes->connect('/login',['controller' => 'Users', 'action' => 'login']);
 
-    // fin route login
-
     // route logout
-Router::connect('/logout',['controller' => 'Users', 'action' => 'logout']);
-    // fin route logout
 
-// route profil
+    Router::connect('/logout',['controller' => 'Users', 'action' => 'logout']);
 
-Router::connect('/:username',['controller' => 'Tweet', 'action' => 'index'],['_name' => 'profil']);
+    // route editer description
 
-//fin  route profil
+    Router::connect('/editinfos',['controller' => 'Users', 'action' => 'editinfos']);
 
-// route tweet
+    // route editer lieu
 
-Router::connect('/post/:id',['controller' => 'Tweet', 'action' => 'view'],['pass' =>['id'], '_name' => 'post']);
+    Router::connect('/settings/lieu',['controller' => 'Users', 'action' => 'editlieu']);
 
-//fin route tweet
+    // route editer website
 
-// route nouveau tweet
+    Router::connect('/settings/website',['controller' => 'Users', 'action' => 'editwebsite']);
 
-Router::connect('/post/add',['controller' => 'Tweet', 'action' => 'add']);
+    // route editer password
 
-//fin route nouveau tweet
+    Router::connect('/settings/resetpassword',['controller' => 'Users', 'action' => 'editpassword']);
 
-//essai route tweet
+    // route editer avatar
 
-Router::connect('/post/delete/:id',['controller' => 'Tweet', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+    Router::connect('/settings/avatar',['controller' => 'Users', 'action' => 'avatar']);
 
-//fin essai route tweet
+    // route editer adresse mail
 
-// route  notif
+    Router::connect('/settings/newmail',['controller' => 'Users', 'action' => 'editmail']);
 
-Router::connect('/notifications',['controller' => 'Notifications', 'action' => 'index'],['_name' => 'notifications']);
+// Route TWEET
 
-//fin route  notif
+    // route profil
 
-// route  toutes notif lue
+    Router::connect('/:username',['controller' => 'Tweet', 'action' => 'index']);
 
-Router::connect('/notifications/all',['controller' => 'Notifications', 'action' => 'allnotiflue']);
+    // route voir un tweet
 
-//fin route  toute notif lue
+    Router::connect('/post/:id',['controller' => 'Tweet', 'action' => 'view'],['pass' =>['id'], '_name' => 'post']);
 
-// route  toutes notif delete
+    // route voir les médias d'un utilisateur
 
-Router::connect('/notifications/deleteall',['controller' => 'Notifications', 'action' => 'alldeletenotif']);
+    Router::connect('/:username/media',['controller' => 'Tweet', 'action' => 'media']);
 
-//fin route  toute notif delete
+    // route utiliser pour recharger la liste des médias visible à gauche après l'envoi d'un tweet contenant un média
 
-// route  nb_notif
+    Router::connect('/:username/media/listmedia',['controller' => 'Tweet', 'action' => 'listmedia']);
 
-Router::connect('/notifications/count',['controller' => 'Notifications', 'action' => 'nbNotif']);
+    // route crée un tweet
 
-//fin route nb_notif
+    Router::connect('/post/add',['controller' => 'Tweet', 'action' => 'add']);
 
-// route  effacer notif
+    //route supprimer un tweet , appelée en Ajax
 
-Router::connect('/notification/delete/:id',['controller' => 'Notifications', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
-
-//fin route effacer notif
-
-// route  1 notif lue
-
-Router::connect('/notification/read/:id',['controller' => 'Notifications', 'action' => 'singlenotiflue'],['id' => '\d+', 'pass' =>['id']]);
-
-//fin route  1 notif lue
-
-// route recherche
-
-Router::connect('/search-:string',['controller' => 'Search', 'action' => 'index']);
-
-//fin route recherche
-
-// route recherche hashtag
-
-Router::connect('/search/hashtag/:string',['controller' => 'Search', 'action' => 'hashtag']);
-
-//fin route recherche hashtag
-
-    // route search user autocomplete
-Router::connect('/search/searchusers',['controller' => 'Search', 'action' => 'searchusers']);
-    // fin route search user autocomplete
-
-    // route de mes abonnements
-Router::connect('/abonnement',['controller' => 'Abonnement', 'action' => 'index']);
-   // fin route de mes abonnements
-    // route de mes abonnements
-Router::connect('/abonnement/:username',['controller' => 'Abonnement', 'action' => 'abonnement']);
-   // fin route de mes abonnements
-   // route de mes abonne
-Router::connect('/abonne/:username',['controller' => 'Abonnement', 'action' => 'abonnes']);
-    // fin route abonne
-
-    // route demande
-Router::connect('/demande',['controller' => 'Abonnement', 'action' => 'demande'],['_name' => 'demande']);
-   // fin route demande
-
-    // route abonnement add
-Router::connect('/abonnement/add/:username',['controller' => 'Abonnement', 'action' => 'add']);
-    // fin route abonnement/add
-    // route abonnement delete
-Router::connect('/abonnement/delete/:username',['controller' => 'Abonnement', 'action' => 'delete']);
-    // fin route abonnement/delete
-
-    // route accepter abonnement
-Router::connect('/abonnement/:act/:username',['controller' => 'Abonnement', 'action' => 'validate']);
-    // fin route abonnement/delete
-
-    // route accepter abonnement
-Router::connect('/abonnement/remove/:username',['controller' => 'Abonnement', 'action' => 'deleterequest']);
-    // fin route abonnement/delete
-
-    // route accepter abonnement
-Router::connect('/abonnement/indexmessagerie',['controller' => 'Abonnement', 'action' => 'indexmessagerie']);
-    // fin route abonnement/delete
-    // route like
-Router::connect('/like',['controller' => 'Aime', 'action' => 'add'],['_name' => 'routelike']);
-    // fin route like
-
-    // route liste like
-Router::connect('/like/:id',['controller' => 'Aime', 'action' => 'index'],['id' => '\d+', 'pass' =>['id']]);
-    // fin route liste like
-
-    // route settings
-Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
-    // fin route settings
-
- // route settings notif_message
-Router::connect('/settings-notif_message',['controller' => 'Settings', 'action' => 'notifmessage']);
-// fin route notif_message
-
- // route settings notif_cite
-Router::connect('/settings-notif_cite',['controller' => 'Settings', 'action' => 'notifcite']);
-// fin route notif_cite
-
- // route settings notif_partage
-Router::connect('/settings-notif_partage',['controller' => 'Settings', 'action' => 'notifpartage']);
-// fin route notif_partage
-
- // route settings notif_abo
-Router::connect('/settings-notif_abo',['controller' => 'Settings', 'action' => 'notifabo']);
-// fin route notif_abo
-
- // route settings notif_abo
-Router::connect('/settings-notif_comm',['controller' => 'Settings', 'action' => 'notifcomm']);
-// fin route notif_abo
-
- // route configurer profil public
-Router::connect('/settings/public',['controller' => 'Settings', 'action' => 'setup_profil_public']);
-// fin route configurer profil public
-
- // route configurer profil privé
-Router::connect('/settings/prive',['controller' => 'Settings', 'action' => 'setup_profil_prive']);
-// fin route configurer profil privé
-
- // route editer description
-Router::connect('/editinfos',['controller' => 'Users', 'action' => 'editinfos']);
-// fin route editer description
-
- // route editer lieu
-Router::connect('/settings/lieu',['controller' => 'Users', 'action' => 'editlieu']);
-// fin route editer lieu
-
- // route editer website
-Router::connect('/settings/website',['controller' => 'Users', 'action' => 'editwebsite']);
-// fin route editer website
-
- // route editer password
-Router::connect('/settings/resetpassword',['controller' => 'Users', 'action' => 'editpassword']);
-// fin route editer password
-
- // route editer avatar
-Router::connect('/settings/avatar',['controller' => 'Users', 'action' => 'avatar']);
-// fin route editeravatar
-
- // route editer adresse mail
-Router::connect('/settings/newmail',['controller' => 'Users', 'action' => 'editmail']);
-// fin route editer adresse mail
-
-    // route liste bloques
-Router::connect('/bloques',['controller' => 'Blocage', 'action' => 'listebloques']);
-    // fin route listebloques
-
-    // route messagerie
-Router::connect('/messagerie',['controller' => 'Messagerie', 'action' => 'index'],['_name' => 'messagerie']);
-    //fin route messagerie
-
-    // route envoi message
-Router::connect('/message/add',['controller' => 'Messagerie', 'action' => 'add']);
-    // fin route envoi message
-
-    // route conversation
-Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['_name' => 'conversation']);
-    //fin route conversation
-
-    // route delete conversation
-Router::connect('/conversation/delete/:id',['controller' => 'Conversation', 'action' => 'edit'],['id' => '\d+', 'pass' =>['id']]);
-    // fin route delete conversation
+    Router::connect('/post/delete/:id',['controller' => 'Tweet', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
 
     // route autoriser commentaire
-Router::connect('/allowcomment/:etat/:idtweet',['controller' => 'Tweet', 'action' => 'allowComment'],['etat' => '\d+', 'pass' =>['etat']]);
-    // fin route autoriser commentaire
+
+    Router::connect('/allowcomment/:etat/:idtweet',['controller' => 'Tweet', 'action' => 'allowComment'],['etat' => '\d+', 'pass' =>['etat']]);
+    
+    // route accueil : actualité d'un utilisateur connecté
+
+    Router::connect('/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);
+
+    // route actualités : actualité d'un utilisateur offline, tweet publics
+
+    Router::connect('/actualites',['controller' => 'Tweet', 'action' => 'actualites']);
+
+    // route création d'un partage de tweet
+
+    Router::connect('/partage/add/:id/:id_auteur',['controller' => 'Tweet', 'action' => 'share']);
+
+// Route NOTIFICATIONS
+
+    // route voir les notifications
+
+    Router::connect('/notifications',['controller' => 'Notifications', 'action' => 'index'],['_name' => 'notifications']);
+
+    // route marquer toutes les notifications comme lue
+
+    Router::connect('/notifications/all',['controller' => 'Notifications', 'action' => 'allnotiflue']);
+
+    // route supprimer toutes les notifications
+
+    Router::connect('/notifications/deleteall',['controller' => 'Notifications', 'action' => 'alldeletenotif']);
+
+    // route calcul du nombre de notifications
+
+    Router::connect('/notifications/count',['controller' => 'Notifications', 'action' => 'nbNotif']);
+
+    // route effacer une notification
+
+    Router::connect('/notification/delete/:id',['controller' => 'Notifications', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+
+    // route marquer une notification comme lue
+
+    Router::connect('/notification/read/:id',['controller' => 'Notifications', 'action' => 'singlenotiflue'],['id' => '\d+', 'pass' =>['id']]);
+
+// Routes RECHERCHE
+
+    // route moteur de recherche
+
+    Router::connect('/search-:string',['controller' => 'Search', 'action' => 'index']);
+
+    // route recherche par hashtag
+
+    Router::connect('/search/hashtag/:string',['controller' => 'Search', 'action' => 'hashtag']);
+
+    // route autocomplétion des utilisateurs
+
+    Router::connect('/search/searchusers',['controller' => 'Search', 'action' => 'searchusers']);
+
+// Routes ABONNEMENTS
+
+    // route de mes abonnements
+
+    Router::connect('/abonnement/:username',['controller' => 'Abonnement', 'action' => 'abonnement']);
+
+   // route de mes abonne
+
+    Router::connect('/abonne/:username',['controller' => 'Abonnement', 'action' => 'abonnes']);
+
+    // route voir mes demandes
+
+    Router::connect('/demande',['controller' => 'Abonnement', 'action' => 'demande'],['_name' => 'demande']);
+
+    // route ajouter un abonnement
+
+    Router::connect('/abonnement/add/:username',['controller' => 'Abonnement', 'action' => 'add']);
+
+    // route supprimer un abonnement
+
+    Router::connect('/abonnement/delete/:username',['controller' => 'Abonnement', 'action' => 'delete']);
+
+    // route accepter une demande d'abonnement
+
+    Router::connect('/abonnement/:act/:username',['controller' => 'Abonnement', 'action' => 'validate']);
+
+    // route refuser une demande d'abonnement
+
+    Router::connect('/abonnement/remove/:username',['controller' => 'Abonnement', 'action' => 'deleterequest']);
+
+    // route consulter la liste des abonnements pour l'autocomplétion de la messagerie
+
+    Router::connect('/abonnement/indexmessagerie',['controller' => 'Abonnement', 'action' => 'indexmessagerie']);
+
+    // route faire des suggestions de suivi et vérifier qu'il n'y a pas déjà d'abonnement
+
+    Router::connect('/suggestion',['controller' => 'Abonnement', 'action' => 'suggestionmoi']);
+
+// Routes LIKE
+
+    // route crée un like
+
+    Router::connect('/like',['controller' => 'Aime', 'action' => 'add'],['_name' => 'routelike']);
+
+    // route liste like
+
+    Router::connect('/like/:id',['controller' => 'Aime', 'action' => 'index'],['id' => '\d+', 'pass' =>['id']]);
+
+// Routes SETTINGS
+
+    // route page d'accueil des settings
+
+    Router::connect('/settings',['controller' => 'Settings', 'action' => 'index']);
+
+    // route settings notif_message
+
+    Router::connect('/settings-notif_message',['controller' => 'Settings', 'action' => 'notifmessage']);
+
+    // route settings notification de citation
+
+    Router::connect('/settings-notif_cite',['controller' => 'Settings', 'action' => 'notifcite']);
+
+    // route settings notif_partage de tweet
+
+    Router::connect('/settings-notif_partage',['controller' => 'Settings', 'action' => 'notifpartage']);
+
+    // route settings notif_abo : nouvel abonnement
+
+    Router::connect('/settings-notif_abo',['controller' => 'Settings', 'action' => 'notifabo']);
+
+    // route settings notif_comm : notification de nouveau commentaire
+
+    Router::connect('/settings-notif_comm',['controller' => 'Settings', 'action' => 'notifcomm']);
+
+    // route configurer profil : public ou privé
+
+    Router::connect('/settings/setup_profil',['controller' => 'Settings', 'action' => 'setup_profil']);
+
+// Routes BLOCAGE
+
+    // route liste bloques
+
+    Router::connect('/bloques',['controller' => 'Blocage', 'action' => 'listebloques']);
+
+    // route bloquer un utilisateur
+
+    Router::connect('/blocage/add/:username',['controller' => 'Blocage', 'action' => 'add']);
+
+    // route debloquer un utilisateur
+
+    Router::connect('/blocage/delete/:username',['controller' => 'Blocage', 'action' => 'delete']);
+
+// Routes MESSAGERIE
+
+    // route page d'accueuil de la messagerie
+
+    Router::connect('/messagerie',['controller' => 'Messagerie', 'action' => 'index'],['_name' => 'messagerie']);
+
+    // route envoi message : appelé en AJAX
+
+    Router::connect('/message/add',['controller' => 'Messagerie', 'action' => 'add']);
+
+    //route chargement de la liste des conversations
+
+    Router::connect('/listconv',['controller' => 'Messagerie', 'action' => 'listconv']);
+
+    // route voir une conversation
+
+    Router::connect('/conversation-:id',['controller' => 'Messagerie', 'action' => 'view'],['_name' => 'conversation']);
+
+    // route supprimer une conversation
+
+    Router::connect('/conversation/delete/:id',['controller' => 'Conversation', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
+ 
+    // route ajouter un utilisateur à une conversation
+
+    Router::connect('/conversation/adduser',['controller' => 'Conversation', 'action' => 'adduser']);
+
+// Routes COMMENTAIRES
 
     // route envoi nouveau commentaire
-Router::connect('/commentaire/add',['controller' => 'Commentaires', 'action' => 'add']);
-    // fin route nouveau commentaire
 
-    // route edit comentaire
-Router::connect('/commentaire/edit/:id',['controller' => 'Commentaires', 'action' => 'edit'],['id' => '\d+', 'pass' =>['id']]);
-    // fin route edit commentaire
+    Router::connect('/commentaire/add',['controller' => 'Commentaires', 'action' => 'add']);
 
-    // route delete comentaire
-Router::connect('/commentaire/delete',['controller' => 'Commentaires', 'action' => 'delete']);
-    // fin route delete commentaire
+    // route modifier un commentaire
 
-    // route envoi nouveau commentaire
-Router::connect('/blocage/add/:username',['controller' => 'Blocage', 'action' => 'add']);
-    // fin route nouveau commentaire
+    Router::connect('/commentaire/edit/:id',['controller' => 'Commentaires', 'action' => 'edit'],['id' => '\d+', 'pass' =>['id']]);
 
-    // route delete comentaire
-Router::connect('/blocage/delete/:username',['controller' => 'Blocage', 'action' => 'delete']);
-    // fin route delete commentaire
+    // route supprimer un commentaire
 
-
-
-    // route accueil
-Router::connect('/accueuil',['controller' => 'Tweet', 'action' => 'accueuil']);
-    // fin route accueil
-
-    // route actualités offline
-Router::connect('/actualites',['controller' => 'Tweet', 'action' => 'actualites']);
-    // fin route actualités offline
-
-    // route partage add
-Router::connect('/partage/add/:id/:id_auteur',['controller' => 'Tweet', 'action' => 'share'],['id' => '\d+', 'pass' =>['id']]);
-    // fin route partage/add
-
-    // route partage delete
-Router::connect('/partage/delete/:id',['controller' => 'Partage', 'action' => 'delete'],['id' => '\d+', 'pass' =>['id']]);
-    // fin route partage delete
-
+    Router::connect('/commentaire/delete',['controller' => 'Commentaires', 'action' => 'delete']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.

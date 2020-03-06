@@ -1,3 +1,13 @@
+<!--
+
+ * settings.ctp
+ *
+ * Layout de la page de configuration
+ *
+ */
+
+-->
+
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -19,16 +29,16 @@
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title class="titlepage">
-        <?= $title ?>
-
-    </title>
+    <title class="titlepage"><?= $title ?></title>
+<!-- favicon -->
     <?= $this->Html->meta('favicon.ico','img/favicon.ico', ['type' => 'icon']); ?>
+<!-- CSS -->
     <?= $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'); ?>
     <?= $this->Html->css('//fonts.googleapis.com/css?family=Athiti'); ?>
     <?= $this->Html->css('custom') ?>
     <?= $this->Html->css('/js/jqueryui/jquery-ui.css') ?>
     <?= $this->Html->css('/js/emoji/jquery.emojiarea.css') ?>
+<!-- Javascript -->
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'); ?>
     <?= $this->Html->script('//maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js'); ?>
     <?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'); ?>
@@ -36,31 +46,45 @@
     <?= $this->Html->script('/js/emoji/jquery.emojiarea.js') ?>
     <?= $this->Html->script('/js/emoji/emojis.js') ?>
     <?= $this->Html->script('/js/nbnotif.js') ?>
+<!-- meta -->
     <?= $this->fetch('meta') ?>
 
 </head>
+
 <body>
 
    <div class="container">
+
     <p id="etatnotif"></p>
-  <div class="row-no-gutters">
-      <?=  $this->element('onlinemenu') ;?>
-<div class="col-md-3 col-sm-4" >
-<ul id="myTab" class="nav nav-tabs nav-stacked">
+
+      <div class="row-no-gutters">
+
+        <?= $this->element('navbar') ; ?>
+
+<div class="col-md-3 col-sm-5">
+
+  <!-- lien de navigation sur la page des settings -->
+
+    <ul id="myTab" class="nav nav-pills nav-stacked">
+
       <li class="active"><a href="#infos" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Mon profil</a></li>
+
       <li><a href="#notifs" data-toggle="tab"><span class="glyphicon glyphicon-bell"></span>&nbsp;&nbsp;Notifications</a></li>
+
       <li><a href="#blocks" data-toggle="tab"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Utilisateurs bloqués</a></li>
-      <li><a href="#deleteaccount" data-toggle="tab"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Supprimer mon compte</a></li>
 
+    </ul>
 
- </ul>
 </div>
-<div class="col-md-6 col-sm-7">
+
+<div class="col-md-6 col-sm-7" style="padding: 10px;background-color: white;">
 
         <?= $this->fetch('content') ?>
 </div>
 
 <?= $this->element('modaltweet'); ?>
+
+<?= $this->element('helpmodal'); ?> <!-- modal information tweet -->
 
 <footer>
     </footer>

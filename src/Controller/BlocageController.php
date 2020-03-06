@@ -2,104 +2,129 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Blocage Controller
  *
+ * Gestion des blocages
+ *
  * @property \App\Model\Table\BlocageTable $Blocage
  *
- * @method \App\Model\Entity\Blocage[] paginate($object = null, array $settings = [])
  */
 class BlocageController extends AppController
 {
 
     /**
-     * Index method
+     * Méthode Add
      *
-     * @return \Cake\Http\Response|void
-     */
-
-    /**
-     * Add method
+     * Blocage d'un utilisateur
      *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     * Sortie : réponse JSON sur le résultat de l'opération
+     * - alreadyblock -> utilisateur déjà bloqué
+     * - addblockok -> blocage réussi
      */
-    public function add() // bloquer un utilisateur
+        public function add()
     {
 
-        if ($this->request->is('ajax')) {
+            if ($this->request->is('ajax'))
+        {
 
         // on vérifie si il y'a déjà un blocage
 
-        if($this->check_blocage($this->request->getParam('username')) == 1)
+            if($this->check_blocage($this->request->getParam('username')) == 1)
         {
-           $reponse = 'alreadyblock';
+           $reponse = 'alreadyblock'; // déjà bloqué
         }
-        else // création d'un nouveau blocage
+            else // création d'un nouveau blocage
         {
-
-            $data = array(
-
-                'bloqueur' => $this->Auth->user('username'),
-                'bloquer' => $this->request->getParam('username'),
+           $data = array(
+                            'bloqueur' => $this->Auth->user('username'), // moi
+                            'bloquer' => $this->request->getParam('username'), // username -> paramètre URL de l'utilisateur à bloqué
             );
-        $blocage = $this->Blocage->newEntity();
 
-        $blocage = $this->Blocage->patchEntity($blocage, $data);
+            $blocage = $this->Blocage->newEntity(); // création d'une nouvelle entité
 
-        if ($this->Blocage->save($blocage)) {
-            
-                $reponse = 'addblockok';
+            $blocage = $this->Blocage->patchEntity($blocage, $data);
 
-                
-            }else{
-            $reponse = 'probleme';
+                    if ($this->Blocage->save($blocage))
+                {
+
+                    $reponse = 'addblockok'; // blocage réussi
+
+                }
+                    else
+                {
+                    $reponse = 'probleme';
+                }
         }
+
+            $this->response->body($reponse); // réponse AJAX
+            return $this->response;
         }
+    // accès à la page hors d'une requête Ajax
 
- $this->response->body($reponse);
-    return $this->response;
-
+        else 
+    {
+      throw new NotFoundException(__('Cette page n\'existe pas.'));
+    }
 
     }
-    }
+
+    /**
+     * Méthode Delete
+     *
+     * Débloquer un utilisateur
+     *
+     * Sortie : réponse JSON sur le résultat de l'opération
+     * - deleteblockok -> déblocage réussi
+     */
 
     public function delete()
     {
-     
-         if ($this->request->is('ajax')) {
+
+            if ($this->request->is('ajax'))
+        {
+
+            // suppression de l'entité
 
             $query = $this->Blocage->query();
-            $query->delete()
-    ->where(['bloqueur' => $this->Auth->user('username')])
-    ->where(['bloquer' => $this->request->getParam('username')])
-    ->execute();
 
- 
-            if ($query) 
+            $query->delete()
+                  ->where(['bloqueur' => $this->Auth->user('username')])
+                  ->where(['bloquer' => $this->request->getParam('username')])
+                  ->execute();
+
+                if ($query)
             {
-                $reponse = 'deleteblockok'; 
+                $reponse = 'deleteblockok'; // suppression réussi
             }
 
-
-
-  else 
+                else
             {
-
                 $reponse = 'probleme';
             }
 
-
- $this->response->body($reponse);
-    return $this->response;
-
+                $this->response->body($reponse); // réponse AJAX
+                return $this->response;
+        }
+        // accès à la page hors d'une requête Ajax
+            else 
+        {
+          throw new NotFoundException(__('Cette page n\'existe pas.'));
+        }
 
     }
-    }
+        /**
+     * Méthode Check_blocage
+     *
+     * Vérifie si il n'y a pas déjà un blocage effectif
+     *
+     * Paramètre : $username -> nom de l'utilisateur
+     * Sortie : 0 -> Aucun blocage | 1-> J'ai déjà bloqué cet utilisateur
+     */
 
-
-
-    private function check_blocage($username = null)// on vérifie si il n'y a pas déjà un blocage effectif
+        private function check_blocage($username = null)
     {
         $query = $this->Blocage->find()->where(['bloqueur' => $this->Auth->user('username')])->where(['bloquer' => $username]);
 

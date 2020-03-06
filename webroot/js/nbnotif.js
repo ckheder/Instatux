@@ -1,3 +1,10 @@
+/**
+ * nbnotif.js
+ *
+ * Actualisation du nombre de notification sur la barre de menu
+ *
+ */
+
 var auto_refresh = setInterval(
   function ()
   {

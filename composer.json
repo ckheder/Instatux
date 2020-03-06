@@ -11,7 +11,7 @@
         "cakephp/migrations": "~1.0",
         "cakephp/plugin-installer": "*",
         "elboletaire/twbs-cake-plugin": "^3.4",
-        "holt59/cakephp3-bootstrap-helpers": "dev-master",
+        "holt59/cakephp3-bootstrap-helpers": "dev-master#18a12d6",
         "xety/cake3-upload": "1.*",
         "cakephp/localized": "^3.2"
     },

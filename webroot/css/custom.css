@@ -8,7 +8,7 @@ body {
   width: 100%;
   font-family: 'Athiti', serif;
   color : black;
-     background-color: #DCDCDC;
+   background-color: #DCDCDC;
   padding-top : 51px;
 overflow-y:scroll;
 }
@@ -20,12 +20,20 @@ body.modal-open {
     padding-right: 0 !important;
 
 }
+a
+{
+  text-decoration: none !important;
+}
 .navbar {
 padding-right: 0px !important;
 }
 .navbar a
 {
     font-weight: bold;
+}
+.nav-tabs /* suppression d'un border-bottom proposé par bootstrap */
+{
+  border-bottom: 0px !important;
 }
 
 #btnco /* bouton de connexion pour tablette */
@@ -43,9 +51,12 @@ a /* soulgnement lien */
 .container /* conteneur bootstrap general */
 {
   width : 80%;
-border-left: 1px solid #cecece;
-border-right: 1px solid #cecece;
-border-bottom: 1px solid #cecece;
+border-left: 1px solid #e6ecf0;
+border-right: 1px solid #e6ecf0;
+border-bottom: 1px solid #e6ecf0;
+padding-left: 0px !important;
+
+
 }
 
 
@@ -143,22 +154,35 @@ border-bottom: 1px solid #cecece;
 /* fin autocomplete */
 .footer {
 
-  width: 100%;
+     min-width: 101%;
   height: 60px;
-  background-color: black;
+  background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
 
-}
 
+}
 
 .footer a
 {
 text-decoration: none;
-color: #9d9d9d;
+
 height : 10px;
 }
+/* form login */
+#form_log
+{
+  display:block;
+  margin-top : 30px;
+  width : 50%;
+  margin:0 auto;
+}
+#form_log input
+{
+  height : 40px;
+}
+
 /* form inscription */
 #form_insc
 {
@@ -213,10 +237,7 @@ input[type="text"]:focus + .input_info {
   padding : 3px;
   background-color : #C1EAE5;
 }
-#instatuxeditor a
-{
-  color : black;
-}
+
 #instatuxeditor_textarea
 {
   width : 100%;
@@ -337,6 +358,7 @@ background-color: white;
 }
 .textarea_message
 {
+
   width : 100%;
   border-radius: 5px;
 }
@@ -396,6 +418,33 @@ margin-top: 2px;
   margin-bottom: 5px;
 }
 
+#nbabonnement
+{
+  margin-top: 13px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+  color: #657786;
+}
+
+#nbabo
+{
+  margin-top: 13px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+  color: #657786;
+}
+
+.nbfollow
+{
+    margin-top: 13px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+  color: #657786;
+}
+
 .link_delete_abo
 {
 
@@ -407,23 +456,31 @@ color : red!important;
 .alias_abo
 {
    color: #657786;
+
 }
 
 .liste_abo
 {
+min-height : 90px;
+padding : 10px;
 
-margin-bottom: 12px;
-width : 81px;
-display: inline-block;
-text-align: center;
+}
+.liste_abo p
+{
+
+  color: #657786;
+
+
 }
 .liste_abo img
 {
+  float: left;
+
     height : 78px;
   width : 78px;
+    margin-right: 10px;
 
 }
-
 
 textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 {
@@ -476,6 +533,32 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
   right : 5px;
   float: right;
 }
+
+
+.media-button
+{
+    position: absolute;
+  top : 36px;
+  right : 25px;
+  float: right;
+  color: grey;
+}
+.media-button-mess
+{
+    position: absolute;
+  top : 70px;
+  right : 27px;
+  float: right;
+  color: grey;
+}
+.media-button-tweet
+{
+    position: absolute;
+  top : 88px;
+  right : 32px;
+  float: right;
+  color: grey;
+}
 .background_comm
 {
   display: inline-block;
@@ -486,22 +569,49 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 
 /* fin commentaire */
 /* messagerie */
-#new_message
-{
-  margin-top: -21px;
-}
+
 #new_message .form-group
 {
-  margin-bottom: 0px!important;
+  margin-bottom: -20px!important;
+}
+
+#form_message
+{
+  display: block;
+  margin-top : 42px;
 }
 
 .messagemoi {
     border: 2px solid #dedede;
     background-color: #f1f1f1;
+
+    padding: 6px;
+
+
+}
+
+.messageinfo {
+    border: 2px solid #dedede;
+    background-color: #BFCFCD;
     border-radius: 5px;
     padding: 6px;
    height: 100%;
+   font-style: italic;
 
+}
+
+.messageinfo::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+/* Style images */
+.messageinfo img[alt="image utilisateur"] {
+
+    max-width: 60px;
+    width: 100%;
+    margin-right: 10px;
+    border-radius: 50%;
 }
 
 .link_conv /* couleur de lien pour voir une conversation */
@@ -510,12 +620,9 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
   display: block;
 }
 
-.other{
-
-      border-color: #ccc;
-    background-color: #ddd;
-
-
+.convdesac
+{
+  color: red;
 }
 
 /* Clear floats */
@@ -533,8 +640,6 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
     border-radius: 50%;
 }
 
-
-
 .datemessage
 {
   color : grey;
@@ -543,13 +648,63 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
   float: right;
   margin : 7px;
 }
-
 .date_message
 {
   color : grey;
   font-size: 12px;
-  font-weight: bold;
+
+  float: right;
+  margin : 7px;
 }
+#list_conv
+{
+  float: left;
+  width: 65%;
+
+}
+.listconv
+{
+  padding : 8px ;
+  color : black;
+height: 100%;
+background-color: white;
+border: 1px solid #cecece;
+}
+.img_listconv
+{
+    height : 50px;
+    width : 50px;
+
+  margin-right: 2px;
+}
+
+.listconv:hover
+{
+  background-color: #DCDCDC;
+  cursor: pointer;
+}
+.bodylistconv
+{
+  color : grey;
+}
+/*notification de suppression de conversation*/
+
+.noconv
+{
+  font-weight: bold;
+  text-align: center;
+}
+
+/* input formulaire adduserconv */
+
+#adduser
+{
+padding : 5px;
+height : 40px;
+
+}
+
+
 /* div etat connection + typing */
 
 #etattype
@@ -559,6 +714,29 @@ textarea /* on empeche le redimensionnement d'un textarea par le navigateur */
 
 }
 /* fin div etat connection + typing*/
+
+/* element conversation : liste de gauche sur la page de view conversation; */
+.option
+{
+  float: right;
+}
+.item-conv
+{
+  list-style-type: none;
+
+}
+.item-conv li
+{
+  padding : 20px;
+  color : #657786;
+  height: 20px;
+
+}
+.item-conv a
+{
+  text-decoration: none;
+  color: #337ab7;
+}
 
 /* cell conversation */
 .info_conv
@@ -583,6 +761,14 @@ border-radius: 50%;
 
 font-weight: bold;
 }
+.nbusers
+{
+    padding : 5px;
+
+margin-top : 15px;
+margin-bottom : 5px;
+font-weight: bold;
+}
 /* fin cell conversation */
 /* fin messagerie */
 /* notification */
@@ -600,11 +786,12 @@ sup
 
 /*span paramètre notification*/
 label {
-    line-height:35px;
-    font-weight: 200;
+    line-height:50px;
+
 }
 #notifmessage, #notifcite, #notifpartage, #notifabo, #notifcomm
 {
+  margin-top : -32px;
   float: right;
 }
 .grey
@@ -654,34 +841,57 @@ z-index : 999;
     padding : 9px;
     font-size : 15px;
 }
+.statut_notif a
+{
+  text-decoration: none;
+}
 
 /*fin cell notif */
 
 
 /* div notif non lu */
 
+
+#list_notif
+{
+  margin-top : 15px;
+
+}
+
 .notif_non_lu
 {
-  background-color: #F6E497;
-
+/*#DEEDEB*/
+  background-color: #E5F4F2;
   color : black;
-margin-bottom: 12px;
-border: 1px solid #cecece;
+  border: 1px solid #cecece;
+  min-height : 70px;
 }
 
 .notif_non_lu a /* enlève le soulignement des liens */
 {
 text-decoration: none;
+
 }
 
-.notif_non_lu img
+.notif_img
+{
+  display: inline-block;
+  max-width: 60px;
+  margin: 5px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.corps_notif
 {
 
-    max-width: 60px;
-    width: 100%;
-    margin: 5px;
-    border-radius: 50%;
+  font-style: italic;
+  color : #2C2E2D;
 
+}
+.corps_notif_abo
+{
+  color : #2C2E2D;
 }
 
 .notif_non_lu:hover .deletetweet
@@ -695,11 +905,9 @@ text-decoration: none;
 .notif_lu
 {
   background-color: white;
-
-
   color : black;
-margin-bottom: 12px;
 border: 1px solid #cecece;
+min-height : 70px;
 }
 
 .notif_lu a /* enlève le soulignement des liens */
@@ -711,24 +919,12 @@ text-decoration: none;
 {
   color: black;
 }
-.notif_link
+.notif_link /* affichge date notif , lien effacer, marquer comme lue */
 {
-
-  margin-left: 5px;
-
-}
-.notif_link a
-{
-  color: black;
+margin-right: 5px;
+float: right;
 }
 
-.notif_lu img
-{
-   max-width: 60px;
-    width: 100%;
-    margin: 5px;
-    border-radius: 50%;
-}
 
 /* fin div notif lu */
 
@@ -744,7 +940,7 @@ color : green;
 
 #abosearch /* lien d'abonnement sur le moteur de recherche */
 {
-    float: right;
+
     margin-right: 3px;
     margin-top: 10px;
 }
@@ -783,8 +979,8 @@ color : green;
 
 /* listes des infos sur l'utilisateur*/
 .list_media {
-text-align: left;
-margin-left: 25px;
+margin-left : 5px;
+
 }
 .thumbmedia /* liste des media sprofil */
 {
@@ -797,18 +993,19 @@ margin-left: 25px;
 .item-user
 {
   list-style-type: none;
+  display: block;
 }
 .item-user li
 {
   padding : 12px;
   color : #657786;
   height: 60px;
-  font-weight: bold;
+
 }
 .item-user a
 {
   text-decoration: none;
-  color: #657786;;
+  color: #337ab7;
 }
 .disabled_link
 {
@@ -864,6 +1061,7 @@ color: #657786;
 /* fin couleur glyphicon */
 #textarea_message
 {
+
   width : 100%;
 }
 /* couleur lien accepter abo */
@@ -898,23 +1096,29 @@ font-weight: bold;
 
 /* liset suggestion cell */
 
+#suggestion
+{
+  background-color: white;
+  padding: 5px;
+}
+
 .liste_suggestion
 {
   list-style-type: none;
-
-
 }
+
 .liste_suggestion li
 {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  display: block;
 }
 
 .liste_suggestion img
 {
-/* max-width: 100%;
-  height: auto;*/
-  height : 48px;
-  width : 48px;
+float: left;
+  height : 60px;
+  width : 60px;
+  margin-right: 10px;
 }
 
 /* fin liste suggestion cell */
@@ -929,13 +1133,26 @@ font-weight: bold;
 /* fin inscription offline element */
 /* settings */
 
+/* paragraphe d'en-tête des différentes pages */
+
+.headsettings
+{
+  color: #90949c;
+  font-size: medium;
+  text-align: center;
+}
+
 /* formulaire settings */
 
+label
+{
+  display: block !important;
 
+}
 
 #form_infos input
 {
-
+   
   padding : 20px;
 
 }
@@ -946,6 +1163,7 @@ font-weight: bold;
 {
     float: right;
     margin-right: 3px;
+    margin-top : 10px
 }
 /*fin lien deblocage settings
 /* fin settings */
@@ -967,49 +1185,79 @@ font-weight: bold;
   border:none;
 width: 100%;
 }
-.cover /* disparition de la photot de couverture */
+
+.affix
 {
-  display: none;
+  position: static;
 }
-.affix {
-        position: static;
-    }
-  .btnlogin /* bouton de connexion centré */
+
+.btnlogin /* bouton de connexion centré */
   {
     display: block;
     margin: 0 auto;
     margin-top : 10px;
   }
-  .logintitle /* affichage de la mention "connexion" */
+.logintitle /* affichage de la mention "connexion" */
   {
-  display: block;
-  color : white;
-  margin-top : -10px;
+    display: block;
+    color : white;
+    margin-top : -10px;
   }
-  .navbar-nav /* suppression des marges de la navbar*/
+.navbar-nav /* suppression des marges de la navbar*/
   {
-  margin : 0;
+    margin : 0;
   }
   /* réduction des marges du formulaire, reduction de la taille des input et la span help-block */
-    .form-control
+.form-control
   {
     display: inline;
   }
-  #form_insc
+#form_insc
   {
-  margin-top : 30px;
-  margin-left : 25px;
+    margin-top : 30px;
+    margin-left : 25px;
   }
-  #form_insc input
+#form_insc input
   {
     width : 95%;
   }
-  .help-block
+.help-block
   {
     width : 90%;
   }
 
+  /*notification : réduction de la taille des avatar et du texte; */
 
+#list_notif
+{
+  font-size: 14px;
+
+}
+
+#list_notif a
+{
+  text-decoration: none;
+}
+
+.notif_img
+{
+
+    width: 30px;
+    margin: 5px;
+    border-radius: 50%;
+}
+
+.date_notif
+  {
+    float : right;
+    margin-right : 5px;
+
+  }
+
+  #suggestion
+  {
+    margin-top : 5px;
+  }
 
 }
 /* tablette en gros */
@@ -1022,12 +1270,7 @@ width: 100%;
 }
 #search
 {
-  width : 118px;
-}
-.col-md-4
-{
-  position: absolute;
-  top :910px;
+  width : 110px;
 }
 
   #form_insc
@@ -1056,5 +1299,48 @@ width: 100%;
   display: none;
 }
 
+  /*notification : réduction de la taille des avatar et du texte; */
 
+#list_notif
+{
+  font-size: 15px;
+}
+
+#list_notif a
+{
+  text-decoration: none;
+}
+
+.notif_img
+{
+display: inline-block;
+    width: 40px;
+    margin: 5px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.date_notif
+  {
+    float : right;
+    margin-right : 5px;
+
+  }
+
+  .statut_notif li
+{
+
+    font-size : 13.5px;
+}
+
+/* petite marge sous les medias */
+#list_media
+{
+  margin-bottom: 5px;
+}
+
+#suggestion
+{
+  margin-top : 5px;
+}
   }

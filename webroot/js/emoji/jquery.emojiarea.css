@@ -13,7 +13,7 @@
 	position: absolute;
 	z-index: 2000;
 	width: 180px;
-	margin-left: -100px;
+	margin-left: -165px;
 	padding: 0;
 	overflow: hidden;
 	-webkit-box-sizing: border-box;
@@ -65,7 +65,7 @@
 
 .emoji-menu div {
     overflow-x: hidden;
-    overflow-y: auto;   
+    overflow-y: auto;
 }
 
 .emoji-menu .group-selector {

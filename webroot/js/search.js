@@ -1,4 +1,9 @@
-// autocomplete
+/**
+ * search.js
+ *
+ * Auto complétion pour le moteur de recherche
+ *
+ */
 
       $(function() 
       {
@@ -20,9 +25,10 @@ var addnew = "<br /><li>&nbsp;<a href='/instatux/search-"+term+"'>Recherche comp
         },
 
 response: function(event, ui) {
+  
     if (!ui.content.length) {
 
-       var noResult = { value:"",label:"No results found" };
+       var noResult = { value:"",label:"Aucun résultats" };
                    
          ui.content.push(noResult); 
                   

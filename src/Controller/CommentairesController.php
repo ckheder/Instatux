@@ -2,269 +2,289 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 use Cake\Event\Event;
 
 /**
- * Commentaires Controller
+ * Controller Commentaires
  *
- * @property \App\Model\Table\CommentairesTable $Commentaires
+ * Gestion complète des commentaires
+ *
+ * @property \App\Model\Table\CommentairesTable
  */
 class CommentairesController extends AppController
 {
 
     /**
-     * Add method
+     * Méthode Add
      *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     * Ajout d'un commentaire
+     *
+     * Sorties : commdesac -> les commentaires sont désactivés | $data -> tableau contenant les informations du commentaires pour l'afficher
      */
-    public function add()
+      public function add()
     {
-        
-         if ($this->request->is('ajax')) {
 
+          if ($this->request->is('ajax'))
+        {
+            // On vérifie si les commentaire sont désactivé | paramètre : $this->request->data('id') -> id du tweet
 
-
-            if ($this->allowcomm($this->request->data('id')) == 1) // test commentaire désactivé sur l'id du tweet
+              if ($this->allowcomm($this->request->data('id')) == 1)
             {
-                                $reponse = 'commdesac';
-                $this->response->body(json_encode($reponse));
+                $reponse = 'commdesac';// commentaire désactivé, renvoi d'une réponse AJAX
 
+                $this->response->body(json_encode($reponse));
             }
 
-            else
+              else
             {
 
-        $commentaire = $this->Commentaires->newEntity();
-// suppression des balises éventuelles
+            // création d'une nouvelle entité
 
-          $comm = strip_tags($this->request->data('comm'));
+              $commentaire = $this->Commentaires->newEntity();
 
-          $idcomm = $this->idcomm();
+            // suppression des balises éventuelles
+
+              $comm = strip_tags($this->request->data('comm'));
+
+            // création manuelle d'un identifiant de commentaire
+
+              $idcomm = $this->idcomm();
 
             $data = array(
-            'id' => $idcomm,
-            'comm' =>  $this->linkify_tweet($comm),
-            'tweet_id' => $this->request->data('id'), // id du tweet
-            'user_id' => $this->Auth->user('id'),
-            
-            // pour évènement
-            'auttweet' => $this->request->data('auttweet'), // auteur du tweet, pas du comm
-            'user_session' => $this->Auth->user('id'), // id de session
-            'nom_session' => $this->Auth->user('username'),//nom de session
-            );
+                          'id' => $idcomm, // identifiant commentaire
+                          'comm' =>  AppController::linkify_content($comm), // commentaire parsé
+                          'tweet_id' => $this->request->data('id'), // id du tweet
+                          'user_id' => $this->Auth->user('id'), //posteur du commentaire
+
+            // pour une notification de nouveau commentaire
+
+                          'auttweet' => $this->request->data('auttweet'), // auteur du tweet, pas du comm
+                          'nom_session' => $this->Auth->user('username'),// nom de l'auteur du comm
+                        );
+
             $commentaire = $this->Commentaires->patchEntity($commentaire, $data);
 
-        
-          
-            if ($this->Commentaires->save($commentaire)) {
+              if ($this->Commentaires->save($commentaire)) // insertion de commentaire réussi
+            {
 
-              if($this->request->data['auttweet'] != $this->Auth->user('username')) // si je ne suis pas l'auteur du tweet, on vérifie si j'accepte les notifs de comm
+                    if($this->request->data['auttweet'] != $this->Auth->user('username')) // si je ne suis pas l'auteur du tweet, on vérifie si j'accepte les notifs de comm
                   {
-                     if($this->testnotifcomm($this->request->data['auttweet']) == "oui")
-                {
-              // évènement
-              $event = new Event('Model.Commentaires.afterAdd', $this, ['commentaire' => $commentaire]);
-                $this->eventManager()->dispatch($event);
-              }
-                //fin évènement
-              }
+                        if($this->testnotifcomm($this->request->data['auttweet']) == "oui") // j'accepte
+                      {
 
-                        
-            $this->response->body(json_encode($data));
- 
+                        $event = new Event('Model.Commentaires.afterAdd', $this, ['commentaire' => $commentaire]);
+                        $this->eventManager()->dispatch($event);
+                      }
 
-            } else {
-                $reponse = 'probleme';
+                   }
+                      $this->response->body(json_encode($data)); // réponse AJAX
+            }
+              else
+            {
+                $reponse = 'probleme'; // impossible de poster
                 $this->response->body(json_encode($reponse));
-
             }
 
-   
-}
-return $this->response;
-    }
+            }
+                return $this->response;
+        }
+        // accès à la page hors d'une requête Ajax
+          else 
+        {
+          throw new NotFoundException(__('Cette page n\'existe pas.'));
+        }
   }
 
     /**
-     * Edit method
+     * Méthode Edit
      *
-     * @param string|null $id Commentaire id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * Modification d'un commentaire
+     *
+     * Sorties : $data -> tableau contenant le commentaires modifié | probleme -> mise à jour impossible
      */
     public function edit()
     {
 
-        if ($this->request->is('ajax')) {
+          if ($this->request->is('ajax'))
+        {
 
-            $comm = strip_tags($this->request->data('comm')); // élimination de balise
+          // élimination de balise HTML
 
+            $comm = strip_tags($this->request->data('comm'));
 
+          // Mise à jour commentaire
 
-
-        $query = $this->Commentaires->query()
+            $query = $this->Commentaires->query()
                             ->update()
-                            ->set(['comm' => $this->linkify_tweet($comm), 'edit' => 1])
+                            ->set(['comm' => AppController::linkify_content($comm), 'edit' => 1]) // edit -> 1  : provoquera l'affichage de la mention "modifié" sur le commentaire
                             ->where(['id' => $this->request->getParam('id')])
                             ->Where(['user_id' => $this->Auth->user('id')])
                             ->execute();
 
-        if($query)
-        {
-            $data = array(
-'idcomm' => $this->request->getParam('id'),
-'comm' => $this->linkify_tweet($comm),
-'reponse' => 'Commentaire modifié avec succès'
-            );
+          //mise à jour réussie
 
-$this->response->body(json_encode($data));
-        }
-        else {
+              if($query)
+            {
+                $data = array(
+                              'idcomm' => $this->request->getParam('id'),
+                              'comm' => AppController::linkify_content($comm),
+                              'reponse' => 'Commentaire modifié avec succès'
+                              );
+
+            $this->response->body(json_encode($data)); // réponse AJAX
+
+            }
+              else
+            {
                 $reponse = 'probleme';
                 $this->response->body($reponse);
-
             }
+              return $this->response;
+        }
+        // accès à la page hors d'une requête Ajax
+          else 
+        {
+          throw new NotFoundException(__('Cette page n\'existe pas.'));
+        }
+    }
 
-   return $this->response;
-
-
-
-
-}
-
-    
-}
     /**
-     * Delete method
+     * Méthode Delete
      *
-     * @param string|null $id Commentaire id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * Suppression d'un commentaire
+     *
+     * Sorties : suppcommfail -> impossible de supprimer le commentaire | suppcommok -> suppression réussie
      */
-    public function delete($id = null) // id-> id du commentaire, 
-
+      public function delete()
     {
 
-      if ($this->request->is('ajax')) {
+        if ($this->request->is('ajax'))
+      {
 
-        //idtweet ->$this->request->data('idtweet');
-        //idcomm -> $this->request->data('idtweet');
-
-// je vérifie si je suis bien le propriétaire du commentaire
-
-
+          // je vérifie si je suis bien le propriétaire du commentaire ou le propriétaire du tweet ou que le tweet figure sur ma timeline
 
       $query = $this->Commentaires->find()
-      ->where(['Commentaires.user_id' => $this->Auth->user('id')])  
-      ->orWhere(['Tweet.user_id' => $this->Auth->user('username')])
-      ->orWhere(['Tweet.user_timeline' => $this->Auth->user('username')])
-      ->andWhere([
-        'Tweet.id_tweet' => $this->request->data('idtweet')       
-    ])
-      ->contain(['Tweet']);
+                                  ->where(['Commentaires.user_id' => $this->Auth->user('id')])
+                                  ->orWhere(['Tweet.user_id' => $this->Auth->user('username')])
+                                  ->orWhere(['Tweet.user_timeline' => $this->Auth->user('username')])
+                                  ->andWhere(['Tweet.id_tweet' => $this->request->data('idtweet')])
+                                  ->contain(['Tweet']);
 
-      if($query->isEmpty())
-      {
-        $reponse = 'suppcommfail';
-      }
-      else
-      {
-
-        $entity = $this->Commentaires->get($this->request->data('idcomm'));
-$result = $this->Commentaires->delete($entity);
- 
-            if ($result) 
-            {
-               $reponse = 'suppcommok';
-            }
-            else
+              if($query->isEmpty()) // pas de résultat
             {
               $reponse = 'suppcommfail';
             }
-        }
+              else
+            {
 
+              $entity = $this->Commentaires->get($this->request->data('idcomm')); // on récupère l'entité correspondant a l'id du comm
+              $result = $this->Commentaires->delete($entity); // on supprime cette entité
 
+                if ($result)
+              {
+                $reponse = 'suppcommok'; // suppression réussie
+              }
+                else
+              {
+                $reponse = 'suppcommfail'; // échec de la suppression
+              }
 
-                        $this->response->body(json_encode($reponse));
-    return $this->response;
-        
-}
+            }
+
+                $this->response->body(json_encode($reponse)); // réponse AJAX
+                return $this->response;
+      }
+      // accès à la page hors d'une requête Ajax
+        else 
+      {
+        throw new NotFoundException(__('Cette page n\'existe pas.'));
+      }
 
     }
+    /**
+     * Méthode Testnotifcomm
+     *
+     * On vérifie si l'auteur du tweet accepte les notifications de commentaire
+     *
+     * Sorties : oui -> l'auteur accepte les notifications de commentaire | non -> l'auteur n'accepte pas les notifications de commentaire
+     */
 
-    private function testnotifcomm($username) // on vérifie si l'auteur du tweet accepte les notifications de commentaire'
+      private function testnotifcomm($username)
     {
-                $this->loadModel('Settings');
+        $this->loadModel('Settings'); // chargement du modèle Settings
 
-        $verif_notif = $this->Settings->find()->select(['notif_comm'])->where(['user_id' => $username]);
+        $verif_notif = $this->Settings->find()
+                                      ->select(['notif_comm'])
+                                      ->where(['user_id' => $username]);
 
-        foreach ($verif_notif as $verif_notif) // recupération de la conversation
-                {
-                $settings_notif = $verif_notif['notif_comm'];
-                }
+        foreach ($verif_notif as $verif_notif) // recupération du paramètre de notification commentaire
+      {
+          $settings_notif = $verif_notif['notif_comm'];
+      }
 
-             return $settings_notif;
+        return $settings_notif;
     }
 
-            // parsage des tweets et des emoticones
-    private function linkify_tweet($tweet) 
+
+
+    /**
+     * Méthode idcomm
+     *
+     * Calcul d'un nouvel identifiant de commentaire et vérification si il n'existe pas déjà
+     *
+     * Sorties : $idcomm -> nouvel id de commentaire
+     */
+
+      private function idcomm()
     {
-    $tweet = preg_replace('/(^|[^@\w])@(\w{1,15})\b/',
-        '$1<a href="../$2">@$2</a>',
-        $tweet);
 
-$tweet =  preg_replace('/:([^\s]+):/', '<img src="/instatux/img/emoji/$1.png" alt=":$1:" class="emoji_comm"/>', $tweet); // emoji
-    $tweet =  preg_replace('/#([^\s]+)/','<a href="../search/hashtag/$1">#$1</a>', $tweet);
-       
-       
+      $idcomm = rand();
 
-   $tweet = preg_replace("/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))/",
-        '<a href="$0">$0</a>',$tweet);
+      // on vérifie si il existe déjà
 
+      $query = $this->Commentaires->find()->select(['id'])->where(['id' => $idcomm]);
 
-    return $tweet;
-}
-
-private function idcomm() // calcul d'un id de comm aléatoire
-{
-
-    $idcomm = rand();
-
-    $query = $this->Commentaires->find()->select(['id'])->where(['id' => $idcomm]);
-
-     if ($query->isEmpty())
+        if ($query->isEmpty()) // il n'existe pas
      {
         return $idcomm;
      }
-     else
-    {
+        else // on recalcul
+      {
         idcomm();
+      }
+
     }
 
-}
+        /**
+     * Méthode Allowcomm
+     *
+     * On vérifie , pour un tweet donné en paramètre, les commentaires sont activés
+     *
+     * Paramètre : $idtweet -> identifiant du tweet à tester
+     *
+     * Sorties : allowcomm -> 1 : commentaire désactivé | 0 : commentaire ctivé
+     */
 
-private function allowcomm($idtweet) // test de l'activation des commentaires
-{
-    $this->loadModel('Tweet');
+      private function allowcomm($idtweet)
+    {
+      $this->loadModel('Tweet'); // chargement du modèle Tweet
 
-    $allowcomment = $this->Tweet->find()->select(['allow_comment'])->where(['id_tweet' => $idtweet]);
+        $allowcomment = $this->Tweet->find()->select(['allow_comment'])->where(['id_tweet' => $idtweet]);
 
         foreach ($allowcomment as $allowcomment) // recupération du résultat
-                {
-                $allowcomm = $allowcomment['allow_comment'];
-                }
+      {
+        $allowcomm = $allowcomment['allow_comment'];
+      }
 
-                if($allowcomm == 0)
-                {
-                  return $allowcomm = 0;
-                }
-                else
-                {
-
-             return $allowcomm = 1;
-           }
-
-
-}
+              if($allowcomm == 0)
+            {
+              return $allowcomm = 0; // commentaire activé
+            }
+              else
+            {
+              return $allowcomm = 1; // commentaire désactivé
+            }
+    }
 
 }

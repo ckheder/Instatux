@@ -1,3 +1,11 @@
+<!--
+
+ * home.ctp
+ *
+ * Div de gauche sur la page d'accueil
+ *
+ */ -->
+
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -22,13 +30,20 @@ use Cake\Network\Exception\NotFoundException;
 ?>
 
 <p class="home">
+
 Rejoignez Instatux aujourd'hui et découvrez ce qui se passe dans le monde en temps réel.
 <ul class="list_accueil">
+
   <li><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Crée votre profil.</li>
+
   <li><span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Connectez-vous à vos amis ou aux personnes partageant les mêmes centres d'intérêt.</li>
+
   <li><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Discussion en temps réel.</li>
+
   <li><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Réagissez aux sujets qui vous intéressent.</li>
+
 </ul>
+
 </p>
 
 

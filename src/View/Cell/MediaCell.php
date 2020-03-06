@@ -5,7 +5,10 @@ use Cake\View\Cell;
 
 /**
  * Media cell
+ *
+ * Affichage des 8 derniers média envoyés par un utilisateur
  */
+
 class MediaCell extends Cell
 {
 
@@ -17,16 +20,21 @@ class MediaCell extends Cell
      */
     protected $_validCellOptions = [];
 
-    /**
-     * Default display method.
+/**
+     * Méthode Display
      *
-     * @return void
-     */
+     * Recherche des 8 derniers média envoyés par un utilisateur
+     *
+*/
     public function display()
     {
         $this->loadModel('Media');
 
-        $list_media = $this->Media->find()->select(['nom_media','tweet_media','user_id'])->where(['user_id' => $this->request->getParam('username')])->order(['created' => 'DESC'])->limit(8);
+        $list_media = $this->Media->find()
+                                    ->select(['nom_media','tweet_media','user_id'])
+                                    ->where(['user_id' => $this->request->getParam('username')])
+                                    ->order(['created' => 'DESC'])
+                                    ->limit(8);
 
         $this->set('list_media',$list_media);
     }

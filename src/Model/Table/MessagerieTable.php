@@ -60,11 +60,6 @@ class MessagerieTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            
-            ->requirePresence('destinataire', 'create')
-            ->notEmpty('destinataire');
-
-        $validator
             ->requirePresence('message', 'create')
             ->notEmpty('message');
 

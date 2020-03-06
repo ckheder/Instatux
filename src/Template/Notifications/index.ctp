@@ -1,87 +1,114 @@
+<!--
+
+ * index.ctp
+ *
+ * Page d'accueil des notifications
+ *
+ */ -->
+
+<!-- pas de notif -->
+
 <?php
-            if($nb_notif == 0)
-            {
-                echo '<div class="alert alert-warning text-center">
-                                <strong>Aucune notification.</strong>
-                        </div>';
-            }
-            else
-            {
+
+  if($notification->isEmpty())
+{
+
+  echo '<div class="alert alert-info nonotif">Vous n\'avez aucune notification.</div>';
+
+}
 
 ?>
+<!-- liste des notifications -->
 
 <div id="list_notif">
 
-<div class="alert alert-warning text-center"><strong>Vous avez <span id="nb_notif"><?= $nb_notif ;?></span>&nbsp;notification(s).</strong></div>
-<br />
- <div class="dropdown" id="optionnotif">
-  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Options
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><?= $this->Html->Link("Tout marquer comme lue",'#',array(
-        'id' => 'allnotiflue','onclick' => 'return false'
-    ));?></li>
-    <li><?= $this->Html->Link("Tout effacer",'#',array(
-        'id' => 'alldeletenotif','onclick' => 'return false'
-    ));?> </li>
-  </ul>
-</div>
-<br />
-
-
 <?php
 
- foreach ($notification as $notification):
+      foreach ($notification as $notification):
 
-if($notification->statut == 0) // notif non lu
-{
+        if($notification->statut == 0) // notification non lue
+      {
 
-    echo '<div class="notif_non_lu" data-idnotif="'.$notification->id_notif.'">';
+        echo '<div class="notif_non_lu" data-idnotif="'.$notification->id_notif.'">';
 
- }
+      }
 
-else // notif lue
-{
+        else // notification lue
+      {
 
-echo '<div class="notif_lu" data-idnotif="'.$notification->id_notif.'">';
+        echo '<div class="notif_lu" data-idnotif="'.$notification->id_notif.'">';
 
-}
+      }
+
      ?>
 
-            <span class="date_notif">
+     <span class="notif_link"> <!-- lien "marquer comme lue" / supprimer notif -->
 
-            <?= $notification->created->i18nformat('dd MMMM YYYY - HH:mm'); ?>
+        <!-- date notification -->
+<?php
 
-             
+             if($notification->statut == 0) //si la notification est lue, suppression du lien de "marquer comme lue"
+           {
+       ?>
+          <span id ="<?= $notification->id_notif ;?>">
+           &nbsp;&nbsp;<a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Marquer comme lue"  class="readnotif" onclick="return false;"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;</a>
+     </span>
+     
+       <?php
 
+           }
 
-             </span>
+       ?>
 
+          <a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Supprimer"  class="deletenotif" onclick="return false;"><span class="glyphicon glyphicon-trash"></span></a>
 
-            <?= $notification->notification; ?>
+     </span>
+
+     <?php
+
+     // troncage des notifications pour n'afficher qu'une partie du texte
+
+     $notifications = $this->Text->truncate($notification->notification, 110,
+ [
+     'ellipsis' => '..."',
+     'exact' => false,
+     'html' => true
+ ]
+);
+
+     // affichage notification
+
+      echo $notifications;
+
+      ?>
+
 <br />
-<span class="notif_link"><a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Marquer comme lue"  class="readnotif" onclick="return false;">Marquer comme lue</a> - <a href="#" data-idnotif="<?= $notification->id_notif ;?>"  title="Supprimer"  class="deletenotif" onclick="return false;">Effacer</a></span>
+
+<!-- date notification -->
+
+<span class="glyphicon glyphicon-time" style="margin-left:5px;"></span><?= str_replace('il y a','',$notification->created->timeAgoInWords([
+'accuracy' => ['day' => 'day'],
+'end' => '1 year'
+]));
+?>
 
 </div>
 
 <?php
 
-endforeach; ?>
+        endforeach;
+
+?>
 
 </div>
 
+<!-- lien pagination -->
 
-            <div id="pagination">
+          <div id="pagination">
 
             <?= $this->Paginator->next('Next page'); ?>
 
           </div>
-
- <?php
-
-        } ?>
-
-
-
+<br >
 
  <?= $this->Html->script('indexnotification.js') ?>
